@@ -4,9 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -18,6 +16,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +26,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemAdvancedScanner extends Item implements IElectricItem {
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
-	public static final int COOLDOWN_PERIOD = 60;
+	public static final int COOLDOWN_PERIOD = 20;
+	public static final int ENERGY_PER_USE = 10000;
+	
 	public static final String NBT_COOLDOWN = "cooldown";
 
 	public ItemAdvancedScanner(int id) {
@@ -61,50 +63,75 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 		return stack.stackTagCompound.getInteger(name);
 	}
 
-	public void printMessage(String what) {
-		if (LevelStorage.getSide() == Side.CLIENT) {
-			Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
-					what);
-		}
+	public void printMessage(String message, EntityPlayer player) {
+		LevelStorage.proxy.messagePlayer(player, message, new Object[0]);
 	}
-	// TODO: Add energy consumption and counting how much stuff is in the chunk
+
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
 		if (!par2World.isRemote) {
+			if (ElectricItem.manager.canUse(par1ItemStack, ENERGY_PER_USE)) {
+				ElectricItem.manager.use(par1ItemStack, ENERGY_PER_USE, par3EntityPlayer);
+			}
+			else {
+				return par1ItemStack;
+			}
 			if (!(getNBTInt(par1ItemStack, NBT_COOLDOWN) == 0))
 				return par1ItemStack;
 			setNBTInt(par1ItemStack, NBT_COOLDOWN, COOLDOWN_PERIOD);
-		}
 
-		ArrayList<ItemStack> blocksFound = new ArrayList<ItemStack>();
+			ArrayList<ItemStack> blocksFound = new ArrayList<ItemStack>();
 
-		int chunkX = (int) ((int) par3EntityPlayer.posX / 16);
-		int chunkZ = (int) ((int) par3EntityPlayer.posZ / 16);
-		int playerY = (int) par3EntityPlayer.posY;
+			int chunkX = (int) ((int) par3EntityPlayer.posX / 16);
+			int chunkZ = (int) ((int) par3EntityPlayer.posZ / 16);
+			int playerY = (int) par3EntityPlayer.posY;
 
-		for (int y = 0; y < playerY; y++) {
-			for (int x = chunkX * 16; x < chunkX * 16 + 16; x++) {
-				for (int z = chunkZ * 16; z < chunkZ * 16 + 16; z++) {
-					ItemStack foundStack = new ItemStack(par2World.getBlockId(
-							x, y, z), 1, par2World.getBlockMetadata(x, y, z));
-					blocksFound.add(foundStack);
+			for (int y = 0; y < playerY; y++) {
+				for (int x = chunkX * 16; x < chunkX * 16 + 16; x++) {
+					for (int z = chunkZ * 16; z < chunkZ * 16 + 16; z++) {
+						ItemStack foundStack = new ItemStack(
+								par2World.getBlockId(x, y, z), 1,
+								par2World.getBlockMetadata(x, y, z));
+						blocksFound.add(foundStack);
+					}
 				}
 			}
-		}
-		ArrayList<String> prettyNames = new ArrayList<String>();
-		Map<String, Integer> amounts = new HashMap<String, Integer>();
-		printMessage("");
-		printMessage("");
-		printMessage("Found materials at chunk " + chunkX + ":" + chunkZ);
-		printMessage("");
-		for (ItemStack stack : blocksFound) {
-			if (stack == null || stack.getItem() == null)
-				continue;
-			String currentName = stack.getDisplayName();
-			
-			if (!prettyNames.contains(currentName)) {
-				prettyNames.add(currentName);
-				printMessage(currentName);
+
+			printMessage("", par3EntityPlayer);
+			printMessage("", par3EntityPlayer);
+			printMessage("Found materials at chunk " + chunkX + ":" + chunkZ
+					+ " below " + playerY, par3EntityPlayer);
+			printMessage("", par3EntityPlayer);
+			ArrayList<String> names = new ArrayList<String>();
+			ArrayList<CollectedStatInfo> info = new ArrayList<CollectedStatInfo>();
+			for (ItemStack stack : blocksFound) {
+				try {
+					String currentName = stack.getDisplayName();
+					if (!names.contains(currentName)) {
+						names.add(currentName);
+						info.add(new CollectedStatInfo(currentName, 1));
+					} else {
+						int amountAlreadyHas = 0;
+						int indexAt = 0;
+						for (int i = 0; i < info.size(); i++) {
+							if (currentName.equals(info.get(i).name)) {
+								amountAlreadyHas = info.get(i).amount;
+								indexAt = i;
+								break;
+							}
+						}
+						info.remove(indexAt);
+						info.add(new CollectedStatInfo(currentName,
+								amountAlreadyHas + 1));
+					}
+				}
+				// There will be a ton of these guys, let's ignore em
+				catch (NullPointerException e) {
+					continue;
+				}
+			}
+			for (CollectedStatInfo i : info) {
+				printMessage(i.name + " - " + i.amount, par3EntityPlayer);
 			}
 		}
 		return par1ItemStack;
@@ -165,5 +192,15 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
 				.registerIcon(ClientProxy.ADV_SCANNER_TEXTURE);
+	}
+
+	public class CollectedStatInfo {
+		public int amount;
+		public String name;
+
+		public CollectedStatInfo(String name, Integer amount) {
+			this.name = name;
+			this.amount = amount;
+		}
 	}
 }
