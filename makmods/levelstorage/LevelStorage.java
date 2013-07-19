@@ -39,14 +39,18 @@ public class LevelStorage {
 				event.getSuggestedConfigurationFile());
 		config.load();
 		String itemXPBookId = "itemXPBookId";
+		String itemAdvScannerId = "itemAdvScannerId";
 		String blockXpGenId = "blockXpGenId";
 		String blockXpChargerId = "blockXpChargerId";
 		BlockItemIds.instance.addId(itemXPBookId,
 				config.getItem(itemXPBookId, 2085).getInt());
+		BlockItemIds.instance.addId(itemAdvScannerId,
+				config.getItem(itemAdvScannerId, 2086).getInt());
 		BlockItemIds.instance.addId(blockXpGenId,
 				config.getBlock(blockXpGenId, 237).getInt());
 		BlockItemIds.instance.addId(blockXpChargerId,
 				config.getBlock(blockXpChargerId, 238).getInt());
+		
 		this.itemLevelStorageBookSpace = config.get(
 				Configuration.CATEGORY_GENERAL, "XPBookCapacity", 16384)
 				.getInt();
@@ -72,7 +76,7 @@ public class LevelStorage {
 		System.out.println(XpRegistryAPI.getConversions().toString());
 	}
 
-	public Side getSide() {
+	public static Side getSide() {
 		return FMLCommonHandler.instance().getEffectiveSide();
 	}
 }

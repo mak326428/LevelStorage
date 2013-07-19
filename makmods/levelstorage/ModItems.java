@@ -3,6 +3,7 @@ package makmods.levelstorage;
 import java.lang.reflect.Field;
 import java.util.Random;
 
+import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemLevelStorageBook;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -18,6 +19,7 @@ public class ModItems {
 	public static final ModItems instance = new ModItems();
 	
 	public static ItemLevelStorageBook itemLevelStorageBook;
+	public static ItemAdvancedScanner itemAdvScanner;
 	
 	private int incr = 0;
 	
@@ -27,6 +29,7 @@ public class ModItems {
 	private void initItems() {
 		itemLevelStorageBook = new ItemLevelStorageBook(BlockItemIds.instance.getIdFor("itemXPBookId"),
 				LevelStorage.itemLevelStorageBookSpace);
+		itemAdvScanner = new ItemAdvancedScanner(BlockItemIds.instance.getIdFor("itemAdvScannerId"));
 	}
 	
 	private void addRecipes() {
@@ -39,6 +42,7 @@ public class ModItems {
 				stackGoldBlock, stackEnchTable);
 		CraftingManager.getInstance().getRecipeList()
 		.add(new ExperienceRecipe());
+		// TODO: add adv scanner recipe
 	}
 	
 	private void addCustomFeatures() {
@@ -53,7 +57,6 @@ public class ModItems {
 				bookStack.stackTagCompound = new NBTTagCompound();
 				bookStack.stackTagCompound.setInteger(ItemLevelStorageBook.STORED_XP_NBT, rnd.nextInt(LevelStorage.itemLevelStorageBookSpace));
 				bookStack.setItemDamage(ItemLevelStorageBook.calculateDurability(bookStack));
-				
 				ChestGenHooks.addItem(category, new WeightedRandomChestContent(bookStack, 0, 1, 10));
 				
 				this.incr++;
@@ -62,7 +65,8 @@ public class ModItems {
 	}
 	
 	private void addItemNames() {
-		LanguageRegistry.addName(itemLevelStorageBook, "XP Storage Book");
+		LanguageRegistry.addName(itemLevelStorageBook, "XP Tome");
+		LanguageRegistry.addName(itemAdvScanner, "Advanced OV-Scanner");
 	}
 	
 	public void init() {

@@ -11,10 +11,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ClientProxy extends CommonProxy {
 
 	public static final String BOOK_TEXTURE = Reference.MOD_ID.toLowerCase() + ":" + "itemLevelBook";
+	// That's a pretty nice trick BTW, you can use textures from other mods
+	public static final String ADV_SCANNER_TEXTURE = "ic2:itemScannerAdv";
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
 	public static final String XP_GEN_TEXTURE = Reference.MOD_ID.toLowerCase() + ":" + "blockXpGen";
 	public static final String XP_CHARGER_TEXTURE = Reference.MOD_ID.toLowerCase() + ":" + "blockXpCharger";
-
+	
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
 		for (CreativeTabs t : CreativeTabs.creativeTabArray) {
