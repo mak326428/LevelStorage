@@ -1,6 +1,7 @@
 package makmods.levelstorage;
 
 import ic2.api.item.Items;
+import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockXpCharger;
 import makmods.levelstorage.block.BlockXpGenerator;
 import net.minecraft.item.Item;
@@ -14,6 +15,7 @@ public class ModBlocks {
 
 	public BlockXpGenerator blockXpGen;
 	public BlockXpCharger blockXpCharger;
+	public BlockWirelessConductor blockWlessConductor;
 
 	private ModBlocks() {
 	}
@@ -23,16 +25,21 @@ public class ModBlocks {
 				BlockItemIds.instance.getIdFor("blockXpGenId"));
 		blockXpCharger = new BlockXpCharger(
 				BlockItemIds.instance.getIdFor("blockXpChargerId"));
+		blockWlessConductor = new BlockWirelessConductor(
+				BlockItemIds.instance.getIdFor("blockWirelessConductor"));
 	}
 
 	private void registerBlocks() {
 		GameRegistry.registerBlock(blockXpGen, "tile.blockXpGen");
 		GameRegistry.registerBlock(blockXpCharger, "tile.blockXpCharger");
+		GameRegistry.registerBlock(blockWlessConductor, "tile.blockWirelessConductor");
+		
 	}
 
 	private void addBlockNames() {
 		LanguageRegistry.addName(blockXpGen, "XP Generator");
 		LanguageRegistry.addName(blockXpCharger, "XP Charger");
+		LanguageRegistry.addName(blockWlessConductor, "Wireless Conductor");
 	}
 
 	private void addRecipes() {
@@ -54,10 +61,12 @@ public class ModBlocks {
 				Character.valueOf('m'), machine, Character.valueOf('e'),
 				blockXpGenStack);
 	}
-	
+
 	private void setMiningLevels() {
 		MinecraftForge.setBlockHarvestLevel(blockXpGen, "pickaxe", 1);
 		MinecraftForge.setBlockHarvestLevel(blockXpCharger, "pickaxe", 1);
+		MinecraftForge.setBlockHarvestLevel(blockWlessConductor, "pickaxe", 1);
+		
 	}
 
 	public void init() {

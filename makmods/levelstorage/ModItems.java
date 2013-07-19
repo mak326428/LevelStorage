@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.Random;
 
 import makmods.levelstorage.item.ItemAdvancedScanner;
+import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.item.ItemLevelStorageBook;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -23,6 +24,7 @@ public class ModItems {
 
 	public static ItemLevelStorageBook itemLevelStorageBook;
 	public static ItemAdvancedScanner itemAdvScanner;
+	public static ItemFrequencyCard itemFreqCard;
 
 	private int incr = 0;
 
@@ -35,6 +37,7 @@ public class ModItems {
 				LevelStorage.itemLevelStorageBookSpace);
 		itemAdvScanner = new ItemAdvancedScanner(
 				BlockItemIds.instance.getIdFor("itemAdvScannerId"));
+		itemFreqCard = new ItemFrequencyCard(BlockItemIds.instance.getIdFor("itemFrequencyCard"));
 	}
 
 	private void addRecipes() {
@@ -58,6 +61,11 @@ public class ModItems {
 				glassFiber, Character.valueOf('a'), advCircuit,
 				Character.valueOf('c'), energyCrystal, Character.valueOf('s'),
 				ovScanner);
+		
+		// Frequency card
+		// TODO: add card recipe
+		// To get rid of card data
+		Recipes.advRecipes.addShapelessRecipe(new ItemStack(this.itemFreqCard), new ItemStack(this.itemFreqCard));
 		CraftingManager.getInstance().getRecipeList()
 				.add(new ExperienceRecipe());
 	}
@@ -88,6 +96,7 @@ public class ModItems {
 	private void addItemNames() {
 		LanguageRegistry.addName(itemLevelStorageBook, "XP Tome");
 		LanguageRegistry.addName(itemAdvScanner, "Advanced OV-Scanner");
+		LanguageRegistry.addName(itemFreqCard, "Frequency Card");
 	}
 
 	public void init() {
