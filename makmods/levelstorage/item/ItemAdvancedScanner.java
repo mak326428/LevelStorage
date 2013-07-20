@@ -86,8 +86,8 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 			int playerY = (int) par3EntityPlayer.posY;
 
 			for (int y = 0; y < playerY; y++) {
-				for (int x = chunkX * 16; x < chunkX * 16 + 16; x++) {
-					for (int z = chunkZ * 16; z < chunkZ * 16 + 16; z++) {
+				for (int x = chunkX * 16; x < chunkX * 17; x++) {
+					for (int z = chunkZ * 16; z < chunkZ * 17; z++) {
 						ItemStack foundStack = new ItemStack(
 								par2World.getBlockId(x, y, z), 1,
 								par2World.getBlockMetadata(x, y, z));
