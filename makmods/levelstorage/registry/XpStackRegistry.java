@@ -31,15 +31,16 @@ public class XpStackRegistry {
 		this.pushToRegistry(new XpStack(new ItemStack(Item.glowstone), 32));
 		this.pushToRegistry(new XpStack(new ItemStack(Item.diamond), 512));
 		this.pushToRegistry(new XpStack(new ItemStack(Item.netherStar), 4096));
-		//this.pushToRegistry(new XpStack(new ItemStack(Block.glass), 1));
+		// this.pushToRegistry(new XpStack(new ItemStack(Block.glass), 1));
 		this.pushToRegistry(new XpStack(new ItemStack(Block.obsidian), 8));
 	}
-	
+
 	public void printRegistry() {
 		FMLLog.log(Level.INFO, "Starting printing the xp registry contents");
 		for (XpStack s : this.ITEM_XP_CONVERSIONS) {
-			FMLLog.log(Level.INFO, "\t#" + s.stack.itemID + ":"
-					+ s.stack.getItemDamage() + " - " + s.stack.getItemName() + " - " + s.value);
+			FMLLog.log(Level.INFO,
+					"\t#" + s.stack.itemID + ":" + s.stack.getItemDamage()
+							+ " - " + s.stack.getItemName() + " - " + s.value);
 		}
 	}
 

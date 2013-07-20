@@ -11,9 +11,9 @@ public class CommonProxy {
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {
 		if ((player instanceof EntityPlayerMP)) {
 			ChatMessageComponent msg;
-			if (args.length > 0)
+			if (args.length > 0) {
 				msg = ChatMessageComponent.func_111082_b(message, args);
-			else {
+			} else {
 				msg = ChatMessageComponent.func_111077_e(message);
 			}
 

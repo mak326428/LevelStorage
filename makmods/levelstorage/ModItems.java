@@ -37,7 +37,8 @@ public class ModItems {
 				LevelStorage.itemLevelStorageBookSpace);
 		itemAdvScanner = new ItemAdvancedScanner(
 				BlockItemIds.instance.getIdFor("itemAdvScannerId"));
-		itemFreqCard = new ItemFrequencyCard(BlockItemIds.instance.getIdFor("itemFrequencyCard"));
+		itemFreqCard = new ItemFrequencyCard(
+				BlockItemIds.instance.getIdFor("itemFrequencyCard"));
 	}
 
 	private void addRecipes() {
@@ -55,17 +56,18 @@ public class ModItems {
 		ItemStack energyCrystal = Items.getItem("energyCrystal");
 		ItemStack advCircuit = Items.getItem("advancedCircuit");
 		ItemStack glassFiber = Items.getItem("glassFiberCableItem");
-		ItemStack advScanner = new ItemStack(this.itemAdvScanner);
+		ItemStack advScanner = new ItemStack(ModItems.itemAdvScanner);
 		Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
 				Character.valueOf('u'), uum, Character.valueOf('g'),
 				glassFiber, Character.valueOf('a'), advCircuit,
 				Character.valueOf('c'), energyCrystal, Character.valueOf('s'),
 				ovScanner);
-		
+
 		// Frequency card
 		// TODO: add card recipe
 		// To get rid of card data
-		Recipes.advRecipes.addShapelessRecipe(new ItemStack(this.itemFreqCard), new ItemStack(this.itemFreqCard));
+		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
+				ModItems.itemFreqCard), new ItemStack(ModItems.itemFreqCard));
 		CraftingManager.getInstance().getRecipeList()
 				.add(new ExperienceRecipe());
 	}
@@ -76,9 +78,10 @@ public class ModItems {
 				String category = (String) f.get(null);
 
 				Random rnd = new Random();
-				rnd.setSeed(rnd.nextInt() + incr);
+				rnd.setSeed(rnd.nextInt() + this.incr);
 
-				ItemStack bookStack = new ItemStack(this.itemLevelStorageBook);
+				ItemStack bookStack = new ItemStack(
+						ModItems.itemLevelStorageBook);
 				bookStack.stackTagCompound = new NBTTagCompound();
 				bookStack.stackTagCompound.setInteger(
 						ItemLevelStorageBook.STORED_XP_NBT,

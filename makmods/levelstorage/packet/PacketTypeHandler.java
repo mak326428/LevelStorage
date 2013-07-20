@@ -11,62 +11,61 @@ import net.minecraft.network.packet.Packet250CustomPayload;
  * @author pahimar
  * 
  */
-// I just simply wanted to make it work, so i just simply copypasted everything from ee3
+// I just simply wanted to make it work, so i just simply copypasted everything
+// from ee3
 // also it's a very neat packet system, license permits it (if it does)
 public enum PacketTypeHandler {
 	;
-	
-    private Class<? extends PacketLV> clazz;
 
-    PacketTypeHandler(Class<? extends PacketLV> clazz) {
+	private Class<? extends PacketLV> clazz;
 
-        this.clazz = clazz;
-    }
+	PacketTypeHandler(Class<? extends PacketLV> clazz) {
 
-    public static PacketLV buildPacket(byte[] data) {
+		this.clazz = clazz;
+	}
 
-        ByteArrayInputStream bis = new ByteArrayInputStream(data);
-        int selector = bis.read();
-        DataInputStream dis = new DataInputStream(bis);
+	public static PacketLV buildPacket(byte[] data) {
 
-        PacketLV packet = null;
+		ByteArrayInputStream bis = new ByteArrayInputStream(data);
+		int selector = bis.read();
+		DataInputStream dis = new DataInputStream(bis);
 
-        try {
-            packet = values()[selector].clazz.newInstance();
-        }
-        catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
+		PacketLV packet = null;
 
-        packet.readPopulate(dis);
+		try {
+			packet = values()[selector].clazz.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
 
-        return packet;
-    }
+		packet.readPopulate(dis);
 
-    public static PacketLV buildPacket(PacketTypeHandler type) {
+		return packet;
+	}
 
-        PacketLV packet = null;
+	public static PacketLV buildPacket(PacketTypeHandler type) {
 
-        try {
-            packet = values()[type.ordinal()].clazz.newInstance();
-        }
-        catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
+		PacketLV packet = null;
 
-        return packet;
-    }
+		try {
+			packet = values()[type.ordinal()].clazz.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
 
-    public static Packet populatePacket(PacketLV packetLV) {
+		return packet;
+	}
 
-        byte[] data = packetLV.populate();
+	public static Packet populatePacket(PacketLV packetLV) {
 
-        Packet250CustomPayload packet250 = new Packet250CustomPayload();
-        packet250.channel = Reference.MOD_ID;
-        packet250.data = data;
-        packet250.length = data.length;
-        packet250.isChunkDataPacket = packetLV.isChunkDataPacket;
+		byte[] data = packetLV.populate();
 
-        return packet250;
-    }
+		Packet250CustomPayload packet250 = new Packet250CustomPayload();
+		packet250.channel = Reference.MOD_ID;
+		packet250.data = data;
+		packet250.length = data.length;
+		packet250.isChunkDataPacket = packetLV.isChunkDataPacket;
+
+		return packet250;
+	}
 }

@@ -14,12 +14,13 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		IWirelessConductor, IInventory {
 
 	public static final String INVENTORY_NAME = "Wireless Conductor";
-	
+
 	public ConductorType type;
 
 	// This will be changed when a new valid (!!!) card is inserted.
 	public IWirelessConductor pair = null;
 
+	@Override
 	public int receiveEnergy(int amount) {
 		// What the heck are you asking me, i am source!
 		if (this.type == ConductorType.SOURCE)
@@ -27,28 +28,34 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		return 0;
 	}
 
+	@Override
 	public IWirelessConductor getPair() {
 		return this.pair;
 	}
 
+	@Override
 	public int getDimId() {
 		return this.worldObj.provider.dimensionId;
 	}
 
+	@Override
 	public int getX() {
 		return this.xCoord;
 	}
 
+	@Override
 	public int getY() {
 		return this.yCoord;
 	}
 
+	@Override
 	public int getZ() {
 		return this.zCoord;
 	}
 
 	public TileEntityWirelessConductor() {
 		this.type = ConductorType.SOURCE;
+		this.inv = new ItemStack[1];
 	}
 
 	@Override
@@ -64,13 +71,17 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	@Override
 	public void updateEntity() {
-		if (!WirelessConductorRegistry.instance.isAddedToRegistry(this))
+		if (!WirelessConductorRegistry.instance.isAddedToRegistry(this)) {
 			WirelessConductorRegistry.instance.addConductorToRegistry(this,
-					type);
-		if (WirelessConductorRegistry.instance.getConductorType(this) != type)
-			WirelessConductorRegistry.instance.setConductorType(this, type);
+					this.type);
+		}
+		if (WirelessConductorRegistry.instance.getConductorType(this) != this.type) {
+			WirelessConductorRegistry.instance
+					.setConductorType(this, this.type);
+		}
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
 
@@ -78,17 +89,17 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
 			byte slot = tag.getByte("Slot");
-			if (slot >= 0 && slot < inv.length) {
-				inv[slot] = ItemStack.loadItemStackFromNBT(tag);
+			if (slot >= 0 && slot < this.inv.length) {
+				this.inv[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
-		ItemStack stack = getStackInSlot(slot);
+		ItemStack stack = this.getStackInSlot(slot);
 		if (stack != null) {
-			setInventorySlotContents(slot, null);
+			this.setInventorySlotContents(slot, null);
 		}
 		return stack;
 	}
@@ -100,9 +111,10 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this
-				&& player.getDistanceSq(xCoord + 0.5, yCoord + 0.5,
-						zCoord + 0.5) < 64;
+		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
+				this.zCoord) == this
+				&& player.getDistanceSq(this.xCoord + 0.5, this.yCoord + 0.5,
+						this.zCoord + 0.5) < 64;
 	}
 
 	@Override
@@ -113,38 +125,39 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	public void closeChest() {
 	}
 
+	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		return SlotFrequencyCard.checkItemValidity(stack);
 	}
 
 	@Override
 	public int getSizeInventory() {
-		return inv.length;
+		return this.inv.length;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		return inv[slot];
+		return this.inv[slot];
 	}
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
-		inv[slot] = stack;
-		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-			stack.stackSize = getInventoryStackLimit();
+		this.inv[slot] = stack;
+		if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
+			stack.stackSize = this.getInventoryStackLimit();
 		}
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int amt) {
-		ItemStack stack = getStackInSlot(slot);
+		ItemStack stack = this.getStackInSlot(slot);
 		if (stack != null) {
 			if (stack.stackSize <= amt) {
-				setInventorySlotContents(slot, null);
+				this.setInventorySlotContents(slot, null);
 			} else {
 				stack = stack.splitStack(amt);
 				if (stack.stackSize == 0) {
-					setInventorySlotContents(slot, null);
+					this.setInventorySlotContents(slot, null);
 				}
 			}
 		}
@@ -153,20 +166,23 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	ItemStack[] inv;
 
+	@Override
 	public String getInvName() {
 		return INVENTORY_NAME;
 	}
 
+	@Override
 	public boolean isInvNameLocalized() {
 		return true;
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
 
 		NBTTagList itemList = new NBTTagList();
-		for (int i = 0; i < inv.length; i++) {
-			ItemStack stack = inv[i];
+		for (int i = 0; i < this.inv.length; i++) {
+			ItemStack stack = this.inv[i];
 			if (stack != null) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setByte("Slot", (byte) i);

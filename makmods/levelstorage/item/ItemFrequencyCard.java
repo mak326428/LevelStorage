@@ -3,9 +3,7 @@ package makmods.levelstorage.item;
 import java.util.List;
 
 import makmods.levelstorage.ModBlocks;
-import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.proxy.ClientProxy;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -29,8 +27,9 @@ public class ItemFrequencyCard extends Item {
 	public ItemFrequencyCard(int par1) {
 		super(par1);
 		this.setNoRepair();
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		}
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName("item.freqCard");
 	}
@@ -44,6 +43,7 @@ public class ItemFrequencyCard extends Item {
 		return false;
 	}
 
+	@Override
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		verifyStack(par1ItemStack);
@@ -71,15 +71,15 @@ public class ItemFrequencyCard extends Item {
 				int y = cardNBT.getInteger(NBT_Y_POS);
 				int z = cardNBT.getInteger(NBT_Z_POS);
 
-				if (w.getBlockId(x, y, z) == ModBlocks.instance.blockWlessConductor.blockID) {
+				if (w.getBlockId(x, y, z) == ModBlocks.instance.blockWlessConductor.blockID)
 					return true;
-				}
 
 			}
 		}
 		return false;
 	}
 
+	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
 			int x, int y, int z, int par7, float par8, float par9, float par10) {
 		if (!world.isRemote) {
@@ -102,8 +102,10 @@ public class ItemFrequencyCard extends Item {
 
 	public static boolean hasCardData(ItemStack stack) {
 		NBTTagCompound cardNBT = stack.stackTagCompound;
-		return (cardNBT.getBoolean(NBT_WAS_USED)) && (cardNBT.hasKey(NBT_DIM_ID) && cardNBT.hasKey(NBT_X_POS)
-				&& cardNBT.hasKey(NBT_Y_POS) && cardNBT.hasKey(NBT_Z_POS));
+		return (cardNBT.getBoolean(NBT_WAS_USED))
+				&& (cardNBT.hasKey(NBT_DIM_ID) && cardNBT.hasKey(NBT_X_POS)
+						&& cardNBT.hasKey(NBT_Y_POS) && cardNBT
+							.hasKey(NBT_Z_POS));
 	}
 
 	public static void verifyStack(ItemStack stack) {
@@ -115,7 +117,8 @@ public class ItemFrequencyCard extends Item {
 			}
 		}
 	}
-	
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister

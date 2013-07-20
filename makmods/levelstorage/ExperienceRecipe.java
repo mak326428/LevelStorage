@@ -12,7 +12,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class ExperienceRecipe implements IRecipe {
-	
+
+	@Override
 	public boolean matches(InventoryCrafting inventoryCrafting, World world) {
 		boolean seenBook = false;
 		boolean seenEssence = false;
@@ -86,8 +87,9 @@ public class ExperienceRecipe implements IRecipe {
 				}
 			}
 
-			if (currentStack == null)
+			if (currentStack == null) {
 				cycleCompleted = true;
+			}
 
 			valids.add(cycleCompleted);
 

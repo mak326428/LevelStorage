@@ -32,7 +32,7 @@ public class LevelStorage {
 	public static CommonProxy proxy;
 
 	public static int itemLevelStorageBookSpace;
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Configuration config = new Configuration(
@@ -56,7 +56,7 @@ public class LevelStorage {
 				config.getBlock(blockXpChargerId, 238).getInt());
 		BlockItemIds.instance.addId(blockWirelessConductor,
 				config.getBlock(blockWirelessConductor, 239).getInt());
-		this.itemLevelStorageBookSpace = config.get(
+		LevelStorage.itemLevelStorageBookSpace = config.get(
 				Configuration.CATEGORY_GENERAL, "XPBookCapacity", 16384)
 				.getInt();
 		config.save();

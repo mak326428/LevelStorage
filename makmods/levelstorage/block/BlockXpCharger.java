@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -28,8 +27,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockXpCharger extends BlockContainer {
 	public BlockXpCharger(int id) {
 		super(id, Material.iron);
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		}
 		this.setUnlocalizedName("blockXpCharger");
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
@@ -41,12 +41,14 @@ public class BlockXpCharger extends BlockContainer {
 
 	public ItemStack advMachine = Items.getItem("advancedMachine");
 
+	@Override
 	public TileEntity createNewTileEntity(World worldObj) {
 		return new TileEntityXpCharger();
 	}
 
+	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
-		dropItems(world, x, y, z);
+		this.dropItems(world, x, y, z);
 		super.breakBlock(world, x, y, z, par5, par6);
 	}
 
@@ -74,9 +76,8 @@ public class BlockXpCharger extends BlockContainer {
 		Random rand = new Random();
 
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (!(tileEntity instanceof IInventory)) {
+		if (!(tileEntity instanceof IInventory))
 			return;
-		}
 		IInventory inventory = (IInventory) tileEntity;
 
 		for (int i = 0; i < inventory.getSizeInventory(); i++) {
@@ -108,31 +109,27 @@ public class BlockXpCharger extends BlockContainer {
 
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3) {
-		return advMachine.itemID;
+		return this.advMachine.itemID;
 	}
 
 	@Override
 	public int damageDropped(int par1) {
-		return advMachine.getItemDamage();
+		return this.advMachine.getItemDamage();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int par2) {
 		ForgeDirection orientation = ForgeDirection.VALID_DIRECTIONS[side];
-		if (orientation == ForgeDirection.DOWN) {
-			return down;
-		}
-		if (orientation == ForgeDirection.UP) {
-			return up;
-		}
+		if (orientation == ForgeDirection.DOWN)
+			return this.down;
+		if (orientation == ForgeDirection.UP)
+			return this.up;
 		if (orientation == ForgeDirection.NORTH
 				|| orientation == ForgeDirection.WEST
 				|| orientation == ForgeDirection.SOUTH
-				|| orientation == ForgeDirection.EAST) {
+				|| orientation == ForgeDirection.EAST)
 			return this.side;
-
-		}
 		return null;
 	}
 

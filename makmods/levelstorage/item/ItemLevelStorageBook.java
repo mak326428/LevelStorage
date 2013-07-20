@@ -1,6 +1,5 @@
 package makmods.levelstorage.item;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -15,7 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ChestGenHooks;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -45,15 +43,16 @@ public class ItemLevelStorageBook extends Item {
 		return true;
 	}
 
+	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
 		if (!par2World.isRemote) {
 			// It always happen that when you rightclick the item,
 			// two or three, or four onItemRightClick(s) will happen immediately
 			// Measure to prevent that.
-			if (cooldownTimer != 0)
+			if (this.cooldownTimer != 0)
 				return par1ItemStack;
-			cooldownTimer = 3;
+			this.cooldownTimer = 3;
 			// When player presses SHIFT
 			// All his XP is drain into book he is holding
 			// if he doesn't press SHIFT, he will get XP from book (if there's
@@ -72,7 +71,7 @@ public class ItemLevelStorageBook extends Item {
 				if (getStoredXP(par1ItemStack) > XP_PER_INTERACTION) {
 					par3EntityPlayer.addExperience(XP_PER_INTERACTION);
 					increaseStoredXP(par1ItemStack, -XP_PER_INTERACTION);
-					float f = (float) 5 / 30.0F;
+					float f = 5 / 30.0F;
 					par2World.playSoundAtEntity(par3EntityPlayer,
 							"random.levelup", f * 0.75F, 1.0F);
 				} else {
@@ -81,7 +80,7 @@ public class ItemLevelStorageBook extends Item {
 								.addExperience(getStoredXP(par1ItemStack));
 						par1ItemStack.stackTagCompound.setInteger(
 								STORED_XP_NBT, 0);
-						float f = (float) 5 / 30.0F;
+						float f = 5 / 30.0F;
 						par2World.playSoundAtEntity(par3EntityPlayer,
 								"random.levelup", f * 0.75F, 1.0F);
 					}
@@ -123,6 +122,7 @@ public class ItemLevelStorageBook extends Item {
 	// Basically, it's an awesome NBT-Durability bridge system, might be very
 	// helpful
 	// for some other mods
+	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 			Entity par3Entity, int par4, boolean par5) {
 		// .isRemote: When you work with anything that item does, this is a good
@@ -133,8 +133,9 @@ public class ItemLevelStorageBook extends Item {
 			// this.stored = this.bookMaxStorage - 1;
 			// NO NPE! NPE EVERY TICK WOULDN'T BE NICE!
 			verifyStack(par1ItemStack);
-			if (cooldownTimer > 0)
-				cooldownTimer--;
+			if (this.cooldownTimer > 0) {
+				this.cooldownTimer--;
+			}
 			this.setDamage(par1ItemStack, calculateDurability(par1ItemStack));
 		}
 	}
@@ -158,8 +159,9 @@ public class ItemLevelStorageBook extends Item {
 		float percent = ((getStoredXP(stack) * 100.0f) / LevelStorage.itemLevelStorageBookSpace) / 100;
 		int durability = stack.getMaxDamage()
 				- (int) (stack.getMaxDamage() * percent);
-		if (durability == 0)
+		if (durability == 0) {
 			durability = 1;
+		}
 		return durability;
 	}
 
@@ -173,6 +175,7 @@ public class ItemLevelStorageBook extends Item {
 
 	// For NEI and creative. Adds fully charged and discharged versions of book
 	// (and yes, i know that "charge" is not the best word here, but whatever..)
+	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
 			List par3List) {
 		ItemStack stackFull = new ItemStack(par1, 1, 1);
@@ -188,6 +191,7 @@ public class ItemLevelStorageBook extends Item {
 	}
 
 	// Make our item to have a texture
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister.registerIcon(ClientProxy.BOOK_TEXTURE);

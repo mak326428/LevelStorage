@@ -36,41 +36,50 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	public static final int PACKET_SIZE = 512;
 
 	public TileEntityXpGenerator() {
-		inv = new ItemStack[INVENTORY_SIZE];
+		this.inv = new ItemStack[INVENTORY_SIZE];
 	}
 
+	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
 		return new int[] { 0 };
 	}
 
+	@Override
 	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
 		return SlotBook.checkItemValidity(itemstack);
 	}
 
+	@Override
 	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
 		return false;
 	}
 
+	@Override
 	public ItemStack getWrenchDrop(EntityPlayer p) {
 		return new ItemStack(ModBlocks.instance.blockXpGen);
 	}
 
+	@Override
 	public short getFacing() {
 		return 0;
 	}
 
+	@Override
 	public boolean wrenchCanRemove(EntityPlayer entityPlayer) {
 		return true;
 	}
 
+	@Override
 	public float getWrenchDropRate() {
 		return 0.75F;
 	}
 
+	@Override
 	public void setFacing(short f) {
 		return;
 	}
 
+	@Override
 	public boolean wrenchCanSetFacing(EntityPlayer p, int side) {
 		return false;
 	}
@@ -80,46 +89,49 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	// stack
 	ItemStack[] inv;
 
+	@Override
 	public String getInvName() {
 		return INVENTORY_NAME;
 	}
 
+	@Override
 	public boolean isInvNameLocalized() {
 		return true;
 	}
 
+	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		return SlotBook.checkItemValidity(stack);
 	}
 
 	@Override
 	public int getSizeInventory() {
-		return inv.length;
+		return this.inv.length;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		return inv[slot];
+		return this.inv[slot];
 	}
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
-		inv[slot] = stack;
-		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-			stack.stackSize = getInventoryStackLimit();
+		this.inv[slot] = stack;
+		if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
+			stack.stackSize = this.getInventoryStackLimit();
 		}
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int amt) {
-		ItemStack stack = getStackInSlot(slot);
+		ItemStack stack = this.getStackInSlot(slot);
 		if (stack != null) {
 			if (stack.stackSize <= amt) {
-				setInventorySlotContents(slot, null);
+				this.setInventorySlotContents(slot, null);
 			} else {
 				stack = stack.splitStack(amt);
 				if (stack.stackSize == 0) {
-					setInventorySlotContents(slot, null);
+					this.setInventorySlotContents(slot, null);
 				}
 			}
 		}
@@ -128,9 +140,9 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
-		ItemStack stack = getStackInSlot(slot);
+		ItemStack stack = this.getStackInSlot(slot);
 		if (stack != null) {
-			setInventorySlotContents(slot, null);
+			this.setInventorySlotContents(slot, null);
 		}
 		return stack;
 	}
@@ -142,9 +154,10 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this
-				&& player.getDistanceSq(xCoord + 0.5, yCoord + 0.5,
-						zCoord + 0.5) < 64;
+		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
+				this.zCoord) == this
+				&& player.getDistanceSq(this.xCoord + 0.5, this.yCoord + 0.5,
+						this.zCoord + 0.5) < 64;
 	}
 
 	@Override
@@ -155,50 +168,60 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	public void closeChest() {
 	}
 
+	@Override
 	public boolean isTeleporterCompatible(Direction d) {
 		return false;
 	}
 
+	@Override
 	public void setStored(int newStValue) {
 		this.storedEnergy = newStValue;
 	}
 
+	@Override
 	public int getStored() {
-		return storedEnergy;
+		return this.storedEnergy;
 	}
 
+	@Override
 	public int getCapacity() {
 		return INTERNAL_CAPACITOR;
 	}
 
+	@Override
 	public int getOutput() {
 		return PACKET_SIZE;
 	}
 
+	@Override
 	public int addEnergy(int amount) {
 		this.storedEnergy += amount;
-		return getStored();
+		return this.getStored();
 	}
 
+	@Override
 	public boolean isAddedToEnergyNet() {
-		return addedToENet;
+		return this.addedToENet;
 	}
 
+	@Override
 	public int getMaxEnergyOutput() {
 		return PACKET_SIZE;
 	}
 
+	@Override
 	public boolean emitsEnergyTo(TileEntity te, Direction d) {
 		return true;
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("storedEnergy", storedEnergy);
+		par1NBTTagCompound.setInteger("storedEnergy", this.storedEnergy);
 
 		NBTTagList itemList = new NBTTagList();
-		for (int i = 0; i < inv.length; i++) {
-			ItemStack stack = inv[i];
+		for (int i = 0; i < this.inv.length; i++) {
+			ItemStack stack = this.inv[i];
 			if (stack != null) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setByte("Slot", (byte) i);
@@ -209,6 +232,7 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 		par1NBTTagCompound.setTag("Inventory", itemList);
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
 		this.storedEnergy = par1NBTTagCompound.getInteger("storedEnergy");
@@ -217,43 +241,45 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
 			byte slot = tag.getByte("Slot");
-			if (slot >= 0 && slot < inv.length) {
-				inv[slot] = ItemStack.loadItemStackFromNBT(tag);
+			if (slot >= 0 && slot < this.inv.length) {
+				this.inv[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
 	}
 
+	@Override
 	public void updateEntity() {
-		if (!worldObj.isRemote) {
-			if (!addedToENet) {
+		if (!this.worldObj.isRemote) {
+			if (!this.addedToENet) {
 				MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 				this.addedToENet = true;
 			}
-			isWorking = (!worldObj.isBlockIndirectlyGettingPowered(xCoord,
-					yCoord, zCoord) && worldObj.getBlockPowerInput(xCoord,
-					yCoord, zCoord) < 1);
-			if (isWorking) {
+			this.isWorking = (!this.worldObj.isBlockIndirectlyGettingPowered(
+					this.xCoord, this.yCoord, this.zCoord) && this.worldObj
+					.getBlockPowerInput(this.xCoord, this.yCoord, this.zCoord) < 1);
+			if (this.isWorking) {
 
-				if (inv[0] != null) {
-					if (inv[0].getItem() instanceof ItemLevelStorageBook) {
-						if (ItemLevelStorageBook.getStoredXP(inv[0]) > XpStackRegistry.XP_EU_CONVERSION
+				if (this.inv[0] != null) {
+					if (this.inv[0].getItem() instanceof ItemLevelStorageBook) {
+						if (ItemLevelStorageBook.getStoredXP(this.inv[0]) > XpStackRegistry.XP_EU_CONVERSION
 								.getKey()) {
 							if ((this.getCapacity() - this.getStored()) > XpStackRegistry.XP_EU_CONVERSION
 									.getValue()) {
 								this.addEnergy(XpStackRegistry.XP_EU_CONVERSION
 										.getValue());
-								ItemLevelStorageBook.increaseStoredXP(inv[0],
+								ItemLevelStorageBook.increaseStoredXP(
+										this.inv[0],
 										-XpStackRegistry.XP_EU_CONVERSION
 												.getKey());
 							}
 						}
-						inv[0].setItemDamage(ItemLevelStorageBook
-								.calculateDurability(inv[0]));
+						this.inv[0].setItemDamage(ItemLevelStorageBook
+								.calculateDurability(this.inv[0]));
 					} else {
 						int xp = 0;
 						for (XpStack s : XpStackRegistry.instance.ITEM_XP_CONVERSIONS) {
-							if (inv[0].itemID == s.stack.itemID
-									&& inv[0].getItemDamage() == s.stack
+							if (this.inv[0].itemID == s.stack.itemID
+									&& this.inv[0].getItemDamage() == s.stack
 											.getItemDamage()) {
 								xp = s.value;
 								break;
@@ -274,12 +300,12 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 				}
 
 				// Just send our buffer to the energy net
-				if (storedEnergy >= PACKET_SIZE) {
+				if (this.storedEnergy >= PACKET_SIZE) {
 					EnergyTileSourceEvent sendEvent = new EnergyTileSourceEvent(
 							this, PACKET_SIZE);
 					MinecraftForge.EVENT_BUS.post(sendEvent);
 					int usedEnergy = PACKET_SIZE - sendEvent.amount;
-					storedEnergy -= usedEnergy;
+					this.storedEnergy -= usedEnergy;
 				}
 			}
 		}
@@ -295,22 +321,23 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-		readFromNBT(packet.customParam1);
+		this.readFromNBT(packet.customParam1);
 	}
 
 	@Override
 	public void onChunkUnload() {
-		if (!worldObj.isRemote) {
+		if (!this.worldObj.isRemote) {
 			super.onChunkUnload();
-			if (addedToENet) {
+			if (this.addedToENet) {
 				MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 				this.addedToENet = false;
 			}
 		}
 	}
 
+	@Override
 	public void invalidate() {
-		if (addedToENet) {
+		if (this.addedToENet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			this.addedToENet = false;
 		}

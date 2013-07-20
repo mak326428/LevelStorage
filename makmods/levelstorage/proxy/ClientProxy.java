@@ -14,10 +14,10 @@ public class ClientProxy extends CommonProxy {
 			+ ":" + "itemLevelBook";
 	// That's a pretty nice trick BTW, you can use textures from other mods
 	public static final String ADV_SCANNER_TEXTURE = "ic2:itemScannerAdv";
-	public static final String FREQUENCY_CARD_TEXTURE = Reference.MOD_ID.toLowerCase()
-			+ ":" + "itemFreqCard";
-	public static final String WIRELESS_CONDUCTOR_TEXTURE = Reference.MOD_ID.toLowerCase()
-			+ ":" + "blockWirelessConductor";
+	public static final String FREQUENCY_CARD_TEXTURE = Reference.MOD_ID
+			.toLowerCase() + ":" + "itemFreqCard";
+	public static final String WIRELESS_CONDUCTOR_TEXTURE = Reference.MOD_ID
+			.toLowerCase() + ":" + "blockWirelessConductor";
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
 	public static final String XP_GEN_TEXTURE = Reference.MOD_ID.toLowerCase()
 			+ ":" + "blockXpGen";
@@ -38,12 +38,14 @@ public class ClientProxy extends CommonProxy {
 		return new ResourceLocation(Reference.MOD_ID.toLowerCase(), path);
 	}
 
+	@Override
 	public void init() {
 		super.init();
 	}
-	
+
 	@Override
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {
-		Minecraft.getMinecraft().ingameGUI.getChatGUI().addTranslatedMessage(message, args);
+		Minecraft.getMinecraft().ingameGUI.getChatGUI().addTranslatedMessage(
+				message, args);
 	}
 }

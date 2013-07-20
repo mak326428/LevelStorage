@@ -8,7 +8,6 @@ import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.proxy.ClientProxy;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -16,8 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -28,7 +25,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 	public static final int STORAGE = 100000;
 	public static final int COOLDOWN_PERIOD = 20;
 	public static final int ENERGY_PER_USE = 10000;
-	
+
 	public static final String NBT_COOLDOWN = "cooldown";
 
 	public ItemAdvancedScanner(int id) {
@@ -36,8 +33,9 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 		this.setUnlocalizedName("item.advScanner");
 		this.setMaxDamage(27);
 		this.setNoRepair();
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		}
 		this.setMaxStackSize(1);
 	}
 
@@ -58,8 +56,9 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	public static int getNBTInt(ItemStack stack, String name) {
 		verifyStack(stack);
-		if (!stack.stackTagCompound.hasKey(name))
+		if (!stack.stackTagCompound.hasKey(name)) {
 			stack.stackTagCompound.setInteger(name, 0);
+		}
 		return stack.stackTagCompound.getInteger(name);
 	}
 
@@ -67,23 +66,23 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 		LevelStorage.proxy.messagePlayer(player, message, new Object[0]);
 	}
 
+	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
 		if (!par2World.isRemote) {
 			if (ElectricItem.manager.canUse(par1ItemStack, ENERGY_PER_USE)) {
-				ElectricItem.manager.use(par1ItemStack, ENERGY_PER_USE, par3EntityPlayer);
-			}
-			else {
+				ElectricItem.manager.use(par1ItemStack, ENERGY_PER_USE,
+						par3EntityPlayer);
+			} else
 				return par1ItemStack;
-			}
 			if (!(getNBTInt(par1ItemStack, NBT_COOLDOWN) == 0))
 				return par1ItemStack;
 			setNBTInt(par1ItemStack, NBT_COOLDOWN, COOLDOWN_PERIOD);
 
 			ArrayList<ItemStack> blocksFound = new ArrayList<ItemStack>();
 
-			int chunkX = (int) ((int) par3EntityPlayer.posX / 16);
-			int chunkZ = (int) ((int) par3EntityPlayer.posZ / 16);
+			int chunkX = (int) par3EntityPlayer.posX / 16;
+			int chunkZ = (int) par3EntityPlayer.posZ / 16;
 			int playerY = (int) par3EntityPlayer.posY;
 
 			for (int y = 0; y < playerY; y++) {
@@ -97,11 +96,11 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 				}
 			}
 
-			printMessage("", par3EntityPlayer);
-			printMessage("", par3EntityPlayer);
-			printMessage("Found materials at chunk " + chunkX + ":" + chunkZ
-					+ " below " + playerY, par3EntityPlayer);
-			printMessage("", par3EntityPlayer);
+			this.printMessage("", par3EntityPlayer);
+			this.printMessage("", par3EntityPlayer);
+			this.printMessage("Found materials at chunk " + chunkX + ":"
+					+ chunkZ + " below " + playerY, par3EntityPlayer);
+			this.printMessage("", par3EntityPlayer);
 			ArrayList<String> names = new ArrayList<String>();
 			ArrayList<CollectedStatInfo> info = new ArrayList<CollectedStatInfo>();
 			for (ItemStack stack : blocksFound) {
@@ -131,12 +130,13 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 				}
 			}
 			for (CollectedStatInfo i : info) {
-				printMessage(i.name + " - " + i.amount, par3EntityPlayer);
+				this.printMessage(i.name + " - " + i.amount, par3EntityPlayer);
 			}
 		}
 		return par1ItemStack;
 	}
 
+	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 			Entity par3Entity, int par4, boolean par5) {
 		if (!par2World.isRemote) {
@@ -178,6 +178,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 		return 200;
 	}
 
+	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
 			List par3List) {
 		ItemStack var4 = new ItemStack(this, 1);
@@ -188,6 +189,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister

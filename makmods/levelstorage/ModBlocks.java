@@ -21,30 +21,32 @@ public class ModBlocks {
 	}
 
 	private void initBlocks() {
-		blockXpGen = new BlockXpGenerator(
+		this.blockXpGen = new BlockXpGenerator(
 				BlockItemIds.instance.getIdFor("blockXpGenId"));
-		blockXpCharger = new BlockXpCharger(
+		this.blockXpCharger = new BlockXpCharger(
 				BlockItemIds.instance.getIdFor("blockXpChargerId"));
-		blockWlessConductor = new BlockWirelessConductor(
+		this.blockWlessConductor = new BlockWirelessConductor(
 				BlockItemIds.instance.getIdFor("blockWirelessConductor"));
 	}
 
 	private void registerBlocks() {
-		GameRegistry.registerBlock(blockXpGen, "tile.blockXpGen");
-		GameRegistry.registerBlock(blockXpCharger, "tile.blockXpCharger");
-		GameRegistry.registerBlock(blockWlessConductor, "tile.blockWirelessConductor");
-		
+		GameRegistry.registerBlock(this.blockXpGen, "tile.blockXpGen");
+		GameRegistry.registerBlock(this.blockXpCharger, "tile.blockXpCharger");
+		GameRegistry.registerBlock(this.blockWlessConductor,
+				"tile.blockWirelessConductor");
+
 	}
 
 	private void addBlockNames() {
-		LanguageRegistry.addName(blockXpGen, "XP Generator");
-		LanguageRegistry.addName(blockXpCharger, "XP Charger");
-		LanguageRegistry.addName(blockWlessConductor, "Wireless Conductor");
+		LanguageRegistry.addName(this.blockXpGen, "XP Generator");
+		LanguageRegistry.addName(this.blockXpCharger, "XP Charger");
+		LanguageRegistry
+				.addName(this.blockWlessConductor, "Wireless Conductor");
 	}
 
 	private void addRecipes() {
-		ItemStack blockXpGenStack = new ItemStack(blockXpGen);
-		ItemStack blockXpChargerStack = new ItemStack(blockXpCharger);
+		ItemStack blockXpGenStack = new ItemStack(this.blockXpGen);
+		ItemStack blockXpChargerStack = new ItemStack(this.blockXpCharger);
 		ItemStack advMachine = Items.getItem("advancedMachine");
 		ItemStack machine = Items.getItem("machine");
 		ItemStack generator = Items.getItem("generator");
@@ -63,10 +65,11 @@ public class ModBlocks {
 	}
 
 	private void setMiningLevels() {
-		MinecraftForge.setBlockHarvestLevel(blockXpGen, "pickaxe", 1);
-		MinecraftForge.setBlockHarvestLevel(blockXpCharger, "pickaxe", 1);
-		MinecraftForge.setBlockHarvestLevel(blockWlessConductor, "pickaxe", 1);
-		
+		MinecraftForge.setBlockHarvestLevel(this.blockXpGen, "pickaxe", 1);
+		MinecraftForge.setBlockHarvestLevel(this.blockXpCharger, "pickaxe", 1);
+		MinecraftForge.setBlockHarvestLevel(this.blockWlessConductor,
+				"pickaxe", 1);
+
 	}
 
 	public void init() {

@@ -7,7 +7,6 @@ import java.util.Random;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
-import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -29,8 +28,9 @@ public class BlockWirelessConductor extends BlockContainer {
 
 	public BlockWirelessConductor(int id) {
 		super(id, Material.iron);
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		}
 		this.setUnlocalizedName("blockXpGenerator");
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
@@ -44,16 +44,17 @@ public class BlockWirelessConductor extends BlockContainer {
 
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3) {
-		return advMachine.itemID;
+		return this.advMachine.itemID;
 	}
 
 	@Override
 	public int damageDropped(int par1) {
-		return advMachine.getItemDamage();
+		return this.advMachine.getItemDamage();
 	}
 
+	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
-		dropItems(world, x, y, z);
+		this.dropItems(world, x, y, z);
 		super.breakBlock(world, x, y, z, par5, par6);
 	}
 
@@ -61,9 +62,8 @@ public class BlockWirelessConductor extends BlockContainer {
 		Random rand = new Random();
 
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (!(tileEntity instanceof IInventory)) {
+		if (!(tileEntity instanceof IInventory))
 			return;
-		}
 		IInventory inventory = (IInventory) tileEntity;
 
 		for (int i = 0; i < inventory.getSizeInventory(); i++) {
@@ -117,19 +117,15 @@ public class BlockWirelessConductor extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int par2) {
 		ForgeDirection orientation = ForgeDirection.VALID_DIRECTIONS[side];
-		if (orientation == ForgeDirection.DOWN) {
-			return down;
-		}
-		if (orientation == ForgeDirection.UP) {
-			return up;
-		}
+		if (orientation == ForgeDirection.DOWN)
+			return this.down;
+		if (orientation == ForgeDirection.UP)
+			return this.up;
 		if (orientation == ForgeDirection.NORTH
 				|| orientation == ForgeDirection.WEST
 				|| orientation == ForgeDirection.SOUTH
-				|| orientation == ForgeDirection.EAST) {
+				|| orientation == ForgeDirection.EAST)
 			return this.side;
-
-		}
 		return null;
 	}
 

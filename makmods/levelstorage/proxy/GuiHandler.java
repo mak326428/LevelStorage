@@ -20,18 +20,15 @@ public class GuiHandler implements IGuiHandler {
 	public Object getServerGuiElement(int id, EntityPlayer player, World world,
 			int x, int y, int z) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof TileEntityXpGenerator) {
+		if (tileEntity instanceof TileEntityXpGenerator)
 			return new ContainerXpGenerator(player.inventory,
 					(TileEntityXpGenerator) tileEntity);
-		}
-		if (tileEntity instanceof TileEntityXpCharger) {
+		if (tileEntity instanceof TileEntityXpCharger)
 			return new ContainerXpCharger(player.inventory,
 					(TileEntityXpCharger) tileEntity);
-		}
-		if (tileEntity instanceof TileEntityWirelessConductor) {
+		if (tileEntity instanceof TileEntityWirelessConductor)
 			return new ContainerWirelessConductor(player.inventory,
 					(TileEntityWirelessConductor) tileEntity);
-		}
 		return null;
 	}
 
@@ -40,18 +37,15 @@ public class GuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int id, EntityPlayer player, World world,
 			int x, int y, int z) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof TileEntityXpGenerator) {
+		if (tileEntity instanceof TileEntityXpGenerator)
 			return new GuiXpGenerator(player.inventory,
 					(TileEntityXpGenerator) tileEntity);
-		}
-		if (tileEntity instanceof TileEntityXpCharger) {
+		if (tileEntity instanceof TileEntityXpCharger)
 			return new GuiXpCharger(player.inventory,
 					(TileEntityXpCharger) tileEntity);
-		}
-		if (tileEntity instanceof TileEntityWirelessConductor) {
+		if (tileEntity instanceof TileEntityWirelessConductor)
 			return new GuiWirelessConductor(player.inventory,
 					(TileEntityWirelessConductor) tileEntity);
-		}
 		return null;
 
 	}

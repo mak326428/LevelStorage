@@ -14,54 +14,52 @@ import cpw.mods.fml.common.network.Player;
  */
 public class PacketLV {
 
-    public PacketTypeHandler packetType;
-    public boolean isChunkDataPacket;
+	public PacketTypeHandler packetType;
+	public boolean isChunkDataPacket;
 
-    public PacketLV(PacketTypeHandler packetType, boolean isChunkDataPacket) {
+	public PacketLV(PacketTypeHandler packetType, boolean isChunkDataPacket) {
 
-        this.packetType = packetType;
-        this.isChunkDataPacket = isChunkDataPacket;
-    }
+		this.packetType = packetType;
+		this.isChunkDataPacket = isChunkDataPacket;
+	}
 
-    public byte[] populate() {
+	public byte[] populate() {
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(bos);
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(bos);
 
-        try {
-            dos.writeByte(packetType.ordinal());
-            this.writeData(dos);
-        }
-        catch (IOException e) {
-            e.printStackTrace(System.err);
-        }
+		try {
+			dos.writeByte(this.packetType.ordinal());
+			this.writeData(dos);
+		} catch (IOException e) {
+			e.printStackTrace(System.err);
+		}
 
-        return bos.toByteArray();
-    }
+		return bos.toByteArray();
+	}
 
-    public void readPopulate(DataInputStream data) {
+	public void readPopulate(DataInputStream data) {
 
-        try {
-            this.readData(data);
-        }
-        catch (IOException e) {
-            e.printStackTrace(System.err);
-        }
-    }
+		try {
+			this.readData(data);
+		} catch (IOException e) {
+			e.printStackTrace(System.err);
+		}
+	}
 
-    public void readData(DataInputStream data) throws IOException {
+	public void readData(DataInputStream data) throws IOException {
 
-    }
+	}
 
-    public void writeData(DataOutputStream dos) throws IOException {
+	public void writeData(DataOutputStream dos) throws IOException {
 
-    }
+	}
 
-    public void execute(INetworkManager network, Player player) {
+	public void execute(INetworkManager network, Player player) {
 
-    }
+	}
 
-    public void setKey(int key) {
+	public void setKey(int key) {
 
-    }
+	}
 }

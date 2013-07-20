@@ -6,6 +6,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 public class LevelStorageEventHandler {
 	@ForgeSubscribe
 	public void onXpPickup(PlayerEvent event) {
-		
+
 	}
 }

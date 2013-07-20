@@ -14,11 +14,13 @@ public class ContainerWirelessConductor extends Container {
 
 	public ContainerWirelessConductor(InventoryPlayer inventoryPlayer,
 			TileEntityWirelessConductor te) {
-		tileEntity = te;
-		addSlotToContainer(new SlotFrequencyCard(tileEntity, 0, 80, 35));
-		bindPlayerInventory(inventoryPlayer);
+		this.tileEntity = te;
+		this.addSlotToContainer(new SlotFrequencyCard(this.tileEntity, 0, 80,
+				35));
+		this.bindPlayerInventory(inventoryPlayer);
 	}
 
+	@Override
 	public boolean canInteractWith(EntityPlayer p) {
 		return true;
 	}
@@ -26,13 +28,14 @@ public class ContainerWirelessConductor extends Container {
 	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(inventoryPlayer,
+						j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18,
+					142));
 		}
 	}
 
@@ -41,7 +44,7 @@ public class ContainerWirelessConductor extends Container {
 			int slotIndex) {
 
 		ItemStack itemStack = null;
-		Slot slot = (Slot) inventorySlots.get(slotIndex);
+		Slot slot = (Slot) this.inventorySlots.get(slotIndex);
 
 		if (slot != null && slot.getHasStack()) {
 
@@ -51,9 +54,8 @@ public class ContainerWirelessConductor extends Container {
 			if (slotIndex < TileEntityXpCharger.INVENTORY_SIZE) {
 				if (!this.mergeItemStack(slotItemStack,
 						TileEntityXpCharger.INVENTORY_SIZE,
-						inventorySlots.size(), false)) {
+						this.inventorySlots.size(), false))
 					return null;
-				}
 			} else {
 				// WARNING: the following code is for this current case only.
 				// this won't work for you
@@ -61,9 +63,8 @@ public class ContainerWirelessConductor extends Container {
 					return null;
 				// End of warning
 				if (!this.mergeItemStack(slotItemStack, 0,
-						TileEntityXpCharger.INVENTORY_SIZE, false)) {
+						TileEntityXpCharger.INVENTORY_SIZE, false))
 					return null;
-				}
 			}
 
 			if (slotItemStack.stackSize == 0) {

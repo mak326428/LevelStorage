@@ -9,7 +9,7 @@ public class ModTileEntities {
 
 	private ModTileEntities() {
 	}
-	
+
 	public void init() {
 		GameRegistry.registerTileEntity(TileEntityXpGenerator.class,
 				"tileXpGenerator");
