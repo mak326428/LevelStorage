@@ -31,7 +31,7 @@ public class BlockWirelessConductor extends BlockContainer {
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName("blockXpGenerator");
+		this.setUnlocalizedName("blockWirelessConductor");
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 	}

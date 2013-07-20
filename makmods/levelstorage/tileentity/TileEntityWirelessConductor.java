@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import makmods.levelstorage.gui.SlotFrequencyCard;
+import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.registry.WirelessConductorRegistry;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 
 public class TileEntityWirelessConductor extends TileEntity implements
 		IWirelessConductor, IInventory, INetworkClientTileEntityEventListener,
@@ -99,6 +102,38 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		WirelessConductorRegistry.instance.removeFromRegistry(this);
 		super.invalidate();
 	}
+	
+	public ConductorType getType() {
+		return this.type;
+	}
+	
+	public IWirelessConductor getSafePair() {
+		ItemStack stack = inv[0];
+		if (stack != null) {
+			if (ItemFrequencyCard.isValid(stack)) {
+				int x = stack.stackTagCompound.getInteger(ItemFrequencyCard.NBT_X_POS);
+				int y = stack.stackTagCompound.getInteger(ItemFrequencyCard.NBT_Y_POS);
+				int z = stack.stackTagCompound.getInteger(ItemFrequencyCard.NBT_Z_POS);
+				int dimId = stack.stackTagCompound.getInteger(ItemFrequencyCard.NBT_DIM_ID);
+				WorldServer world = DimensionManager.getWorld(dimId);
+				TileEntity te = world.getBlockTileEntity(x, y, z);
+				if (te != null) {
+					if (te instanceof IWirelessConductor) {
+						if (te != this) {
+							IWirelessConductor conductor = (IWirelessConductor)te;
+							ConductorType pairType = conductor.getType();
+							if (this.getType() != pairType) {
+								return conductor;
+							}
+							//ConductorType oppositePairType = pairType == ConductorType.SINK ? ConductorType.SOURCE : ConductorType.SINK;
+							
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public void updateEntity() {
@@ -109,6 +144,12 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		if (WirelessConductorRegistry.instance.getConductorType(this) != this.type) {
 			WirelessConductorRegistry.instance
 					.setConductorType(this, this.type);
+		}
+		
+		IWirelessConductor safePair = getSafePair();
+		
+		if (safePair != null) {
+			//System.out.println("Safe pair established");
 		}
 	}
 

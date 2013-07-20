@@ -1,5 +1,7 @@
 package makmods.levelstorage.tileentity;
 
+import makmods.levelstorage.registry.ConductorType;
+
 /**
  * Basic interface for all the wireless conductors.
  * 
@@ -10,6 +12,11 @@ public interface IWirelessConductor {
 	 * X coord for the current instance
 	 */
 	public int getX();
+	
+	/**
+	 * Type for current instance
+	 */
+	public ConductorType getType();
 
 	/**
 	 * Y coord for the current instance
