@@ -44,61 +44,61 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	// This will be changed when a new valid (!!!) card is inserted.
 	public IWirelessConductor pair = null;
-	
+
 	@Override
 	public ItemStack getWrenchDrop(EntityPlayer p) {
 		return new ItemStack(ModBlocks.instance.blockWlessConductor);
 	}
-	
+
 	public int getMaxEnergyOutput() {
 		return MAX_PACKET_SIZE;
 	}
-	
+
 	@Override
 	public void setFacing(short f) {
-		
+
 	}
-	
+
 	@Override
 	public float getWrenchDropRate() {
 		return 0.75F;
 	}
-	
+
 	@Override
 	public boolean emitsEnergyTo(TileEntity te, Direction dir) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean wrenchCanRemove(EntityPlayer p) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean acceptsEnergyFrom(TileEntity te, Direction dir) {
 		return true;
 	}
-	
+
 	@Override
 	public int getMaxSafeInput() {
 		return MAX_PACKET_SIZE;
 	}
-	
+
 	@Override
 	public boolean isAddedToEnergyNet() {
 		return addedToENet;
 	}
-	
+
 	@Override
 	public short getFacing() {
-		return (short)ForgeDirection.NORTH.ordinal();
+		return (short) ForgeDirection.NORTH.ordinal();
 	}
-	
+
 	@Override
 	public boolean wrenchCanSetFacing(EntityPlayer p, int s) {
 		return false;
 	}
-	
+
 	@Override
 	public int demandsEnergy() {
 		if (this.type == ConductorType.SOURCE) {
@@ -229,14 +229,16 @@ public class TileEntityWirelessConductor extends TileEntity implements
 					if (te instanceof IWirelessConductor) {
 						if (te != this) {
 							IWirelessConductor conductor = (IWirelessConductor) te;
-							ConductorType pairType = conductor.getType();
-							if (this.getType() != pairType) {
-								return conductor;
+							if (WirelessConductorRegistry.instance
+									.isAddedToRegistry((IWirelessConductor) te)) {
+								ConductorType pairType = conductor.getType();
+								if (this.getType() != pairType) {
+									return conductor;
+								}
+								// ConductorType oppositePairType = pairType ==
+								// ConductorType.SINK ? ConductorType.SOURCE :
+								// ConductorType.SINK;
 							}
-							// ConductorType oppositePairType = pairType ==
-							// ConductorType.SINK ? ConductorType.SOURCE :
-							// ConductorType.SINK;
-
 						}
 					}
 				}
@@ -367,7 +369,6 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
-
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < this.inv.length; i++) {
 			ItemStack stack = this.inv[i];
