@@ -4,6 +4,7 @@ import ic2.api.item.Items;
 
 import java.util.Random;
 
+import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.block.Block;
@@ -71,7 +72,7 @@ public class BlockWirelessConductor extends BlockContainer {
 				float rx = rand.nextFloat() * 0.8F + 0.1F;
 				float ry = rand.nextFloat() * 0.8F + 0.1F;
 				float rz = rand.nextFloat() * 0.8F + 0.1F;
-				
+
 				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
 						+ rz, new ItemStack(item.itemID, item.stackSize,
 						item.getItemDamage()));
@@ -94,7 +95,6 @@ public class BlockWirelessConductor extends BlockContainer {
 	public boolean onBlockActivated(World par1World, int par2, int par3,
 			int par4, EntityPlayer par5EntityPlayer, int par6, float par7,
 			float par8, float par9) {
-		
 		return false;
 	}
 

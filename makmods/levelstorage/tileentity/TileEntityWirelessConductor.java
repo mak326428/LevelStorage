@@ -1,60 +1,74 @@
 package makmods.levelstorage.tileentity;
 
-import makmods.levelstorage.ModItems;
-import makmods.levelstorage.item.ItemFrequencyCard;
-import net.minecraft.item.ItemStack;
+import makmods.levelstorage.registry.ConductorType;
+import makmods.levelstorage.registry.WirelessConductorRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityWirelessConductor extends TileEntity {
-
-	public ItemStack insertedCard = null;
+public class TileEntityWirelessConductor extends TileEntity implements IWirelessConductor {
+	
+	public ConductorType type;
+	
+	// This will be changed when a new valid (!!!) card is inserted.
+	public IWirelessConductor pair = null;
+	
+	public int receiveEnergy(int amount) {
+		// What the heck are you asking me, i am source!
+		if (this.type == ConductorType.SOURCE)
+			return Integer.MAX_VALUE;
+		return 0;
+	}
+	
+	public IWirelessConductor getPair() {
+		return this.pair;
+	}
+	
+	public int getDimId() {
+		return this.worldObj.provider.dimensionId;
+	}
+	
+	public int getX() {
+		return this.xCoord;
+	}
+	
+	public int getY() {
+		return this.yCoord;
+	}
+	
+	public int getZ() {
+		return this.zCoord;
+	}
 
 	public TileEntityWirelessConductor() {
-		
+		this.type = ConductorType.SOURCE;
+	}
+	
+	@Override
+	public void onChunkUnload()
+    {
+		WirelessConductorRegistry.instance.removeFromRegistry(this);
+    }
+	
+	@Override
+	public void invalidate() {
+		WirelessConductorRegistry.instance.removeFromRegistry(this);
+		super.invalidate();
+	}
+	
+	@Override
+	public void updateEntity() {
+		if (!WirelessConductorRegistry.instance.isAddedToRegistry(this))
+			WirelessConductorRegistry.instance.addConductorToRegistry(this, type);
+		if (WirelessConductorRegistry.instance.getConductorType(this) != type)
+			WirelessConductorRegistry.instance.setConductorType(this, type);
 	}
 
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
-		if (par1NBTTagCompound.hasKey(ItemFrequencyCard.NBT_DIM_ID)) {
-			if (insertedCard == null)
-				insertedCard = new ItemStack(ModItems.instance.itemFreqCard);
-			if (insertedCard.stackTagCompound == null)
-				insertedCard.stackTagCompound = new NBTTagCompound();
-			insertedCard.stackTagCompound.setBoolean(
-					ItemFrequencyCard.NBT_WAS_USED, true);
-			insertedCard.stackTagCompound
-					.setInteger(ItemFrequencyCard.NBT_DIM_ID,
-							par1NBTTagCompound
-									.getInteger(ItemFrequencyCard.NBT_DIM_ID));
-			insertedCard.stackTagCompound.setInteger(
-					ItemFrequencyCard.NBT_X_POS,
-					par1NBTTagCompound.getInteger(ItemFrequencyCard.NBT_X_POS));
-			insertedCard.stackTagCompound.setInteger(
-					ItemFrequencyCard.NBT_Y_POS,
-					par1NBTTagCompound.getInteger(ItemFrequencyCard.NBT_Y_POS));
-			insertedCard.stackTagCompound.setInteger(
-					ItemFrequencyCard.NBT_Z_POS,
-					par1NBTTagCompound.getInteger(ItemFrequencyCard.NBT_Z_POS));
-		}
 	}
 
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
-		if (insertedCard != null) {
-			par1NBTTagCompound.setInteger(ItemFrequencyCard.NBT_DIM_ID,
-					insertedCard.stackTagCompound
-							.getInteger(ItemFrequencyCard.NBT_X_POS));
-			par1NBTTagCompound.setInteger(ItemFrequencyCard.NBT_X_POS,
-					insertedCard.stackTagCompound
-							.getInteger(ItemFrequencyCard.NBT_Y_POS));
-			par1NBTTagCompound.setInteger(ItemFrequencyCard.NBT_Y_POS,
-					insertedCard.stackTagCompound
-							.getInteger(ItemFrequencyCard.NBT_Y_POS));
-			par1NBTTagCompound.setInteger(ItemFrequencyCard.NBT_Y_POS,
-					insertedCard.stackTagCompound
-							.getInteger(ItemFrequencyCard.NBT_Y_POS));
-		}
 	}
 
 }
