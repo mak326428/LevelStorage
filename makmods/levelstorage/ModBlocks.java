@@ -38,10 +38,11 @@ public class ModBlocks {
 	}
 
 	private void addBlockNames() {
-		LanguageRegistry.addName(this.blockXpGen, "XP Generator");
-		LanguageRegistry.addName(this.blockXpCharger, "XP Charger");
-		LanguageRegistry
-				.addName(this.blockWlessConductor, "Wireless Conductor");
+		LanguageRegistry.instance().addName(this.blockXpCharger, "XP Charger");
+		LanguageRegistry.instance().addName(this.blockWlessConductor,
+				"Wireless Conductor");
+		LanguageRegistry.instance().addName(this.blockXpGen, "XP Generator");
+		
 	}
 
 	private void addRecipes() {

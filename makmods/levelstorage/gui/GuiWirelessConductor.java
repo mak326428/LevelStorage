@@ -1,7 +1,10 @@
 package makmods.levelstorage.gui;
 
+import ic2.api.network.NetworkHelper;
 import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
@@ -9,21 +12,41 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 public class GuiWirelessConductor extends GuiContainer {
-
+	
+	public TileEntityWirelessConductor tileEntity;
+	
 	public GuiWirelessConductor(InventoryPlayer inventoryPlayer,
 			TileEntityWirelessConductor tileEntity) {
 		super(new ContainerWirelessConductor(inventoryPlayer, tileEntity));
+		this.tileEntity = tileEntity;
+	}
+	
+	@Override
+	public void initGui() {
+		super.initGui();
+        int xGuiPos = (width - xSize) / 2;  //j
+        int yGuiPos = (height - ySize) / 2;
+        this.buttonList.add(new GuiButton(1, xGuiPos + 50, yGuiPos + 15, 75, 15, "Change mode"));
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
 		// draw text and stuff here
 		// the parameters for drawString are: string, x, y, color
-		this.fontRenderer.drawString("Wireless Conductor", 8, 6, 4210752);
+		//this.fontRenderer.drawString("Wireless Conductor", 8, 6, 4210752);
 		// draws "Inventory" or your regional equivalent
+		int xGuiPos = (width - xSize) / 2;  //j
+        int yGuiPos = (height - ySize) / 2;
 		this.fontRenderer.drawString(
 				StatCollector.translateToLocal("container.inventory"), 8,
 				this.ySize - 96 + 2, 4210752);
+		String mode = "Mode: " + (tileEntity.type == ConductorType.SOURCE ? "Energy provider" : "Energy receiver");
+		this.fontRenderer.drawString(mode, 8, 55, 4210752);
+	}
+	
+	@Override
+	protected void actionPerformed(GuiButton par1GuiButton) {
+		NetworkHelper.initiateClientTileEntityEvent(tileEntity, par1GuiButton.id);
 	}
 
 	@Override

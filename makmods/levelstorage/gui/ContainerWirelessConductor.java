@@ -1,10 +1,13 @@
 package makmods.levelstorage.gui;
 
+import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -23,6 +26,25 @@ public class ContainerWirelessConductor extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer p) {
 		return true;
+	}
+
+	@Override
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+
+		for (int i = 0; i < crafters.size(); i++) {
+			ICrafting icrafting = (ICrafting) crafters.get(i);
+			int mode = tileEntity.type == ConductorType.SINK ? 0 : 1;
+			icrafting.sendProgressBarUpdate(this, 0, mode);
+		}
+	}
+	
+	@Override
+	public void updateProgressBar(int i, int j) {
+		if (i == 0) {
+			ConductorType type = j == 0 ? ConductorType.SINK : ConductorType.SOURCE;
+			tileEntity.type = type;
+		}
 	}
 
 	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {

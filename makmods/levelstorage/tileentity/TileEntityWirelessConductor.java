@@ -1,5 +1,12 @@
 package makmods.levelstorage.tileentity;
 
+import ic2.api.network.INetworkClientTileEntityEventListener;
+import ic2.api.network.INetworkDataProvider;
+import ic2.api.network.INetworkUpdateListener;
+
+import java.util.Arrays;
+import java.util.List;
+
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.registry.WirelessConductorRegistry;
@@ -11,7 +18,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityWirelessConductor extends TileEntity implements
-		IWirelessConductor, IInventory {
+		IWirelessConductor, IInventory, INetworkClientTileEntityEventListener,
+		INetworkDataProvider, INetworkUpdateListener {
 
 	public static final String INVENTORY_NAME = "Wireless Conductor";
 
@@ -34,8 +42,31 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	}
 
 	@Override
+	public void onNetworkEvent(EntityPlayer player, int event) {
+		switch (event) {
+		case 1: {
+			// Just simply invert our type
+			type = type == ConductorType.SINK ? ConductorType.SOURCE : ConductorType.SINK;
+			break;
+		}
+		}
+	}
+
+	@Override
 	public int getDimId() {
 		return this.worldObj.provider.dimensionId;
+	}
+
+	@Override
+	public void onNetworkUpdate(String field) {
+		// TODO Auto-generated method stub
+	}
+
+	private static List<String> fields = Arrays.asList(new String[0]);
+
+	@Override
+	public List<String> getNetworkedFields() {
+		return fields;
 	}
 
 	@Override
