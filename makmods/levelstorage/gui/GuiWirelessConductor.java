@@ -40,7 +40,7 @@ public class GuiWirelessConductor extends GuiContainer {
 		this.fontRenderer.drawString(
 				StatCollector.translateToLocal("container.inventory"), 8,
 				this.ySize - 96 + 2, 4210752);
-		String mode = "Mode: " + (tileEntity.type == ConductorType.SOURCE ? "Energy provider" : "Energy receiver");
+		String mode = "Mode: " + (tileEntity.type == ConductorType.SOURCE ? "Energy transmitter" : "Energy receiver");
 		this.fontRenderer.drawString(mode, 8, 55, 4210752);
 	}
 	

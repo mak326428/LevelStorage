@@ -1,12 +1,22 @@
 package makmods.levelstorage.tileentity;
 
+import ic2.api.Direction;
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileSourceEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.tile.IEnergySink;
+import ic2.api.energy.tile.IEnergySource;
+import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.network.INetworkClientTileEntityEventListener;
 import ic2.api.network.INetworkDataProvider;
 import ic2.api.network.INetworkUpdateListener;
+import ic2.api.tile.IEnergyStorage;
+import ic2.api.tile.IWrenchable;
 
 import java.util.Arrays;
 import java.util.List;
 
+import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.registry.ConductorType;
@@ -19,24 +29,107 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityWirelessConductor extends TileEntity implements
 		IWirelessConductor, IInventory, INetworkClientTileEntityEventListener,
-		INetworkDataProvider, INetworkUpdateListener {
+		INetworkDataProvider, INetworkUpdateListener, IEnergyTile, IEnergySink,
+		IWrenchable, IEnergySource {
 
 	public static final String INVENTORY_NAME = "Wireless Conductor";
-
+	public static final int MAX_PACKET_SIZE = 2048;
+	public boolean addedToENet = false;
 	public ConductorType type;
 
 	// This will be changed when a new valid (!!!) card is inserted.
 	public IWirelessConductor pair = null;
+	
+	@Override
+	public ItemStack getWrenchDrop(EntityPlayer p) {
+		return new ItemStack(ModBlocks.instance.blockWlessConductor);
+	}
+	
+	public int getMaxEnergyOutput() {
+		return MAX_PACKET_SIZE;
+	}
+	
+	@Override
+	public void setFacing(short f) {
+		
+	}
+	
+	@Override
+	public float getWrenchDropRate() {
+		return 0.75F;
+	}
+	
+	@Override
+	public boolean emitsEnergyTo(TileEntity te, Direction dir) {
+		return true;
+	}
+	
+	@Override
+	public boolean wrenchCanRemove(EntityPlayer p) {
+		return true;
+	}
+	
+	@Override
+	public boolean acceptsEnergyFrom(TileEntity te, Direction dir) {
+		return true;
+	}
+	
+	@Override
+	public int getMaxSafeInput() {
+		return MAX_PACKET_SIZE;
+	}
+	
+	@Override
+	public boolean isAddedToEnergyNet() {
+		return addedToENet;
+	}
+	
+	@Override
+	public short getFacing() {
+		return (short)ForgeDirection.NORTH.ordinal();
+	}
+	
+	@Override
+	public boolean wrenchCanSetFacing(EntityPlayer p, int s) {
+		return false;
+	}
+	
+	@Override
+	public int demandsEnergy() {
+		if (this.type == ConductorType.SOURCE) {
+			if (safePair != null) {
+				return MAX_PACKET_SIZE;
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public int injectEnergy(Direction directionFrom, int amount) {
+		if (this.type == ConductorType.SOURCE) {
+			if (safePair != null) {
+				return safePair.receiveEnergy(amount);
+			}
+		}
+		return amount;
+	}
 
 	@Override
 	public int receiveEnergy(int amount) {
 		// What the heck are you asking me, i am source!
 		if (this.type == ConductorType.SOURCE)
-			return Integer.MAX_VALUE;
-		return 0;
+			return amount;
+		else {
+			EnergyTileSourceEvent sourceEvent = new EnergyTileSourceEvent(this,
+					amount);
+			MinecraftForge.EVENT_BUS.post(sourceEvent);
+			return sourceEvent.amount;
+		}
 	}
 
 	@Override
@@ -49,7 +142,8 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		switch (event) {
 		case 1: {
 			// Just simply invert our type
-			type = type == ConductorType.SINK ? ConductorType.SOURCE : ConductorType.SINK;
+			type = type == ConductorType.SINK ? ConductorType.SOURCE
+					: ConductorType.SINK;
 			break;
 		}
 		}
@@ -94,39 +188,55 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	@Override
 	public void onChunkUnload() {
+		super.onChunkUnload();
 		WirelessConductorRegistry.instance.removeFromRegistry(this);
+		if (this.addedToENet) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+			this.addedToENet = false;
+		}
+
 	}
 
 	@Override
 	public void invalidate() {
 		WirelessConductorRegistry.instance.removeFromRegistry(this);
+		if (this.addedToENet) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+			this.addedToENet = false;
+		}
 		super.invalidate();
 	}
-	
+
 	public ConductorType getType() {
 		return this.type;
 	}
-	
+
 	public IWirelessConductor getSafePair() {
 		ItemStack stack = inv[0];
 		if (stack != null) {
 			if (ItemFrequencyCard.isValid(stack)) {
-				int x = stack.stackTagCompound.getInteger(ItemFrequencyCard.NBT_X_POS);
-				int y = stack.stackTagCompound.getInteger(ItemFrequencyCard.NBT_Y_POS);
-				int z = stack.stackTagCompound.getInteger(ItemFrequencyCard.NBT_Z_POS);
-				int dimId = stack.stackTagCompound.getInteger(ItemFrequencyCard.NBT_DIM_ID);
+				int x = stack.stackTagCompound
+						.getInteger(ItemFrequencyCard.NBT_X_POS);
+				int y = stack.stackTagCompound
+						.getInteger(ItemFrequencyCard.NBT_Y_POS);
+				int z = stack.stackTagCompound
+						.getInteger(ItemFrequencyCard.NBT_Z_POS);
+				int dimId = stack.stackTagCompound
+						.getInteger(ItemFrequencyCard.NBT_DIM_ID);
 				WorldServer world = DimensionManager.getWorld(dimId);
 				TileEntity te = world.getBlockTileEntity(x, y, z);
 				if (te != null) {
 					if (te instanceof IWirelessConductor) {
 						if (te != this) {
-							IWirelessConductor conductor = (IWirelessConductor)te;
+							IWirelessConductor conductor = (IWirelessConductor) te;
 							ConductorType pairType = conductor.getType();
 							if (this.getType() != pairType) {
 								return conductor;
 							}
-							//ConductorType oppositePairType = pairType == ConductorType.SINK ? ConductorType.SOURCE : ConductorType.SINK;
-							
+							// ConductorType oppositePairType = pairType ==
+							// ConductorType.SINK ? ConductorType.SOURCE :
+							// ConductorType.SINK;
+
 						}
 					}
 				}
@@ -135,8 +245,14 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		return null;
 	}
 
+	public IWirelessConductor safePair;
+
 	@Override
 	public void updateEntity() {
+		if (!this.addedToENet) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+			this.addedToENet = true;
+		}
 		if (!WirelessConductorRegistry.instance.isAddedToRegistry(this)) {
 			WirelessConductorRegistry.instance.addConductorToRegistry(this,
 					this.type);
@@ -145,11 +261,11 @@ public class TileEntityWirelessConductor extends TileEntity implements
 			WirelessConductorRegistry.instance
 					.setConductorType(this, this.type);
 		}
-		
-		IWirelessConductor safePair = getSafePair();
-		
+
+		safePair = getSafePair();
+
 		if (safePair != null) {
-			//System.out.println("Safe pair established");
+			// System.out.println("Safe pair established");
 		}
 	}
 
