@@ -5,6 +5,7 @@ import ic2.api.item.Items;
 import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -100,10 +101,11 @@ public class BlockWirelessConductor extends BlockContainer {
 		if (!world.isRemote) {
 			ItemStack stack = player.inventory.getCurrentItem();
 			boolean isEmptyCard = false;
-			if (stack != null)
-				// if (stack.getItem() == null)
-				if (stack.getItem() instanceof ItemFrequencyCard)
+			if (stack != null) {
+				ItemFrequencyCard.verifyStack(stack);
+				if (stack.itemID == ModItems.instance.itemFreqCard.itemID)
 					isEmptyCard = !ItemFrequencyCard.hasCardData(stack);
+			}
 			if (isEmptyCard) {
 				LevelStorage.proxy.messagePlayer(player, "Card data set",
 						new Object[0]);
@@ -123,7 +125,7 @@ public class BlockWirelessConductor extends BlockContainer {
 
 			return true;
 		}
-		// return false;
+		//return false;
 	}
 
 	@Override
