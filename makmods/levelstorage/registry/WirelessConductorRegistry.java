@@ -6,7 +6,7 @@ import java.util.Map;
 import makmods.levelstorage.tileentity.IWirelessConductor;
 
 public class WirelessConductorRegistry {
-	public static final WirelessConductorRegistry instance = new WirelessConductorRegistry();
+	public static WirelessConductorRegistry instance = new WirelessConductorRegistry();
 
 	private Map<IWirelessConductor, ConductorType> conductors;
 
@@ -26,9 +26,17 @@ public class WirelessConductorRegistry {
 	public boolean addConductorToRegistry(IWirelessConductor conductor,
 			ConductorType type) {
 		if (this.conductors.containsKey(conductor))
-			return false;
+			this.conductors.remove(conductor);
 		this.conductors.put(conductor, type);
 		return true;
+	}
+	
+	/**
+	 * Gets all the entries inside registry
+	 * @return entries
+	 */
+	public Map<IWirelessConductor, ConductorType> getEntries() {
+		return this.conductors;
 	}
 
 	/**

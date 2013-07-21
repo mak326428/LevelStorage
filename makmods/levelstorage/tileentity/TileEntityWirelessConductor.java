@@ -39,6 +39,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	public static final String INVENTORY_NAME = "Wireless Conductor";
 	public static final int MAX_PACKET_SIZE = 2048;
+	public static final String NBT_TYPE = "type";
 	public boolean addedToENet = false;
 	public ConductorType type;
 
@@ -274,7 +275,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
-
+		this.type = par1NBTTagCompound.getInteger(NBT_TYPE) == 0 ? ConductorType.SINK : ConductorType.SOURCE;
 		NBTTagList tagList = par1NBTTagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -283,6 +284,23 @@ public class TileEntityWirelessConductor extends TileEntity implements
 				this.inv[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+		par1NBTTagCompound.setInteger(NBT_TYPE, (this.type == ConductorType.SINK ? 0 : 1));
+		super.writeToNBT(par1NBTTagCompound);
+		NBTTagList itemList = new NBTTagList();
+		for (int i = 0; i < this.inv.length; i++) {
+			ItemStack stack = this.inv[i];
+			if (stack != null) {
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setByte("Slot", (byte) i);
+				stack.writeToNBT(tag);
+				itemList.appendTag(tag);
+			}
+		}
+		par1NBTTagCompound.setTag("Inventory", itemList);
 	}
 
 	@Override
@@ -365,21 +383,4 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	public boolean isInvNameLocalized() {
 		return true;
 	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
-		super.writeToNBT(par1NBTTagCompound);
-		NBTTagList itemList = new NBTTagList();
-		for (int i = 0; i < this.inv.length; i++) {
-			ItemStack stack = this.inv[i];
-			if (stack != null) {
-				NBTTagCompound tag = new NBTTagCompound();
-				tag.setByte("Slot", (byte) i);
-				stack.writeToNBT(tag);
-				itemList.appendTag(tag);
-			}
-		}
-		par1NBTTagCompound.setTag("Inventory", itemList);
-	}
-
 }
