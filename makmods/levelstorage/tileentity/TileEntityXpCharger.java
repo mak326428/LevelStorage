@@ -29,6 +29,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	public static final int INTERNAL_CAPACITOR = 4096;
 	public static final int INVENTORY_SIZE = 1;
 	public static final String INVENTORY_NAME = "XP Charger";
+	public static final int ENERGY_COST_MULTIPLIER = 10;
 	public boolean isWorking = true;
 	public int storedEnergy = 0;
 	private boolean addedToENet = false;
@@ -313,12 +314,12 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 				if (this.inv[0] != null) {
 					if (this.inv[0].getItem() instanceof ItemLevelStorageBook) {
 						if (this.getStored() > XpStackRegistry.XP_EU_CONVERSION
-								.getValue()) {
+								.getValue() * ENERGY_COST_MULTIPLIER) {
 							if ((LevelStorage.itemLevelStorageBookSpace - ItemLevelStorageBook
 									.getStoredXP(this.inv[0])) > XpStackRegistry.XP_EU_CONVERSION
 									.getKey()) {
-								this.addEnergy(-XpStackRegistry.XP_EU_CONVERSION
-										.getValue());
+								this.addEnergy(-(XpStackRegistry.XP_EU_CONVERSION
+										.getValue() * ENERGY_COST_MULTIPLIER));
 								ItemLevelStorageBook.increaseStoredXP(
 										this.inv[0],
 										XpStackRegistry.XP_EU_CONVERSION

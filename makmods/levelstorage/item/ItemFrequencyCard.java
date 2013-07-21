@@ -3,12 +3,16 @@ package makmods.levelstorage.item;
 import java.util.List;
 
 import makmods.levelstorage.ModBlocks;
+import makmods.levelstorage.ModItems;
 import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.registry.WirelessConductorRegistry;
+import makmods.levelstorage.tileentity.IWirelessConductor;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
@@ -48,6 +52,7 @@ public class ItemFrequencyCard extends Item {
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		verifyStack(par1ItemStack);
 		if (par1ItemStack.stackTagCompound.getBoolean(NBT_WAS_USED)) {
+			boolean isValid = isValid(par1ItemStack);
 			par3List.add("Location: "
 					+ par1ItemStack.stackTagCompound.getInteger(NBT_DIM_ID)
 					+ ";"
@@ -56,7 +61,22 @@ public class ItemFrequencyCard extends Item {
 					+ par1ItemStack.stackTagCompound.getInteger(NBT_Y_POS)
 					+ ":"
 					+ par1ItemStack.stackTagCompound.getInteger(NBT_Z_POS));
-			par3List.add("Is valid: " + (isValid(par1ItemStack) ? "yes" : "no"));
+			par3List.add("Is valid: " + (isValid ? "yes" : "no"));
+			// The following is pretty neat, but i dunno if i add it.
+			/*
+			 * if (isValid) { int dimId =
+			 * par1ItemStack.stackTagCompound.getInteger(NBT_DIM_ID); int x =
+			 * par1ItemStack.stackTagCompound.getInteger(NBT_X_POS); int y =
+			 * par1ItemStack.stackTagCompound.getInteger(NBT_Y_POS); int z =
+			 * par1ItemStack.stackTagCompound.getInteger(NBT_Z_POS);
+			 * 
+			 * TileEntity te =
+			 * DimensionManager.getWorld(dimId).getBlockTileEntity(x, y, z); if
+			 * (te instanceof IWirelessConductor) { IWirelessConductor c =
+			 * (IWirelessConductor)te; if
+			 * (WirelessConductorRegistry.instance.isAddedToRegistry(c)) {
+			 * par3List.add("Mode: "); } } }
+			 */
 		}
 	}
 
@@ -77,6 +97,26 @@ public class ItemFrequencyCard extends Item {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * just if you want to easier get rid of invalid cards
+	 */
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
+			EntityPlayer par3EntityPlayer) {
+		if (!par2World.isRemote) {
+			if (par1ItemStack != null) {
+				if (par3EntityPlayer.isSneaking()) {
+					verifyStack(par1ItemStack);
+					if (!isValid(par1ItemStack)) {
+						par1ItemStack = new ItemStack(
+								ModItems.instance.itemFreqCard);
+						verifyStack(par1ItemStack);
+					}
+				}
+			}
+		}
+		return par1ItemStack;
 	}
 
 	@Override
