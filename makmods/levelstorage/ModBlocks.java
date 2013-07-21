@@ -1,6 +1,7 @@
 package makmods.levelstorage;
 
 import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockXpCharger;
 import makmods.levelstorage.block.BlockXpGenerator;
@@ -42,7 +43,7 @@ public class ModBlocks {
 		LanguageRegistry.instance().addName(this.blockWlessConductor,
 				"Wireless Conductor");
 		LanguageRegistry.instance().addName(this.blockXpGen, "XP Generator");
-		
+
 	}
 
 	private void addRecipes() {
@@ -63,6 +64,17 @@ public class ModBlocks {
 				goldIngot, Character.valueOf('a'), advMachine,
 				Character.valueOf('m'), machine, Character.valueOf('e'),
 				blockXpGenStack);
+		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
+		ItemStack transformerHv = Items.getItem("hvTransformer");
+		ItemStack enderPearl = new ItemStack(Item.enderPearl);
+		ItemStack advCircuit = Items.getItem("advancedCircuit");
+
+		Recipes.advRecipes.addRecipe(new ItemStack(this.blockWlessConductor),
+				"tmt", "cec", "chc", Character.valueOf('t'), frequencyTr,
+				Character.valueOf('e'), enderPearl, Character.valueOf('c'),
+				advCircuit, Character.valueOf('h'), transformerHv,
+				Character.valueOf('m'), advMachine);
+
 	}
 
 	private void setMiningLevels() {
