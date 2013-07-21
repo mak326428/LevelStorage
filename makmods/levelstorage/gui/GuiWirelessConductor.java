@@ -1,6 +1,7 @@
 package makmods.levelstorage.gui;
 
-import ic2.api.network.NetworkHelper;
+import makmods.levelstorage.packet.PacketPressButton;
+import makmods.levelstorage.packet.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -10,6 +11,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiWirelessConductor extends GuiContainer {
 	
@@ -46,7 +49,14 @@ public class GuiWirelessConductor extends GuiContainer {
 	
 	@Override
 	protected void actionPerformed(GuiButton par1GuiButton) {
-		NetworkHelper.initiateClientTileEntityEvent(tileEntity, par1GuiButton.id);
+		//NetworkHelper.initiateClientTileEntityEvent(tileEntity, par1GuiButton.id);
+		PacketPressButton packet = new PacketPressButton();
+		packet.buttonId = par1GuiButton.id;
+		packet.x = tileEntity.xCoord;
+		packet.y = tileEntity.yCoord;
+		packet.z = tileEntity.zCoord;
+		packet.dimId = tileEntity.worldObj.provider.dimensionId;
+		PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(packet));
 	}
 
 	@Override

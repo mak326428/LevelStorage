@@ -7,15 +7,7 @@ import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
-import ic2.api.network.INetworkClientTileEntityEventListener;
-import ic2.api.network.INetworkDataProvider;
-import ic2.api.network.INetworkUpdateListener;
-import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
-
-import java.util.Arrays;
-import java.util.List;
-
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.item.ItemFrequencyCard;
@@ -33,9 +25,8 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityWirelessConductor extends TileEntity implements
-		IWirelessConductor, IInventory, INetworkClientTileEntityEventListener,
-		INetworkDataProvider, INetworkUpdateListener, IEnergyTile, IEnergySink,
-		IWrenchable, IEnergySource {
+		IWirelessConductor, IInventory, IEnergyTile, IEnergySink, IWrenchable,
+		IEnergySource, IHasButtons {
 
 	public static final String INVENTORY_NAME = "Wireless Conductor";
 	public static final int MAX_PACKET_SIZE = 2048;
@@ -49,6 +40,18 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	@Override
 	public ItemStack getWrenchDrop(EntityPlayer p) {
 		return new ItemStack(ModBlocks.instance.blockWlessConductor);
+	}
+
+	@Override
+	public void handleButtonClick(int id) {
+		switch (id) {
+		case 1: {
+			// Just simply invert our type
+			type = type == ConductorType.SINK ? ConductorType.SOURCE
+					: ConductorType.SINK;
+			break;
+		}
+		}
 	}
 
 	public int getMaxEnergyOutput() {
@@ -138,33 +141,16 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		return this.pair;
 	}
 
-	@Override
-	public void onNetworkEvent(EntityPlayer player, int event) {
-		switch (event) {
-		case 1: {
-			// Just simply invert our type
-			type = type == ConductorType.SINK ? ConductorType.SOURCE
-					: ConductorType.SINK;
-			break;
-		}
-		}
-	}
+	/*
+	 * @Override public void onNetworkEvent(EntityPlayer player, int event) {
+	 * switch (event) { case 1: { // Just simply invert our type type = type ==
+	 * ConductorType.SINK ? ConductorType.SOURCE : ConductorType.SINK; break; }
+	 * } }
+	 */
 
 	@Override
 	public int getDimId() {
 		return this.worldObj.provider.dimensionId;
-	}
-
-	@Override
-	public void onNetworkUpdate(String field) {
-		// TODO Auto-generated method stub
-	}
-
-	private static List<String> fields = Arrays.asList(new String[0]);
-
-	@Override
-	public List<String> getNetworkedFields() {
-		return fields;
 	}
 
 	@Override
@@ -275,7 +261,8 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
-		this.type = par1NBTTagCompound.getInteger(NBT_TYPE) == 0 ? ConductorType.SINK : ConductorType.SOURCE;
+		this.type = par1NBTTagCompound.getInteger(NBT_TYPE) == 0 ? ConductorType.SINK
+				: ConductorType.SOURCE;
 		NBTTagList tagList = par1NBTTagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -285,10 +272,11 @@ public class TileEntityWirelessConductor extends TileEntity implements
 			}
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
-		par1NBTTagCompound.setInteger(NBT_TYPE, (this.type == ConductorType.SINK ? 0 : 1));
+		par1NBTTagCompound.setInteger(NBT_TYPE,
+				(this.type == ConductorType.SINK ? 0 : 1));
 		super.writeToNBT(par1NBTTagCompound);
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < this.inv.length; i++) {
