@@ -1,16 +1,18 @@
 package makmods.levelstorage.gui;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
+import makmods.levelstorage.packet.PacketTextChanged;
+import makmods.levelstorage.packet.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
-import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiWirelessPowerSync extends GuiContainer {
 
@@ -46,14 +48,34 @@ public class GuiWirelessPowerSync extends GuiContainer {
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
-	
-	//protected void mouseClicked(int par1, int par2, int par3) {
-	//	Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(par1 + " " + par2 + " " + par3);
-	//}
+
+	// protected void mouseClicked(int par1, int par2, int par3) {
+	// Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(par1 +
+	// " " + par2 + " " + par3);
+	// }
+
+	public boolean isCharNumber(char ch) {
+		return (ch == '0' || ch == '1' || ch == '2' || ch == '3' || ch == '4'
+				|| ch == '5' || ch == '6' || ch == '7' || ch == '8' || ch == '9');
+	}
 
 	protected void keyTyped(char par1, int par2) {
 		if (this.freqTextBox.isFocused()) {
-			this.freqTextBox.textboxKeyTyped(par1, par2);
+			// 8 = backspace
+			// 46 = delete
+			if (isCharNumber(par1) || par1 == 8 || par1 == 46) {
+				this.freqTextBox.textboxKeyTyped(par1, par2);
+				if (freqTextBox.getText() == "")
+					freqTextBox.setText(defaultInputFieldText);
+				PacketTextChanged packetTC = new PacketTextChanged();
+				packetTC.dimId = tileEntity.worldObj.provider.dimensionId;
+				packetTC.x = tileEntity.xCoord;
+				packetTC.y = tileEntity.yCoord;
+				packetTC.z = tileEntity.zCoord;
+				packetTC.textBoxId = 0;
+				packetTC.newText = freqTextBox.getText();
+				PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(packetTC));
+			}
 		}
 		super.keyTyped(par1, par2);
 	}
@@ -62,10 +84,10 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		super.drawScreen(par1, par2, par3);
 		int xGuiPos = (width - xSize) / 2; // j
 		int yGuiPos = (height - ySize) / 2;
-		//drawRect(169, 49, 200, 60,
-		//Integer.MIN_VALUE);
+		// drawRect(169, 49, 200, 60,
+		// Integer.MIN_VALUE);
 		this.freqTextBox.drawTextBox();
-		
+
 	}
 
 	public void updateScreen() {
@@ -83,6 +105,7 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		this.fontRenderer.drawString(
 				StatCollector.translateToLocal("container.inventory"), 8,
 				this.ySize - 96 + 2, 4210752);
+		this.fontRenderer.drawString("Current frequency: " + tileEntity.frequency, 8, 55, 4210752);
 		// String mode = "Mode: " + (tileEntity.type == ConductorType.SOURCE ?
 		// "Energy transmitter" : "Energy receiver");
 		// this.fontRenderer.drawString(mode, 8, 55, 4210752);
