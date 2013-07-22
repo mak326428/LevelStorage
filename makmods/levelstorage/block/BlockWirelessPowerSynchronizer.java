@@ -6,7 +6,6 @@ import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.proxy.ClientProxy;
-import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -101,16 +100,16 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 			return false;
 		else {
 			if (!world.isRemote) {
-				TileEntityWirelessConductor tileWirelessConductor = (TileEntityWirelessConductor) world
+				TileEntityWirelessPowerSynchronizer tileWirelessSync = (TileEntityWirelessPowerSynchronizer) world
 						.getBlockTileEntity(x, y, z);
-				if (tileWirelessConductor != null) {
-					player.openGui(LevelStorage.instance, 52, world, x, y, z);
+				if (tileWirelessSync != null) {
+					player.openGui(LevelStorage.instance, 53, world, x, y, z);
 				}
 			}
 
 			return true;
 		}
-		//return false;
+		// return false;
 	}
 
 	@Override

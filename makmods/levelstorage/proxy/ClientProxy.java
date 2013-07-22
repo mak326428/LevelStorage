@@ -19,6 +19,8 @@ public class ClientProxy extends CommonProxy {
 	public static final String WIRELESS_CONDUCTOR_TEXTURE = Reference.MOD_ID
 			.toLowerCase() + ":" + "blockWirelessConductor";
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
+	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
+	
 	public static final String XP_GEN_TEXTURE = Reference.MOD_ID.toLowerCase()
 			+ ":" + "blockXpGen";
 	public static final String XP_CHARGER_TEXTURE = Reference.MOD_ID

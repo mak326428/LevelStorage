@@ -1,12 +1,15 @@
 package makmods.levelstorage.proxy;
 
+import makmods.levelstorage.gui.ContainerPowerSync;
 import makmods.levelstorage.gui.ContainerWirelessConductor;
 import makmods.levelstorage.gui.ContainerXpCharger;
 import makmods.levelstorage.gui.ContainerXpGenerator;
 import makmods.levelstorage.gui.GuiWirelessConductor;
+import makmods.levelstorage.gui.GuiWirelessPowerSync;
 import makmods.levelstorage.gui.GuiXpCharger;
 import makmods.levelstorage.gui.GuiXpGenerator;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
+import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,6 +32,10 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessConductor)
 			return new ContainerWirelessConductor(player.inventory,
 					(TileEntityWirelessConductor) tileEntity);
+		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer) {
+			return new ContainerPowerSync(player.inventory,
+					(TileEntityWirelessPowerSynchronizer) tileEntity);
+		}
 		return null;
 	}
 
@@ -46,6 +53,10 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessConductor)
 			return new GuiWirelessConductor(player.inventory,
 					(TileEntityWirelessConductor) tileEntity);
+		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
+			return new GuiWirelessPowerSync(player.inventory,
+					(TileEntityWirelessPowerSynchronizer) tileEntity);
+		
 		return null;
 
 	}
