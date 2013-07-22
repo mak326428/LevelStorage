@@ -3,6 +3,7 @@ package makmods.levelstorage;
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 import makmods.levelstorage.block.BlockWirelessConductor;
+import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
 import makmods.levelstorage.block.BlockXpCharger;
 import makmods.levelstorage.block.BlockXpGenerator;
 import net.minecraft.item.Item;
@@ -17,6 +18,7 @@ public class ModBlocks {
 	public BlockXpGenerator blockXpGen;
 	public BlockXpCharger blockXpCharger;
 	public BlockWirelessConductor blockWlessConductor;
+	public BlockWirelessPowerSynchronizer blockWlessPowerSync;
 
 	private ModBlocks() {
 	}
@@ -28,6 +30,9 @@ public class ModBlocks {
 				BlockItemIds.instance.getIdFor("blockXpChargerId"));
 		this.blockWlessConductor = new BlockWirelessConductor(
 				BlockItemIds.instance.getIdFor("blockWirelessConductor"));
+		this.blockWlessPowerSync = new BlockWirelessPowerSynchronizer(
+				BlockItemIds.instance.getIdFor("blockWlessPowerSync"));
+
 	}
 
 	private void registerBlocks() {
@@ -35,6 +40,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(this.blockXpCharger, "tile.blockXpCharger");
 		GameRegistry.registerBlock(this.blockWlessConductor,
 				"tile.blockWirelessConductor");
+		GameRegistry.registerBlock(this.blockWlessPowerSync,
+				"tile.blockWirelessPowerSynchronizer");
+		
 
 	}
 
@@ -43,7 +51,8 @@ public class ModBlocks {
 		LanguageRegistry.instance().addName(this.blockWlessConductor,
 				"Wireless Conductor");
 		LanguageRegistry.instance().addName(this.blockXpGen, "XP Generator");
-
+		LanguageRegistry.instance().addName(this.blockWlessPowerSync, "Wireless Power Synchronizer");
+		
 	}
 
 	private void addRecipes() {
@@ -82,6 +91,9 @@ public class ModBlocks {
 		MinecraftForge.setBlockHarvestLevel(this.blockXpCharger, "pickaxe", 1);
 		MinecraftForge.setBlockHarvestLevel(this.blockWlessConductor,
 				"pickaxe", 1);
+		MinecraftForge.setBlockHarvestLevel(this.blockWlessPowerSync,
+				"pickaxe", 1);
+		
 
 	}
 

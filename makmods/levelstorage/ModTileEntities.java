@@ -1,6 +1,7 @@
 package makmods.levelstorage;
 
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
+import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -16,6 +17,11 @@ public class ModTileEntities {
 				"tileXpGenerator");
 		GameRegistry.registerTileEntity(TileEntityXpCharger.class,
 				"tileXpCharger");
-		GameRegistry.registerTileEntity(TileEntityWirelessConductor.class, "tileWirelessConductor");
+		GameRegistry.registerTileEntity(TileEntityWirelessConductor.class,
+				"tileWirelessConductor");
+		GameRegistry.registerTileEntity(
+				TileEntityWirelessPowerSynchronizer.class,
+				"tileWirelessPowerSync");
+
 	}
 }

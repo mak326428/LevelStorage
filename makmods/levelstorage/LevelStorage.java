@@ -44,6 +44,7 @@ public class LevelStorage {
 		String blockXpChargerId = "blockXpChargerId";
 		String itemFreqCard = "itemFrequencyCard";
 		String blockWirelessConductor = "blockWirelessConductor";
+		String blockWlessPowerSync = "blockWlessPowerSync";
 		BlockItemIds.instance.addId(itemXPBookId,
 				config.getItem(itemXPBookId, 2085).getInt());
 		BlockItemIds.instance.addId(itemFreqCard,
@@ -56,6 +57,9 @@ public class LevelStorage {
 				config.getBlock(blockXpChargerId, 238).getInt());
 		BlockItemIds.instance.addId(blockWirelessConductor,
 				config.getBlock(blockWirelessConductor, 239).getInt());
+		BlockItemIds.instance.addId(blockWlessPowerSync,
+				config.getBlock(blockWlessPowerSync, 240).getInt());
+		
 		LevelStorage.itemLevelStorageBookSpace = config.get(
 				Configuration.CATEGORY_GENERAL, "XPBookCapacity", 16384)
 				.getInt();
