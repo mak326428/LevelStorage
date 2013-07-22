@@ -5,14 +5,14 @@ import java.util.ArrayList;
 /**
  * Power syncs are the next tier of Wireless conductors While the old ones were
  * just for transporting energy from point A to point B, this one will use
- * frequencies (nubmers) So, there might be 50 devices in one network and they
+ * frequencies (numbers) So, there might be 50 devices in one network and they
  * all will share power
  * 
  * @author mak326428
  */
 public class WirelessPowerSynchronizerRegistry {
 	// Basically, Map<Frequency, Device(s)>
-	private ArrayList<IWirelessPowerSync> registry;
+	public ArrayList<IWirelessPowerSync> registry;
 
 	/**
 	 * Static singleton instance for this class
@@ -21,6 +21,15 @@ public class WirelessPowerSynchronizerRegistry {
 
 	private WirelessPowerSynchronizerRegistry() {
 		this.registry = new ArrayList<IWirelessPowerSync>();
+	}
+	
+	public IWirelessPowerSync[] fromObjectToDeviceArray(Object[] array) {
+		IWirelessPowerSync[] retArray = new IWirelessPowerSync[array.length];
+		
+		for (int i = 0; i < array.length; i++)
+			retArray[i] = (IWirelessPowerSync)array[i];
+		
+		return retArray;
 	}
 
 	/**
@@ -36,7 +45,7 @@ public class WirelessPowerSynchronizerRegistry {
 			if (device.getFreq() == freq)
 				needed.add(device);
 		}
-		return (IWirelessPowerSync[]) needed.toArray();
+		return fromObjectToDeviceArray(needed.toArray());
 	}
 
 	/**
@@ -50,6 +59,9 @@ public class WirelessPowerSynchronizerRegistry {
 		if (registry.contains(device))
 			return false;
 		registry.add(device);
+		for (IWirelessPowerSync entry : registry) {
+			entry.updateState();
+		}
 		return true;
 	}
 
@@ -64,6 +76,9 @@ public class WirelessPowerSynchronizerRegistry {
 		if (!registry.contains(device))
 			return false;
 		registry.remove(device);
+		for (IWirelessPowerSync entry : registry) {
+			entry.updateState();
+		}
 		return true;
 	}
 
@@ -94,7 +109,13 @@ public class WirelessPowerSynchronizerRegistry {
 			}
 		}
 
-		return (IWirelessPowerSync[]) needed.toArray();
+		return fromObjectToDeviceArray(needed.toArray());
 	}
+	
+	//public boolean updateRegistryEntry(IWirelessPowerSync device, SyncType newType) {
+	//	if (!registry.contains(device))
+	//		return false;
+	//	registry.set(registry.indexOf(device), device);
+	//}
 
 }

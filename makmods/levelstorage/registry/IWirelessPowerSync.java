@@ -13,4 +13,9 @@ public interface IWirelessPowerSync {
 	public int getY();
 	public int getZ();
 	public SyncType getType();
+	
+	public void updateState();
+	
+	public int receiveEnergy(int amount);
+	public boolean doesNeedEnergy();
 }
