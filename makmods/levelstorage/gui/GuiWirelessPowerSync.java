@@ -1,9 +1,12 @@
 package makmods.levelstorage.gui;
 
+import makmods.levelstorage.packet.PacketPressButton;
 import makmods.levelstorage.packet.PacketTextChanged;
 import makmods.levelstorage.packet.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -33,6 +36,8 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		super.initGui();
 		int xGuiPos = (width - xSize) / 2; // j
 		int yGuiPos = (height - ySize) / 2;
+		this.buttonList.add(new GuiButton(1, xGuiPos + 50, yGuiPos + 35, 75,
+				15, "Change mode"));
 		freqTextBox = new GuiTextField(this.fontRenderer, xGuiPos + 50,
 				yGuiPos + 15, 75, 15);
 		Keyboard.enableRepeatEvents(true);
@@ -43,6 +48,7 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		this.freqTextBox.setEnableBackgroundDrawing(true);
 		this.freqTextBox.setText(this.defaultInputFieldText);
 		this.freqTextBox.setCanLoseFocus(false);
+
 	}
 
 	public void onGuiClosed() {
@@ -74,7 +80,8 @@ public class GuiWirelessPowerSync extends GuiContainer {
 				packetTC.z = tileEntity.zCoord;
 				packetTC.textBoxId = 0;
 				packetTC.newText = freqTextBox.getText();
-				PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(packetTC));
+				PacketDispatcher.sendPacketToServer(PacketTypeHandler
+						.populatePacket(packetTC));
 			}
 		}
 		super.keyTyped(par1, par2);
@@ -95,6 +102,18 @@ public class GuiWirelessPowerSync extends GuiContainer {
 	}
 
 	@Override
+	protected void actionPerformed(GuiButton par1GuiButton) {
+		PacketPressButton packet = new PacketPressButton();
+		packet.buttonId = par1GuiButton.id;
+		packet.x = tileEntity.xCoord;
+		packet.y = tileEntity.yCoord;
+		packet.z = tileEntity.zCoord;
+		packet.dimId = tileEntity.worldObj.provider.dimensionId;
+		PacketDispatcher.sendPacketToServer(PacketTypeHandler
+				.populatePacket(packet));
+	}
+
+	@Override
 	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
 		// draw text and stuff here
 		// the parameters for drawString are: string, x, y, color
@@ -105,7 +124,12 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		this.fontRenderer.drawString(
 				StatCollector.translateToLocal("container.inventory"), 8,
 				this.ySize - 96 + 2, 4210752);
-		this.fontRenderer.drawString("Current frequency: " + tileEntity.frequency, 8, 55, 4210752);
+		this.fontRenderer.drawString("Frequency: "
+				+ tileEntity.frequency
+				+ "; "
+				+ "Mode: "
+				+ (tileEntity.type == SyncType.RECEIVER ? "receiver"
+						: "sender"), 8, 55, 4210752);
 		// String mode = "Mode: " + (tileEntity.type == ConductorType.SOURCE ?
 		// "Energy transmitter" : "Energy receiver");
 		// this.fontRenderer.drawString(mode, 8, 55, 4210752);

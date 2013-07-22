@@ -1,20 +1,23 @@
 package makmods.levelstorage.tileentity;
 
-import cpw.mods.fml.common.FMLLog;
+import makmods.levelstorage.logic.Helper;
+import makmods.levelstorage.registry.SyncType;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityWirelessPowerSynchronizer extends TileEntity implements IHasTextBoxes {
+public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
+		IHasTextBoxes, IHasButtons {
 
 	public int frequency;
-	
+	public SyncType type;
+
 	public TileEntityWirelessPowerSynchronizer() {
-		
+		type = SyncType.RECEIVER;
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		if (!this.worldObj.isRemote) {
-			
+			System.out.println(type.ordinal());
 		}
 	}
 
@@ -24,6 +27,14 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements I
 			frequency = Integer.parseInt(newText);
 		} catch (NumberFormatException e) {
 		}
+	}
+
+	@Override
+	public void handleButtonClick(int buttonId) {
+		if (buttonId == 1) {
+			this.type = Helper.invertType(this.type);
+		}
+		
 	}
 
 }

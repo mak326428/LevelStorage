@@ -1,6 +1,7 @@
 package makmods.levelstorage.gui;
 
 import makmods.levelstorage.registry.ConductorType;
+import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -41,13 +42,19 @@ public class ContainerPowerSync extends Container {
 		for (int i = 0; i < crafters.size(); i++) {
 			ICrafting icrafting = (ICrafting) crafters.get(i);
 			icrafting.sendProgressBarUpdate(this, 0, tileEntity.frequency);
+			icrafting.sendProgressBarUpdate(this, 1, tileEntity.type.ordinal());
 		}
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if (i == 0) {
+		switch (i) {
+		case 0:
 			tileEntity.frequency = j;
+			break;
+		case 1:
+			tileEntity.type = SyncType.values()[j];
+			break;
 		}
 	}
 	
