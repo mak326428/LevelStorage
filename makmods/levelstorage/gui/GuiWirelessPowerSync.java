@@ -46,7 +46,7 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		this.freqTextBox.setVisible(true);
 		this.freqTextBox.setFocused(true);
 		this.freqTextBox.setEnableBackgroundDrawing(true);
-		this.freqTextBox.setText(this.defaultInputFieldText);
+		this.freqTextBox.setText(String.valueOf(tileEntity.frequency));
 		this.freqTextBox.setCanLoseFocus(false);
 
 	}

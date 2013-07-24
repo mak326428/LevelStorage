@@ -6,6 +6,7 @@ import makmods.levelstorage.logic.LevelStorageEventHandler;
 import makmods.levelstorage.packet.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.proxy.GuiHandler;
+import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
 import makmods.levelstorage.registry.XpStackRegistry;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,6 +18,8 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -65,6 +68,18 @@ public class LevelStorage {
 				.getInt();
 		config.save();
 	}
+	
+	@EventHandler
+    public void serverStarting(FMLServerStartingEvent event) 
+    {
+        WirelessPowerSynchronizerRegistry.instance.registry.clear();
+    }
+	
+	@EventHandler
+    public void serverStopping(FMLServerStoppingEvent event) 
+    {
+		WirelessPowerSynchronizerRegistry.instance.registry.clear();
+    }
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
