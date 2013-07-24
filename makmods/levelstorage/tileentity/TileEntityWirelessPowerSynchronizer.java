@@ -61,13 +61,12 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 
 	@Override
 	public void onChunkUnload() {
-		super.onChunkUnload();
 		WirelessPowerSynchronizerRegistry.instance.removeDevice(this);
 		if (this.addedToENet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			this.addedToENet = false;
 		}
-
+		super.onChunkUnload();
 	}
 
 	@Override
