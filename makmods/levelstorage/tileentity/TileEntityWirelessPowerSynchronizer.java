@@ -61,21 +61,30 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 
 	@Override
 	public void onChunkUnload() {
+		unloadEverything();
+		super.onChunkUnload();
+	}
+	
+	public void loadEverything() {
+		if (!WirelessPowerSynchronizerRegistry.instance.isDeviceAdded(this))
+			WirelessPowerSynchronizerRegistry.instance.addDevice(this);
+		if (!this.addedToENet) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+			this.addedToENet = true;
+		}
+	}
+	
+	public void unloadEverything() {
 		WirelessPowerSynchronizerRegistry.instance.removeDevice(this);
 		if (this.addedToENet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			this.addedToENet = false;
 		}
-		super.onChunkUnload();
 	}
 
 	@Override
 	public void invalidate() {
-		WirelessPowerSynchronizerRegistry.instance.removeDevice(this);
-		if (this.addedToENet) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-			this.addedToENet = false;
-		}
+		unloadEverything();
 		super.invalidate();
 	}
 
@@ -188,22 +197,29 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 				.getDevicesForFreqAndType(this.frequency,
 						Helper.invertType(type));
 	}
+	
+	public int lastX;
+	public int lastY;
+	public int lastZ;
 
 	@Override
 	public void updateEntity() {
 		if (!this.worldObj.isRemote) {
 			// WirelessPowerSynchronizerRegistry.instance.registry.clear();
-			if (!WirelessPowerSynchronizerRegistry.instance.isDeviceAdded(this))
-				WirelessPowerSynchronizerRegistry.instance.addDevice(this);
-			if (!this.addedToENet) {
-				MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
-				this.addedToENet = true;
+			if (lastX != this.xCoord || lastY != this.yCoord || lastZ != this.zCoord) {
+				System.out.println("You moved Synchronizer. Reloading");
+				unloadEverything();
+				loadEverything();
 			}
+			loadEverything();
 			// timeForUpdate++;
 			// if (timeForUpdate > 40) {
 			updateState();
 			// }
-
+			lastX = xCoord;
+			lastY = yCoord;
+			lastZ = zCoord;
+			
 		}
 	}
 
