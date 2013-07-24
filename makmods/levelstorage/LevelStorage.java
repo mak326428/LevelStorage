@@ -11,6 +11,7 @@ import makmods.levelstorage.registry.XpStackRegistry;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -38,6 +39,7 @@ public class LevelStorage {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		FMLLog.info(Reference.MOD_NAME + ": Pre-Initialization...");
 		Configuration config = new Configuration(
 				event.getSuggestedConfigurationFile());
 		config.load();
@@ -81,6 +83,7 @@ public class LevelStorage {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		FMLLog.info(Reference.MOD_NAME + ": Initialization...");
 		NetworkRegistry.instance().registerGuiHandler(instance,
 				new GuiHandler());
 		// TODO: mess around with this neat thingy
@@ -93,6 +96,7 @@ public class LevelStorage {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		FMLLog.info(Reference.MOD_NAME + ": Post-Initialization...");
 		XpStackRegistry.instance.initCriticalNodes();
 		XpStackRegistry.instance.printRegistry();
 		System.out.println(XpRegistryAPI.getConversions().toString());

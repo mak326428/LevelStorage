@@ -15,40 +15,11 @@ public class ExperienceRecipe implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting inventoryCrafting, World world) {
-		boolean seenBook = false;
-		boolean seenEssence = false;
-		// We just loop through all the crafting inventory
-		// and see whether our requirements are met
-		for (int i = 0; i < inventoryCrafting.getSizeInventory(); ++i) {
-			ItemStack currentStack = inventoryCrafting.getStackInSlot(i);
-
-			if (currentStack != null) {
-				if (currentStack.getItem() instanceof ItemLevelStorageBook) {
-					// To prevent several books in one recipe
-					if (seenBook) {
-						seenBook = false;
-						continue;
-					}
-					seenBook = true;
-				}
-			}
-
-			for (XpStack entry : XpStackRegistry.instance.ITEM_XP_CONVERSIONS) {
-				ItemStack stack = entry.stack;
-				int value = entry.value;
-				if (stack != null && currentStack != null) {
-					if (stack.itemID == currentStack.itemID) {
-						seenEssence = true;
-					}
-				}
-			}
-		}
-		boolean actuallyMatches = seenEssence && seenBook;
-		return actuallyMatches;
+		return this.getResInternal(inventoryCrafting) != null;
 	}
-
-	@Override
-	public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
+	
+	public ItemStack getResInternal(InventoryCrafting inventoryCrafting) {
+		
 		int bookXp = 0;
 		ItemStack initialBookStack = null;
 		boolean seenBook = false;
@@ -56,10 +27,9 @@ public class ExperienceRecipe implements IRecipe {
 		int buffXp = 0;
 		for (int i = 0; i < inventoryCrafting.getSizeInventory(); ++i) {
 			boolean cycleCompleted = false;
-
+			
 			ItemStack currentStack = inventoryCrafting.getStackInSlot(i);
-
-			if (currentStack != null) {
+			if (currentStack != null && !currentStack.equals(null)) {
 				if (currentStack.getItem() instanceof ItemLevelStorageBook) {
 					if (currentStack.stackTagCompound != null) {
 						if (currentStack.stackTagCompound
@@ -99,17 +69,25 @@ public class ExperienceRecipe implements IRecipe {
 			if (!v)
 				return null;
 		}
-
+		
 		if ((bookXp + buffXp) >= LevelStorage.itemLevelStorageBookSpace)
 			return null;
 
 		int totalXp = bookXp + buffXp;
+		
+		if (totalXp == 0)
+			return null;
 		ItemStack result = new ItemStack(ModItems.itemLevelStorageBook);
 		result.stackTagCompound = new NBTTagCompound();
 		result.stackTagCompound.setInteger(ItemLevelStorageBook.STORED_XP_NBT,
 				totalXp);
 
 		return result;
+	}
+
+	@Override
+	public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
+		return this.getResInternal(inventoryCrafting);
 	}
 
 	@Override

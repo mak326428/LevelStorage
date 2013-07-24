@@ -3,8 +3,6 @@ package makmods.levelstorage.registry;
 import java.util.HashMap;
 import java.util.Map;
 
-import makmods.levelstorage.tileentity.IWirelessConductor;
-
 public class WirelessConductorRegistry {
 	public static WirelessConductorRegistry instance = new WirelessConductorRegistry();
 

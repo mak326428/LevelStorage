@@ -12,6 +12,7 @@ import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.registry.ConductorType;
+import makmods.levelstorage.registry.IWirelessConductor;
 import makmods.levelstorage.registry.WirelessConductorRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

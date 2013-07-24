@@ -1,4 +1,4 @@
-package makmods.levelstorage.tileentity;
+package makmods.levelstorage.registry;
 
 import makmods.levelstorage.registry.ConductorType;
 

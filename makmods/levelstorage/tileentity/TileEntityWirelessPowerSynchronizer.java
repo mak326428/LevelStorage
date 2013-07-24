@@ -219,7 +219,6 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 			// WirelessPowerSynchronizerRegistry.instance.registry.clear();
 			if (this.lastX != this.xCoord || this.lastY != this.yCoord
 					|| this.lastZ != this.zCoord) {
-				System.out.println("You moved Synchronizer. Reloading");
 				this.unloadEverything();
 				this.loadEverything();
 			}
@@ -274,10 +273,10 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	@Override
 	public void handleButtonClick(int buttonId) {
 		if (buttonId == 1) {
+			this.type = Helper.invertType(this.type);
 			for (IWirelessPowerSync entry : WirelessPowerSynchronizerRegistry.instance.registry) {
 				entry.updateState();
 			}
-			this.type = Helper.invertType(this.type);
 		}
 	}
 
