@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 
-import makmods.levelstorage.tileentity.IHasButtons;
 import makmods.levelstorage.tileentity.IHasTextBoxes;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
@@ -39,26 +38,27 @@ public class PacketTextChanged extends PacketLV {
 
 	@Override
 	public void writeData(DataOutputStream dos) throws IOException {
-		dos.writeInt(textBoxId);
-		dos.writeInt(x);
-		dos.writeInt(y);
-		dos.writeInt(z);
-		dos.writeInt(dimId);
-		dos.writeUTF(newText);
+		dos.writeInt(this.textBoxId);
+		dos.writeInt(this.x);
+		dos.writeInt(this.y);
+		dos.writeInt(this.z);
+		dos.writeInt(this.dimId);
+		dos.writeUTF(this.newText);
 	}
 
 	@Override
 	public void execute(INetworkManager network, Player player) {
 		try {
-			WorldServer world = DimensionManager.getWorld(dimId);
+			WorldServer world = DimensionManager.getWorld(this.dimId);
 
 			if (world != null) {
 				if (!world.isRemote) {
-					TileEntity te = world.getBlockTileEntity(x, y, z);
+					TileEntity te = world.getBlockTileEntity(this.x, this.y,
+							this.z);
 					if (te != null) {
 						if (te instanceof IHasTextBoxes) {
 							IHasTextBoxes ihb = (IHasTextBoxes) te;
-							ihb.handleTextChange(newText);
+							ihb.handleTextChange(this.newText);
 						}
 					}
 				}

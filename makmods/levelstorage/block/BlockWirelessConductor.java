@@ -103,8 +103,9 @@ public class BlockWirelessConductor extends BlockContainer {
 			boolean isEmptyCard = false;
 			if (stack != null) {
 				ItemFrequencyCard.verifyStack(stack);
-				if (stack.itemID == ModItems.instance.itemFreqCard.itemID)
+				if (stack.itemID == ModItems.itemFreqCard.itemID) {
 					isEmptyCard = !ItemFrequencyCard.hasCardData(stack);
+				}
 			}
 			if (isEmptyCard) {
 				LevelStorage.proxy.messagePlayer(player, "Card data set",
@@ -125,7 +126,7 @@ public class BlockWirelessConductor extends BlockContainer {
 
 			return true;
 		}
-		//return false;
+		// return false;
 	}
 
 	@Override

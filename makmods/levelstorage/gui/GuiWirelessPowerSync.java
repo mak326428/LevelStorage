@@ -34,11 +34,11 @@ public class GuiWirelessPowerSync extends GuiContainer {
 	@Override
 	public void initGui() {
 		super.initGui();
-		int xGuiPos = (width - xSize) / 2; // j
-		int yGuiPos = (height - ySize) / 2;
+		int xGuiPos = (this.width - this.xSize) / 2; // j
+		int yGuiPos = (this.height - this.ySize) / 2;
 		this.buttonList.add(new GuiButton(1, xGuiPos + 50, yGuiPos + 35, 75,
 				15, "Change mode"));
-		freqTextBox = new GuiTextField(this.fontRenderer, xGuiPos + 50,
+		this.freqTextBox = new GuiTextField(this.fontRenderer, xGuiPos + 50,
 				yGuiPos + 15, 75, 15);
 		Keyboard.enableRepeatEvents(true);
 		this.freqTextBox.setMaxStringLength(4);
@@ -46,11 +46,12 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		this.freqTextBox.setVisible(true);
 		this.freqTextBox.setFocused(true);
 		this.freqTextBox.setEnableBackgroundDrawing(true);
-		this.freqTextBox.setText(String.valueOf(tileEntity.frequency));
+		this.freqTextBox.setText(String.valueOf(this.tileEntity.frequency));
 		this.freqTextBox.setCanLoseFocus(false);
 
 	}
 
+	@Override
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
@@ -65,21 +66,23 @@ public class GuiWirelessPowerSync extends GuiContainer {
 				|| ch == '5' || ch == '6' || ch == '7' || ch == '8' || ch == '9');
 	}
 
+	@Override
 	protected void keyTyped(char par1, int par2) {
 		if (this.freqTextBox.isFocused()) {
 			// 8 = backspace
 			// 46 = delete
-			if (isCharNumber(par1) || par1 == 8 || par1 == 46) {
+			if (this.isCharNumber(par1) || par1 == 8 || par1 == 46) {
 				this.freqTextBox.textboxKeyTyped(par1, par2);
-				if (freqTextBox.getText() == "")
-					freqTextBox.setText(defaultInputFieldText);
+				if (this.freqTextBox.getText() == "") {
+					this.freqTextBox.setText(defaultInputFieldText);
+				}
 				PacketTextChanged packetTC = new PacketTextChanged();
-				packetTC.dimId = tileEntity.worldObj.provider.dimensionId;
-				packetTC.x = tileEntity.xCoord;
-				packetTC.y = tileEntity.yCoord;
-				packetTC.z = tileEntity.zCoord;
+				packetTC.dimId = this.tileEntity.worldObj.provider.dimensionId;
+				packetTC.x = this.tileEntity.xCoord;
+				packetTC.y = this.tileEntity.yCoord;
+				packetTC.z = this.tileEntity.zCoord;
 				packetTC.textBoxId = 0;
-				packetTC.newText = freqTextBox.getText();
+				packetTC.newText = this.freqTextBox.getText();
 				PacketDispatcher.sendPacketToServer(PacketTypeHandler
 						.populatePacket(packetTC));
 			}
@@ -87,16 +90,18 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		super.keyTyped(par1, par2);
 	}
 
+	@Override
 	public void drawScreen(int par1, int par2, float par3) {
 		super.drawScreen(par1, par2, par3);
-		int xGuiPos = (width - xSize) / 2; // j
-		int yGuiPos = (height - ySize) / 2;
+		int xGuiPos = (this.width - this.xSize) / 2; // j
+		int yGuiPos = (this.height - this.ySize) / 2;
 		// drawRect(169, 49, 200, 60,
 		// Integer.MIN_VALUE);
 		this.freqTextBox.drawTextBox();
 
 	}
 
+	@Override
 	public void updateScreen() {
 		this.freqTextBox.updateCursorCounter();
 	}
@@ -105,10 +110,10 @@ public class GuiWirelessPowerSync extends GuiContainer {
 	protected void actionPerformed(GuiButton par1GuiButton) {
 		PacketPressButton packet = new PacketPressButton();
 		packet.buttonId = par1GuiButton.id;
-		packet.x = tileEntity.xCoord;
-		packet.y = tileEntity.yCoord;
-		packet.z = tileEntity.zCoord;
-		packet.dimId = tileEntity.worldObj.provider.dimensionId;
+		packet.x = this.tileEntity.xCoord;
+		packet.y = this.tileEntity.yCoord;
+		packet.z = this.tileEntity.zCoord;
+		packet.dimId = this.tileEntity.worldObj.provider.dimensionId;
 		PacketDispatcher.sendPacketToServer(PacketTypeHandler
 				.populatePacket(packet));
 	}
@@ -119,16 +124,16 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		// the parameters for drawString are: string, x, y, color
 		// this.fontRenderer.drawString("Wireless Conductor", 8, 6, 4210752);
 		// draws "Inventory" or your regional equivalent
-		int xGuiPos = (width - xSize) / 2; // j
-		int yGuiPos = (height - ySize) / 2;
+		int xGuiPos = (this.width - this.xSize) / 2; // j
+		int yGuiPos = (this.height - this.ySize) / 2;
 		this.fontRenderer.drawString(
 				StatCollector.translateToLocal("container.inventory"), 8,
 				this.ySize - 96 + 2, 4210752);
 		this.fontRenderer.drawString("Frequency: "
-				+ tileEntity.frequency
+				+ this.tileEntity.frequency
 				+ "; "
 				+ "Mode: "
-				+ (tileEntity.type == SyncType.RECEIVER ? "receiver"
+				+ (this.tileEntity.type == SyncType.RECEIVER ? "receiver"
 						: "sender"), 8, 55, 4210752);
 		// String mode = "Mode: " + (tileEntity.type == ConductorType.SOURCE ?
 		// "Energy transmitter" : "Energy receiver");

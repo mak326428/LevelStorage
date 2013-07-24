@@ -22,13 +22,14 @@ public class WirelessPowerSynchronizerRegistry {
 	private WirelessPowerSynchronizerRegistry() {
 		this.registry = new ArrayList<IWirelessPowerSync>();
 	}
-	
+
 	public IWirelessPowerSync[] fromObjectToDeviceArray(Object[] array) {
 		IWirelessPowerSync[] retArray = new IWirelessPowerSync[array.length];
-		
-		for (int i = 0; i < array.length; i++)
-			retArray[i] = (IWirelessPowerSync)array[i];
-		
+
+		for (int i = 0; i < array.length; i++) {
+			retArray[i] = (IWirelessPowerSync) array[i];
+		}
+
 		return retArray;
 	}
 
@@ -41,11 +42,12 @@ public class WirelessPowerSynchronizerRegistry {
 	 */
 	public IWirelessPowerSync[] getDevicesForFreq(int freq) {
 		ArrayList<IWirelessPowerSync> needed = new ArrayList<IWirelessPowerSync>();
-		for (IWirelessPowerSync device : registry) {
-			if (device.getFreq() == freq)
+		for (IWirelessPowerSync device : this.registry) {
+			if (device.getFreq() == freq) {
 				needed.add(device);
+			}
 		}
-		return fromObjectToDeviceArray(needed.toArray());
+		return this.fromObjectToDeviceArray(needed.toArray());
 	}
 
 	/**
@@ -56,10 +58,10 @@ public class WirelessPowerSynchronizerRegistry {
 	 * @return whether or not device was added
 	 */
 	public boolean addDevice(IWirelessPowerSync device) {
-		if (registry.contains(device))
+		if (this.registry.contains(device))
 			return false;
-		registry.add(device);
-		for (IWirelessPowerSync entry : registry) {
+		this.registry.add(device);
+		for (IWirelessPowerSync entry : this.registry) {
 			entry.updateState();
 		}
 		return true;
@@ -73,10 +75,10 @@ public class WirelessPowerSynchronizerRegistry {
 	 * @return whether or not the device was removed
 	 */
 	public boolean removeDevice(IWirelessPowerSync device) {
-		if (!registry.contains(device))
+		if (!this.registry.contains(device))
 			return false;
-		registry.remove(device);
-		for (IWirelessPowerSync entry : registry) {
+		this.registry.remove(device);
+		for (IWirelessPowerSync entry : this.registry) {
 			entry.updateState();
 		}
 		return true;
@@ -90,13 +92,16 @@ public class WirelessPowerSynchronizerRegistry {
 	 * @return Whether or not device exists in registry.
 	 */
 	public boolean isDeviceAdded(IWirelessPowerSync device) {
-		return registry.contains(device);
+		return this.registry.contains(device);
 	}
-	
+
 	/**
 	 * Gets all devices inside registry maching given frequency and type
-	 * @param freq Frequency to find
-	 * @param type Type to match
+	 * 
+	 * @param freq
+	 *            Frequency to find
+	 * @param type
+	 *            Type to match
 	 * @return All devices in registry matching given frequency and type
 	 */
 	public IWirelessPowerSync[] getDevicesForFreqAndType(int freq, SyncType type) {
@@ -109,13 +114,14 @@ public class WirelessPowerSynchronizerRegistry {
 			}
 		}
 
-		return fromObjectToDeviceArray(needed.toArray());
+		return this.fromObjectToDeviceArray(needed.toArray());
 	}
-	
-	//public boolean updateRegistryEntry(IWirelessPowerSync device, SyncType newType) {
-	//	if (!registry.contains(device))
-	//		return false;
-	//	registry.set(registry.indexOf(device), device);
-	//}
+
+	// public boolean updateRegistryEntry(IWirelessPowerSync device, SyncType
+	// newType) {
+	// if (!registry.contains(device))
+	// return false;
+	// registry.set(registry.indexOf(device), device);
+	// }
 
 }

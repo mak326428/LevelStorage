@@ -62,24 +62,22 @@ public class LevelStorage {
 				config.getBlock(blockWirelessConductor, 239).getInt());
 		BlockItemIds.instance.addId(blockWlessPowerSync,
 				config.getBlock(blockWlessPowerSync, 240).getInt());
-		
+
 		LevelStorage.itemLevelStorageBookSpace = config.get(
 				Configuration.CATEGORY_GENERAL, "XPBookCapacity", 16384)
 				.getInt();
 		config.save();
 	}
-	
+
 	@EventHandler
-    public void serverStarting(FMLServerStartingEvent event) 
-    {
-        WirelessPowerSynchronizerRegistry.instance.registry.clear();
-    }
-	
-	@EventHandler
-    public void serverStopping(FMLServerStoppingEvent event) 
-    {
+	public void serverStarting(FMLServerStartingEvent event) {
 		WirelessPowerSynchronizerRegistry.instance.registry.clear();
-    }
+	}
+
+	@EventHandler
+	public void serverStopping(FMLServerStoppingEvent event) {
+		WirelessPowerSynchronizerRegistry.instance.registry.clear();
+	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {

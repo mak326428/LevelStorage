@@ -47,13 +47,14 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		switch (id) {
 		case 1: {
 			// Just simply invert our type
-			type = type == ConductorType.SINK ? ConductorType.SOURCE
+			this.type = this.type == ConductorType.SINK ? ConductorType.SOURCE
 					: ConductorType.SINK;
 			break;
 		}
 		}
 	}
 
+	@Override
 	public int getMaxEnergyOutput() {
 		return MAX_PACKET_SIZE;
 	}
@@ -90,7 +91,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	@Override
 	public boolean isAddedToEnergyNet() {
-		return addedToENet;
+		return this.addedToENet;
 	}
 
 	@Override
@@ -106,9 +107,8 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	@Override
 	public int demandsEnergy() {
 		if (this.type == ConductorType.SOURCE) {
-			if (safePair != null) {
+			if (this.safePair != null)
 				return MAX_PACKET_SIZE;
-			}
 		}
 		return 0;
 	}
@@ -116,9 +116,8 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	@Override
 	public int injectEnergy(Direction directionFrom, int amount) {
 		if (this.type == ConductorType.SOURCE) {
-			if (safePair != null) {
-				return safePair.receiveEnergy(amount);
-			}
+			if (this.safePair != null)
+				return this.safePair.receiveEnergy(amount);
 		}
 		return amount;
 	}
@@ -194,12 +193,13 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		super.invalidate();
 	}
 
+	@Override
 	public ConductorType getType() {
 		return this.type;
 	}
 
 	public IWirelessConductor getSafePair() {
-		ItemStack stack = inv[0];
+		ItemStack stack = this.inv[0];
 		if (stack != null) {
 			if (ItemFrequencyCard.isValid(stack)) {
 				int x = stack.stackTagCompound
@@ -219,12 +219,8 @@ public class TileEntityWirelessConductor extends TileEntity implements
 							if (WirelessConductorRegistry.instance
 									.isAddedToRegistry((IWirelessConductor) te)) {
 								ConductorType pairType = conductor.getType();
-								if (this.getType() != pairType) {
+								if (this.getType() != pairType)
 									return conductor;
-								}
-								// ConductorType oppositePairType = pairType ==
-								// ConductorType.SINK ? ConductorType.SOURCE :
-								// ConductorType.SINK;
 							}
 						}
 					}
@@ -251,9 +247,9 @@ public class TileEntityWirelessConductor extends TileEntity implements
 					.setConductorType(this, this.type);
 		}
 
-		safePair = getSafePair();
+		this.safePair = this.getSafePair();
 
-		if (safePair != null) {
+		if (this.safePair != null) {
 			// System.out.println("Safe pair established");
 		}
 	}

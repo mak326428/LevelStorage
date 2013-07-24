@@ -12,7 +12,7 @@ public interface IWirelessConductor {
 	 * X coord for the current instance
 	 */
 	public int getX();
-	
+
 	/**
 	 * Type for current instance
 	 */

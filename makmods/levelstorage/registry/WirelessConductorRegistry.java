@@ -25,14 +25,16 @@ public class WirelessConductorRegistry {
 	 */
 	public boolean addConductorToRegistry(IWirelessConductor conductor,
 			ConductorType type) {
-		if (this.conductors.containsKey(conductor))
+		if (this.conductors.containsKey(conductor)) {
 			this.conductors.remove(conductor);
+		}
 		this.conductors.put(conductor, type);
 		return true;
 	}
-	
+
 	/**
 	 * Gets all the entries inside registry
+	 * 
 	 * @return entries
 	 */
 	public Map<IWirelessConductor, ConductorType> getEntries() {

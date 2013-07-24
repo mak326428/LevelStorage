@@ -1,6 +1,5 @@
 package makmods.levelstorage.gui;
 
-import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,14 +12,14 @@ import net.minecraft.item.ItemStack;
 public class ContainerPowerSync extends Container {
 
 	protected TileEntityWirelessPowerSynchronizer tileEntity;
-	
+
 	public ContainerPowerSync(InventoryPlayer inventoryPlayer,
 			TileEntityWirelessPowerSynchronizer te) {
 		this.tileEntity = te;
-		
+
 		this.bindPlayerInventory(inventoryPlayer);
 	}
-	
+
 	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -34,30 +33,31 @@ public class ContainerPowerSync extends Container {
 					142));
 		}
 	}
-	
+
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 
-		for (int i = 0; i < crafters.size(); i++) {
-			ICrafting icrafting = (ICrafting) crafters.get(i);
-			icrafting.sendProgressBarUpdate(this, 0, tileEntity.frequency);
-			icrafting.sendProgressBarUpdate(this, 1, tileEntity.type.ordinal());
+		for (int i = 0; i < this.crafters.size(); i++) {
+			ICrafting icrafting = (ICrafting) this.crafters.get(i);
+			icrafting.sendProgressBarUpdate(this, 0, this.tileEntity.frequency);
+			icrafting.sendProgressBarUpdate(this, 1,
+					this.tileEntity.type.ordinal());
 		}
 	}
-	
+
 	@Override
 	public void updateProgressBar(int i, int j) {
 		switch (i) {
 		case 0:
-			tileEntity.frequency = j;
+			this.tileEntity.frequency = j;
 			break;
 		case 1:
-			tileEntity.type = SyncType.values()[j];
+			this.tileEntity.type = SyncType.values()[j];
 			break;
 		}
 	}
-	
+
 	// We have no slots, so.. just to prevent Ex...
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,

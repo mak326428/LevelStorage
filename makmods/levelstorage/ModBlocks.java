@@ -42,17 +42,21 @@ public class ModBlocks {
 				"tile.blockWirelessConductor");
 		GameRegistry.registerBlock(this.blockWlessPowerSync,
 				"tile.blockWirelessPowerSynchronizer");
-		
 
 	}
 
 	private void addBlockNames() {
-		LanguageRegistry.instance().addName(this.blockXpCharger, "XP Charger");
-		LanguageRegistry.instance().addName(this.blockWlessConductor,
-				"Wireless Conductor");
-		LanguageRegistry.instance().addName(this.blockXpGen, "XP Generator");
-		LanguageRegistry.instance().addName(this.blockWlessPowerSync, "Wireless Power Synchronizer");
-		
+		LanguageRegistry.instance();
+		LanguageRegistry.addName(this.blockXpCharger, "XP Charger");
+		LanguageRegistry.instance();
+		LanguageRegistry
+				.addName(this.blockWlessConductor, "Wireless Conductor");
+		LanguageRegistry.instance();
+		LanguageRegistry.addName(this.blockXpGen, "XP Generator");
+		LanguageRegistry.instance();
+		LanguageRegistry.addName(this.blockWlessPowerSync,
+				"Wireless Power Synchronizer");
+
 	}
 
 	private void addRecipes() {
@@ -93,7 +97,6 @@ public class ModBlocks {
 				"pickaxe", 1);
 		MinecraftForge.setBlockHarvestLevel(this.blockWlessPowerSync,
 				"pickaxe", 1);
-		
 
 	}
 

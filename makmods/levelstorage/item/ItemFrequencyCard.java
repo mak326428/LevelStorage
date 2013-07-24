@@ -5,14 +5,11 @@ import java.util.List;
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.proxy.ClientProxy;
-import makmods.levelstorage.registry.WirelessConductorRegistry;
-import makmods.levelstorage.tileentity.IWirelessConductor;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
@@ -102,6 +99,7 @@ public class ItemFrequencyCard extends Item {
 	/**
 	 * just if you want to easier get rid of invalid cards
 	 */
+	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
 		if (!par2World.isRemote) {
@@ -109,8 +107,7 @@ public class ItemFrequencyCard extends Item {
 				if (par3EntityPlayer.isSneaking()) {
 					verifyStack(par1ItemStack);
 					if (!isValid(par1ItemStack)) {
-						par1ItemStack = new ItemStack(
-								ModItems.instance.itemFreqCard);
+						par1ItemStack = new ItemStack(ModItems.itemFreqCard);
 						verifyStack(par1ItemStack);
 					}
 				}

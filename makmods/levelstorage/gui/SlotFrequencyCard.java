@@ -17,7 +17,8 @@ public class SlotFrequencyCard extends SlotBook {
 
 	public static boolean checkItemValidity(ItemStack stack) {
 		boolean validForSlot = true;
-		validForSlot = validForSlot && stack.getItem() instanceof ItemFrequencyCard;
+		validForSlot = validForSlot
+				&& stack.getItem() instanceof ItemFrequencyCard;
 		validForSlot = validForSlot && ItemFrequencyCard.isValid(stack);
 		return validForSlot;
 	}

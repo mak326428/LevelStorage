@@ -12,7 +12,6 @@ import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.registry.IWirelessPowerSync;
 import makmods.levelstorage.registry.SyncType;
-import makmods.levelstorage.registry.WirelessConductorRegistry;
 import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -35,45 +34,52 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 
 	public int timeForUpdate = 0;
 
+	@Override
 	public int getX() {
 		return this.xCoord;
 	}
 
+	@Override
 	public int getY() {
 		return this.yCoord;
 	}
 
+	@Override
 	public int getZ() {
 		return this.zCoord;
 	}
 
+	@Override
 	public World getWorld() {
 		return this.worldObj;
 	}
 
+	@Override
 	public int getFreq() {
 		return this.frequency;
 	}
 
+	@Override
 	public SyncType getType() {
 		return this.type;
 	}
 
 	@Override
 	public void onChunkUnload() {
-		unloadEverything();
+		this.unloadEverything();
 		super.onChunkUnload();
 	}
-	
+
 	public void loadEverything() {
-		if (!WirelessPowerSynchronizerRegistry.instance.isDeviceAdded(this))
+		if (!WirelessPowerSynchronizerRegistry.instance.isDeviceAdded(this)) {
 			WirelessPowerSynchronizerRegistry.instance.addDevice(this);
+		}
 		if (!this.addedToENet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			this.addedToENet = true;
 		}
 	}
-	
+
 	public void unloadEverything() {
 		WirelessPowerSynchronizerRegistry.instance.removeDevice(this);
 		if (this.addedToENet) {
@@ -84,10 +90,11 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 
 	@Override
 	public void invalidate() {
-		unloadEverything();
+		this.unloadEverything();
 		super.invalidate();
 	}
 
+	@Override
 	public int receiveEnergy(int amount) {
 		if (this.type == SyncType.TRANSMITTER)
 			return amount;
@@ -99,19 +106,22 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		}
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
 		this.frequency = par1NBTTagCompound.getInteger(NBT_FREQUENCY);
 		this.type = SyncType.values()[par1NBTTagCompound.getInteger(NBT_MODE)];
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger(NBT_FREQUENCY, frequency);
+		par1NBTTagCompound.setInteger(NBT_FREQUENCY, this.frequency);
 		par1NBTTagCompound.setInteger(NBT_MODE, this.type.ordinal());
 
 	}
 
+	@Override
 	public boolean doesNeedEnergy() {
 		return this.getType() == SyncType.RECEIVER;
 	}
@@ -119,7 +129,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	public IWirelessPowerSync[] pairs;
 
 	public TileEntityWirelessPowerSynchronizer() {
-		type = SyncType.RECEIVER;
+		this.type = SyncType.RECEIVER;
 	}
 
 	@Override
@@ -127,6 +137,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		return new ItemStack(ModBlocks.instance.blockWlessPowerSync);
 	}
 
+	@Override
 	public int getMaxEnergyOutput() {
 		return MAX_PACKET_SIZE;
 	}
@@ -163,7 +174,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 
 	@Override
 	public boolean isAddedToEnergyNet() {
-		return addedToENet;
+		return this.addedToENet;
 	}
 
 	@Override
@@ -181,10 +192,9 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		if (this.type == SyncType.TRANSMITTER) {
 			if (this.pairs != null) {
 				if (this.pairs.length > 0) {
-					for (IWirelessPowerSync ent : pairs) {
-						if (ent.doesNeedEnergy()) {
+					for (IWirelessPowerSync ent : this.pairs) {
+						if (ent.doesNeedEnergy())
 							return MAX_PACKET_SIZE;
-						}
 					}
 				}
 			}
@@ -192,12 +202,13 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		return 0;
 	}
 
+	@Override
 	public void updateState() {
-		pairs = WirelessPowerSynchronizerRegistry.instance
+		this.pairs = WirelessPowerSynchronizerRegistry.instance
 				.getDevicesForFreqAndType(this.frequency,
-						Helper.invertType(type));
+						Helper.invertType(this.type));
 	}
-	
+
 	public int lastX;
 	public int lastY;
 	public int lastZ;
@@ -206,20 +217,21 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	public void updateEntity() {
 		if (!this.worldObj.isRemote) {
 			// WirelessPowerSynchronizerRegistry.instance.registry.clear();
-			if (lastX != this.xCoord || lastY != this.yCoord || lastZ != this.zCoord) {
+			if (this.lastX != this.xCoord || this.lastY != this.yCoord
+					|| this.lastZ != this.zCoord) {
 				System.out.println("You moved Synchronizer. Reloading");
-				unloadEverything();
-				loadEverything();
+				this.unloadEverything();
+				this.loadEverything();
 			}
-			loadEverything();
+			this.loadEverything();
 			// timeForUpdate++;
 			// if (timeForUpdate > 40) {
-			updateState();
+			this.updateState();
 			// }
-			lastX = xCoord;
-			lastY = yCoord;
-			lastZ = zCoord;
-			
+			this.lastX = this.xCoord;
+			this.lastY = this.yCoord;
+			this.lastZ = this.zCoord;
+
 		}
 	}
 
@@ -228,10 +240,11 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 			int energyNotUsed = 0;
 
 			int forEach = amount;
-			if (pairs.length > 0)
+			if (this.pairs.length > 0) {
 				forEach = amount / this.pairs.length;
+			}
 
-			for (IWirelessPowerSync s : pairs) {
+			for (IWirelessPowerSync s : this.pairs) {
 				energyNotUsed += s.receiveEnergy(forEach);
 			}
 			return energyNotUsed;
@@ -242,16 +255,15 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	@Override
 	public int injectEnergy(Direction directionFrom, int amount) {
 
-		if (this.type == SyncType.TRANSMITTER) {
-			return sendEnergyEqually(amount);
-		}
+		if (this.type == SyncType.TRANSMITTER)
+			return this.sendEnergyEqually(amount);
 		return amount;
 	}
 
 	@Override
 	public void handleTextChange(String newText) {
 		try {
-			frequency = Integer.parseInt(newText);
+			this.frequency = Integer.parseInt(newText);
 			for (IWirelessPowerSync entry : WirelessPowerSynchronizerRegistry.instance.registry) {
 				entry.updateState();
 			}

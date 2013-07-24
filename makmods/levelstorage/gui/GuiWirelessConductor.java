@@ -15,48 +15,53 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiWirelessConductor extends GuiContainer {
-	
+
 	public TileEntityWirelessConductor tileEntity;
-	
+
 	public GuiWirelessConductor(InventoryPlayer inventoryPlayer,
 			TileEntityWirelessConductor tileEntity) {
 		super(new ContainerWirelessConductor(inventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
 	}
-	
+
 	@Override
 	public void initGui() {
 		super.initGui();
-        int xGuiPos = (width - xSize) / 2;  //j
-        int yGuiPos = (height - ySize) / 2;
-        this.buttonList.add(new GuiButton(1, xGuiPos + 50, yGuiPos + 15, 75, 15, "Change mode"));
+		int xGuiPos = (this.width - this.xSize) / 2; // j
+		int yGuiPos = (this.height - this.ySize) / 2;
+		this.buttonList.add(new GuiButton(1, xGuiPos + 50, yGuiPos + 15, 75,
+				15, "Change mode"));
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
 		// draw text and stuff here
 		// the parameters for drawString are: string, x, y, color
-		//this.fontRenderer.drawString("Wireless Conductor", 8, 6, 4210752);
+		// this.fontRenderer.drawString("Wireless Conductor", 8, 6, 4210752);
 		// draws "Inventory" or your regional equivalent
-		int xGuiPos = (width - xSize) / 2;  //j
-        int yGuiPos = (height - ySize) / 2;
+		int xGuiPos = (this.width - this.xSize) / 2; // j
+		int yGuiPos = (this.height - this.ySize) / 2;
 		this.fontRenderer.drawString(
 				StatCollector.translateToLocal("container.inventory"), 8,
 				this.ySize - 96 + 2, 4210752);
-		String mode = "Mode: " + (tileEntity.type == ConductorType.SOURCE ? "Energy transmitter" : "Energy receiver");
+		String mode = "Mode: "
+				+ (this.tileEntity.type == ConductorType.SOURCE ? "Energy transmitter"
+						: "Energy receiver");
 		this.fontRenderer.drawString(mode, 8, 55, 4210752);
 	}
-	
+
 	@Override
 	protected void actionPerformed(GuiButton par1GuiButton) {
-		//NetworkHelper.initiateClientTileEntityEvent(tileEntity, par1GuiButton.id);
+		// NetworkHelper.initiateClientTileEntityEvent(tileEntity,
+		// par1GuiButton.id);
 		PacketPressButton packet = new PacketPressButton();
 		packet.buttonId = par1GuiButton.id;
-		packet.x = tileEntity.xCoord;
-		packet.y = tileEntity.yCoord;
-		packet.z = tileEntity.zCoord;
-		packet.dimId = tileEntity.worldObj.provider.dimensionId;
-		PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(packet));
+		packet.x = this.tileEntity.xCoord;
+		packet.y = this.tileEntity.yCoord;
+		packet.z = this.tileEntity.zCoord;
+		packet.dimId = this.tileEntity.worldObj.provider.dimensionId;
+		PacketDispatcher.sendPacketToServer(PacketTypeHandler
+				.populatePacket(packet));
 	}
 
 	@Override

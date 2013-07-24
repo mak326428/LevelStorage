@@ -32,10 +32,9 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessConductor)
 			return new ContainerWirelessConductor(player.inventory,
 					(TileEntityWirelessConductor) tileEntity);
-		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer) {
+		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new ContainerPowerSync(player.inventory,
 					(TileEntityWirelessPowerSynchronizer) tileEntity);
-		}
 		return null;
 	}
 
@@ -56,7 +55,7 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new GuiWirelessPowerSync(player.inventory,
 					(TileEntityWirelessPowerSynchronizer) tileEntity);
-		
+
 		return null;
 
 	}

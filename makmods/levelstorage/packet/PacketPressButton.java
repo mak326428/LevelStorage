@@ -14,7 +14,7 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.Player;
 
 public class PacketPressButton extends PacketLV {
-	
+
 	public int buttonId;
 	public int x;
 	public int y;
@@ -24,7 +24,7 @@ public class PacketPressButton extends PacketLV {
 	public PacketPressButton() {
 		super(PacketTypeHandler.PACKET_PRESS_BUTTON, false);
 	}
-	
+
 	@Override
 	public void readData(DataInputStream data) throws IOException {
 		this.buttonId = data.readInt();
@@ -36,30 +36,31 @@ public class PacketPressButton extends PacketLV {
 
 	@Override
 	public void writeData(DataOutputStream dos) throws IOException {
-		dos.writeInt(buttonId);
-		dos.writeInt(x);
-		dos.writeInt(y);
-		dos.writeInt(z);
-		dos.writeInt(dimId);
+		dos.writeInt(this.buttonId);
+		dos.writeInt(this.x);
+		dos.writeInt(this.y);
+		dos.writeInt(this.z);
+		dos.writeInt(this.dimId);
 	}
 
 	@Override
 	public void execute(INetworkManager network, Player player) {
 		try {
-			WorldServer world = DimensionManager.getWorld(dimId);
-			
+			WorldServer world = DimensionManager.getWorld(this.dimId);
+
 			if (world != null) {
-				TileEntity te = world.getBlockTileEntity(x, y, z);
+				TileEntity te = world
+						.getBlockTileEntity(this.x, this.y, this.z);
 				if (te != null) {
 					if (te instanceof IHasButtons) {
-						IHasButtons ihb = (IHasButtons)te;
-						ihb.handleButtonClick(buttonId);
+						IHasButtons ihb = (IHasButtons) te;
+						ihb.handleButtonClick(this.buttonId);
 					}
 				}
 			}
-		}
-		catch (Exception e) {
-			FMLLog.log(Level.SEVERE, "LevelStorage: PacketPressButton - exception:");
+		} catch (Exception e) {
+			FMLLog.log(Level.SEVERE,
+					"LevelStorage: PacketPressButton - exception:");
 			e.printStackTrace();
 		}
 	}

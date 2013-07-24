@@ -66,10 +66,10 @@ public class ModItems {
 		// Frequency card
 		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
 		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-				this.itemFreqCard), frequencyTr, new ItemStack(Item.paper));
+				ModItems.itemFreqCard), frequencyTr, new ItemStack(Item.paper));
 		// To get rid of card data
 		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-				ModItems.itemFreqCard), new ItemStack(this.itemFreqCard));
+				ModItems.itemFreqCard), new ItemStack(ModItems.itemFreqCard));
 		CraftingManager.getInstance().getRecipeList()
 				.add(new ExperienceRecipe());
 	}
