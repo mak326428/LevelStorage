@@ -77,6 +77,8 @@ public class ExperienceRecipe implements IRecipe {
 		
 		if (totalXp == 0)
 			return null;
+		if (!seenBook)
+			return null;
 		ItemStack result = new ItemStack(ModItems.itemLevelStorageBook);
 		result.stackTagCompound = new NBTTagCompound();
 		result.stackTagCompound.setInteger(ItemLevelStorageBook.STORED_XP_NBT,
