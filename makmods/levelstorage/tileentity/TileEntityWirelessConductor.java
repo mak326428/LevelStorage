@@ -235,6 +235,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	@Override
 	public void updateEntity() {
+		
 		if (!this.addedToENet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			this.addedToENet = true;

@@ -34,8 +34,15 @@ public class ItemWirelessConductorRender implements IItemRenderer {
 			return;
 		}
 		case EQUIPPED: {
-			GL11.glRotatef(-90F, 0F, 0F, 1F);
-			renderConductor(1F, 0.375F, 2F, 1.4F);
+			//GL11.glRotatef(-45F, 0F, 0F, 1F);
+			//GL11.glRotatef(-45F, 0F, 1F, 0F);
+			
+			//renderConductor(1F, 0.375F, 2F, 1.4F);
+			//GL11.glRotatef(-45F, 1F, 0F, 0F);
+			//GL11.glRotatef(-45F, 0F, 1F, 0F);
+			//GL11.glRotatef(-45F, 0F, 0F, 1F);
+			
+			renderConductor(0F, 0F, 1.375F, 1.4F);
 			return;
 		}
 		case EQUIPPED_FIRST_PERSON: {
