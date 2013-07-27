@@ -26,7 +26,7 @@ public class ClientProxy extends CommonProxy {
 			.toLowerCase() + ":" + "blockWirelessConductor";
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
-	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/FirstModeltexture.png");
+	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	
 	public static final String XP_GEN_TEXTURE = Reference.MOD_ID.toLowerCase()
 			+ ":" + "blockXpGen";
