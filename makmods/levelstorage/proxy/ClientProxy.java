@@ -1,10 +1,16 @@
 package makmods.levelstorage.proxy;
 
+import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.lib.Reference;
+import makmods.levelstorage.render.ItemWirelessConductorRender;
+import makmods.levelstorage.render.WirelessConductorRender;
+import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.MinecraftForgeClient;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -20,7 +26,8 @@ public class ClientProxy extends CommonProxy {
 			.toLowerCase() + ":" + "blockWirelessConductor";
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
-
+	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/FirstModeltexture.png");
+	
 	public static final String XP_GEN_TEXTURE = Reference.MOD_ID.toLowerCase()
 			+ ":" + "blockXpGen";
 	public static final String XP_CHARGER_TEXTURE = Reference.MOD_ID
@@ -43,6 +50,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init() {
 		super.init();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWirelessConductor.class, new WirelessConductorRender());
+		MinecraftForgeClient.registerItemRenderer(ModBlocks.instance.blockWlessConductor.blockID, new ItemWirelessConductorRender());
 	}
 
 	@Override

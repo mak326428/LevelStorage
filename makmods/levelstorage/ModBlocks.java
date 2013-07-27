@@ -97,7 +97,6 @@ public class ModBlocks {
 				"pickaxe", 1);
 		MinecraftForge.setBlockHarvestLevel(this.blockWlessPowerSync,
 				"pickaxe", 1);
-
 	}
 
 	public void init() {

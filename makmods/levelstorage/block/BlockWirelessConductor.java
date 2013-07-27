@@ -36,6 +36,7 @@ public class BlockWirelessConductor extends BlockContainer {
 		this.setUnlocalizedName("blockWirelessConductor");
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
+		this.setBlockBounds(0F, 0F, 0F, 1F, 0.375F, 1F);
 	}
 
 	private Icon down;
@@ -43,6 +44,23 @@ public class BlockWirelessConductor extends BlockContainer {
 	private Icon side;
 
 	public ItemStack advMachine = Items.getItem("advancedMachine");
+
+	// You don't want the normal render type, or it wont render properly.
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
+
+	// It's not an opaque cube, so you need this.
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	// It's not a normal block, so you need this too.
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3) {
