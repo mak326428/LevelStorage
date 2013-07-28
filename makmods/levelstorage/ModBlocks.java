@@ -29,9 +29,9 @@ public class ModBlocks {
 	}
 
 	private void initBlocks() {
-		
+
 	}
-	
+
 	private void createBlocks() {
 		this.blockXpGen = new BlockXpGenerator();
 		this.blockXpCharger = new BlockXpCharger();
@@ -81,11 +81,16 @@ public class ModBlocks {
 		ItemStack transformerHv = Items.getItem("hvTransformer");
 		ItemStack enderPearl = new ItemStack(Item.enderPearl);
 		ItemStack advCircuit = Items.getItem("advancedCircuit");
+		ItemStack sync = new ItemStack(blockWlessPowerSync, 4);
 
 		Recipes.advRecipes.addRecipe(new ItemStack(this.blockWlessConductor),
 				"tmt", "cec", "chc", Character.valueOf('t'), frequencyTr,
 				Character.valueOf('e'), enderPearl, Character.valueOf('c'),
 				advCircuit, Character.valueOf('h'), transformerHv,
+				Character.valueOf('m'), advMachine);
+		Recipes.advRecipes.addRecipe(sync, "ccc", "ama", "ccc",
+				Character.valueOf('a'), advCircuit, Character.valueOf('c'),
+				new ItemStack(this.blockWlessConductor),
 				Character.valueOf('m'), advMachine);
 
 	}

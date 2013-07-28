@@ -21,9 +21,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemAdvancedScanner extends Item implements IElectricItem {
-	
+
 	public static final String UNLOCALIZED_NAME = "advScanner";
-	
+
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
 	public static final int COOLDOWN_PERIOD = 20;
@@ -69,10 +69,20 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 	public void printMessage(String message, EntityPlayer player) {
 		LevelStorage.proxy.messagePlayer(player, message, new Object[0]);
 	}
-	
+
 	private static boolean isNumberNegative(int number) {
 		// Sneaky, right?
 		return Math.abs(number) != number;
+	}
+	
+	@Override
+	public void addInformation(ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+		par3List.add("\247cThere currently is a bug: ");
+		par3List.add("\247cthis device will only work");
+		par3List.add("\247cin areas with positive coordinates (x and z)");
+		
+		
 	}
 
 	@Override
@@ -94,54 +104,64 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 			int chunkZ = (int) par3EntityPlayer.posZ / 16;
 			int playerY = (int) par3EntityPlayer.posY;
 
-			/*for (int y = 0; y < playerY; y++) {
-				for (int x = chunkX * 16; x != chunkX * 17; x++) {
-					for (int z = chunkZ * 16; z != chunkZ * 17; z++) {
-						ItemStack foundStack = new ItemStack(
-								par2World.getBlockId(x, y, z), 1,
-								par2World.getBlockMetadata(x, y, z));
-						blocksFound.add(foundStack);
+			/*
+			 * for (int y = 0; y < playerY; y++) { for (int x = chunkX * 16; x
+			 * != chunkX * 17; x++) { for (int z = chunkZ * 16; z != chunkZ *
+			 * 17; z++) { ItemStack foundStack = new ItemStack(
+			 * par2World.getBlockId(x, y, z), 1, par2World.getBlockMetadata(x,
+			 * y, z)); blocksFound.add(foundStack); } } }
+			 */
+			if (!isNumberNegative(chunkZ) && !isNumberNegative(chunkX)) {
+				for (int y = 0; y < playerY; y++) {
+					for (int x = chunkX * 16; x < chunkX * 17; x++) {
+						for (int z = chunkZ * 16; z < chunkZ * 17; z++) {
+							ItemStack foundStack = new ItemStack(
+									par2World.getBlockId(x, y, z), 1,
+									par2World.getBlockMetadata(x, y, z));
+							blocksFound.add(foundStack);
+						}
+					}
+				}
+			}
+			
+			/*if (isNumberNegative(chunkZ) && isNumberNegative(chunkX)) {
+				for (int y = 0; y < playerY; y++) {
+					for (int x = chunkX * 16; x > chunkX * 17; x++) {
+						for (int z = chunkZ * 16; z > chunkZ * 17; z++) {
+							ItemStack foundStack = new ItemStack(
+									par2World.getBlockId(x, y, z), 1,
+									par2World.getBlockMetadata(x, y, z));
+							blocksFound.add(foundStack);
+						}
 					}
 				}
 			}*/
-			
-			int currX = chunkX * 16, currY = 0, currZ = chunkZ * 16;
-			while (true) {
-				currY++;
-				while (true) {
-					if (isNumberNegative(chunkX)) {
-						currX--;
-					} else {
-						currX++;
-					}
-					
-					while (true) {
-						if (isNumberNegative(chunkZ)) {
-							currZ--;
-						} else {
-							currZ++;
-						}
-						
-						ItemStack foundStack = new ItemStack(
-								par2World.getBlockId(currX, currY, currZ), 1,
-								par2World.getBlockMetadata(currX, currY, currZ));
-						blocksFound.add(foundStack);
-						
-						if (currZ == chunkZ * 17)
-							break;
-					}
-					
-					if (currX == chunkX * 17)
-						break;
-				}
-				if (currY >= playerY)
-					break;
-			}
+
+			/*
+			 * int currX = chunkX * 16, currY = 0, currZ = chunkZ * 16; while
+			 * (true) { currY++; System.out.println("y: " + currY); while (true)
+			 * { if (isNumberNegative(chunkX)) { currX--; } else { currX++; }
+			 * 
+			 * System.out.println("x: " + currX);
+			 * 
+			 * while (true) { if (isNumberNegative(chunkZ)) { currZ--; } else {
+			 * currZ++; } System.out.println("z: " + currZ); ItemStack
+			 * foundStack = new ItemStack( par2World.getBlockId(currX, currY,
+			 * currZ), 1, par2World.getBlockMetadata(currX, currY, currZ));
+			 * blocksFound.add(foundStack);
+			 * 
+			 * if (isNumberNegative(currZ)) { if (currZ <= chunkZ * 17) break; }
+			 * else { if (currZ >= chunkZ * 17) break; } }
+			 * 
+			 * if (isNumberNegative(currX)) { if (currX <= chunkX * 17) break; }
+			 * else { if (currX >= chunkX * 17) break; } } if (currY >= playerY)
+			 * break; }
+			 */
 
 			this.printMessage("", par3EntityPlayer);
 			this.printMessage("", par3EntityPlayer);
-			this.printMessage("Found materials at chunk " + chunkX + ":"
-					+ chunkZ + " below " + playerY, par3EntityPlayer);
+			this.printMessage("Found materials in your surroundings",
+					par3EntityPlayer);
 			this.printMessage("", par3EntityPlayer);
 			ArrayList<String> names = new ArrayList<String>();
 			ArrayList<CollectedStatInfo> info = new ArrayList<CollectedStatInfo>();
