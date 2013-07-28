@@ -12,6 +12,7 @@ import makmods.levelstorage.block.BlockXpCharger;
 import makmods.levelstorage.block.BlockXpGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -72,11 +73,16 @@ public class ModBlocks {
 				goldIngot, Character.valueOf('a'), advMachine,
 				Character.valueOf('m'), machine, Character.valueOf('e'),
 				generator);
-		GameRegistry.addRecipe(blockXpChargerStack, "iai", "geg", "imi",
-				Character.valueOf('i'), refIron, Character.valueOf('g'),
-				goldIngot, Character.valueOf('a'), advMachine,
-				Character.valueOf('m'), machine, Character.valueOf('e'),
-				blockXpGenStack);
+
+		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
+				"enableChargerRecipe", true).getBoolean(true)) {
+			GameRegistry.addRecipe(blockXpChargerStack, "iai", "geg", "imi",
+					Character.valueOf('i'), refIron, Character.valueOf('g'),
+					goldIngot, Character.valueOf('a'), advMachine,
+					Character.valueOf('m'), machine, Character.valueOf('e'),
+					blockXpGenStack);
+		}
+
 		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
 		ItemStack transformerHv = Items.getItem("hvTransformer");
 		ItemStack enderPearl = new ItemStack(Item.enderPearl);
@@ -88,6 +94,7 @@ public class ModBlocks {
 				Character.valueOf('e'), enderPearl, Character.valueOf('c'),
 				advCircuit, Character.valueOf('h'), transformerHv,
 				Character.valueOf('m'), advMachine);
+
 		Recipes.advRecipes.addRecipe(sync, "ccc", "ama", "ccc",
 				Character.valueOf('a'), advCircuit, Character.valueOf('c'),
 				new ItemStack(this.blockWlessConductor),
