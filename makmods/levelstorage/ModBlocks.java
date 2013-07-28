@@ -2,6 +2,10 @@ package makmods.levelstorage;
 
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
+
+import java.util.Iterator;
+import java.util.Map;
+
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
 import makmods.levelstorage.block.BlockXpCharger;
@@ -9,6 +13,7 @@ import makmods.levelstorage.block.BlockXpGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -24,15 +29,30 @@ public class ModBlocks {
 	}
 
 	private void initBlocks() {
+		
+	}
+	
+	//@IDontWantThisToLetMeCompileSoIWriteBullshtHere
+	private void createBlocks() {
+		System.out.println("createBlocks");
+		Iterator it = BlockItemIds.instance.ids.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
+			
+			String forWhat = pair.getKey();
+			int id = pair.getValue();
+			System.out.println("forWhat: " + forWhat + ", id: " + id);
+			
+			it.remove();
+		}
 		this.blockXpGen = new BlockXpGenerator(
-				BlockItemIds.instance.getIdFor("blockXpGenId"));
+				BlockItemIds.instance.getIdFor(blockXpGen.getUnlocalizedName()));
 		this.blockXpCharger = new BlockXpCharger(
-				BlockItemIds.instance.getIdFor("blockXpChargerId"));
+				BlockItemIds.instance.getIdFor(blockXpCharger.getUnlocalizedName()));
 		this.blockWlessConductor = new BlockWirelessConductor(
-				BlockItemIds.instance.getIdFor("blockWirelessConductor"));
+				BlockItemIds.instance.getIdFor(blockWlessConductor.getUnlocalizedName()));
 		this.blockWlessPowerSync = new BlockWirelessPowerSynchronizer(
-				BlockItemIds.instance.getIdFor("blockWlessPowerSync"));
-
+				BlockItemIds.instance.getIdFor(blockWlessPowerSync.getUnlocalizedName()));
 	}
 
 	private void registerBlocks() {
@@ -100,6 +120,7 @@ public class ModBlocks {
 	}
 
 	public void init() {
+		this.createBlocks();
 		this.initBlocks();
 		this.registerBlocks();
 		this.addBlockNames();

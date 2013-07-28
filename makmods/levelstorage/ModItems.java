@@ -31,6 +31,7 @@ public class ModItems {
 	private ModItems() {
 	}
 
+
 	private void initItems() {
 		itemLevelStorageBook = new ItemLevelStorageBook(
 				BlockItemIds.instance.getIdFor("itemXPBookId"),
@@ -109,5 +110,19 @@ public class ModItems {
 		this.addRecipes();
 		this.addItemNames();
 		this.addCustomFeatures();
+	}
+	
+	
+	private class ModBlock {
+		public String blockName;
+		public Block block;
+		
+		public ModBlock() {
+			
+		}
+		
+		private void register() {
+			
+		}
 	}
 }

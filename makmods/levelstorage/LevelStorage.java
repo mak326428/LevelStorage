@@ -36,39 +36,15 @@ public class LevelStorage {
 	public static CommonProxy proxy;
 
 	public static int itemLevelStorageBookSpace;
+	public static Configuration configuration;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		FMLLog.info(Reference.MOD_NAME + ": Pre-Initialization...");
 		Configuration config = new Configuration(
 				event.getSuggestedConfigurationFile());
-		config.load();
-		String itemXPBookId = "itemXPBookId";
-		String itemAdvScannerId = "itemAdvScannerId";
-		String blockXpGenId = "blockXpGenId";
-		String blockXpChargerId = "blockXpChargerId";
-		String itemFreqCard = "itemFrequencyCard";
-		String blockWirelessConductor = "blockWirelessConductor";
-		String blockWlessPowerSync = "blockWlessPowerSync";
-		BlockItemIds.instance.addId(itemXPBookId,
-				config.getItem(itemXPBookId, 2085).getInt());
-		BlockItemIds.instance.addId(itemFreqCard,
-				config.getItem(itemFreqCard, 2086).getInt());
-		BlockItemIds.instance.addId(itemAdvScannerId,
-				config.getItem(itemAdvScannerId, 2087).getInt());
-		BlockItemIds.instance.addId(blockXpGenId,
-				config.getBlock(blockXpGenId, 237).getInt());
-		BlockItemIds.instance.addId(blockXpChargerId,
-				config.getBlock(blockXpChargerId, 238).getInt());
-		BlockItemIds.instance.addId(blockWirelessConductor,
-				config.getBlock(blockWirelessConductor, 239).getInt());
-		BlockItemIds.instance.addId(blockWlessPowerSync,
-				config.getBlock(blockWlessPowerSync, 240).getInt());
-
-		LevelStorage.itemLevelStorageBookSpace = config.get(
-				Configuration.CATEGORY_GENERAL, "XPBookCapacity", 16384)
-				.getInt();
-		config.save();
+		configuration = config;
+		//BlockItemIds.instance.messWithConfig(config);
 	}
 
 	@EventHandler
@@ -99,7 +75,6 @@ public class LevelStorage {
 		FMLLog.info(Reference.MOD_NAME + ": Post-Initialization...");
 		XpStackRegistry.instance.initCriticalNodes();
 		XpStackRegistry.instance.printRegistry();
-		System.out.println(XpRegistryAPI.getConversions().toString());
 	}
 
 	public static Side getSide() {

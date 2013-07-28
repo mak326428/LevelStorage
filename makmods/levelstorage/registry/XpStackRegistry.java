@@ -31,8 +31,8 @@ public class XpStackRegistry {
 		this.pushToRegistry(new XpStack(new ItemStack(Item.glowstone), 32));
 		this.pushToRegistry(new XpStack(new ItemStack(Item.diamond), 512));
 		this.pushToRegistry(new XpStack(new ItemStack(Item.netherStar), 4096));
-		// this.pushToRegistry(new XpStack(new ItemStack(Block.glass), 1));
 		this.pushToRegistry(new XpStack(new ItemStack(Block.obsidian), 8));
+		//this.pushOreToRegistry("dustDiamond", 512);
 	}
 
 	public void printRegistry() {
@@ -40,7 +40,9 @@ public class XpStackRegistry {
 		for (XpStack s : this.ITEM_XP_CONVERSIONS) {
 			FMLLog.log(Level.INFO,
 					"\t#" + s.stack.itemID + ":" + s.stack.getItemDamage()
-							+ " - " + s.stack.getItemName() + " - " + s.value);
+							+ " - " + s.stack.getDisplayName() + " - "
+							+ s.value + " (1 " + s.stack.getDisplayName()
+							+ " = " + s.value + " XP)");
 		}
 	}
 
@@ -52,6 +54,7 @@ public class XpStackRegistry {
 	}
 
 	public void pushOreToRegistry(String name, int value) {
+		// Something's wrong here, TODO: test.
 		if (OreDictionary.getOreID(name) == ORE_DICT_NOT_FOUND) {
 			FMLLog.log(Level.WARNING, "Ore " + name
 					+ " is not found in the ore dictionary, ignoring");
