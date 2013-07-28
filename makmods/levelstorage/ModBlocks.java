@@ -32,27 +32,11 @@ public class ModBlocks {
 		
 	}
 	
-	//@IDontWantThisToLetMeCompileSoIWriteBullshtHere
 	private void createBlocks() {
-		System.out.println("createBlocks");
-		Iterator it = BlockItemIds.instance.ids.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
-			
-			String forWhat = pair.getKey();
-			int id = pair.getValue();
-			System.out.println("forWhat: " + forWhat + ", id: " + id);
-			
-			it.remove();
-		}
-		this.blockXpGen = new BlockXpGenerator(
-				BlockItemIds.instance.getIdFor(blockXpGen.getUnlocalizedName()));
-		this.blockXpCharger = new BlockXpCharger(
-				BlockItemIds.instance.getIdFor(blockXpCharger.getUnlocalizedName()));
-		this.blockWlessConductor = new BlockWirelessConductor(
-				BlockItemIds.instance.getIdFor(blockWlessConductor.getUnlocalizedName()));
-		this.blockWlessPowerSync = new BlockWirelessPowerSynchronizer(
-				BlockItemIds.instance.getIdFor(blockWlessPowerSync.getUnlocalizedName()));
+		this.blockXpGen = new BlockXpGenerator();
+		this.blockXpCharger = new BlockXpCharger();
+		this.blockWlessConductor = new BlockWirelessConductor();
+		this.blockWlessPowerSync = new BlockWirelessPowerSynchronizer();
 	}
 
 	private void registerBlocks() {

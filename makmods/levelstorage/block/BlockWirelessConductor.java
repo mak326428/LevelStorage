@@ -28,12 +28,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockWirelessConductor extends BlockContainer {
 
-	public BlockWirelessConductor(int id) {
-		super(id, Material.iron);
+	public static final String UNLOCALIZED_NAME = "blockWirelessConductor";
+
+	public BlockWirelessConductor() {
+		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
+				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName("blockWirelessConductor");
+		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.375F, 1F);

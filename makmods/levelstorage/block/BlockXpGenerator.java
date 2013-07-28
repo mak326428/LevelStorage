@@ -25,12 +25,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockXpGenerator extends BlockContainer {
-	public BlockXpGenerator(int id) {
-		super(id, Material.iron);
+	
+	public static final String UNLOCALIZED_NAME = "blockXpGenerator";
+	
+	public BlockXpGenerator() {
+		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
+				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName("blockXpGenerator");
+		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 

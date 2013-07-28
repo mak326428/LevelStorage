@@ -31,15 +31,10 @@ public class ModItems {
 	private ModItems() {
 	}
 
-
 	private void initItems() {
-		itemLevelStorageBook = new ItemLevelStorageBook(
-				BlockItemIds.instance.getIdFor("itemXPBookId"),
-				LevelStorage.itemLevelStorageBookSpace);
-		itemAdvScanner = new ItemAdvancedScanner(
-				BlockItemIds.instance.getIdFor("itemAdvScannerId"));
-		itemFreqCard = new ItemFrequencyCard(
-				BlockItemIds.instance.getIdFor("itemFrequencyCard"));
+		itemLevelStorageBook = new ItemLevelStorageBook(LevelStorage.itemLevelStorageBookSpace);
+		itemAdvScanner = new ItemAdvancedScanner();
+		itemFreqCard = new ItemFrequencyCard();
 	}
 
 	private void addRecipes() {
@@ -110,19 +105,5 @@ public class ModItems {
 		this.addRecipes();
 		this.addItemNames();
 		this.addCustomFeatures();
-	}
-	
-	
-	private class ModBlock {
-		public String blockName;
-		public Block block;
-		
-		public ModBlock() {
-			
-		}
-		
-		private void register() {
-			
-		}
 	}
 }
