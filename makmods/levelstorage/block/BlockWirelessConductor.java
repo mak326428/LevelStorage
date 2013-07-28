@@ -151,33 +151,6 @@ public class BlockWirelessConductor extends BlockContainer {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public Icon getIcon(int side, int par2) {
-		ForgeDirection orientation = ForgeDirection.VALID_DIRECTIONS[side];
-		if (orientation == ForgeDirection.DOWN)
-			return this.down;
-		if (orientation == ForgeDirection.UP)
-			return this.up;
-		if (orientation == ForgeDirection.NORTH
-				|| orientation == ForgeDirection.WEST
-				|| orientation == ForgeDirection.SOUTH
-				|| orientation == ForgeDirection.EAST)
-			return this.side;
-		return null;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister iconRegister) {
-		this.side = iconRegister
-				.registerIcon(ClientProxy.WIRELESS_CONDUCTOR_TEXTURE + "Side");
-		this.up = iconRegister
-				.registerIcon(ClientProxy.WIRELESS_CONDUCTOR_TEXTURE + "Up");
-		this.down = iconRegister
-				.registerIcon(ClientProxy.WIRELESS_CONDUCTOR_TEXTURE + "Down");
-	}
-
-	@Override
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityWirelessConductor();
 	}

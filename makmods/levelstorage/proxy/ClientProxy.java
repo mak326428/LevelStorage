@@ -22,8 +22,6 @@ public class ClientProxy extends CommonProxy {
 	public static final String ADV_SCANNER_TEXTURE = "ic2:itemScannerAdv";
 	public static final String FREQUENCY_CARD_TEXTURE = Reference.MOD_ID
 			.toLowerCase() + ":" + "itemFreqCard";
-	public static final String WIRELESS_CONDUCTOR_TEXTURE = Reference.MOD_ID
-			.toLowerCase() + ":" + "blockWirelessConductor";
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
@@ -32,6 +30,8 @@ public class ClientProxy extends CommonProxy {
 			+ ":" + "blockXpGen";
 	public static final String XP_CHARGER_TEXTURE = Reference.MOD_ID
 			.toLowerCase() + ":" + "blockXpCharger";
+	public static final String WIRELESS_POWER_SYNC_TEXTURE = Reference.MOD_ID.toLowerCase()
+			+ ":" + "blockWirelessPSync";
 
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {

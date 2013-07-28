@@ -135,11 +135,11 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		this.side = iconRegister
-				.registerIcon(ClientProxy.WIRELESS_CONDUCTOR_TEXTURE + "Side");
+				.registerIcon(ClientProxy.WIRELESS_POWER_SYNC_TEXTURE + "Side");
 		this.up = iconRegister
-				.registerIcon(ClientProxy.WIRELESS_CONDUCTOR_TEXTURE + "Up");
+				.registerIcon(ClientProxy.WIRELESS_POWER_SYNC_TEXTURE + "Up");
 		this.down = iconRegister
-				.registerIcon(ClientProxy.WIRELESS_CONDUCTOR_TEXTURE + "Down");
+				.registerIcon(ClientProxy.WIRELESS_POWER_SYNC_TEXTURE + "Down");
 	}
 
 	@Override

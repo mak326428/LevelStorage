@@ -69,6 +69,11 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 	public void printMessage(String message, EntityPlayer player) {
 		LevelStorage.proxy.messagePlayer(player, message, new Object[0]);
 	}
+	
+	private static boolean isNumberNegative(int number) {
+		// Sneaky, right?
+		return Math.abs(number) != number;
+	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
@@ -88,27 +93,49 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 			int chunkX = (int) par3EntityPlayer.posX / 16;
 			int chunkZ = (int) par3EntityPlayer.posZ / 16;
 			int playerY = (int) par3EntityPlayer.posY;
-			
-			if (chunkX == 0)
-				chunkX = 1;
-			if (chunkZ == 0)
-				chunkZ = 1;
 
-			for (int y = 0; y < playerY; y++) {
-				System.out.println("y: " + y);
-				System.out.println(chunkX * 16 + " " + chunkX * 17);
-				for (int x = chunkX * 16; x < chunkX * 17; x++) {
-					System.out.println("x: " + x);
-					for (int z = chunkZ * 16; z < chunkZ * 17; z++) {
-						System.out.println(chunkZ * 16 + " " + chunkZ * 17);
-						System.out.println("z: " + z);
+			/*for (int y = 0; y < playerY; y++) {
+				for (int x = chunkX * 16; x != chunkX * 17; x++) {
+					for (int z = chunkZ * 16; z != chunkZ * 17; z++) {
 						ItemStack foundStack = new ItemStack(
 								par2World.getBlockId(x, y, z), 1,
 								par2World.getBlockMetadata(x, y, z));
-						System.out.println(foundStack);
 						blocksFound.add(foundStack);
 					}
 				}
+			}*/
+			
+			int currX = chunkX * 16, currY = 0, currZ = chunkZ * 16;
+			while (true) {
+				currY++;
+				while (true) {
+					if (isNumberNegative(chunkX)) {
+						currX--;
+					} else {
+						currX++;
+					}
+					
+					while (true) {
+						if (isNumberNegative(chunkZ)) {
+							currZ--;
+						} else {
+							currZ++;
+						}
+						
+						ItemStack foundStack = new ItemStack(
+								par2World.getBlockId(currX, currY, currZ), 1,
+								par2World.getBlockMetadata(currX, currY, currZ));
+						blocksFound.add(foundStack);
+						
+						if (currZ == chunkZ * 17)
+							break;
+					}
+					
+					if (currX == chunkX * 17)
+						break;
+				}
+				if (currY >= playerY)
+					break;
 			}
 
 			this.printMessage("", par3EntityPlayer);
