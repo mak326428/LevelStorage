@@ -66,14 +66,10 @@ public class ModBlocks {
 	}
 
 	private void addBlockNames() {
-		LanguageRegistry.instance();
 		LanguageRegistry.addName(this.blockXpCharger, "XP Charger");
-		LanguageRegistry.instance();
 		LanguageRegistry
 				.addName(this.blockWlessConductor, "Wireless Conductor");
-		LanguageRegistry.instance();
 		LanguageRegistry.addName(this.blockXpGen, "XP Generator");
-		LanguageRegistry.instance();
 		LanguageRegistry.addName(this.blockWlessPowerSync,
 				"Wireless Power Synchronizer");
 

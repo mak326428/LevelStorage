@@ -44,7 +44,7 @@ public class LevelStorage {
 		Configuration config = new Configuration(
 				event.getSuggestedConfigurationFile());
 		configuration = config;
-		//BlockItemIds.instance.messWithConfig(config);
+		BlockItemIds.instance.messWithConfig(config);
 	}
 
 	@EventHandler
