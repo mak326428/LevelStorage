@@ -37,9 +37,9 @@ public class LevelStorage {
 
 	public static int itemLevelStorageBookSpace;
 	public static Configuration configuration;
-	
+
 	public static int currentIds = 250;
-	
+
 	public static int getAndIncrementCurrId() {
 		currentIds += 1;
 		return currentIds;
@@ -51,6 +51,10 @@ public class LevelStorage {
 		Configuration config = new Configuration(
 				event.getSuggestedConfigurationFile());
 		configuration = config;
+		this.itemLevelStorageBookSpace = config.get(
+				Configuration.CATEGORY_GENERAL, "bookCapacity",
+				2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2) // 16384
+				.getInt();
 		configuration.load();
 	}
 
@@ -82,7 +86,7 @@ public class LevelStorage {
 		FMLLog.info(Reference.MOD_NAME + ": Post-Initialization...");
 		XpStackRegistry.instance.initCriticalNodes();
 		XpStackRegistry.instance.printRegistry();
-		
+
 		configuration.save();
 	}
 

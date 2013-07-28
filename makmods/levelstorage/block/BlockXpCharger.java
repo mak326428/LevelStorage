@@ -29,7 +29,7 @@ public class BlockXpCharger extends BlockContainer {
 	public static final String UNLOCALIZED_NAME = "blockXpCharger";
 	
 	public BlockXpCharger() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
+		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
 				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));

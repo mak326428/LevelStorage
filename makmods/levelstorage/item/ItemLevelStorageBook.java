@@ -25,10 +25,13 @@ public class ItemLevelStorageBook extends Item {
 
 	public static String STORED_XP_NBT = "storedXP";
 	public static int XP_PER_INTERACTION = 100;
+	
+	public static final String UNLOCALIZED_NAME = "xpStorageBook";
 
-	public ItemLevelStorageBook(int id, int maxStorage) {
-		super(id);
-		this.setUnlocalizedName("lvlStorageBook");
+	public ItemLevelStorageBook(int maxStorage) {
+		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
+				LevelStorage.getAndIncrementCurrId()).getInt());
+		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.bookMaxStorage = maxStorage;
 		this.setMaxDamage(512);
 		this.setNoRepair();

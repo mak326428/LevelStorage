@@ -2,6 +2,7 @@ package makmods.levelstorage.item;
 
 import java.util.List;
 
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -24,15 +25,18 @@ public class ItemFrequencyCard extends Item {
 	public static final String NBT_X_POS = "xPos";
 	public static final String NBT_Y_POS = "yPos";
 	public static final String NBT_Z_POS = "zPos";
+	
+	public static final String UNLOCALIZED_NAME = "freqCard";
 
-	public ItemFrequencyCard(int par1) {
-		super(par1);
+	public ItemFrequencyCard() {
+		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
+				LevelStorage.getAndIncrementCurrId()).getInt());
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
 		this.setMaxStackSize(1);
-		this.setUnlocalizedName("item.freqCard");
+		this.setUnlocalizedName(UNLOCALIZED_NAME);
 	}
 
 	public static boolean isDimIdValid(int idToCheck) {
