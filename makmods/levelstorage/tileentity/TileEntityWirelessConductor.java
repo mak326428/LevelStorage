@@ -11,6 +11,7 @@ import ic2.api.tile.IWrenchable;
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.item.ItemFrequencyCard;
+import makmods.levelstorage.logic.BlockLocation;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.registry.IWirelessConductor;
 import makmods.levelstorage.registry.WirelessConductorRegistry;
@@ -117,8 +118,17 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	@Override
 	public int injectEnergy(Direction directionFrom, int amount) {
 		if (this.type == ConductorType.SOURCE) {
-			if (this.safePair != null)
-				return this.safePair.receiveEnergy(amount);
+			if (this.safePair != null) {
+				BlockLocation thisTe = new BlockLocation(this.getDimId(),
+						this.getX(), this.getY(), this.getZ());
+				BlockLocation pairTe = new BlockLocation(
+						this.safePair.getDimId(), this.safePair.getX(),
+						this.safePair.getY(), this.safePair.getZ());
+				int amtWithDisc = amount
+						- BlockLocation.getEnergyDiscount(amount,
+								thisTe.getDistance(pairTe));
+				return this.safePair.receiveEnergy(amtWithDisc);
+			}
 		}
 		return amount;
 	}
@@ -235,7 +245,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	@Override
 	public void updateEntity() {
-		
+
 		if (!this.addedToENet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			this.addedToENet = true;

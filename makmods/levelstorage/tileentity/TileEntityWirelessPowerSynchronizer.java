@@ -9,6 +9,7 @@ import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.tile.IWrenchable;
 import makmods.levelstorage.ModBlocks;
+import makmods.levelstorage.logic.BlockLocation;
 import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.registry.IWirelessPowerSync;
 import makmods.levelstorage.registry.SyncType;
@@ -244,7 +245,13 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 			}
 
 			for (IWirelessPowerSync s : this.pairs) {
-				energyNotUsed += s.receiveEnergy(forEach);
+				BlockLocation thisTe = new BlockLocation(this.getWorld().provider.dimensionId,
+						this.getX(), this.getY(), this.getZ());
+				BlockLocation pairTe = new BlockLocation(
+						s.getWorld().provider.dimensionId, s.getX(),
+						s.getY(), s.getZ());
+				int forEachWithDisc = forEach - BlockLocation.getEnergyDiscount(forEach, thisTe.getDistance(pairTe));
+				energyNotUsed += s.receiveEnergy(forEachWithDisc);
 			}
 			return energyNotUsed;
 		}

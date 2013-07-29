@@ -62,7 +62,7 @@ public class BlockLocation {
 	 * @param distance Distance
 	 * @return energy discount
 	 */
-	public int getEnergyDiscount(int energy, int distance) {
+	public static int getEnergyDiscount(int energy, int distance) {
 		// Cross-Dimensional
 		if (distance == Integer.MAX_VALUE)
 			return (int)(energy * 0.25f);
