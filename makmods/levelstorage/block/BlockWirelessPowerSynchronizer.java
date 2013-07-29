@@ -1,10 +1,12 @@
 package makmods.levelstorage.block;
 
 import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
 
 import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import net.minecraft.block.Block;
@@ -25,8 +27,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockWirelessPowerSynchronizer extends BlockContainer {
-	
+
 	public static final String UNLOCALIZED_NAME = "blockWirelessPowerSynchronizer";
+	public static final String NAME = "Wireless Power Synchronizer";
 
 	public BlockWirelessPowerSynchronizer() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
@@ -44,6 +47,17 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 	private Icon side;
 
 	public ItemStack advMachine = Items.getItem("advancedMachine");
+
+	public static void addCraftingRecipe() {
+		ItemStack sync = new ItemStack(ModBlocks.instance.blockWlessPowerSync,
+				4);
+		ItemStack advCircuit = Items.getItem("advancedCircuit");
+		ItemStack advMachine = Items.getItem("advancedMachine");
+		Recipes.advRecipes.addRecipe(sync, "ccc", "ama", "ccc",
+				Character.valueOf('a'), advCircuit, Character.valueOf('c'),
+				new ItemStack(ModBlocks.instance.blockWlessConductor),
+				Character.valueOf('m'), advMachine);
+	}
 
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3) {

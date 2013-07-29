@@ -1,10 +1,12 @@
 package makmods.levelstorage.block;
 
 import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
 
 import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -16,6 +18,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -29,7 +32,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockWirelessConductor extends BlockContainer {
 
 	public static final String UNLOCALIZED_NAME = "blockWirelessConductor";
-
+	public static final String NAME = "Wireless Conductor";
+	
+	
 	public BlockWirelessConductor() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
 				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
@@ -40,6 +45,19 @@ public class BlockWirelessConductor extends BlockContainer {
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.375F, 1F);
+	}
+	
+	public static void addCraftingRecipe() {
+		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
+		ItemStack transformerHv = Items.getItem("hvTransformer");
+		ItemStack advCircuit = Items.getItem("advancedCircuit");
+		ItemStack advMachine = Items.getItem("advancedMachine");
+		ItemStack enderPearl = new ItemStack(Item.enderPearl);
+		Recipes.advRecipes.addRecipe(new ItemStack(ModBlocks.instance.blockWlessConductor),
+				"tmt", "cec", "chc", Character.valueOf('t'), frequencyTr,
+				Character.valueOf('e'), enderPearl, Character.valueOf('c'),
+				advCircuit, Character.valueOf('h'), transformerHv,
+				Character.valueOf('m'), advMachine);
 	}
 
 	private Icon down;

@@ -5,6 +5,7 @@ import ic2.api.item.Items;
 import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.block.Block;
@@ -14,20 +15,24 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockXpCharger extends BlockContainer {
-	
+
 	public static final String UNLOCALIZED_NAME = "blockXpCharger";
-	
+	public static final String NAME = "XP Charger";
+
 	public BlockXpCharger() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
 				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
@@ -42,6 +47,26 @@ public class BlockXpCharger extends BlockContainer {
 	private Icon down;
 	private Icon up;
 	private Icon side;
+
+	public static void addCraftingRecipe() {
+
+		ItemStack blockXpChargerStack = new ItemStack(
+				ModBlocks.instance.blockXpCharger);
+		ItemStack blockXpGenStack = new ItemStack(ModBlocks.instance.blockXpGen);
+		ItemStack machine = Items.getItem("machine");
+		ItemStack generator = Items.getItem("generator");
+		ItemStack refIron = Items.getItem("refinedIronIngot");
+		ItemStack goldIngot = new ItemStack(Item.ingotGold);
+		ItemStack advMachine = Items.getItem("advancedMachine");
+		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
+				"enableChargerRecipe", true).getBoolean(true)) {
+			GameRegistry.addRecipe(blockXpChargerStack, "iai", "geg", "imi",
+					Character.valueOf('i'), refIron, Character.valueOf('g'),
+					goldIngot, Character.valueOf('a'), advMachine,
+					Character.valueOf('m'), machine, Character.valueOf('e'),
+					blockXpGenStack);
+		}
+	}
 
 	public ItemStack advMachine = Items.getItem("advancedMachine");
 
