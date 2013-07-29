@@ -5,6 +5,7 @@ import java.util.List;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.ModItems;
+import makmods.levelstorage.logic.BlockLocation;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,15 +38,6 @@ public class ItemFrequencyCard extends Item {
 		}
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
-	}
-
-	public static boolean isDimIdValid(int idToCheck) {
-		Integer[] ids = DimensionManager.getIDs();
-		for (int id : ids) {
-			if (id == idToCheck)
-				return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -85,7 +77,7 @@ public class ItemFrequencyCard extends Item {
 		NBTTagCompound cardNBT = stack.getTagCompound();
 
 		if (hasCardData(stack)) {
-			if (isDimIdValid(cardNBT.getInteger(NBT_DIM_ID))) {
+			if (BlockLocation.isDimIdValid((cardNBT.getInteger(NBT_DIM_ID)))) {
 				WorldServer w = DimensionManager.getWorld(cardNBT
 						.getInteger(NBT_DIM_ID));
 				int x = cardNBT.getInteger(NBT_X_POS);
