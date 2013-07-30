@@ -31,21 +31,19 @@ public class ModBlocks {
 	private ModBlocks() {
 	}
 
-	private void initBlocks() {
-
-	}
-
 	private void createBlocks() {
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field f : fields) {
-			try {
-				Class c = f.getType();
-				f.set(ModBlocks.instance, c.newInstance());
-			} catch (ClassCastException e) {
-			} catch (Exception e) {
-				FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-						+ ": failed to initialize block");
-				e.printStackTrace();
+			if (f.getName() != "instance") {
+				try {
+					Class c = f.getType();
+					f.set(ModBlocks.instance, c.newInstance());
+				} catch (ClassCastException e) {
+				} catch (Exception e) {
+					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+							+ ": failed to initialize block");
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -53,49 +51,54 @@ public class ModBlocks {
 	private void registerBlocks() {
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field f : fields) {
-			try {
-				Block currBlock = (Block) f.get(ModBlocks.instance);
-				String name = (String) currBlock.getClass()
-						.getField("UNLOCALIZED_NAME").get(null);
-				GameRegistry.registerBlock(currBlock, name);
-			} catch (ClassCastException e) {
-			} catch (Exception e) {
-				FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-						+ ": failed to register block");
-				e.printStackTrace();
+			if (f.getName() != "instance") {
+				try {
+					Block currBlock = (Block) f.get(ModBlocks.instance);
+					String name = (String) currBlock.getClass()
+							.getField("UNLOCALIZED_NAME").get(null);
+					GameRegistry.registerBlock(currBlock, name);
+				} catch (ClassCastException e) {
+				} catch (Exception e) {
+					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+							+ ": failed to register block");
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 
 	private void addBlockNames() {
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field f : fields) {
-			try {
-				Block currBlock = (Block) f.get(ModBlocks.instance);
-				String name = (String) currBlock.getClass()
-						.getField("NAME").get(null);
-				LanguageRegistry.addName(currBlock, name);
-			} catch (ClassCastException e) {
-			} catch (Exception e) {
-				FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-						+ ": failed to name block");
-				e.printStackTrace();
+			if (f.getName() != "instance") {
+				try {
+					Block currBlock = (Block) f.get(ModBlocks.instance);
+					String name = (String) currBlock.getClass()
+							.getField("NAME").get(null);
+					LanguageRegistry.addName(currBlock, name);
+				} catch (ClassCastException e) {
+				} catch (Exception e) {
+					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+							+ ": failed to name block");
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
 	private void addRecipes() {
-		
+
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field f : fields) {
-			try {
-				f.getType().getMethod("addCraftingRecipe").invoke(null);
-			} catch (ClassCastException e) {
-			} catch (Exception e) {
-				FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-						+ ": failed to add recipe");
-				e.printStackTrace();
+			if (f.getName() != "instance") {
+				try {
+					f.getType().getMethod("addCraftingRecipe").invoke(null);
+				} catch (ClassCastException e) {
+				} catch (Exception e) {
+					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+							+ ": failed to add recipe");
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -103,21 +106,22 @@ public class ModBlocks {
 	private void setMiningLevels() {
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field f : fields) {
-			try {
-				MinecraftForge.setBlockHarvestLevel(
-						(Block) f.get(ModBlocks.instance), "pickaxe", 1);
-			} catch (ClassCastException e) {
-			} catch (Exception e) {
-				FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-						+ ": failed to register block");
-				e.printStackTrace();
+			if (f.getName() != "instance") {
+				try {
+					MinecraftForge.setBlockHarvestLevel(
+							(Block) f.get(ModBlocks.instance), "pickaxe", 1);
+				} catch (ClassCastException e) {
+				} catch (Exception e) {
+					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+							+ ": failed to register block");
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
 	public void init() {
 		this.createBlocks();
-		this.initBlocks();
 		this.registerBlocks();
 		this.addBlockNames();
 		this.addRecipes();

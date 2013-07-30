@@ -1,5 +1,6 @@
 package makmods.levelstorage;
 
+import makmods.levelstorage.api.ItemAPI;
 import makmods.levelstorage.api.XpRegistryAPI;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.LevelStorageEventHandler;

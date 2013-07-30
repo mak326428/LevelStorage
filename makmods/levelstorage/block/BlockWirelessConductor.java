@@ -142,7 +142,7 @@ public class BlockWirelessConductor extends BlockContainer {
 			boolean isEmptyCard = false;
 			if (stack != null) {
 				ItemFrequencyCard.verifyStack(stack);
-				if (stack.itemID == ModItems.itemFreqCard.itemID) {
+				if (stack.itemID == ModItems.instance.itemFreqCard.itemID) {
 					isEmptyCard = !ItemFrequencyCard.hasCardData(stack);
 				}
 			}

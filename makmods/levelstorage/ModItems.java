@@ -22,9 +22,9 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class ModItems {
 	public static final ModItems instance = new ModItems();
 
-	public static ItemLevelStorageBook itemLevelStorageBook;
-	public static ItemAdvancedScanner itemAdvScanner;
-	public static ItemFrequencyCard itemFreqCard;
+	public ItemLevelStorageBook itemLevelStorageBook;
+	public ItemAdvancedScanner itemAdvScanner;
+	public ItemFrequencyCard itemFreqCard;
 
 	private int incr = 0;
 
@@ -32,7 +32,8 @@ public class ModItems {
 	}
 
 	private void initItems() {
-		itemLevelStorageBook = new ItemLevelStorageBook(LevelStorage.itemLevelStorageBookSpace);
+		itemLevelStorageBook = new ItemLevelStorageBook(
+				LevelStorage.itemLevelStorageBookSpace);
 		itemAdvScanner = new ItemAdvancedScanner();
 		itemFreqCard = new ItemFrequencyCard();
 	}
@@ -52,7 +53,7 @@ public class ModItems {
 		ItemStack energyCrystal = Items.getItem("energyCrystal");
 		ItemStack advCircuit = Items.getItem("advancedCircuit");
 		ItemStack glassFiber = Items.getItem("glassFiberCableItem");
-		ItemStack advScanner = new ItemStack(ModItems.itemAdvScanner);
+		ItemStack advScanner = new ItemStack(itemAdvScanner);
 		Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
 				Character.valueOf('u'), uum, Character.valueOf('g'),
 				glassFiber, Character.valueOf('a'), advCircuit,
@@ -61,11 +62,11 @@ public class ModItems {
 
 		// Frequency card
 		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
-		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-				ModItems.itemFreqCard), frequencyTr, new ItemStack(Item.paper));
+		Recipes.advRecipes.addShapelessRecipe(new ItemStack(itemFreqCard),
+				frequencyTr, new ItemStack(Item.paper));
 		// To get rid of card data
-		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-				ModItems.itemFreqCard), new ItemStack(ModItems.itemFreqCard));
+		Recipes.advRecipes.addShapelessRecipe(new ItemStack(itemFreqCard),
+				new ItemStack(itemFreqCard));
 		CraftingManager.getInstance().getRecipeList()
 				.add(new ExperienceRecipe());
 	}
@@ -78,8 +79,7 @@ public class ModItems {
 				Random rnd = new Random();
 				rnd.setSeed(rnd.nextInt() + this.incr);
 
-				ItemStack bookStack = new ItemStack(
-						ModItems.itemLevelStorageBook);
+				ItemStack bookStack = new ItemStack(itemLevelStorageBook);
 				bookStack.stackTagCompound = new NBTTagCompound();
 				bookStack.stackTagCompound.setInteger(
 						ItemLevelStorageBook.STORED_XP_NBT,

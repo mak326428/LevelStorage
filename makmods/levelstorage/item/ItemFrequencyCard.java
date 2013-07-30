@@ -103,7 +103,7 @@ public class ItemFrequencyCard extends Item {
 				if (par3EntityPlayer.isSneaking()) {
 					verifyStack(par1ItemStack);
 					if (!isValid(par1ItemStack)) {
-						par1ItemStack = new ItemStack(ModItems.itemFreqCard);
+						par1ItemStack = new ItemStack(ModItems.instance.itemFreqCard);
 						verifyStack(par1ItemStack);
 					}
 				}

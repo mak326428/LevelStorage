@@ -28,11 +28,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockXpGenerator extends BlockContainer {
-	
+
 	public static final String UNLOCALIZED_NAME = "blockXpGenerator";
 	public static final String NAME = "XP Generator";
-	
-	
+
 	public BlockXpGenerator() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
 				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
@@ -48,7 +47,7 @@ public class BlockXpGenerator extends BlockContainer {
 	private Icon down;
 	private Icon up;
 	private Icon side;
-	
+
 	public static void addCraftingRecipe() {
 		ItemStack blockXpGenStack = new ItemStack(ModBlocks.instance.blockXpGen);
 		ItemStack machine = Items.getItem("machine");
