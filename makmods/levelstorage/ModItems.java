@@ -52,36 +52,19 @@ public class ModItems {
 	}
 
 	private void addRecipes() {
-		// Book
-		ItemStack stackDepleted = new ItemStack(itemLevelStorageBook, 1, 0);
-		stackDepleted.stackTagCompound = new NBTTagCompound();
-		ItemStack stackBook = new ItemStack(Item.book);
-		ItemStack stackGoldBlock = new ItemStack(Block.blockGold);
-		ItemStack stackEnchTable = new ItemStack(Block.enchantmentTable);
-		GameRegistry.addShapelessRecipe(stackDepleted, stackBook,
-				stackGoldBlock, stackEnchTable);
-		// Scanner
-		ItemStack ovScanner = Items.getItem("ovScanner");
-		ItemStack uum = Items.getItem("matter");
-		ItemStack energyCrystal = Items.getItem("energyCrystal");
-		ItemStack advCircuit = Items.getItem("advancedCircuit");
-		ItemStack glassFiber = Items.getItem("glassFiberCableItem");
-		ItemStack advScanner = new ItemStack(itemAdvScanner);
-		Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
-				Character.valueOf('u'), uum, Character.valueOf('g'),
-				glassFiber, Character.valueOf('a'), advCircuit,
-				Character.valueOf('c'), energyCrystal, Character.valueOf('s'),
-				ovScanner);
-
-		// Frequency card
-		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
-		Recipes.advRecipes.addShapelessRecipe(new ItemStack(itemFreqCard),
-				frequencyTr, new ItemStack(Item.paper));
-		// To get rid of card data
-		Recipes.advRecipes.addShapelessRecipe(new ItemStack(itemFreqCard),
-				new ItemStack(itemFreqCard));
-		CraftingManager.getInstance().getRecipeList()
-				.add(new ExperienceRecipe());
+		Field[] fields = this.getClass().getDeclaredFields();
+		for (Field f : fields) {
+			if (f.getName() != "instance") {
+				try {
+					f.getType().getMethod("addCraftingRecipe").invoke(null);
+				} catch (ClassCastException e) {
+				} catch (Exception e) {
+					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+							+ ": failed to add recipe");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	private void addCustomFeatures() {

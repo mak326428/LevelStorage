@@ -3,8 +3,11 @@ package makmods.levelstorage.item;
 import java.util.List;
 import java.util.logging.Level;
 
+import makmods.levelstorage.ExperienceRecipe;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
 import makmods.levelstorage.proxy.ClientProxy;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -12,9 +15,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -39,6 +44,19 @@ public class ItemLevelStorageBook extends Item {
 		this.setNoRepair();
 		this.setCreativeTab(CreativeTabs.tabTools);
 		this.setMaxStackSize(1);
+	}
+	
+	public static void addCraftingRecipe() {
+		// Book
+		ItemStack stackDepleted = new ItemStack(ModItems.instance.itemLevelStorageBook, 1, 0);
+		stackDepleted.stackTagCompound = new NBTTagCompound();
+		ItemStack stackBook = new ItemStack(Item.book);
+		ItemStack stackGoldBlock = new ItemStack(Block.blockGold);
+		ItemStack stackEnchTable = new ItemStack(Block.enchantmentTable);
+		GameRegistry.addShapelessRecipe(stackDepleted, stackBook,
+				stackGoldBlock, stackEnchTable);
+		CraftingManager.getInstance().getRecipeList()
+		.add(new ExperienceRecipe());
 	}
 
 	@SideOnly(Side.CLIENT)

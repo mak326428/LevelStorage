@@ -1,7 +1,11 @@
 package makmods.levelstorage.item;
 
+import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
+
 import java.util.List;
 
+import makmods.levelstorage.ExperienceRecipe;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.ModItems;
@@ -11,6 +15,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -26,10 +31,9 @@ public class ItemFrequencyCard extends Item {
 	public static final String NBT_X_POS = "xPos";
 	public static final String NBT_Y_POS = "yPos";
 	public static final String NBT_Z_POS = "zPos";
-	
+
 	public static final String UNLOCALIZED_NAME = "freqCard";
 	public static final String NAME = "Frequency Card";
-	
 
 	public ItemFrequencyCard() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
@@ -40,6 +44,16 @@ public class ItemFrequencyCard extends Item {
 		}
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
+	}
+
+	public static void addCraftingRecipe() {
+		// Frequency card
+		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
+		Recipes.advRecipes.addShapelessRecipe(new ItemStack(ModItems.instance.itemFreqCard),
+				frequencyTr, new ItemStack(Item.paper));
+		// To get rid of card data
+		Recipes.advRecipes.addShapelessRecipe(new ItemStack(ModItems.instance.itemFreqCard),
+				new ItemStack(ModItems.instance.itemFreqCard));
 	}
 
 	@Override
@@ -105,7 +119,8 @@ public class ItemFrequencyCard extends Item {
 				if (par3EntityPlayer.isSneaking()) {
 					verifyStack(par1ItemStack);
 					if (!isValid(par1ItemStack)) {
-						par1ItemStack = new ItemStack(ModItems.instance.itemFreqCard);
+						par1ItemStack = new ItemStack(
+								ModItems.instance.itemFreqCard);
 						verifyStack(par1ItemStack);
 					}
 				}

@@ -2,11 +2,14 @@ package makmods.levelstorage.item;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,7 +27,6 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	public static final String UNLOCALIZED_NAME = "advScanner";
 	public static final String NAME = "Advanced OV-Scanner";
-	
 
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
@@ -43,6 +45,22 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
 		this.setMaxStackSize(1);
+	}
+
+	public static void addCraftingRecipe() {
+		// Scanner
+		ItemStack ovScanner = Items.getItem("ovScanner");
+		ItemStack uum = Items.getItem("matter");
+		ItemStack energyCrystal = Items.getItem("energyCrystal");
+		ItemStack advCircuit = Items.getItem("advancedCircuit");
+		ItemStack glassFiber = Items.getItem("glassFiberCableItem");
+		ItemStack advScanner = new ItemStack(ModItems.instance.itemAdvScanner);
+		Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
+				Character.valueOf('u'), uum, Character.valueOf('g'),
+				glassFiber, Character.valueOf('a'), advCircuit,
+				Character.valueOf('c'), energyCrystal, Character.valueOf('s'),
+				ovScanner);
+
 	}
 
 	public static void verifyStack(ItemStack stack) {
@@ -76,15 +94,14 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 		// Sneaky, right?
 		return Math.abs(number) != number;
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		par3List.add("\247cThere currently is a bug: ");
 		par3List.add("\247cthis device will only work");
 		par3List.add("\247cin areas with positive coordinates (x and z)");
-		
-		
+
 	}
 
 	@Override
@@ -125,19 +142,15 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 					}
 				}
 			}
-			
-			/*if (isNumberNegative(chunkZ) && isNumberNegative(chunkX)) {
-				for (int y = 0; y < playerY; y++) {
-					for (int x = chunkX * 16; x > chunkX * 17; x++) {
-						for (int z = chunkZ * 16; z > chunkZ * 17; z++) {
-							ItemStack foundStack = new ItemStack(
-									par2World.getBlockId(x, y, z), 1,
-									par2World.getBlockMetadata(x, y, z));
-							blocksFound.add(foundStack);
-						}
-					}
-				}
-			}*/
+
+			/*
+			 * if (isNumberNegative(chunkZ) && isNumberNegative(chunkX)) { for
+			 * (int y = 0; y < playerY; y++) { for (int x = chunkX * 16; x >
+			 * chunkX * 17; x++) { for (int z = chunkZ * 16; z > chunkZ * 17;
+			 * z++) { ItemStack foundStack = new ItemStack(
+			 * par2World.getBlockId(x, y, z), 1, par2World.getBlockMetadata(x,
+			 * y, z)); blocksFound.add(foundStack); } } } }
+			 */
 
 			/*
 			 * int currX = chunkX * 16, currY = 0, currZ = chunkZ * 16; while
