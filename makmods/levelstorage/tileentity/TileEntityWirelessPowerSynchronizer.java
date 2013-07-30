@@ -291,13 +291,11 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 							par5.add(par6);
 					}
 					int par7 = sendEnergyToDevices(par5, leftover);
-					System.out.println("par7: " + par7);
 					energyNotUsed += par7;
 				} else {
 					energyNotUsed += leftover;
 				}
 			}
-			System.out.println("energyNotUsed: " + energyNotUsed);
 			return energyNotUsed;
 		}
 		return amount;

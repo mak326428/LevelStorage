@@ -1,6 +1,8 @@
 package makmods.levelstorage.logic;
 
+import makmods.levelstorage.LevelStorage;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.DimensionManager;
 
 public class BlockLocation {
@@ -55,33 +57,40 @@ public class BlockLocation {
 
 		return xDistance + yDistance + zDistance;
 	}
-	
+
 	/**
 	 * Gets energy discount for given energy and distance
-	 * @param energy Energy
-	 * @param distance Distance
+	 * 
+	 * @param energy
+	 *            Energy
+	 * @param distance
+	 *            Distance
 	 * @return energy discount
 	 */
 	public static int getEnergyDiscount(int energy, int distance) {
-		// Cross-Dimensional
-		if (distance == Integer.MAX_VALUE)
-			return (int)(energy * 0.25f);
-		// Distance < 1000
-		if (distance < 1000)
-			return (int)(energy * 0.05f);
-		// Distance > 1000 <2000
-		if (distance > 1000 && distance < 2000)
-			return (int)(energy * 0.1f);
-		// Distance > 2000
-		if (distance > 2000)
-			return (int)(energy * 0.15f);
-		// IDK what happened here
+		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
+				"enableEnergyLoss", false).getBoolean(false)) {
+			// Cross-Dimensional
+			if (distance == Integer.MAX_VALUE)
+				return (int) (energy * 0.25f);
+			// Distance < 1000
+			if (distance < 1000)
+				return (int) (energy * 0.05f);
+			// Distance > 1000 <2000
+			if (distance > 1000 && distance < 2000)
+				return (int) (energy * 0.1f);
+			// Distance > 2000
+			if (distance > 2000)
+				return (int) (energy * 0.15f);
+		}
 		return 0;
 	}
-	
+
 	/**
 	 * Returns whether or not DimensionId is valid
-	 * @param dimId Dimension id
+	 * 
+	 * @param dimId
+	 *            Dimension id
 	 */
 	public static boolean isDimIdValid(int dimId) {
 		Integer[] ids = DimensionManager.getIDs();
