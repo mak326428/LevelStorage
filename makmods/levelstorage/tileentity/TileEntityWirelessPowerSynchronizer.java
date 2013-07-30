@@ -241,21 +241,25 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	public int sendEnergyToDevices(ArrayList<IWirelessPowerSync> devs,
 			int amount) {
 		int unused = 0;
-		int forEach;
-		if (devs.size() != 0)
-			forEach = amount / devs.size();
-		else
-			forEach = amount;
-		for (IWirelessPowerSync s : devs) {
-			BlockLocation thisTe = new BlockLocation(
-					this.getWorld().provider.dimensionId, this.getX(),
-					this.getY(), this.getZ());
-			BlockLocation pairTe = new BlockLocation(
-					s.getWorld().provider.dimensionId, s.getX(), s.getY(),
-					s.getZ());
-			unused += s.receiveEnergy(forEach -= thisTe.getDistance(pairTe));
+		if (devs.size() > 0) {
+			int forEach;
+			if (devs.size() != 0)
+				forEach = amount / devs.size();
+			else
+				forEach = amount;
+			for (IWirelessPowerSync s : devs) {
+				BlockLocation thisTe = new BlockLocation(
+						this.getWorld().provider.dimensionId, this.getX(),
+						this.getY(), this.getZ());
+				BlockLocation pairTe = new BlockLocation(
+						s.getWorld().provider.dimensionId, s.getX(), s.getY(),
+						s.getZ());
+				unused += s
+						.receiveEnergy(forEach -= thisTe.getDistance(pairTe));
+			}
+			return unused;
 		}
-		return unused;
+		return amount;
 	}
 
 	public int sendEnergyEqually(int amount) {
@@ -284,11 +288,14 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 						if (par6 != s)
 							par5.add(par6);
 					}
-					energyNotUsed += sendEnergyToDevices(par5, leftover);
+					int par7 = sendEnergyToDevices(par5, leftover);
+					System.out.println("par7: " + par7);
+					energyNotUsed += par7;
 				} else {
 					energyNotUsed += leftover;
 				}
 			}
+			System.out.println("energyNotUsed: " + energyNotUsed);
 			return energyNotUsed;
 		}
 		return amount;
