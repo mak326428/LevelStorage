@@ -5,10 +5,12 @@ import ic2.api.recipe.Recipes;
 
 import java.lang.reflect.Field;
 import java.util.Random;
+import java.util.logging.Level;
 
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.item.ItemLevelStorageBook;
+import makmods.levelstorage.lib.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,6 +18,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -95,9 +98,22 @@ public class ModItems {
 	}
 
 	private void addItemNames() {
-		LanguageRegistry.addName(itemLevelStorageBook, "XP Tome");
-		LanguageRegistry.addName(itemAdvScanner, "Advanced OV-Scanner");
-		LanguageRegistry.addName(itemFreqCard, "Frequency Card");
+		Field[] fields = this.getClass().getDeclaredFields();
+		for (Field f : fields) {
+			if (f.getName() != "instance") {
+				try {
+					Item currItem = (Item) f.get(ModItems.instance);
+					String name = (String) currItem.getClass()
+							.getField("NAME").get(null);
+					LanguageRegistry.addName(currItem, name);
+				} catch (ClassCastException e) {
+				} catch (Exception e) {
+					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+							+ ": failed to name item");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void init() {

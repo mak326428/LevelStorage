@@ -27,6 +27,8 @@ public class ItemLevelStorageBook extends Item {
 	public static int XP_PER_INTERACTION = 100;
 	
 	public static final String UNLOCALIZED_NAME = "xpStorageBook";
+	public static final String NAME = "XP Tome";
+	
 
 	public ItemLevelStorageBook(int maxStorage) {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,

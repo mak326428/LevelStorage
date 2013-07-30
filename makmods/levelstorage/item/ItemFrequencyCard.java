@@ -28,6 +28,8 @@ public class ItemFrequencyCard extends Item {
 	public static final String NBT_Z_POS = "zPos";
 	
 	public static final String UNLOCALIZED_NAME = "freqCard";
+	public static final String NAME = "Frequency Card";
+	
 
 	public ItemFrequencyCard() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
