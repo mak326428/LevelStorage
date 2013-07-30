@@ -30,11 +30,11 @@ public class ItemLevelStorageBook extends Item {
 	public static final String NAME = "XP Tome";
 	
 
-	public ItemLevelStorageBook(int maxStorage) {
+	public ItemLevelStorageBook() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
 				LevelStorage.getAndIncrementCurrId()).getInt());
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
-		this.bookMaxStorage = maxStorage;
+		this.bookMaxStorage = LevelStorage.itemLevelStorageBookSpace;
 		this.setMaxDamage(512);
 		this.setNoRepair();
 		this.setCreativeTab(CreativeTabs.tabTools);
@@ -43,7 +43,6 @@ public class ItemLevelStorageBook extends Item {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	// This item is magical. WHY NOT?
 	public boolean hasEffect(ItemStack stack) {
 		return true;
 	}
@@ -186,7 +185,7 @@ public class ItemLevelStorageBook extends Item {
 		ItemStack stackFull = new ItemStack(par1, 1, 1);
 		stackFull.stackTagCompound = new NBTTagCompound();
 		stackFull.stackTagCompound.setInteger(STORED_XP_NBT,
-				this.bookMaxStorage);
+				this.bookMaxStorage -1);
 		ItemStack stackDepleted = new ItemStack(par1, 1,
 				this.getMaxDamage() - 1);
 		stackDepleted.stackTagCompound = new NBTTagCompound();
@@ -195,12 +194,9 @@ public class ItemLevelStorageBook extends Item {
 		par3List.add(stackDepleted);
 	}
 
-	// Make our item to have a texture
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister.registerIcon(ClientProxy.BOOK_TEXTURE);
-		// this.field_111218_cA = ClientProxy.BOOK_TEXTURE;
-
 	}
 }

@@ -35,10 +35,20 @@ public class ModItems {
 	}
 
 	private void initItems() {
-		itemLevelStorageBook = new ItemLevelStorageBook(
-				LevelStorage.itemLevelStorageBookSpace);
-		itemAdvScanner = new ItemAdvancedScanner();
-		itemFreqCard = new ItemFrequencyCard();
+		Field[] fields = this.getClass().getDeclaredFields();
+		for (Field f : fields) {
+			if (f.getName() != "instance") {
+				try {
+					Class c = f.getType();
+					f.set(ModItems.instance, c.newInstance());
+				} catch (ClassCastException e) {
+				} catch (Exception e) {
+					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+							+ ": failed to initialize item");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	private void addRecipes() {
