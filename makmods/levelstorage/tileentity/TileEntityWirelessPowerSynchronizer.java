@@ -255,7 +255,9 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 						s.getWorld().provider.dimensionId, s.getX(), s.getY(),
 						s.getZ());
 				unused += s
-						.receiveEnergy(forEach -= thisTe.getDistance(pairTe));
+						.receiveEnergy(forEach -= BlockLocation
+								.getEnergyDiscount(forEach,
+										thisTe.getDistance(pairTe)));
 			}
 			return unused;
 		}
