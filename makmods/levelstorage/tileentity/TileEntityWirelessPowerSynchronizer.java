@@ -8,6 +8,9 @@ import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.tile.IWrenchable;
+
+import java.util.ArrayList;
+
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.logic.BlockLocation;
 import makmods.levelstorage.logic.Helper;
@@ -235,6 +238,26 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		}
 	}
 
+	public int sendEnergyToDevices(ArrayList<IWirelessPowerSync> devs,
+			int amount) {
+		int unused = 0;
+		int forEach;
+		if (devs.size() != 0)
+			forEach = amount / devs.size();
+		else
+			forEach = amount;
+		for (IWirelessPowerSync s : devs) {
+			BlockLocation thisTe = new BlockLocation(
+					this.getWorld().provider.dimensionId, this.getX(),
+					this.getY(), this.getZ());
+			BlockLocation pairTe = new BlockLocation(
+					s.getWorld().provider.dimensionId, s.getX(), s.getY(),
+					s.getZ());
+			unused += s.receiveEnergy(forEach -= thisTe.getDistance(pairTe));
+		}
+		return unused;
+	}
+
 	public int sendEnergyEqually(int amount) {
 		if (this.pairs.length > 0) {
 			int energyNotUsed = 0;
@@ -245,13 +268,26 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 			}
 
 			for (IWirelessPowerSync s : this.pairs) {
-				BlockLocation thisTe = new BlockLocation(this.getWorld().provider.dimensionId,
-						this.getX(), this.getY(), this.getZ());
+				BlockLocation thisTe = new BlockLocation(
+						this.getWorld().provider.dimensionId, this.getX(),
+						this.getY(), this.getZ());
 				BlockLocation pairTe = new BlockLocation(
-						s.getWorld().provider.dimensionId, s.getX(),
-						s.getY(), s.getZ());
-				int forEachWithDisc = forEach - BlockLocation.getEnergyDiscount(forEach, thisTe.getDistance(pairTe));
-				energyNotUsed += s.receiveEnergy(forEachWithDisc);
+						s.getWorld().provider.dimensionId, s.getX(), s.getY(),
+						s.getZ());
+				int forEachWithDisc = forEach
+						- BlockLocation.getEnergyDiscount(forEach,
+								thisTe.getDistance(pairTe));
+				int leftover = s.receiveEnergy(forEachWithDisc);
+				if (leftover == forEachWithDisc) {
+					ArrayList<IWirelessPowerSync> par5 = new ArrayList<IWirelessPowerSync>();
+					for (IWirelessPowerSync par6 : pairs) {
+						if (par6 != s)
+							par5.add(par6);
+					}
+					energyNotUsed += sendEnergyToDevices(par5, leftover);
+				} else {
+					energyNotUsed += leftover;
+				}
 			}
 			return energyNotUsed;
 		}
