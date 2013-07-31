@@ -1,7 +1,5 @@
 package makmods.levelstorage;
 
-import makmods.levelstorage.api.ItemAPI;
-import makmods.levelstorage.api.XpRegistryAPI;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
 import makmods.levelstorage.packet.PacketHandler;
@@ -11,6 +9,7 @@ import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
 import makmods.levelstorage.registry.XpStackRegistry;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
@@ -58,7 +57,9 @@ public class LevelStorage {
 				Configuration.CATEGORY_GENERAL, "bookCapacity",
 				2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2) // 16384
 				.getInt();
-		this.chargerOnlyUUM = config.get(Configuration.CATEGORY_GENERAL, "chargerOnlyUsesUUM", true).getBoolean(true);
+		Property p = config.get(Configuration.CATEGORY_GENERAL, "chargerOnlyUsesUUM", true);
+		p.comment = "If set to true, chargers will consume UUM and only UUM (they will refuse to receive any energy), if set to false, chargers will receive energy and only energy (no UUM)";
+		this.chargerOnlyUUM = p.getBoolean(true);
 	}
 
 	@EventHandler
