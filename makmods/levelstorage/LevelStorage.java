@@ -38,7 +38,7 @@ public class LevelStorage {
 	public static int itemLevelStorageBookSpace;
 	public static Configuration configuration;
 	public static boolean chargerOnlyUUM;
-
+	public static boolean experienceRecipesOn;
 	public static int currentIds = 250;
 
 	public static int getAndIncrementCurrId() {
@@ -60,6 +60,10 @@ public class LevelStorage {
 		Property p = config.get(Configuration.CATEGORY_GENERAL, "chargerOnlyUsesUUM", true);
 		p.comment = "If set to true, chargers will consume UUM and only UUM (they will refuse to receive any energy), if set to false, chargers will receive energy and only energy (no UUM)";
 		this.chargerOnlyUUM = p.getBoolean(true);
+		
+		Property p2 = config.get(Configuration.CATEGORY_GENERAL, "experienceRecipesEnabled", true);
+		p2.comment = "Whether or not experience recipes are enabled";
+		this.experienceRecipesOn = p2.getBoolean(true);
 	}
 
 	@EventHandler
