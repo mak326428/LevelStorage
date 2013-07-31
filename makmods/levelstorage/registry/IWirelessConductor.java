@@ -1,6 +1,5 @@
 package makmods.levelstorage.registry;
 
-import makmods.levelstorage.registry.ConductorType;
 
 /**
  * Basic interface for all the wireless conductors.

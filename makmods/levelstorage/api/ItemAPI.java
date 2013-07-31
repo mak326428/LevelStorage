@@ -86,12 +86,11 @@ public class ItemAPI {
 
 			if (nameCurrent == name) {
 				System.out.println("name = nameCurrent");
-				if (objCurrent instanceof Block) {
+				if (objCurrent instanceof Block)
 					return new ItemStack((Block) objCurrent);
-				} else {
-					if (objCurrent instanceof Item) {
+				else {
+					if (objCurrent instanceof Item)
 						return new ItemStack((Item) objCurrent);
-					}
 				}
 			}
 

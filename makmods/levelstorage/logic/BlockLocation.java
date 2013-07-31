@@ -1,6 +1,7 @@
 package makmods.levelstorage.logic;
 
 import makmods.levelstorage.LevelStorage;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.DimensionManager;
@@ -56,6 +57,68 @@ public class BlockLocation {
 		int zDistance = Math.abs(this.z - other.z);
 
 		return xDistance + yDistance + zDistance;
+	}
+
+	private static final String BLOCK_LOCATION_NBT = "blockLocation";
+	private static final String DIM_ID_NBT = "dimId";
+	private static final String X_NBT = "xCoord";
+	private static final String Y_NBT = "yCoord";
+	private static final String Z_NBT = "zCoord";
+
+	/**
+	 * Writes an instance of {@link BlockLocation} on a given NBT tag
+	 * 
+	 * @param nbt
+	 *            NBT to write to
+	 * @param location
+	 *            Self-descriptive
+	 */
+	public static void writeToNBT(NBTTagCompound nbt, BlockLocation location) {
+		NBTTagCompound blockLocationC = new NBTTagCompound();
+		blockLocationC.setInteger(DIM_ID_NBT, location.dimId);
+		blockLocationC.setInteger(X_NBT, location.x);
+		blockLocationC.setInteger(Y_NBT, location.y);
+		blockLocationC.setInteger(Z_NBT, location.z);
+		nbt.setCompoundTag(BLOCK_LOCATION_NBT, blockLocationC);
+	}
+
+	/**
+	 * Reads an instance of {@link BlockLocation} from a given NBT tag
+	 * 
+	 * @param nbt
+	 *            NBT tag compound to read from
+	 * @return An instance of {@link BlockLocation} containing read data
+	 */
+	public static BlockLocation readFromNBT(NBTTagCompound nbt) {
+		if (nbt == null) {
+			nbt = new NBTTagCompound();
+		}
+		NBTTagCompound blockLocationC = nbt.getCompoundTag(BLOCK_LOCATION_NBT);
+		BlockLocation loc = new BlockLocation();
+		if ((blockLocationC.getInteger(X_NBT) == 0)
+				&& (blockLocationC.getInteger(Y_NBT) == 0)
+				&& (blockLocationC.getInteger(Z_NBT) == 0))
+			return null;
+		loc.setDimId(blockLocationC.getInteger(DIM_ID_NBT));
+		loc.setX(blockLocationC.getInteger(X_NBT));
+		loc.setY(blockLocationC.getInteger(Y_NBT));
+		loc.setZ(blockLocationC.getInteger(Z_NBT));
+		return loc;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("BlockLocation: ");
+		sb.append("x: " + this.x);
+		sb.append(' ');
+		sb.append("y: " + this.y);
+		sb.append(' ');
+		sb.append("z: " + this.z);
+		sb.append(' ');
+		sb.append("dimId: " + this.dimId);
+		sb.append(';');
+		return sb.toString();
 	}
 
 	/**
@@ -115,7 +178,7 @@ public class BlockLocation {
 
 	// Getters & setters ahead
 	public int getDimId() {
-		return dimId;
+		return this.dimId;
 	}
 
 	public void setDimId(int dimId) {
@@ -123,7 +186,7 @@ public class BlockLocation {
 	}
 
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	public void setX(int x) {
@@ -131,7 +194,7 @@ public class BlockLocation {
 	}
 
 	public int getY() {
-		return y;
+		return this.y;
 	}
 
 	public void setY(int y) {
@@ -139,7 +202,7 @@ public class BlockLocation {
 	}
 
 	public int getZ() {
-		return z;
+		return this.z;
 	}
 
 	public void setZ(int z) {

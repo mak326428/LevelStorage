@@ -2,7 +2,6 @@ package makmods.levelstorage.gui;
 
 import ic2.api.item.Items;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -35,8 +34,9 @@ public class ContainerXpCharger extends Container {
 			TileEntityXpCharger te) {
 		this.tileEntity = te;
 		this.addSlotToContainer(new SlotBookCharger(this.tileEntity, 0, 80, 35));
-		if (LevelStorage.chargerOnlyUUM)
+		if (LevelStorage.chargerOnlyUUM) {
 			this.addSlotToContainer(new SlotUUM(this.tileEntity, 1, 80, 15));
+		}
 
 		this.bindPlayerInventory(inventoryPlayer);
 	}

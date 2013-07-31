@@ -4,7 +4,6 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
@@ -39,16 +38,18 @@ public class GuiXpCharger extends GuiContainer {
 		// draw your Gui here, only thing you need to change is the path
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		// this.mc.renderEngine.bindTexture(ClientProxy.GUI_SINGLE_SLOT);
-		if (LevelStorage.chargerOnlyUUM)
+		if (LevelStorage.chargerOnlyUUM) {
 			this.mc.func_110434_K().func_110577_a(ClientProxy.GUI_CHARGER);
-		else
+		} else {
 			this.mc.func_110434_K().func_110577_a(
 					ClientProxy.GUI_CHARGER_NO_UUM);
+		}
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
-		if (LevelStorage.chargerOnlyUUM)
-			drawTexturedModalRect(x + 69, y + 55, 176, 3,
-					tileEntity.getProgress() + 1, 5);
+		if (LevelStorage.chargerOnlyUUM) {
+			this.drawTexturedModalRect(x + 69, y + 55, 176, 3,
+					this.tileEntity.getProgress() + 1, 5);
+		}
 	}
 }

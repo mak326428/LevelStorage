@@ -8,9 +8,6 @@ import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.item.Items;
 import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
-
-import java.util.Random;
-
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotBook;
@@ -44,14 +41,14 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 
 	@Override
 	public int demandsEnergy() {
-		if (!LevelStorage.chargerOnlyUUM) {
+		if (!LevelStorage.chargerOnlyUUM)
 			return this.getCapacity() - this.getStored();
-		} else
+		else
 			return 0;
 	}
 
 	public int getProgress() {
-		return progress;
+		return this.progress;
 	}
 
 	public void setProgress(int p) {
@@ -377,7 +374,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 				// WTF? It didn't work until i set == true. That is weird.
 				if (LevelStorage.chargerOnlyUUM == true) {
 					if (this.uumPoints <= 0) {
-						if (inv[1] != null) {
+						if (this.inv[1] != null) {
 							if (this.inv[1].stackSize >= XpStackRegistry.UUM_XP_CONVERSION
 									.getKey()) {
 								if (this.inv[1].getItem() == Items.getItem(

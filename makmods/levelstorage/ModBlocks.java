@@ -1,8 +1,5 @@
 package makmods.levelstorage;
 
-import ic2.api.item.Items;
-import ic2.api.recipe.Recipes;
-
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 
@@ -12,9 +9,6 @@ import makmods.levelstorage.block.BlockXpCharger;
 import makmods.levelstorage.block.BlockXpGenerator;
 import makmods.levelstorage.lib.Reference;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;

@@ -41,7 +41,7 @@ public class LevelStorage {
 	public static boolean chargerOnlyUUM;
 	public static boolean experienceRecipesOn;
 	public static int currentIds = 250;
-	
+
 	public static boolean detectedGT = false;
 
 	public static int getAndIncrementCurrId() {
@@ -56,17 +56,19 @@ public class LevelStorage {
 				event.getSuggestedConfigurationFile());
 		configuration = config;
 		configuration.load();
-		this.itemLevelStorageBookSpace = config.get(
+		LevelStorage.itemLevelStorageBookSpace = config.get(
 				Configuration.CATEGORY_GENERAL, "bookCapacity",
 				2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2) // 16384
 				.getInt();
-		Property p = config.get(Configuration.CATEGORY_GENERAL, "chargerOnlyUsesUUM", true);
+		Property p = config.get(Configuration.CATEGORY_GENERAL,
+				"chargerOnlyUsesUUM", true);
 		p.comment = "If set to true, chargers will consume UUM and only UUM (they will refuse to receive any energy), if set to false, chargers will receive energy and only energy (no UUM)";
-		this.chargerOnlyUUM = p.getBoolean(true);
-		
-		Property p2 = config.get(Configuration.CATEGORY_GENERAL, "experienceRecipesEnabled", true);
+		LevelStorage.chargerOnlyUUM = p.getBoolean(true);
+
+		Property p2 = config.get(Configuration.CATEGORY_GENERAL,
+				"experienceRecipesEnabled", true);
 		p2.comment = "Whether or not experience recipes are enabled";
-		this.experienceRecipesOn = p2.getBoolean(true);
+		LevelStorage.experienceRecipesOn = p2.getBoolean(true);
 	}
 
 	@EventHandler
@@ -99,7 +101,7 @@ public class LevelStorage {
 		XpStackRegistry.instance.printRegistry();
 
 		configuration.save();
-		
+
 		if (Loader.isModLoaded("gregtech_addon")) {
 			FMLLog.info("GregTech detected. Performing needed changes.");
 			detectedGT = true;

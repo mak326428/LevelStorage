@@ -13,13 +13,15 @@ public class NBTHelper {
 
 	/**
 	 * Used for null-safety
+	 * 
 	 * @param stack
 	 */
 	public static void checkNBT(ItemStack stack) {
-		if (stack.stackTagCompound == null)
+		if (stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
+		}
 	}
-	
+
 	/**
 	 * Shortcut for NBTTagCompound.hasKey()
 	 */
@@ -32,23 +34,31 @@ public class NBTHelper {
 		checkNBT(stack);
 		stack.stackTagCompound.setInteger(name, value);
 	}
-	
+
 	public static int getInteger(ItemStack stack, String name) {
 		checkNBT(stack);
-		if (!verifyKey(stack, name))
+		if (!verifyKey(stack, name)) {
 			setInteger(stack, name, 0);
+		}
 		return stack.stackTagCompound.getInteger(name);
 	}
-	
+
+	public static void decreaseInteger(ItemStack stack, String name, int value) {
+		if (getInteger(stack, name) > 0) {
+			setInteger(stack, name, getInteger(stack, name) - value);
+		}
+	}
+
 	public static void setString(ItemStack stack, String name, String value) {
 		checkNBT(stack);
 		stack.stackTagCompound.setString(name, value);
 	}
-	
+
 	public static String getString(ItemStack stack, String name) {
 		checkNBT(stack);
-		if (!verifyKey(stack, name))
+		if (!verifyKey(stack, name)) {
 			setString(stack, name, "");
+		}
 		return stack.stackTagCompound.getString(name);
 	}
 

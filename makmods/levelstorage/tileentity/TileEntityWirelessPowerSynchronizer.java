@@ -243,10 +243,11 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		int unused = 0;
 		if (devs.size() > 0) {
 			int forEach;
-			if (devs.size() != 0)
+			if (devs.size() != 0) {
 				forEach = amount / devs.size();
-			else
+			} else {
 				forEach = amount;
+			}
 			for (IWirelessPowerSync s : devs) {
 				BlockLocation thisTe = new BlockLocation(
 						this.getWorld().provider.dimensionId, this.getX(),
@@ -286,11 +287,12 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 				int leftover = s.receiveEnergy(forEachWithDisc);
 				if (leftover == forEachWithDisc) {
 					ArrayList<IWirelessPowerSync> par5 = new ArrayList<IWirelessPowerSync>();
-					for (IWirelessPowerSync par6 : pairs) {
-						if (par6 != s)
+					for (IWirelessPowerSync par6 : this.pairs) {
+						if (par6 != s) {
 							par5.add(par6);
+						}
 					}
-					int par7 = sendEnergyToDevices(par5, leftover);
+					int par7 = this.sendEnergyToDevices(par5, leftover);
 					energyNotUsed += par7;
 				} else {
 					energyNotUsed += leftover;

@@ -14,7 +14,6 @@ import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -24,17 +23,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockWirelessConductor extends BlockContainer {
 
 	public static final String UNLOCALIZED_NAME = "blockWirelessConductor";
 	public static final String NAME = "Wireless Conductor";
-	
-	
+
 	public BlockWirelessConductor() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
 				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
@@ -46,18 +41,19 @@ public class BlockWirelessConductor extends BlockContainer {
 		this.setHardness(3.0F);
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.375F, 1F);
 	}
-	
+
 	public static void addCraftingRecipe() {
 		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
 		ItemStack transformerHv = Items.getItem("hvTransformer");
 		ItemStack advCircuit = Items.getItem("advancedCircuit");
 		ItemStack advMachine = Items.getItem("advancedMachine");
 		ItemStack enderPearl = new ItemStack(Item.enderPearl);
-		Recipes.advRecipes.addRecipe(new ItemStack(ModBlocks.instance.blockWlessConductor),
-				"tmt", "cec", "chc", Character.valueOf('t'), frequencyTr,
-				Character.valueOf('e'), enderPearl, Character.valueOf('c'),
-				advCircuit, Character.valueOf('h'), transformerHv,
-				Character.valueOf('m'), advMachine);
+		Recipes.advRecipes.addRecipe(new ItemStack(
+				ModBlocks.instance.blockWlessConductor), "tmt", "cec", "chc",
+				Character.valueOf('t'), frequencyTr, Character.valueOf('e'),
+				enderPearl, Character.valueOf('c'), advCircuit, Character
+						.valueOf('h'), transformerHv, Character.valueOf('m'),
+				advMachine);
 	}
 
 	private Icon down;
@@ -79,6 +75,7 @@ public class BlockWirelessConductor extends BlockContainer {
 	}
 
 	// It's not a normal block, so you need this too.
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}

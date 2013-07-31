@@ -17,9 +17,9 @@ public class ExperienceRecipe implements IRecipe {
 	public boolean matches(InventoryCrafting inventoryCrafting, World world) {
 		return this.getResInternal(inventoryCrafting) != null;
 	}
-	
+
 	public ItemStack getResInternal(InventoryCrafting inventoryCrafting) {
-		
+
 		int bookXp = 0;
 		ItemStack initialBookStack = null;
 		boolean seenBook = false;
@@ -27,7 +27,7 @@ public class ExperienceRecipe implements IRecipe {
 		int buffXp = 0;
 		for (int i = 0; i < inventoryCrafting.getSizeInventory(); ++i) {
 			boolean cycleCompleted = false;
-			
+
 			ItemStack currentStack = inventoryCrafting.getStackInSlot(i);
 			if (currentStack != null && !currentStack.equals(null)) {
 				if (currentStack.getItem() instanceof ItemLevelStorageBook) {
@@ -69,12 +69,12 @@ public class ExperienceRecipe implements IRecipe {
 			if (!v)
 				return null;
 		}
-		
+
 		if ((bookXp + buffXp) >= LevelStorage.itemLevelStorageBookSpace)
 			return null;
 
 		int totalXp = bookXp + buffXp;
-		
+
 		if (totalXp == 0)
 			return null;
 		if (!seenBook)
