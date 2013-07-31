@@ -19,10 +19,13 @@ public class XpStackRegistry {
 	}
 
 	public ArrayList<XpStack> ITEM_XP_CONVERSIONS = new ArrayList<XpStack>();
-
+	
 	public static final AbstractMap.SimpleEntry<Integer, Integer> XP_EU_CONVERSION = new AbstractMap.SimpleEntry<Integer, Integer>(
 			1, 64); // 1 XP = 64 EU
-
+	public static final AbstractMap.SimpleEntry<Integer, Integer> UUM_XP_CONVERSION = new AbstractMap.SimpleEntry<Integer, Integer>(
+			1, 130); // 1 UUM = 130 XP
+	
+	
 	public static final int ORE_DICT_NOT_FOUND = -1;
 
 	public void initCriticalNodes() {

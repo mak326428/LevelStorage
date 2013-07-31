@@ -1,6 +1,7 @@
 package makmods.levelstorage.gui;
 
 import ic2.api.item.Items;
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,7 +35,8 @@ public class ContainerXpCharger extends Container {
 			TileEntityXpCharger te) {
 		this.tileEntity = te;
 		this.addSlotToContainer(new SlotBookCharger(this.tileEntity, 0, 80, 35));
-		this.addSlotToContainer(new SlotUUM(this.tileEntity, 1, 80, 15));
+		if (LevelStorage.chargerOnlyUUM)
+			this.addSlotToContainer(new SlotUUM(this.tileEntity, 1, 80, 15));
 
 		this.bindPlayerInventory(inventoryPlayer);
 	}
@@ -42,22 +44,27 @@ public class ContainerXpCharger extends Container {
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
-
-		for (int i = 0; i < this.crafters.size(); i++) {
-			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-			icrafting.sendProgressBarUpdate(this, 0, this.tileEntity.getProgress());
+		if (LevelStorage.chargerOnlyUUM) {
+			for (int i = 0; i < this.crafters.size(); i++) {
+				ICrafting icrafting = (ICrafting) this.crafters.get(i);
+				icrafting.sendProgressBarUpdate(this, 0,
+						this.tileEntity.getProgress());
+			}
 		}
 	}
 
 	@Override
 	public void updateProgressBar(int i, int j) {
-		switch (i) {
-		case 0:
-			this.tileEntity.setProgress(j);;
-			break;
+		if (LevelStorage.chargerOnlyUUM) {
+			switch (i) {
+			case 0:
+				this.tileEntity.setProgress(j);
+				;
+				break;
+			}
 		}
 	}
-	
+
 	@Override
 	public boolean canInteractWith(EntityPlayer p) {
 		return true;

@@ -24,6 +24,7 @@ public class ClientProxy extends CommonProxy {
 			.toLowerCase() + ":" + "itemFreqCard";
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
 	public static final ResourceLocation GUI_CHARGER = getResourceLocation("gui/charger.png");
+	public static final ResourceLocation GUI_CHARGER_NO_UUM = getResourceLocation("gui/chargeroutd.png");
 	
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");

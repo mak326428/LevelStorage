@@ -38,6 +38,7 @@ public class LevelStorage {
 
 	public static int itemLevelStorageBookSpace;
 	public static Configuration configuration;
+	public static boolean chargerOnlyUUM;
 
 	public static int currentIds = 250;
 
@@ -52,11 +53,12 @@ public class LevelStorage {
 		Configuration config = new Configuration(
 				event.getSuggestedConfigurationFile());
 		configuration = config;
+		configuration.load();
 		this.itemLevelStorageBookSpace = config.get(
 				Configuration.CATEGORY_GENERAL, "bookCapacity",
 				2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2) // 16384
 				.getInt();
-		configuration.load();
+		this.chargerOnlyUUM = config.get(Configuration.CATEGORY_GENERAL, "chargerOnlyUsesUUM", true).getBoolean(true);
 	}
 
 	@EventHandler

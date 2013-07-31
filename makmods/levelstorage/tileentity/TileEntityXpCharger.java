@@ -5,6 +5,7 @@ import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergyTile;
+import ic2.api.item.Items;
 import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
 
@@ -39,35 +40,50 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	private int progress = 1;
 	public static final int MAX_PACKET_SIZE = 512;
 
+	public int uumPoints = 0;
+
 	@Override
 	public int demandsEnergy() {
-		return this.getCapacity() - this.getStored();
+		if (!LevelStorage.chargerOnlyUUM) {
+			return this.getCapacity() - this.getStored();
+		} else
+			return 0;
 	}
-	
+
 	public int getProgress() {
 		return progress;
 	}
-	
+
 	public void setProgress(int p) {
 		this.progress = p;
 	}
 
+	public void syncUUMProgress() {
+		float percent = ((this.uumPoints * 100.0f) / XpStackRegistry.UUM_XP_CONVERSION
+				.getValue()) / 100;
+		this.progress = (int) (36 * percent);
+	}
+
 	@Override
 	public int injectEnergy(Direction directionFrom, int amount) {
-		if (amount > MAX_PACKET_SIZE) {
-			this.invalidate();
-			this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
-			this.worldObj.createExplosion(null, this.xCoord, this.yCoord,
-					this.zCoord, 2F, false);
+		if (!LevelStorage.chargerOnlyUUM) {
+			if (amount > MAX_PACKET_SIZE) {
+				this.invalidate();
+				this.worldObj.setBlockToAir(this.xCoord, this.yCoord,
+						this.zCoord);
+				this.worldObj.createExplosion(null, this.xCoord, this.yCoord,
+						this.zCoord, 2F, false);
+			}
+			if ((this.getCapacity() - this.getStored()) > amount) {
+				this.addEnergy(amount);
+				return 0;
+			} else {
+				int leftover = amount - (this.getCapacity() - this.getStored());
+				this.setStored(INTERNAL_CAPACITOR);
+				return leftover;
+			}
 		}
-		if ((this.getCapacity() - this.getStored()) > amount) {
-			this.addEnergy(amount);
-			return 0;
-		} else {
-			int leftover = amount - (this.getCapacity() - this.getStored());
-			this.setStored(INTERNAL_CAPACITOR);
-			return leftover;
-		}
+		return amount;
 	}
 
 	@Override
@@ -197,18 +213,23 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	public void onChunkUnload() {
 		if (!this.worldObj.isRemote) {
 			super.onChunkUnload();
-			if (this.addedToENet) {
-				MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-				this.addedToENet = false;
+			if (!LevelStorage.chargerOnlyUUM) {
+				if (this.addedToENet) {
+					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(
+							this));
+					this.addedToENet = false;
+				}
 			}
 		}
 	}
 
 	@Override
 	public void invalidate() {
-		if (this.addedToENet) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-			this.addedToENet = false;
+		if (!LevelStorage.chargerOnlyUUM) {
+			if (this.addedToENet) {
+				MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+				this.addedToENet = false;
+			}
 		}
 		super.invalidate();
 	}
@@ -284,6 +305,8 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("storedEnergy", this.storedEnergy);
 		par1NBTTagCompound.setInteger("progress", this.progress);
+		par1NBTTagCompound.setInteger("uumPoints", this.uumPoints);
+
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < this.inv.length; i++) {
 			ItemStack stack = this.inv[i];
@@ -302,6 +325,8 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 		super.readFromNBT(par1NBTTagCompound);
 		this.storedEnergy = par1NBTTagCompound.getInteger("storedEnergy");
 		this.progress = par1NBTTagCompound.getInteger("progress");
+		this.uumPoints = par1NBTTagCompound.getInteger("uumPoints");
+
 		NBTTagList tagList = par1NBTTagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -315,33 +340,69 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	@Override
 	public void updateEntity() {
 		if (!this.worldObj.isRemote) {
-			
-			if (!this.addedToENet) {
-				MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
-				this.addedToENet = true;
+			if (!LevelStorage.chargerOnlyUUM) {
+				if (!this.addedToENet) {
+					MinecraftForge.EVENT_BUS
+							.post(new EnergyTileLoadEvent(this));
+					this.addedToENet = true;
+				}
 			}
 			this.isWorking = (!this.worldObj.isBlockIndirectlyGettingPowered(
 					this.xCoord, this.yCoord, this.zCoord) && this.worldObj
 					.getBlockPowerInput(this.xCoord, this.yCoord, this.zCoord) < 1);
 			if (this.isWorking) {
-				if (this.inv[0] != null) {
-					if (this.inv[0].getItem() instanceof ItemLevelStorageBook) {
-						if (this.getStored() > XpStackRegistry.XP_EU_CONVERSION
-								.getValue() * ENERGY_COST_MULTIPLIER) {
-							if ((LevelStorage.itemLevelStorageBookSpace - ItemLevelStorageBook
-									.getStoredXP(this.inv[0])) > XpStackRegistry.XP_EU_CONVERSION
+
+				if (!LevelStorage.chargerOnlyUUM) {
+					if (this.inv[0] != null) {
+						if (this.inv[0].getItem() instanceof ItemLevelStorageBook) {
+							if (this.getStored() > XpStackRegistry.XP_EU_CONVERSION
+									.getValue() * ENERGY_COST_MULTIPLIER) {
+								if ((LevelStorage.itemLevelStorageBookSpace - ItemLevelStorageBook
+										.getStoredXP(this.inv[0])) > XpStackRegistry.XP_EU_CONVERSION
+										.getKey()) {
+									this.addEnergy(-(XpStackRegistry.XP_EU_CONVERSION
+											.getValue() * ENERGY_COST_MULTIPLIER));
+									ItemLevelStorageBook.increaseStoredXP(
+											this.inv[0],
+											XpStackRegistry.XP_EU_CONVERSION
+													.getKey());
+								}
+							}
+							this.inv[0].setItemDamage(ItemLevelStorageBook
+									.calculateDurability(this.inv[0]));
+						}
+					}
+				}
+				// } else {
+				// WTF? It didn't work until i set == true. That is weird.
+				if (LevelStorage.chargerOnlyUUM == true) {
+					if (this.uumPoints <= 0) {
+						if (inv[1] != null) {
+							if (this.inv[1].stackSize >= XpStackRegistry.UUM_XP_CONVERSION
 									.getKey()) {
-								this.addEnergy(-(XpStackRegistry.XP_EU_CONVERSION
-										.getValue() * ENERGY_COST_MULTIPLIER));
-								ItemLevelStorageBook.increaseStoredXP(
-										this.inv[0],
-										XpStackRegistry.XP_EU_CONVERSION
-												.getKey());
+								if (this.inv[1].getItem() == Items.getItem(
+										"matter").getItem()) {
+									this.decrStackSize(1,
+											XpStackRegistry.UUM_XP_CONVERSION
+													.getKey());
+									this.uumPoints += XpStackRegistry.UUM_XP_CONVERSION
+											.getValue();
+								}
 							}
 						}
-						this.inv[0].setItemDamage(ItemLevelStorageBook
-								.calculateDurability(this.inv[0]));
 					}
+					if (this.uumPoints > 0) {
+						if (this.inv[0] != null) {
+							if ((LevelStorage.itemLevelStorageBookSpace - ItemLevelStorageBook
+									.getStoredXP(this.inv[0])) > 1) {
+								ItemLevelStorageBook.increaseStoredXP(
+										this.inv[0], 1);
+								this.uumPoints--;
+							}
+						}
+						this.syncUUMProgress();
+					}
+					// }}
 				}
 			}
 		}
