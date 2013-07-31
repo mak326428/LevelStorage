@@ -4,6 +4,7 @@ import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -38,14 +39,16 @@ public class ModItems {
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field f : fields) {
 			if (f.getName() != "instance") {
-				try {
-					Class c = f.getType();
-					f.set(ModItems.instance, c.newInstance());
-				} catch (ClassCastException e) {
-				} catch (Exception e) {
-					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-							+ ": failed to initialize item");
-					e.printStackTrace();
+				if (!Modifier.isPrivate(f.getModifiers())) {
+					try {
+						Class c = f.getType();
+						f.set(ModItems.instance, c.newInstance());
+					} catch (ClassCastException e) {
+					} catch (Exception e) {
+						FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+								+ ": failed to initialize item");
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -54,14 +57,16 @@ public class ModItems {
 	private void addRecipes() {
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field f : fields) {
-			if (f.getName() != "instance") {
-				try {
-					f.getType().getMethod("addCraftingRecipe").invoke(null);
-				} catch (ClassCastException e) {
-				} catch (Exception e) {
-					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-							+ ": failed to add recipe");
-					e.printStackTrace();
+			if (!Modifier.isPrivate(f.getModifiers())) {
+				if (f.getName() != "instance") {
+					try {
+						f.getType().getMethod("addCraftingRecipe").invoke(null);
+					} catch (ClassCastException e) {
+					} catch (Exception e) {
+						FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+								+ ": failed to add recipe");
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -94,16 +99,18 @@ public class ModItems {
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field f : fields) {
 			if (f.getName() != "instance") {
-				try {
-					Item currItem = (Item) f.get(ModItems.instance);
-					String name = (String) currItem.getClass()
-							.getField("NAME").get(null);
-					LanguageRegistry.addName(currItem, name);
-				} catch (ClassCastException e) {
-				} catch (Exception e) {
-					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-							+ ": failed to name item");
-					e.printStackTrace();
+				if (!Modifier.isPrivate(f.getModifiers())) {
+					try {
+						Item currItem = (Item) f.get(ModItems.instance);
+						String name = (String) currItem.getClass()
+								.getField("NAME").get(null);
+						LanguageRegistry.addName(currItem, name);
+					} catch (ClassCastException e) {
+					} catch (Exception e) {
+						FMLLog.log(Level.SEVERE, Reference.MOD_NAME
+								+ ": failed to name item");
+						e.printStackTrace();
+					}
 				}
 			}
 		}

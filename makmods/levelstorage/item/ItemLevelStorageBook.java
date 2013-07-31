@@ -30,10 +30,9 @@ public class ItemLevelStorageBook extends Item {
 
 	public static String STORED_XP_NBT = "storedXP";
 	public static int XP_PER_INTERACTION = 100;
-	
+
 	public static final String UNLOCALIZED_NAME = "xpStorageBook";
 	public static final String NAME = "XP Tome";
-	
 
 	public ItemLevelStorageBook() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
@@ -45,18 +44,21 @@ public class ItemLevelStorageBook extends Item {
 		this.setCreativeTab(CreativeTabs.tabTools);
 		this.setMaxStackSize(1);
 	}
-	
+
 	public static void addCraftingRecipe() {
 		// Book
-		ItemStack stackDepleted = new ItemStack(ModItems.instance.itemLevelStorageBook, 1, 0);
+		ItemStack stackDepleted = new ItemStack(
+				ModItems.instance.itemLevelStorageBook, 1, 0);
 		stackDepleted.stackTagCompound = new NBTTagCompound();
 		ItemStack stackBook = new ItemStack(Item.book);
 		ItemStack stackGoldBlock = new ItemStack(Block.blockGold);
 		ItemStack stackEnchTable = new ItemStack(Block.enchantmentTable);
 		GameRegistry.addShapelessRecipe(stackDepleted, stackBook,
 				stackGoldBlock, stackEnchTable);
-		CraftingManager.getInstance().getRecipeList()
-		.add(new ExperienceRecipe());
+		if (LevelStorage.experienceRecipesOn) {
+			CraftingManager.getInstance().getRecipeList()
+					.add(new ExperienceRecipe());
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -203,7 +205,7 @@ public class ItemLevelStorageBook extends Item {
 		ItemStack stackFull = new ItemStack(par1, 1, 1);
 		stackFull.stackTagCompound = new NBTTagCompound();
 		stackFull.stackTagCompound.setInteger(STORED_XP_NBT,
-				this.bookMaxStorage -1);
+				this.bookMaxStorage - 1);
 		ItemStack stackDepleted = new ItemStack(par1, 1,
 				this.getMaxDamage() - 1);
 		stackDepleted.stackTagCompound = new NBTTagCompound();

@@ -4,6 +4,7 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
@@ -11,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiXpCharger extends GuiContainer {
 	public TileEntityXpCharger tileEntity;
-	
+
 	public GuiXpCharger(InventoryPlayer inventoryPlayer,
 			TileEntityXpCharger tileEntity) {
 		super(new ContainerXpCharger(inventoryPlayer, tileEntity));
@@ -28,7 +29,7 @@ public class GuiXpCharger extends GuiContainer {
 				StatCollector.translateToLocal("container.inventory"), 8,
 				this.ySize - 96 + 2, 4210752);
 	}
-	
+
 	// p max = ~36
 	// p min = 1
 
@@ -41,11 +42,13 @@ public class GuiXpCharger extends GuiContainer {
 		if (LevelStorage.chargerOnlyUUM)
 			this.mc.func_110434_K().func_110577_a(ClientProxy.GUI_CHARGER);
 		else
-			this.mc.func_110434_K().func_110577_a(ClientProxy.GUI_CHARGER_NO_UUM);
+			this.mc.func_110434_K().func_110577_a(
+					ClientProxy.GUI_CHARGER_NO_UUM);
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
 		if (LevelStorage.chargerOnlyUUM)
-			drawTexturedModalRect(x + 69, y + 55, 176, 3, tileEntity.getProgress() + 1, 5);
+			drawTexturedModalRect(x + 69, y + 55, 176, 3,
+					tileEntity.getProgress() + 1, 5);
 	}
 }

@@ -12,6 +12,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -40,6 +41,8 @@ public class LevelStorage {
 	public static boolean chargerOnlyUUM;
 	public static boolean experienceRecipesOn;
 	public static int currentIds = 250;
+	
+	public static boolean detectedGT = false;
 
 	public static int getAndIncrementCurrId() {
 		currentIds += 1;
@@ -96,6 +99,12 @@ public class LevelStorage {
 		XpStackRegistry.instance.printRegistry();
 
 		configuration.save();
+		
+		if (Loader.isModLoaded("gregtech_addon")) {
+			FMLLog.info("GregTech detected. Performing needed changes.");
+			detectedGT = true;
+			XpStackRegistry.UUM_XP_CONVERSION.setValue(1300);
+		}
 	}
 
 	public static Side getSide() {

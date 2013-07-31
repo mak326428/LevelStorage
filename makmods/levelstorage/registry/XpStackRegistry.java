@@ -4,7 +4,9 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.api.XpStack;
+import makmods.levelstorage.lib.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -35,6 +37,18 @@ public class XpStackRegistry {
 		this.pushToRegistry(new XpStack(new ItemStack(Item.diamond), 512));
 		this.pushToRegistry(new XpStack(new ItemStack(Item.netherStar), 4096));
 		this.pushToRegistry(new XpStack(new ItemStack(Block.obsidian), 8));
+		// dummy for debug
+		//this.pushOreToRegistry("ingotGold", 1);
+		
+		if (LevelStorage.detectedGT) {
+			this.pushOreToRegistry("dustDiamond", 512);
+			this.pushOreToRegistry("dustTinyDiamond", 128);
+			this.pushOreToRegistry("dustPlatinum", 2048);
+			this.pushOreToRegistry("dustTinyPlatinum", 512);
+			this.pushOreToRegistry("dustPlutonium", 1536);
+			this.pushOreToRegistry("dustTinyPlutonium", 1536 / 4);
+			
+		}
 		//this.pushOreToRegistry("dustDiamond", 512);
 	}
 
@@ -57,14 +71,13 @@ public class XpStackRegistry {
 	}
 
 	public void pushOreToRegistry(String name, int value) {
-		// Something's wrong here, TODO: test.
-		if (OreDictionary.getOreID(name) == ORE_DICT_NOT_FOUND) {
-			FMLLog.log(Level.WARNING, "Ore " + name
-					+ " is not found in the ore dictionary, ignoring");
-			return;
-		}
+		boolean exists = false;
 		for (ItemStack stack : OreDictionary.getOres(name)) {
 			this.pushToRegistry(new XpStack(stack, value));
+			exists = true;
+		}
+		if (!exists) {
+			FMLLog.warning(Reference.MOD_NAME + ": failed to add ore to XP Registry - " + name);
 		}
 	}
 }
