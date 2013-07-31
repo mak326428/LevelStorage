@@ -2,8 +2,8 @@
 {
   "modid": "LevelStorage",
   "name": "Level Storage Mod",
-  "description": "Adds Wireless Power Transfer (IC2 energy), and some basic interactions with experience. (keep, use to generate energy, use energy (and UUM) to generate xp) Also, an advanced scanner",
-  "version": "0.9beta-h3",
+  "description": "Adds Wireless Power Transfer (IC2 energy), and some basic interactions with experience. (keep, use to generate energy, use energy (and UUM) to generate xp) Also, an advanced scanner and even a portable teleporter! More to come soon...",
+  "version": "0.9beta-h4",
   "mcversion": "1.6.2",
   "updateUrl": "",
   "authors": ["mak326428"],
