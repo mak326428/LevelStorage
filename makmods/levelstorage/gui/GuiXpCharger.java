@@ -9,9 +9,12 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 public class GuiXpCharger extends GuiContainer {
+	public TileEntityXpCharger tileEntity;
+	
 	public GuiXpCharger(InventoryPlayer inventoryPlayer,
 			TileEntityXpCharger tileEntity) {
 		super(new ContainerXpCharger(inventoryPlayer, tileEntity));
+		this.tileEntity = tileEntity;
 	}
 
 	@Override
@@ -24,6 +27,9 @@ public class GuiXpCharger extends GuiContainer {
 				StatCollector.translateToLocal("container.inventory"), 8,
 				this.ySize - 96 + 2, 4210752);
 	}
+	
+	// p max = ~36
+	// p min = 1
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
@@ -31,9 +37,10 @@ public class GuiXpCharger extends GuiContainer {
 		// draw your Gui here, only thing you need to change is the path
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		// this.mc.renderEngine.bindTexture(ClientProxy.GUI_SINGLE_SLOT);
-		this.mc.func_110434_K().func_110577_a(ClientProxy.GUI_SINGLE_SLOT);
+		this.mc.func_110434_K().func_110577_a(ClientProxy.GUI_CHARGER);
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
+		drawTexturedModalRect(x + 69, y + 55, 176, 3, tileEntity.getProgress() + 1, 5);
 	}
 }

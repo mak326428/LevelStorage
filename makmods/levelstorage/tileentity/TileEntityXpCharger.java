@@ -7,6 +7,9 @@ import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
+
+import java.util.Random;
+
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotBook;
@@ -27,17 +30,26 @@ import net.minecraftforge.common.MinecraftForge;
 public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 		IEnergySink, IEnergyStorage, IInventory, IWrenchable, ISidedInventory {
 	public static final int INTERNAL_CAPACITOR = 4096;
-	public static final int INVENTORY_SIZE = 1;
+	public static final int INVENTORY_SIZE = 2;
 	public static final String INVENTORY_NAME = "XP Charger";
 	public static final int ENERGY_COST_MULTIPLIER = 10;
 	public boolean isWorking = true;
 	public int storedEnergy = 0;
 	private boolean addedToENet = false;
+	private int progress = 1;
 	public static final int MAX_PACKET_SIZE = 512;
 
 	@Override
 	public int demandsEnergy() {
 		return this.getCapacity() - this.getStored();
+	}
+	
+	public int getProgress() {
+		return progress;
+	}
+	
+	public void setProgress(int p) {
+		this.progress = p;
 	}
 
 	@Override
@@ -271,7 +283,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("storedEnergy", this.storedEnergy);
-
+		par1NBTTagCompound.setInteger("progress", this.progress);
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < this.inv.length; i++) {
 			ItemStack stack = this.inv[i];
@@ -289,7 +301,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
 		this.storedEnergy = par1NBTTagCompound.getInteger("storedEnergy");
-
+		this.progress = par1NBTTagCompound.getInteger("progress");
 		NBTTagList tagList = par1NBTTagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -303,6 +315,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	@Override
 	public void updateEntity() {
 		if (!this.worldObj.isRemote) {
+			
 			if (!this.addedToENet) {
 				MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 				this.addedToENet = true;
