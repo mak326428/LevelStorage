@@ -1,10 +1,7 @@
 package makmods.levelstorage.gui;
 
 import ic2.api.item.IElectricItem;
-import ic2.api.item.Items;
-import makmods.levelstorage.item.ItemWirelessCharger;
 import makmods.levelstorage.logic.NBTInventory;
-import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -28,17 +25,15 @@ public class ContainerWirelessCharger extends Container {
 			return checkItemValidity(stack);
 		}
 	}
+	
+	NBTInventory inv;
 
-	protected NBTInventory inv;
-	protected ItemStack callingStack;
-
-	public ContainerWirelessCharger(InventoryPlayer inventoryPlayer,
-			ItemStack callingStack) {
-		this.inv = new NBTInventory(callingStack, ItemWirelessCharger.NBT_INVENTORY_SIZE);
+	public ContainerWirelessCharger(EntityPlayer player, ItemStack stack) {
+		this.inv = new NBTInventory(stack, 1);
+		//this.inv = new NBTInventory(callingStack, ItemWirelessCharger.NBT_INVENTORY_SIZE, player, slotId);
 		this.addSlotToContainer(new SlotCharging(inv, 0, 80,
 				35));
-		this.bindPlayerInventory(inventoryPlayer);
-		this.callingStack = callingStack;
+		this.bindPlayerInventory(player.inventory);
 		inv.openChest();
 	}
 

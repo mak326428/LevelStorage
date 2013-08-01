@@ -1,5 +1,6 @@
 package makmods.levelstorage.logic;
 
+import makmods.levelstorage.gui.NBTInventoryRegistry;
 import makmods.levelstorage.gui.SlotBook;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -9,22 +10,14 @@ import net.minecraft.nbt.NBTTagList;
 
 public class NBTInventory implements IInventory {
 
-	public ItemStack boundStack;
 	public int inventorySize;
-	
-	public int dimId;
-	public String plUsername;
-	public int slotId;
 
 	public static final String INVENTORY_NAME = "NBT Inventory";
 
-	public NBTInventory(ItemStack boundStack, int size, int dimId, String plUsername, int slotId) {
-		this.boundStack = boundStack;
+	public NBTInventory(ItemStack boundStack, int size) {
 		this.inv = new ItemStack[size];
 		this.inventorySize = size;
-		this.dimId = dimId;
-		this.plUsername = plUsername;
-		this.slotId = slotId;
+		NBTInventoryRegistry.addToRegistry(boundStack, this);
 		readFromNBT();
 	}
 
@@ -58,6 +51,7 @@ public class NBTInventory implements IInventory {
 	@Override
 	public void closeChest() {
 		this.saveToNBT();
+		NBTInventoryRegistry.removeFromRegistry(this);
 	}
 	
 	public void saveToNBT() {
@@ -71,8 +65,10 @@ public class NBTInventory implements IInventory {
 				itemList.appendTag(tag);
 			}
 		}
-		
-		this.boundStack.stackTagCompound.setTag("Inventory", itemList);
+		ItemStack containingStack = NBTInventoryRegistry.getStack(this);
+		NBTInventoryRegistry.removeFromRegistry(this);
+		containingStack.stackTagCompound.setTag("Inventory", itemList);
+		NBTInventoryRegistry.addToRegistry(containingStack, this);
 		
 	}
 
@@ -83,7 +79,7 @@ public class NBTInventory implements IInventory {
 
 	public void readFromNBT() {
 		//System.out.println("readFromNBT");
-		NBTTagList tagList = this.boundStack.stackTagCompound.getTagList("Inventory");
+		NBTTagList tagList = NBTInventoryRegistry.getStack(this).stackTagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
 			byte slot = tag.getByte("Slot");

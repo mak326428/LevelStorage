@@ -1,9 +1,8 @@
 package makmods.levelstorage.gui;
 
-import makmods.levelstorage.logic.NBTInventory;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
@@ -11,8 +10,10 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiWirelessCharger extends GuiContainer {
 
-	public GuiWirelessCharger(InventoryPlayer inventoryPlayer, ItemStack th) {
-		super(new ContainerWirelessCharger(inventoryPlayer, th));
+	public GuiWirelessCharger(EntityPlayer p, ItemStack th) {
+		// super(new ContainerWirelessCharger(inventoryPlayer, th));
+		// TODO: get around to doing this. Right now, skipping
+		super(new ContainerWirelessCharger(p, th));
 	}
 
 	@Override

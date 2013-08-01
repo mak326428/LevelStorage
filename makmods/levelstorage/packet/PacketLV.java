@@ -16,7 +16,7 @@ import cpw.mods.fml.common.network.Player;
  * @author pahimar
  * 
  */
-public class PacketLV extends Packet {
+public class PacketLV {
 
 	public PacketTypeHandler packetType;
 	public boolean isChunkDataPacket;
@@ -65,29 +65,5 @@ public class PacketLV extends Packet {
 
 	public void setKey(int key) {
 
-	}
-
-	@Override
-	public void readPacketData(DataInput datainput) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void writePacketData(DataOutput dataoutput) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void processPacket(NetHandler nethandler) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getPacketSize() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

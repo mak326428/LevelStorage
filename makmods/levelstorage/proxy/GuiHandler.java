@@ -56,7 +56,7 @@ public class GuiHandler implements IGuiHandler {
 					int offset = id - CommonProxy.WIRELESS_CHARGER_GUI_PLUS - 1;
 					ItemStack neededStack = player.inventory.mainInventory[offset];
 					if (neededStack != null) {
-						return new ContainerWirelessCharger(player.inventory,
+						return new ContainerWirelessCharger(player,
 								neededStack);
 					}
 				}
@@ -85,14 +85,14 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new GuiWirelessPowerSync(player.inventory,
 					(TileEntityWirelessPowerSynchronizer) tileEntity);
-
+		
 		if (player != null) {
 			try {
 				if ((id - CommonProxy.WIRELESS_CHARGER_GUI_PLUS) > 0) {
 					int offset = id - CommonProxy.WIRELESS_CHARGER_GUI_PLUS - 1;
 					ItemStack neededStack = player.inventory.mainInventory[offset];
 					if (neededStack != null) {
-						return new GuiWirelessCharger(player.inventory,
+						return new GuiWirelessCharger(player,
 								neededStack);
 					}
 				}
@@ -100,6 +100,15 @@ public class GuiHandler implements IGuiHandler {
 				e.printStackTrace();
 			}
 		}
+
+		/*
+		 * if (player != null) { try { if ((id -
+		 * CommonProxy.WIRELESS_CHARGER_GUI_PLUS) > 0) { int offset = id -
+		 * CommonProxy.WIRELESS_CHARGER_GUI_PLUS - 1; ItemStack neededStack =
+		 * player.inventory.mainInventory[offset]; if (neededStack != null) {
+		 * return new GuiWirelessCharger(player.inventory, neededStack); } } }
+		 * catch (Exception e) { e.printStackTrace(); } }
+		 */
 
 		return null;
 
