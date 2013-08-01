@@ -5,6 +5,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatMessageComponent;
 
 public class CommonProxy {
+	
+	public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
+	
 	public void init() {
 	}
 

@@ -1,18 +1,22 @@
 package makmods.levelstorage.packet;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataInput;
 import java.io.DataInputStream;
+import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.NetHandler;
+import net.minecraft.network.packet.Packet;
 import cpw.mods.fml.common.network.Player;
 
 /**
  * @author pahimar
  * 
  */
-public class PacketLV {
+public class PacketLV extends Packet {
 
 	public PacketTypeHandler packetType;
 	public boolean isChunkDataPacket;
@@ -61,5 +65,29 @@ public class PacketLV {
 
 	public void setKey(int key) {
 
+	}
+
+	@Override
+	public void readPacketData(DataInput datainput) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writePacketData(DataOutput dataoutput) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void processPacket(NetHandler nethandler) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getPacketSize() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

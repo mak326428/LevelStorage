@@ -395,6 +395,8 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 								ItemLevelStorageBook.increaseStoredXP(
 										this.inv[0], 1);
 								this.uumPoints--;
+								this.inv[0].setItemDamage(ItemLevelStorageBook
+										.calculateDurability(this.inv[0]));
 							}
 						}
 						this.syncUUMProgress();

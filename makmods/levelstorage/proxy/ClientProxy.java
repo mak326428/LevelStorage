@@ -38,6 +38,8 @@ public class ClientProxy extends CommonProxy {
 			.toLowerCase() + ":" + "blockXpCharger";
 	public static final String WIRELESS_POWER_SYNC_TEXTURE = Reference.MOD_ID
 			.toLowerCase() + ":" + "blockWirelessPSync";
+	public static final String WIRELESS_CHARGER_TEXTURE = Reference.MOD_ID.toLowerCase()
+			+ ":" + "itemWirelessCharger";
 
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
