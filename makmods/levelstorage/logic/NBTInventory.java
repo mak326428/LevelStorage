@@ -1,7 +1,8 @@
 package makmods.levelstorage.logic;
 
 import makmods.levelstorage.gui.NBTInventoryRegistry;
-import makmods.levelstorage.gui.SlotBook;
+import makmods.levelstorage.proxy.ServerTickHandler;
+import makmods.levelstorage.proxy.Task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -51,9 +52,17 @@ public class NBTInventory implements IInventory {
 	@Override
 	public void closeChest() {
 		this.saveToNBT();
+		final int canIUseItHere = 1;
 		NBTInventoryRegistry.removeFromRegistry(this);
+		for (int i = 0; i < 6; i++) {
+			ServerTickHandler.todoList.add(new Task() {
+				public void doJob() {
+					System.out.println("Job is done");
+				}
+			});
+		}
 	}
-	
+
 	public void saveToNBT() {
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < this.inv.length; i++) {
@@ -69,17 +78,18 @@ public class NBTInventory implements IInventory {
 		NBTInventoryRegistry.removeFromRegistry(this);
 		containingStack.stackTagCompound.setTag("Inventory", itemList);
 		NBTInventoryRegistry.addToRegistry(containingStack, this);
-		
+
 	}
 
 	public void onInventoryChanged() {
 		saveToNBT();
-		//System.out.println(boundTagCompound);
+		// System.out.println(boundTagCompound);
 	}
 
 	public void readFromNBT() {
-		//System.out.println("readFromNBT");
-		NBTTagList tagList = NBTInventoryRegistry.getStack(this).stackTagCompound.getTagList("Inventory");
+		// System.out.println("readFromNBT");
+		NBTTagList tagList = NBTInventoryRegistry.getStack(this).stackTagCompound
+				.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
 			byte slot = tag.getByte("Slot");
@@ -87,8 +97,8 @@ public class NBTInventory implements IInventory {
 				this.inv[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
-		//System.out.println(tagList);
-		//System.out.println(boundTagCompound);
+		// System.out.println(tagList);
+		// System.out.println(boundTagCompound);
 	}
 
 	@Override
