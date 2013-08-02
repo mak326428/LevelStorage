@@ -1,8 +1,7 @@
 package makmods.levelstorage.logic;
 
-import makmods.levelstorage.gui.NBTInventoryRegistry;
-import makmods.levelstorage.proxy.ServerTickHandler;
-import makmods.levelstorage.proxy.Task;
+import java.util.HashMap;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -13,12 +12,14 @@ public class NBTInventory implements IInventory {
 
 	public int inventorySize;
 
+	public static final HashMap<NBTInventory, ItemStack> inventories = new HashMap<NBTInventory, ItemStack>();
+
 	public static final String INVENTORY_NAME = "NBT Inventory";
 
-	public NBTInventory(ItemStack boundStack, int size) {
+	public NBTInventory(ItemStack bStack, int size) {
 		this.inv = new ItemStack[size];
 		this.inventorySize = size;
-		NBTInventoryRegistry.addToRegistry(boundStack, this);
+		inventories.put(this, bStack);
 		readFromNBT();
 	}
 
@@ -52,15 +53,7 @@ public class NBTInventory implements IInventory {
 	@Override
 	public void closeChest() {
 		this.saveToNBT();
-		final int canIUseItHere = 1;
-		NBTInventoryRegistry.removeFromRegistry(this);
-		for (int i = 0; i < 6; i++) {
-			ServerTickHandler.todoList.add(new Task() {
-				public void doJob() {
-					System.out.println("Job is done");
-				}
-			});
-		}
+
 	}
 
 	public void saveToNBT() {
@@ -74,11 +67,9 @@ public class NBTInventory implements IInventory {
 				itemList.appendTag(tag);
 			}
 		}
-		ItemStack containingStack = NBTInventoryRegistry.getStack(this);
-		NBTInventoryRegistry.removeFromRegistry(this);
-		containingStack.stackTagCompound.setTag("Inventory", itemList);
-		NBTInventoryRegistry.addToRegistry(containingStack, this);
-
+		
+		inventories.get(this).stackTagCompound.setTag("Inventory", itemList);
+		
 	}
 
 	public void onInventoryChanged() {
@@ -88,7 +79,7 @@ public class NBTInventory implements IInventory {
 
 	public void readFromNBT() {
 		// System.out.println("readFromNBT");
-		NBTTagList tagList = NBTInventoryRegistry.getStack(this).stackTagCompound
+		NBTTagList tagList = inventories.get(this).stackTagCompound
 				.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);

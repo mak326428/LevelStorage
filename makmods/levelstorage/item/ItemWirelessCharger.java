@@ -107,37 +107,8 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 			} else
 				return par1ItemStack;
 
-			LevelStorage.proxy.messagePlayer(par3EntityPlayer,
-					"Connecting to given frequency...", new Object[0]);
-			ItemStack[] playerInv = par3EntityPlayer.inventory.mainInventory;
-			int offset = 0;
-			for (int i = 0; i < 9; i++) {
-				ItemStack currStack = playerInv[i];
-				if (Helper.compareStacksGenerally(currStack, par1ItemStack)) {
-					offset = i;
-					break;
-				}
-			}
 			
-			int playerId = 0;
-			for (int i = 0; i < par2World.playerEntities.size(); i++) {
-				EntityPlayer currP = (EntityPlayer)par2World.playerEntities.get(i);
-				if (currP != null) {
-					if (currP.username == par3EntityPlayer.username) {
-						playerId = i;
-						break;
-					}
-				}
-			}
-			int gui = CommonProxy.WIRELESS_CHARGER_GUI_PLUS + offset + 1;
-			par3EntityPlayer.openGui(LevelStorage.instance, gui, par2World,
-					playerId + 1, 0, 0);
 			
-			/*
-			 * We'll do some sneakiness here: our X will
-			 * be dimension ID and Y will be player's 
-			 * id in the list of players
-			 */
 		}
 
 		return par1ItemStack;
