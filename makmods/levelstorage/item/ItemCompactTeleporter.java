@@ -15,13 +15,12 @@ import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -118,10 +117,12 @@ public class ItemCompactTeleporter extends Item implements IElectricItem {
 
 				LevelStorage.proxy.messagePlayer(par3EntityPlayer,
 						"Teleported.", new Object[0]);
+				
 				BlockLocation dest = BlockLocation
 						.readFromNBT(par1ItemStack.stackTagCompound);
 				if (par3EntityPlayer.dimension != dest.getDimId())
 					par3EntityPlayer.travelToDimension(dest.getDimId());
+				
 				par3EntityPlayer.setPositionAndUpdate(dest.getX(),
 						dest.getY() + 1, dest.getZ());
 			}

@@ -9,7 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
 public class GuiWirelessCharger extends GuiContainer {
 
 	public GuiWirelessCharger(EntityPlayer ep) {
-		super(new ContainerWirelessCharger(ep));
+		//super(new ContainerWirelessCharger(ep));
+		super(null);
 	}
 
 	@Override

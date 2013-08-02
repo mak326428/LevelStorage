@@ -39,11 +39,11 @@ public class GuiHandler implements IGuiHandler {
 			return new ContainerPowerSync(player.inventory,
 					(TileEntityWirelessPowerSynchronizer) tileEntity);
 		
-		switch (id) {
-		case 60:
-			return new ContainerWirelessCharger(player);
+		//switch (id) {
+		//case 60:
+		//	return new ContainerWirelessCharger(world.provider.dimensionId, player.username, );
 
-		}
+		//}
 
 		return null;
 	}
@@ -66,11 +66,11 @@ public class GuiHandler implements IGuiHandler {
 			return new GuiWirelessPowerSync(player.inventory,
 					(TileEntityWirelessPowerSynchronizer) tileEntity);
 		
-		switch (id) {
-		case 60:
-			return new GuiWirelessCharger(player);
-
-		}
+		//switch (id) {
+		//case 60:
+		//	return new GuiWirelessCharger(player);
+//
+		//}
 
 		return null;
 

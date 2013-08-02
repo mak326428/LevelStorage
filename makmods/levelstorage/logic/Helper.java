@@ -1,7 +1,9 @@
 package makmods.levelstorage.logic;
 
 import makmods.levelstorage.registry.SyncType;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class Helper {
 	public static SyncType invertType(SyncType type) {
@@ -22,6 +24,12 @@ public class Helper {
 		return (s1.itemID == s2.itemID)
 				&& (s1.getItemDamage() == s2.getItemDamage())
 				&& (s1.stackSize == s2.stackSize);
+	}
+	
+	public static void spawnLightning(World w, int x, int y, int z) {
+		EntityLightningBolt lightning = new EntityLightningBolt(w, x, y, z);
+		w.addWeatherEffect(lightning);
+		w.spawnEntityInWorld(lightning);
 	}
 	
 	public static String getNiceStackName(ItemStack stack) {
