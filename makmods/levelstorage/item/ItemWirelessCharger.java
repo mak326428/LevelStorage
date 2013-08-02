@@ -22,7 +22,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemWirelessCharger extends Item implements IElectricItem {
+public class ItemWirelessCharger extends Item implements IElectricItem, IHasNBTInventory {
 
 	public static final String UNLOCALIZED_NAME = "wirelessCharger";
 	public static final String NAME = "Wireless Charger";
@@ -107,8 +107,7 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 			} else
 				return par1ItemStack;
 
-			
-			
+			par3EntityPlayer.openGui(LevelStorage.instance, 60, par2World, 0, 0, 0);
 		}
 
 		return par1ItemStack;

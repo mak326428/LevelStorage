@@ -23,7 +23,7 @@ public class Helper {
 				&& (s1.getItemDamage() == s2.getItemDamage())
 				&& (s1.stackSize == s2.stackSize);
 	}
-
+	
 	public static String getNiceStackName(ItemStack stack) {
 		StringBuilder sb = new StringBuilder();
 		if (stack == null) {

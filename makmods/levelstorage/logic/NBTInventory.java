@@ -1,25 +1,32 @@
 package makmods.levelstorage.logic;
 
-import java.util.HashMap;
-
+import makmods.levelstorage.item.IHasNBTInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.DimensionManager;
 
 public class NBTInventory implements IInventory {
 
 	public int inventorySize;
-
-	public static final HashMap<NBTInventory, ItemStack> inventories = new HashMap<NBTInventory, ItemStack>();
-
+	
+	public static final int SIZE = 1;
 	public static final String INVENTORY_NAME = "NBT Inventory";
+	
+	// PLAYER - ITEMSTACK SPECIFIC FIELDS
+	public int dimId;
+	public String playerName;
+	public int itemStackIndex;
+	// END OF SPECIFIC FIELDS
 
-	public NBTInventory(ItemStack bStack, int size) {
-		this.inv = new ItemStack[size];
-		this.inventorySize = size;
-		inventories.put(this, bStack);
+	public NBTInventory(int dimId, String playerName, int itemStack) {
+		this.dimId = dimId;
+		this.playerName = playerName;
+		this.itemStackIndex = itemStack;
+		this.inv = new ItemStack[SIZE];
+		this.inventorySize = SIZE;
 		readFromNBT();
 	}
 
@@ -67,9 +74,21 @@ public class NBTInventory implements IInventory {
 				itemList.appendTag(tag);
 			}
 		}
-		
-		inventories.get(this).stackTagCompound.setTag("Inventory", itemList);
-		
+		try {
+			// YES, it is a mess and pretty slow code, 
+			// but without it nothing will work. Period.
+			for (Object ep : DimensionManager.getWorld(dimId).playerEntities) {
+				if (((EntityPlayer)ep).username == this.playerName) {
+					if (((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex] != null) {
+						if (((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex].getItem() instanceof IHasNBTInventory) {
+							((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex].stackTagCompound.setTag("Inventory", itemList);
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void onInventoryChanged() {
@@ -79,8 +98,22 @@ public class NBTInventory implements IInventory {
 
 	public void readFromNBT() {
 		// System.out.println("readFromNBT");
-		NBTTagList tagList = inventories.get(this).stackTagCompound
-				.getTagList("Inventory");
+		NBTTagList tagList = null;
+		try {
+			// YES, it is a mess and pretty slow code, 
+			// but without it nothing will work. Period.
+			for (Object ep : DimensionManager.getWorld(dimId).playerEntities) {
+				if (((EntityPlayer)ep).username == this.playerName) {
+					if (((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex] != null) {
+						if (((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex].getItem() instanceof IHasNBTInventory) {
+							tagList = ((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex].stackTagCompound.getTagList("Inventory");
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
 			byte slot = tag.getByte("Slot");

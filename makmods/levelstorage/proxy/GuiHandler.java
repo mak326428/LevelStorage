@@ -1,9 +1,11 @@
 package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.gui.ContainerPowerSync;
+import makmods.levelstorage.gui.ContainerWirelessCharger;
 import makmods.levelstorage.gui.ContainerWirelessConductor;
 import makmods.levelstorage.gui.ContainerXpCharger;
 import makmods.levelstorage.gui.ContainerXpGenerator;
+import makmods.levelstorage.gui.GuiWirelessCharger;
 import makmods.levelstorage.gui.GuiWirelessConductor;
 import makmods.levelstorage.gui.GuiWirelessPowerSync;
 import makmods.levelstorage.gui.GuiXpCharger;
@@ -36,6 +38,12 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new ContainerPowerSync(player.inventory,
 					(TileEntityWirelessPowerSynchronizer) tileEntity);
+		
+		switch (id) {
+		case 60:
+			return new ContainerWirelessCharger(player);
+
+		}
 
 		return null;
 	}
@@ -57,6 +65,12 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new GuiWirelessPowerSync(player.inventory,
 					(TileEntityWirelessPowerSynchronizer) tileEntity);
+		
+		switch (id) {
+		case 60:
+			return new GuiWirelessCharger(player);
+
+		}
 
 		return null;
 
