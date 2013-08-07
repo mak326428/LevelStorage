@@ -1,8 +1,11 @@
 package makmods.levelstorage.logic;
 
 import makmods.levelstorage.LevelStorage;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeDirection;
@@ -32,6 +35,19 @@ public class BlockLocation {
 		this.z = z;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		boolean eq = true;
+		eq = eq && other instanceof BlockLocation;
+		if (eq) {
+			eq = eq && ((BlockLocation) other).dimId == this.dimId;
+			eq = eq && ((BlockLocation) other).x == this.x;
+			eq = eq && ((BlockLocation) other).y == this.y;
+			eq = eq && ((BlockLocation) other).z == this.z;
+		}
+		return eq;
+	}
+
 	/**
 	 * Initializes empty instance of BlockLocation (all values are 0s)
 	 */
@@ -40,6 +56,16 @@ public class BlockLocation {
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
+	}
+
+	public String getBlockName() {
+		try {
+			World w = DimensionManager.getWorld(this.dimId);
+			return new ItemStack(Block.blocksList[w.getBlockId(x, y, z)])
+					.getDisplayName();
+		} catch (Exception e) {
+			return "Unknown.";
+		}
 	}
 
 	/**

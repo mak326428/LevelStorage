@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -100,6 +101,7 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 		mineableBlocks.add(Block.stairsNetherBrick);
 		mineableBlocks.add(Block.slowSand);
 		mineableBlocks.add(Block.anvil);
+		mineableBlocks.add(Block.oreNetherQuartz);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -175,15 +177,19 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 			if (OreDictHelper.getOreName(new ItemStack(bl)).startsWith("ore")) {
 				OreFinder finder = new OreFinder();
 				finder.aimBlockId = bl.blockID;
-				finder.aimBlockMeta = par2World.getBlockMetadata(par4, par5, par6);
+				finder.aimBlockMeta = par2World.getBlockMetadata(par4, par5,
+						par6);
 				finder.world = par2World;
 				finder.calibrate(par4, par5, par6);
 				System.out.println();
+				System.out.println();
+				System.out.println("Found ore: ");
 				for (BlockLocation loc : finder.foundOre) {
-					System.out.println("Found ore: ");
+					System.out.println();
 					System.out.println("X: " + loc.getX());
 					System.out.println("Y: " + loc.getY());
 					System.out.println("Z: " + loc.getZ());
+					System.out.println(loc.getBlockName());
 				}
 			}
 		}
@@ -204,38 +210,47 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 		public World world;
 
 		public void calibrate(int x, int y, int z) {
-			initialZ = x;
+			initialX = x;
 			initialY = y;
 			initialZ = z;
 			BlockLocation initialBlock = new BlockLocation(
 					world.provider.dimensionId, x, y, z);
-			foundOre.add(initialBlock);
+			// foundOre.add(initialBlock);
 			findContinuation(initialBlock);
 		}
 
 		public void findContinuation(BlockLocation loc) {
-			int[] xAdds = { -1, 1 };
-			int[] yAdds = { -1, 1 };
-			int[] zAdds = { -1, 1 };
+			boolean found = false;
+			if (loc != null) {
+				for (BlockLocation locat : foundOre) {
+					if (locat.equals(loc))
+						found = true;
+				}
+				if (!found)
+					foundOre.add(loc);
+			}
+			if (!found) {
+				for (int dir = 0; dir < 6; dir++) {
+					BlockLocation newTh = loc.move(
+							ForgeDirection.values()[dir], 1);
+					int currX = newTh.getX();
+					int currY = newTh.getY();
+					int currZ = newTh.getZ();
 
-			if (loc != null)
-				foundOre.add(loc);
-
-			for (int xAdd : xAdds) {
-				for (int yAdd : yAdds) {
-					for (int zAdd : zAdds) {
-						int currX = loc.getX() + xAdd;
-						int currY = loc.getY() + yAdd;
-						int currZ = loc.getZ() + zAdd;
-						Block currBlock = Block.blocksList[this.world
-								.getBlockId(currX, currY, currZ)];
-						if (currBlock != null) {
-							if (currBlock.blockID == aimBlockId) {
-								int currMeta = this.world.getBlockMetadata(currX, currY, currZ);
-								if (currMeta == aimBlockMeta) {
-									// Recursion, very dangerous, but i hope nobody will use this on stone...
-									findContinuation(new BlockLocation(this.world.provider.dimensionId, currX, currY, currZ));
-								}
+					Block currBlock = Block.blocksList[this.world.getBlockId(
+							currX, currY, currZ)];
+					if (currBlock != null) {
+						if (currBlock.blockID == aimBlockId) {
+							int currMeta = this.world.getBlockMetadata(currX,
+									currY, currZ);
+							if (currMeta == aimBlockMeta) {
+								// Recursion, very dangerous, but i hope nobody
+								// will
+								// use
+								// this on stone...
+								findContinuation(new BlockLocation(
+										this.world.provider.dimensionId, currX,
+										currY, currZ));
 							}
 						}
 					}
