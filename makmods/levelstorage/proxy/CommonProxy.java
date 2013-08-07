@@ -2,6 +2,7 @@ package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModBlocks;
+import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.ModTileEntities;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
@@ -17,9 +18,9 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 public class CommonProxy {
-	
+
 	public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
-	
+
 	public void init() {
 		NetworkRegistry.instance().registerGuiHandler(LevelStorage.instance,
 				new GuiHandler());
@@ -28,9 +29,10 @@ public class CommonProxy {
 		ModBlocks.instance.init();
 		ModItems.instance.init();
 		ModTileEntities.instance.init();
+		ModFluids.instance.init();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
 	}
-	
+
 	public void postInit() {
 		XpStackRegistry.instance.initCriticalNodes();
 		XpStackRegistry.instance.printRegistry();
@@ -42,6 +44,7 @@ public class CommonProxy {
 			LevelStorage.detectedGT = true;
 			XpStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
+
 	}
 
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {

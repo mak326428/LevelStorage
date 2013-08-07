@@ -43,6 +43,10 @@ public class LevelStorage {
 		return currentIds;
 	}
 
+	public static void logFailure(String text) {
+		FMLLog.severe(Reference.MOD_NAME + ": " + text);
+	}
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		FMLLog.info(Reference.MOD_NAME + ": Pre-Initialization...");

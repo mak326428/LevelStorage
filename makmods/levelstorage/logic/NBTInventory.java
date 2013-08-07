@@ -11,14 +11,15 @@ import net.minecraftforge.common.DimensionManager;
 public class NBTInventory implements IInventory {
 
 	public int inventorySize;
-	
+
 	public static final int SIZE = 1;
 	public static final String INVENTORY_NAME = "NBT Inventory";
-	
+
 	// PLAYER - ITEMSTACK SPECIFIC FIELDS
 	public int dimId;
 	public String playerName;
 	public int itemStackIndex;
+
 	// END OF SPECIFIC FIELDS
 
 	public NBTInventory(int dimId, String playerName, int itemStack) {
@@ -27,7 +28,7 @@ public class NBTInventory implements IInventory {
 		this.itemStackIndex = itemStack;
 		this.inv = new ItemStack[SIZE];
 		this.inventorySize = SIZE;
-		readFromNBT();
+		this.readFromNBT();
 	}
 
 	public ItemStack[] inv;
@@ -75,13 +76,15 @@ public class NBTInventory implements IInventory {
 			}
 		}
 		try {
-			// YES, it is a mess and pretty slow code, 
+			// YES, it is a mess and pretty slow code,
 			// but without it nothing will work. Period.
-			for (Object ep : DimensionManager.getWorld(dimId).playerEntities) {
-				if (((EntityPlayer)ep).username == this.playerName) {
-					if (((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex] != null) {
-						if (((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex].getItem() instanceof IHasNBTInventory) {
-							((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex].stackTagCompound.setTag("Inventory", itemList);
+			for (Object ep : DimensionManager.getWorld(this.dimId).playerEntities) {
+				if (((EntityPlayer) ep).username == this.playerName) {
+					if (((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex] != null) {
+						if (((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex]
+								.getItem() instanceof IHasNBTInventory) {
+							((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex].stackTagCompound
+									.setTag("Inventory", itemList);
 						}
 					}
 				}
@@ -91,8 +94,9 @@ public class NBTInventory implements IInventory {
 		}
 	}
 
+	@Override
 	public void onInventoryChanged() {
-		saveToNBT();
+		this.saveToNBT();
 		// System.out.println(boundTagCompound);
 	}
 
@@ -100,13 +104,15 @@ public class NBTInventory implements IInventory {
 		// System.out.println("readFromNBT");
 		NBTTagList tagList = null;
 		try {
-			// YES, it is a mess and pretty slow code, 
+			// YES, it is a mess and pretty slow code,
 			// but without it nothing will work. Period.
-			for (Object ep : DimensionManager.getWorld(dimId).playerEntities) {
-				if (((EntityPlayer)ep).username == this.playerName) {
-					if (((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex] != null) {
-						if (((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex].getItem() instanceof IHasNBTInventory) {
-							tagList = ((EntityPlayer)ep).inventory.mainInventory[this.itemStackIndex].stackTagCompound.getTagList("Inventory");
+			for (Object ep : DimensionManager.getWorld(this.dimId).playerEntities) {
+				if (((EntityPlayer) ep).username == this.playerName) {
+					if (((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex] != null) {
+						if (((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex]
+								.getItem() instanceof IHasNBTInventory) {
+							tagList = ((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex].stackTagCompound
+									.getTagList("Inventory");
 						}
 					}
 				}

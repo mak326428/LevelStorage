@@ -2,7 +2,6 @@ package makmods.levelstorage.gui;
 
 import ic2.api.item.IElectricItem;
 import makmods.levelstorage.logic.NBTInventory;
-import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -12,28 +11,28 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.DimensionManager;
 
 public class ContainerWirelessCharger extends Container {
-	
+
 	public class SlotItemCharger extends Slot {
-		public SlotItemCharger(IInventory par1IInventory, int par2, int par3, int par4) {
+		public SlotItemCharger(IInventory par1IInventory, int par2, int par3,
+				int par4) {
 			super(par1IInventory, par2, par3, par4);
 		}
-		
+
 		@Override
 		public boolean isItemValid(ItemStack stack) {
 			return stack.getItem() instanceof IElectricItem;
 		}
 	}
-	
+
 	public NBTInventory inventory;
-	
 
 	public ContainerWirelessCharger(int dimId, String playerName, int itemStack) {
 		this.inventory = new NBTInventory(dimId, playerName, itemStack);
-		this.addSlotToContainer(new SlotFrequencyCard(this.inventory, 0, 80,
-				35));
-		bindPlayerInventory(DimensionManager.getWorld(dimId).getPlayerEntityByName(playerName).inventory);
+		this.addSlotToContainer(new SlotFrequencyCard(this.inventory, 0, 80, 35));
+		this.bindPlayerInventory(DimensionManager.getWorld(dimId)
+				.getPlayerEntityByName(playerName).inventory);
 	}
-	
+
 	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -47,7 +46,7 @@ public class ContainerWirelessCharger extends Container {
 					142));
 		}
 	}
-	
+
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,
 			int slotIndex) {
@@ -61,21 +60,19 @@ public class ContainerWirelessCharger extends Container {
 			itemStack = slotItemStack.copy();
 
 			if (slotIndex < NBTInventory.SIZE) {
-				if (!this.mergeItemStack(slotItemStack,
-						NBTInventory.SIZE,
+				if (!this.mergeItemStack(slotItemStack, NBTInventory.SIZE,
 						this.inventorySlots.size(), false))
 					return null;
 			} else {
 				// WARNING: the following code is for this current case only.
 				// this won't work for you
 				if (slotItemStack != null) {
-					if (!(slotItemStack.getItem() instanceof IElectricItem)) {
+					if (!(slotItemStack.getItem() instanceof IElectricItem))
 						return null;
-					}
 				}
 				// End of warning
-				if (!this.mergeItemStack(slotItemStack, 0,
-						NBTInventory.SIZE, false))
+				if (!this.mergeItemStack(slotItemStack, 0, NBTInventory.SIZE,
+						false))
 					return null;
 			}
 

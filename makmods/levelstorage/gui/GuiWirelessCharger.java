@@ -1,15 +1,15 @@
 package makmods.levelstorage.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 
+import org.lwjgl.opengl.GL11;
+
 public class GuiWirelessCharger extends GuiContainer {
 
 	public GuiWirelessCharger(EntityPlayer ep) {
-		//super(new ContainerWirelessCharger(ep));
+		// super(new ContainerWirelessCharger(ep));
 		super(null);
 	}
 

@@ -25,13 +25,36 @@ public class Helper {
 				&& (s1.getItemDamage() == s2.getItemDamage())
 				&& (s1.stackSize == s2.stackSize);
 	}
-	
-	public static void spawnLightning(World w, int x, int y, int z) {
+
+	public static boolean isNumberNegative(int number) {
+		return number != Math.abs(number);
+	}
+
+	public static int getRandomNumber(int signs) {
+		// Hacky hacky hack hack
+		String max = "1";
+		for (int i = 0; i < signs; i++) {
+			max += "0";
+		}
+		int maxSign = Integer.parseInt(max);
+		boolean negativeSign = Math.random() < 0.5D;
+		if (negativeSign)
+			return (int) (-(Math.random() * maxSign));
+		else
+			return (int) (Math.random() * maxSign);
+	}
+
+	public static void spawnLightning(World w, int x, int y, int z, boolean exp) {
 		EntityLightningBolt lightning = new EntityLightningBolt(w, x, y, z);
 		w.addWeatherEffect(lightning);
+		if (exp) {
+			w.createExplosion(lightning, x, y, z,
+					(float) (Math.random() * 1.0f), true);
+		}
 		w.spawnEntityInWorld(lightning);
+
 	}
-	
+
 	public static String getNiceStackName(ItemStack stack) {
 		StringBuilder sb = new StringBuilder();
 		if (stack == null) {

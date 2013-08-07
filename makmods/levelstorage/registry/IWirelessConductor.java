@@ -1,6 +1,5 @@
 package makmods.levelstorage.registry;
 
-
 /**
  * Basic interface for all the wireless conductors.
  * 

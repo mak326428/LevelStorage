@@ -12,6 +12,10 @@ import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.logic.BlockLocation;
+import makmods.levelstorage.logic.Helper;
+import makmods.levelstorage.logic.LSDamageSource;
+import makmods.levelstorage.packet.PacketParticles;
+import makmods.levelstorage.packet.PacketTypeHandler;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.registry.IWirelessConductor;
 import makmods.levelstorage.registry.WirelessConductorRegistry;
@@ -25,6 +29,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class TileEntityWirelessConductor extends TileEntity implements
 		IWirelessConductor, IInventory, IEnergyTile, IEnergySink, IWrenchable,
@@ -133,12 +138,25 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		return amount;
 	}
 
+	public int elapsedReceives = 0;
+
 	@Override
 	public int receiveEnergy(int amount) {
 		// What the heck are you asking me, i am source!
 		if (this.type == ConductorType.SOURCE)
 			return amount;
 		else {
+			this.elapsedReceives++;
+			if (this.elapsedReceives > 600 && amount > 128) {
+				Helper.spawnLightning(this.worldObj, this.xCoord, this.yCoord,
+						this.zCoord, false);
+				this.elapsedReceives = 0;
+			}
+			EntityPlayer ep = this.worldObj.getClosestPlayer(this.xCoord,
+					this.yCoord, this.zCoord, 8);
+			if (ep != null) {
+				ep.attackEntityFrom(LSDamageSource.energyField, 2);
+			}
 			EnergyTileSourceEvent sourceEvent = new EnergyTileSourceEvent(this,
 					amount);
 			MinecraftForge.EVENT_BUS.post(sourceEvent);
@@ -245,7 +263,31 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	@Override
 	public void updateEntity() {
+		this.particleTime++;
+		if (this.particleTime > 40) {
 
+			for (int i = 0; i < 180; i++) {
+				PacketParticles packet = new PacketParticles();
+				packet.name = "enchantmenttable";
+				packet.x = this.xCoord + Math.sin(i);
+				packet.z = this.zCoord + Math.cos(i);
+
+				packet.x += Helper.isNumberNegative(this.xCoord) ? +0.5F
+						: -0.5F;
+				packet.z += Helper.isNumberNegative(this.zCoord) ? -0.5F
+						: +0.5F;
+
+				packet.y = this.yCoord + 2F;
+				packet.velX = 0F;
+				packet.velZ = 0F;
+				packet.velY = -0.5F;
+				PacketDispatcher.sendPacketToAllInDimension(
+						PacketTypeHandler.populatePacket(packet),
+						this.worldObj.provider.dimensionId);
+			}
+
+			this.particleTime = 0;
+		}
 		if (!this.addedToENet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			this.addedToENet = true;
@@ -369,6 +411,8 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	}
 
 	ItemStack[] inv;
+
+	public int particleTime = 0;
 
 	@Override
 	public String getInvName() {

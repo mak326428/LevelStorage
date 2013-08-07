@@ -16,7 +16,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 // also it's a very neat packet system, license permits it (if it does)
 public enum PacketTypeHandler {
 	PACKET_PRESS_BUTTON(PacketPressButton.class), PACKET_TEXT_CHANGED(
-			PacketTextChanged.class);
+			PacketTextChanged.class), PACKET_PARTICLES(PacketParticles.class);
 
 	private Class<? extends PacketLV> clazz;
 

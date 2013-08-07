@@ -1,15 +1,11 @@
 package makmods.levelstorage.packet;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
 import java.io.DataInputStream;
-import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.NetHandler;
-import net.minecraft.network.packet.Packet;
 import cpw.mods.fml.common.network.Player;
 
 /**

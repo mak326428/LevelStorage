@@ -39,6 +39,15 @@ public class WirelessConductorRender extends TileEntitySpecialRenderer {
 		// Tell it to stop rendering for both the PushMatrix's
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
+
+		/*
+		 * GL11.glPushMatrix(); Tessellator.instance.startDrawingQuads();
+		 * Tessellator.instance.addVertex(0, 0, 1);
+		 * Tessellator.instance.addVertex(1, 0, 1);
+		 * Tessellator.instance.addVertex(1, 1, 1);
+		 * Tessellator.instance.addVertex(0, 1, 1); Tessellator.instance.draw();
+		 * GL11.glPopMatrix();
+		 */
 	}
 
 }

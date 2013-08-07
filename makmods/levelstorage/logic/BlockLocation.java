@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.ForgeDirection;
 
 public class BlockLocation {
 	private int dimId;
@@ -57,6 +58,18 @@ public class BlockLocation {
 		int zDistance = Math.abs(this.z - other.z);
 
 		return xDistance + yDistance + zDistance;
+	}
+
+	public BlockLocation copy() {
+		return new BlockLocation(this.dimId, this.x, this.y, this.z);
+	}
+
+	public BlockLocation move(ForgeDirection dir, int space) {
+		BlockLocation ret = this.copy();
+		ret.x += dir.offsetX * space;
+		ret.y += dir.offsetY * space;
+		ret.z += dir.offsetZ * space;
+		return ret;
 	}
 
 	private static final String BLOCK_LOCATION_NBT = "blockLocation";

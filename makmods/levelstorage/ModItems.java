@@ -9,7 +9,6 @@ import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemCompactTeleporter;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.item.ItemLevelStorageBook;
-import makmods.levelstorage.item.ItemTeslaWeatherStaff;
 import makmods.levelstorage.lib.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,10 +25,9 @@ public class ModItems {
 	public ItemAdvancedScanner itemAdvScanner;
 	public ItemFrequencyCard itemFreqCard;
 	public ItemCompactTeleporter itemCompactTeleporter;
-	public ItemTeslaWeatherStaff itemTeslaStaff;
 	// TODO: reenable when ready
-	//public ItemWirelessCharger itemWirelessCharger;
-	
+	// public ItemWirelessCharger itemWirelessCharger;
+
 	private int incr = 0;
 
 	private ModItems() {

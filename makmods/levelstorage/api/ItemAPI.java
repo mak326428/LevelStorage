@@ -85,7 +85,6 @@ public class ItemAPI {
 			Object objCurrent = current.getValue();
 
 			if (nameCurrent == name) {
-				System.out.println("name = nameCurrent");
 				if (objCurrent instanceof Block)
 					return new ItemStack((Block) objCurrent);
 				else {

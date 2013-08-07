@@ -16,32 +16,31 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ClientProxy extends CommonProxy {
 
-	public static final String BOOK_TEXTURE = Reference.MOD_ID.toLowerCase()
-			+ ":" + "itemLevelBook";
-	// That's a pretty nice trick BTW, you can use textures from other mods
+	// Item textures
+	public static final String BOOK_TEXTURE = getTexturePathFor("itemLevelBook");
 	public static final String ADV_SCANNER_TEXTURE = "ic2:itemScannerAdv";
-	public static final String COMPACT_TELEPORTER_TEXTURE = Reference.MOD_ID
-			.toLowerCase() + ":" + "itemCompactTeleporter";
+	public static final String COMPACT_TELEPORTER_TEXTURE = getTexturePathFor("itemCompactTeleporter");
+	public static final String ITEM_ENHANCED_DIAMOND_DRILL_PASS_ONE = getTexturePathFor("enhancedDrill_1");
+	public static final String ITEM_ENHANCED_DIAMOND_DRILL_PASS_TWO = getTexturePathFor("enhancedDrill_2");
+	public static final String FREQUENCY_CARD_TEXTURE = getTexturePathFor("itemFreqCard");
 
-	public static final String FREQUENCY_CARD_TEXTURE = Reference.MOD_ID
-			.toLowerCase() + ":" + "itemFreqCard";
+	// Block textures
+	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
+	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
+	public static final String WIRELESS_POWER_SYNC_TEXTURE = getTexturePathFor("blockWirelessPSync");
+	public static final String WIRELESS_CHARGER_TEXTURE = getTexturePathFor("itemWirelessCharger");
+	
+	// Fluids
+	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
+
+	// GUIs textures
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
 	public static final ResourceLocation GUI_CHARGER = getResourceLocation("gui/charger.png");
 	public static final ResourceLocation GUI_CHARGER_NO_UUM = getResourceLocation("gui/chargeroutd.png");
-
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
+	
+	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
-
-	public static final String XP_GEN_TEXTURE = Reference.MOD_ID.toLowerCase()
-			+ ":" + "blockXpGen";
-	public static final String XP_CHARGER_TEXTURE = Reference.MOD_ID
-			.toLowerCase() + ":" + "blockXpCharger";
-	public static final String WIRELESS_POWER_SYNC_TEXTURE = Reference.MOD_ID
-			.toLowerCase() + ":" + "blockWirelessPSync";
-	public static final String WIRELESS_CHARGER_TEXTURE = Reference.MOD_ID.toLowerCase()
-			+ ":" + "itemWirelessCharger";
-	public static final String TESLA_STAFF_TEXTURE = Reference.MOD_ID
-			.toLowerCase() + ":" + "itemTeslaWeatherStaff";
 
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
@@ -52,6 +51,12 @@ public class ClientProxy extends CommonProxy {
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
+	public static String getTexturePathFor(String name) {
+		return Reference.MOD_ID.toLowerCase() + ":" + name;
+	}
+
+	@SideOnly(Side.CLIENT)
 	public static ResourceLocation getResourceLocation(String path) {
 
 		return new ResourceLocation(Reference.MOD_ID.toLowerCase(), path);
