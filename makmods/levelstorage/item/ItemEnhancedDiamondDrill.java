@@ -9,17 +9,19 @@ import java.util.List;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.logic.BlockLocation;
 import makmods.levelstorage.logic.OreDictHelper;
+import makmods.levelstorage.logic.OreFinder;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -31,9 +33,9 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 	public static final String NAME = "Enhanced Diamond Drill";
 
 	public static final float SPEED = 20.0F;
-	public static final int TIER = 1;
-	public static final int STORAGE = 10000;
-	public static final int ENERGY_PER_USE = 100;
+	public static final int TIER = 2;
+	public static final int STORAGE = 100000;
+	public static final int ENERGY_PER_USE = 200;
 
 	public Icon iconPass1;
 	public Icon iconPass2;
@@ -56,7 +58,7 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 	}
 
 	public static void addCraftingRecipe() {
-
+		
 	}
 
 	public static ArrayList<Block> mineableBlocks = new ArrayList<Block>();
@@ -181,82 +183,33 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 						par6);
 				finder.world = par2World;
 				finder.calibrate(par4, par5, par6);
-				System.out.println();
-				System.out.println();
-				System.out.println("Found ore: ");
-				for (BlockLocation loc : finder.foundOre) {
-					System.out.println();
-					System.out.println("X: " + loc.getX());
-					System.out.println("Y: " + loc.getY());
-					System.out.println("Z: " + loc.getZ());
-					System.out.println(loc.getBlockName());
-				}
-			}
-		}
-		return true;
-	}
-
-	public class OreFinder {
-		public ArrayList<BlockLocation> foundOre = new ArrayList<BlockLocation>();
-
-		public int initialX;
-		public int initialY;
-		public int initialZ;
-
-		public int aimBlockId;
-		public int aimBlockMeta;
-
-		// Unused, but what the heck, let it be here.
-		public World world;
-
-		public void calibrate(int x, int y, int z) {
-			initialX = x;
-			initialY = y;
-			initialZ = z;
-			BlockLocation initialBlock = new BlockLocation(
-					world.provider.dimensionId, x, y, z);
-			// foundOre.add(initialBlock);
-			findContinuation(initialBlock);
-		}
-
-		public void findContinuation(BlockLocation loc) {
-			boolean found = false;
-			if (loc != null) {
-				for (BlockLocation locat : foundOre) {
-					if (locat.equals(loc))
-						found = true;
-				}
-				if (!found)
-					foundOre.add(loc);
-			}
-			if (!found) {
-				for (int dir = 0; dir < 6; dir++) {
-					BlockLocation newTh = loc.move(
-							ForgeDirection.values()[dir], 1);
-					int currX = newTh.getX();
-					int currY = newTh.getY();
-					int currZ = newTh.getZ();
-
-					Block currBlock = Block.blocksList[this.world.getBlockId(
-							currX, currY, currZ)];
-					if (currBlock != null) {
-						if (currBlock.blockID == aimBlockId) {
-							int currMeta = this.world.getBlockMetadata(currX,
-									currY, currZ);
-							if (currMeta == aimBlockMeta) {
-								// Recursion, very dangerous, but i hope nobody
-								// will
-								// use
-								// this on stone...
-								findContinuation(new BlockLocation(
-										this.world.provider.dimensionId, currX,
-										currY, currZ));
-							}
+				for (BlockLocation oreCh : finder.foundOre) {
+					int blockId = par2World.getBlockId(oreCh.getX(),
+							oreCh.getY(), oreCh.getZ());
+					int blockMeta = par2World.getBlockMetadata(oreCh.getX(),
+							oreCh.getY(), oreCh.getZ());
+					if (ElectricItem.manager.canUse(par1ItemStack,
+							ENERGY_PER_USE)) {
+						ElectricItem.manager.use(par1ItemStack, ENERGY_PER_USE,
+								par7EntityLivingBase);
+					} else {
+						break;
+					}
+					Block b = Block.blocksList[blockId];
+					if (b != null) {
+						if (par7EntityLivingBase instanceof EntityPlayer) {
+							if (b.removeBlockByPlayer(par2World,
+									(EntityPlayer) par7EntityLivingBase,
+									oreCh.getX(), oreCh.getY(), oreCh.getZ()))
+								b.dropBlockAsItem(par2World, oreCh.getX(),
+										oreCh.getY(), oreCh.getZ(),
+										finder.aimBlockMeta, 0);
 						}
 					}
 				}
 			}
 		}
+		return true;
 	}
 
 	public float getStrVsBlock(ItemStack itemstack, Block block, int md) {
