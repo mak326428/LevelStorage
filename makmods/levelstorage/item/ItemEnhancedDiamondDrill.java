@@ -2,11 +2,14 @@ package makmods.levelstorage.item;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
 import makmods.levelstorage.logic.BlockLocation;
 import makmods.levelstorage.logic.OreDictHelper;
 import makmods.levelstorage.logic.OreFinder;
@@ -15,9 +18,10 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.Icon;
@@ -42,7 +46,7 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 
 	public ItemEnhancedDiamondDrill() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(), 3,
+				LevelStorage.getAndIncrementCurrId()).getInt(), 0,
 				EnumToolMaterial.EMERALD, (Block[]) mineableBlocks
 						.toArray(new Block[mineableBlocks.size()]));
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
@@ -58,7 +62,13 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 	}
 
 	public static void addCraftingRecipe() {
-		
+		Recipes.advRecipes.addRecipe(new ItemStack(
+				ModItems.instance.itemEnhDiamondDrill), "cdc", "did", "aea",
+				Character.valueOf('c'), Items.getItem("carbonPlate"), Character
+						.valueOf('e'), Items.getItem("energyCrystal"),
+				Character.valueOf('i'), Items.getItem("diamondDrill"),
+				Character.valueOf('a'), Items.getItem("advancedCircuit"),
+				Character.valueOf('d'), new ItemStack(Item.diamond));
 	}
 
 	public static ArrayList<Block> mineableBlocks = new ArrayList<Block>();
@@ -104,6 +114,19 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 		mineableBlocks.add(Block.slowSand);
 		mineableBlocks.add(Block.anvil);
 		mineableBlocks.add(Block.oreNetherQuartz);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public EnumRarity getRarity(ItemStack is) {
+		return EnumRarity.rare;
+	}
+
+	public void addInformation(ItemStack par1ItemStack,
+			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+		par3List.add("\2472Mines a whole ore vein");
+		par3List.add("\2472if you break one block of it");
+
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -26,6 +26,18 @@ public class Helper {
 				&& (s1.stackSize == s2.stackSize);
 	}
 
+	public static boolean compareStacksGenerallyNoStackSize(ItemStack s1,
+			ItemStack s2) {
+		if (s1 == null && s2 == null)
+			return true;
+		if (s1 == null)
+			return false;
+		if (s2 == null)
+			return false;
+		return (s1.itemID == s2.itemID)
+				&& (s1.getItemDamage() == s2.getItemDamage());
+	}
+
 	public static boolean isNumberNegative(int number) {
 		return number != Math.abs(number);
 	}

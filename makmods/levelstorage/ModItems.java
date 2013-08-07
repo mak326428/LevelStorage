@@ -5,11 +5,13 @@ import java.lang.reflect.Modifier;
 import java.util.Random;
 import java.util.logging.Level;
 
+import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemCompactTeleporter;
 import makmods.levelstorage.item.ItemEnhancedDiamondDrill;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.item.ItemLevelStorageBook;
+import makmods.levelstorage.item.ItemPocketRefrigerant;
 import makmods.levelstorage.lib.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -27,6 +29,8 @@ public class ModItems {
 	public ItemFrequencyCard itemFreqCard;
 	public ItemCompactTeleporter itemCompactTeleporter;
 	public ItemEnhancedDiamondDrill itemEnhDiamondDrill;
+	public ItemArmorSupersonicLeggings itemSupersonicLeggings;
+	public ItemPocketRefrigerant itemPocketRefrigerant;
 	// TODO: reenable when ready
 	// public ItemWirelessCharger itemWirelessCharger;
 
