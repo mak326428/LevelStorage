@@ -7,6 +7,7 @@ import java.util.logging.Level;
 
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemCompactTeleporter;
+import makmods.levelstorage.item.ItemEnhancedDiamondDrill;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.item.ItemLevelStorageBook;
 import makmods.levelstorage.lib.Reference;
@@ -25,6 +26,7 @@ public class ModItems {
 	public ItemAdvancedScanner itemAdvScanner;
 	public ItemFrequencyCard itemFreqCard;
 	public ItemCompactTeleporter itemCompactTeleporter;
+	public ItemEnhancedDiamondDrill itemEnhDiamondDrill;
 	// TODO: reenable when ready
 	// public ItemWirelessCharger itemWirelessCharger;
 

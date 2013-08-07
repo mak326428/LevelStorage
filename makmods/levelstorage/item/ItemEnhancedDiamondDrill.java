@@ -1,36 +1,47 @@
 package makmods.levelstorage.item;
 
-import java.util.List;
-
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.logic.BlockLocation;
+import makmods.levelstorage.logic.OreDictHelper;
 import makmods.levelstorage.proxy.ClientProxy;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.util.Icon;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemEnhancedDiamondDrill extends Item implements IElectricItem {
+public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "advScanner";
-	public static final String NAME = "Advanced OV-Scanner";
+	public static final String UNLOCALIZED_NAME = "enhancedDDrill";
+	public static final String NAME = "Enhanced Diamond Drill";
 
-	public static final int TIER = 2;
-	public static final int STORAGE = 100000;
-	public static final int COOLDOWN_PERIOD = 20;
-	public static final int ENERGY_PER_USE = 10000;
-	
+	public static final float SPEED = 20.0F;
+	public static final int TIER = 1;
+	public static final int STORAGE = 10000;
+	public static final int ENERGY_PER_USE = 100;
+
 	public Icon iconPass1;
 	public Icon iconPass2;
 
 	public ItemEnhancedDiamondDrill() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt());
+				LevelStorage.getAndIncrementCurrId()).getInt(), 3,
+				EnumToolMaterial.EMERALD, (Block[]) mineableBlocks
+						.toArray(new Block[mineableBlocks.size()]));
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
@@ -38,10 +49,57 @@ public class ItemEnhancedDiamondDrill extends Item implements IElectricItem {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
 		this.setMaxStackSize(1);
+		MinecraftForge.setToolClass(this, "pickaxe", 3);
+		// MinecraftForge.setToolClass(this, "shovel", 3);
+		this.efficiencyOnProperMaterial = SPEED;
 	}
 
 	public static void addCraftingRecipe() {
 
+	}
+
+	public static ArrayList<Block> mineableBlocks = new ArrayList<Block>();
+
+	static {
+		mineableBlocks.add(Block.cobblestone);
+		mineableBlocks.add(Block.stoneSingleSlab);
+		mineableBlocks.add(Block.stoneDoubleSlab);
+		mineableBlocks.add(Block.stairsCobblestone);
+		mineableBlocks.add(Block.stone);
+		mineableBlocks.add(Block.sandStone);
+		mineableBlocks.add(Block.stairsSandStone);
+		mineableBlocks.add(Block.cobblestoneMossy);
+		mineableBlocks.add(Block.oreIron);
+		mineableBlocks.add(Block.blockIron);
+		mineableBlocks.add(Block.oreCoal);
+		mineableBlocks.add(Block.blockGold);
+		mineableBlocks.add(Block.oreGold);
+		mineableBlocks.add(Block.oreDiamond);
+		mineableBlocks.add(Block.blockDiamond);
+		mineableBlocks.add(Block.ice);
+		mineableBlocks.add(Block.netherrack);
+		mineableBlocks.add(Block.oreLapis);
+		mineableBlocks.add(Block.blockLapis);
+		mineableBlocks.add(Block.oreRedstone);
+		mineableBlocks.add(Block.oreRedstoneGlowing);
+		mineableBlocks.add(Block.brick);
+		mineableBlocks.add(Block.stairsBrick);
+		mineableBlocks.add(Block.glowStone);
+		mineableBlocks.add(Block.grass);
+		mineableBlocks.add(Block.dirt);
+		mineableBlocks.add(Block.mycelium);
+		mineableBlocks.add(Block.sand);
+		mineableBlocks.add(Block.gravel);
+		mineableBlocks.add(Block.snow);
+		mineableBlocks.add(Block.blockSnow);
+		mineableBlocks.add(Block.blockClay);
+		mineableBlocks.add(Block.tilledField);
+		mineableBlocks.add(Block.stoneBrick);
+		mineableBlocks.add(Block.stairsStoneBrick);
+		mineableBlocks.add(Block.netherBrick);
+		mineableBlocks.add(Block.stairsNetherBrick);
+		mineableBlocks.add(Block.slowSand);
+		mineableBlocks.add(Block.anvil);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -50,7 +108,13 @@ public class ItemEnhancedDiamondDrill extends Item implements IElectricItem {
 	}
 
 	public Icon getIconFromDamageForRenderPass(int par1, int par2) {
-		return this.getIconFromDamage(par1);
+		switch (par2) {
+		case 0:
+			return iconPass1;
+		case 1:
+			return iconPass2;
+		}
+		return null;
 	}
 
 	@Override
@@ -93,14 +157,109 @@ public class ItemEnhancedDiamondDrill extends Item implements IElectricItem {
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
 	}
 
+	public int getItemEnchantability() {
+		return 0;
+	}
+
+	@Override
+	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World,
+			int par3, int par4, int par5, int par6,
+			EntityLivingBase par7EntityLivingBase) {
+		// if ()
+		if (!par2World.isRemote) {
+			if (ElectricItem.manager.canUse(par1ItemStack, ENERGY_PER_USE)) {
+				ElectricItem.manager.use(par1ItemStack, ENERGY_PER_USE,
+						par7EntityLivingBase);
+			}
+			Block bl = Block.blocksList[par3];
+			if (OreDictHelper.getOreName(new ItemStack(bl)).startsWith("ore")) {
+				OreFinder finder = new OreFinder();
+				finder.aimBlockId = bl.blockID;
+				finder.aimBlockMeta = par2World.getBlockMetadata(par4, par5, par6);
+				finder.world = par2World;
+				finder.calibrate(par4, par5, par6);
+				System.out.println();
+				for (BlockLocation loc : finder.foundOre) {
+					System.out.println("Found ore: ");
+					System.out.println("X: " + loc.getX());
+					System.out.println("Y: " + loc.getY());
+					System.out.println("Z: " + loc.getZ());
+				}
+			}
+		}
+		return true;
+	}
+
+	public class OreFinder {
+		public ArrayList<BlockLocation> foundOre = new ArrayList<BlockLocation>();
+
+		public int initialX;
+		public int initialY;
+		public int initialZ;
+
+		public int aimBlockId;
+		public int aimBlockMeta;
+
+		// Unused, but what the heck, let it be here.
+		public World world;
+
+		public void calibrate(int x, int y, int z) {
+			initialZ = x;
+			initialY = y;
+			initialZ = z;
+			BlockLocation initialBlock = new BlockLocation(
+					world.provider.dimensionId, x, y, z);
+			foundOre.add(initialBlock);
+			findContinuation(initialBlock);
+		}
+
+		public void findContinuation(BlockLocation loc) {
+			int[] xAdds = { -1, 1 };
+			int[] yAdds = { -1, 1 };
+			int[] zAdds = { -1, 1 };
+
+			if (loc != null)
+				foundOre.add(loc);
+
+			for (int xAdd : xAdds) {
+				for (int yAdd : yAdds) {
+					for (int zAdd : zAdds) {
+						int currX = loc.getX() + xAdd;
+						int currY = loc.getY() + yAdd;
+						int currZ = loc.getZ() + zAdd;
+						Block currBlock = Block.blocksList[this.world
+								.getBlockId(currX, currY, currZ)];
+						if (currBlock != null) {
+							if (currBlock.blockID == aimBlockId) {
+								int currMeta = this.world.getBlockMetadata(currX, currY, currZ);
+								if (currMeta == aimBlockMeta) {
+									// Recursion, very dangerous, but i hope nobody will use this on stone...
+									findContinuation(new BlockLocation(this.world.provider.dimensionId, currX, currY, currZ));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public float getStrVsBlock(ItemStack itemstack, Block block, int md) {
+		if (ElectricItem.manager.canUse(itemstack, ENERGY_PER_USE)) {
+			return SPEED;
+		} else {
+			return 0.1f;
+		}
+		// return super.getStrVsBlock(itemstack, block, md);
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister
+		this.iconPass1 = par1IconRegister
 				.registerIcon(ClientProxy.ITEM_ENHANCED_DIAMOND_DRILL_PASS_ONE);
-		this.itemIcon = par1IconRegister
+		this.iconPass2 = par1IconRegister
 				.registerIcon(ClientProxy.ITEM_ENHANCED_DIAMOND_DRILL_PASS_TWO);
-		
 	}
 
 }
