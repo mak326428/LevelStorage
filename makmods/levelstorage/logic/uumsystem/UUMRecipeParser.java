@@ -1,4 +1,4 @@
-package makmods.logic.logic.uumsystem;
+package makmods.levelstorage.logic.uumsystem;
 
 import ic2.api.item.Items;
 

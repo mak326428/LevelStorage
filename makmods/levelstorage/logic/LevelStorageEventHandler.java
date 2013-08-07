@@ -14,20 +14,21 @@ public class LevelStorageEventHandler {
 			for (int i = 0; i < 9; i++) {
 				if (event.entityLiving instanceof EntityPlayer) {
 					EntityPlayer player = ((EntityPlayer) event.entityLiving);
-					if (player.inventory.mainInventory[i] != null) {
-						if (player.inventory.mainInventory[i]
-								.getItem() instanceof ItemPocketRefrigerant) {
-							if (ElectricItem.manager
-									.canUse(((EntityPlayer) event.entityLiving).inventory.mainInventory[i],
-											ItemPocketRefrigerant.ENERGY_PER_USE)) {
-								ElectricItem.manager
-										.use(((EntityPlayer) event.entityLiving).inventory.mainInventory[i],
-												ItemPocketRefrigerant.ENERGY_PER_USE,
-												event.entityLiving);
-								((EntityPlayer) event.entityLiving)
-										.addPotionEffect(new PotionEffect(12,
-												100, 1));
-								event.setCanceled(true);
+					if (!player.capabilities.isCreativeMode) {
+						if (player.inventory.mainInventory[i] != null) {
+							if (player.inventory.mainInventory[i].getItem() instanceof ItemPocketRefrigerant) {
+								if (ElectricItem.manager
+										.canUse(((EntityPlayer) event.entityLiving).inventory.mainInventory[i],
+												ItemPocketRefrigerant.ENERGY_PER_USE)) {
+									ElectricItem.manager
+											.use(((EntityPlayer) event.entityLiving).inventory.mainInventory[i],
+													ItemPocketRefrigerant.ENERGY_PER_USE,
+													event.entityLiving);
+									((EntityPlayer) event.entityLiving)
+											.addPotionEffect(new PotionEffect(
+													12, 100, 1));
+									event.setCanceled(true);
+								}
 							}
 						}
 					}
