@@ -11,19 +11,24 @@ import java.util.List;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.logic.BlockLocation;
+import makmods.levelstorage.logic.DrillEnhancementRecipe;
 import makmods.levelstorage.logic.OreDictHelper;
 import makmods.levelstorage.logic.OreFinder;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -41,6 +46,12 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
 	public static final int ENERGY_PER_USE = 200;
+
+	// Prank..
+	public static final String ENHANCEMENT_NBT = "enhancement";
+	public static final String ENHANCEMENT_ID_NBT = "id";
+	public static final String ENHANCEMENT_LVL_NBT = "level";
+
 	public Icon iconPass1;
 	public Icon iconPass2;
 
@@ -74,6 +85,8 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 				Character.valueOf('i'), Items.getItem("diamondDrill"),
 				Character.valueOf('a'), Items.getItem("advancedCircuit"),
 				Character.valueOf('d'), new ItemStack(Item.diamond));
+		CraftingManager.getInstance().getRecipeList()
+				.add(new DrillEnhancementRecipe());
 	}
 
 	public static ArrayList<Block> mineableBlocks = new ArrayList<Block>();
@@ -131,7 +144,21 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		par3List.add("\2472Mines a whole ore vein");
 		par3List.add("\2472if you break one block of it");
-
+		par3List.add("Enhancement: ");
+		if (par1ItemStack.stackTagCompound == null)
+			par1ItemStack.stackTagCompound = new NBTTagCompound();
+		NBTTagCompound enh = par1ItemStack.stackTagCompound
+				.getCompoundTag(ENHANCEMENT_NBT);
+		if (!enh.hasKey(ENHANCEMENT_ID_NBT))
+			par3List.add("\247cNone.");
+		else {
+			int id = enh.getInteger(ENHANCEMENT_ID_NBT);
+			int lvl = enh.getInteger(ENHANCEMENT_LVL_NBT);
+			if (id > 0 && lvl > 0) {
+				Enchantment ench = Enchantment.enchantmentsList[id];
+				par3List.add(ench.getTranslatedName(lvl));
+			}
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -192,6 +219,13 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	public int getItemEnchantability() {
 		return 0;
 	}
+	
+	public static ArrayList<Integer> blocksOtherThanOres = new ArrayList<Integer>();
+	
+	static {
+		blocksOtherThanOres.add(Block.gravel.blockID);
+		blocksOtherThanOres.add(Block.oreRedstone.blockID);
+	}
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World,
@@ -204,7 +238,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 						par7EntityLivingBase);
 			}
 			Block bl = Block.blocksList[par3];
-			if (OreDictHelper.getOreName(new ItemStack(bl)).startsWith("ore")) {
+			if (OreDictHelper.getOreName(new ItemStack(bl)).startsWith("ore") || blocksOtherThanOres.contains(bl.blockID)) {
 				OreFinder finder = new OreFinder();
 				finder.aimBlockId = bl.blockID;
 				finder.aimBlockMeta = par2World.getBlockMetadata(par4, par5,
@@ -222,10 +256,48 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 						if (par7EntityLivingBase instanceof EntityPlayer) {
 							if (b.removeBlockByPlayer(par2World,
 									(EntityPlayer) par7EntityLivingBase,
-									oreCh.getX(), oreCh.getY(), oreCh.getZ()))
-								b.dropBlockAsItem(par2World, oreCh.getX(),
-										oreCh.getY(), oreCh.getZ(),
-										finder.aimBlockMeta, 0);
+									oreCh.getX(), oreCh.getY(), oreCh.getZ())) {
+								int fortune = 0;
+								boolean silktouch = false;
+								NBTTagCompound enh = par1ItemStack.stackTagCompound
+										.getCompoundTag(ENHANCEMENT_NBT);
+								if (enh.hasKey(ENHANCEMENT_ID_NBT)) {
+									int encid = enh
+											.getInteger(ENHANCEMENT_ID_NBT);
+									int lvl = enh
+											.getInteger(ENHANCEMENT_LVL_NBT);
+									if (encid > 0 && lvl > 0) {
+										if (Enchantment.enchantmentsList[encid] == Enchantment.fortune)
+											fortune = lvl;
+										if (Enchantment.enchantmentsList[encid] == Enchantment.silkTouch)
+											silktouch = true;
+									}
+								}
+								if (!silktouch) {
+									b.dropBlockAsItem(par2World, oreCh.getX(),
+											oreCh.getY(), oreCh.getZ(),
+											finder.aimBlockMeta, fortune);
+								} else {
+									if (b.canSilkHarvest(
+											par2World,
+											(EntityPlayer) par7EntityLivingBase,
+											oreCh.getX(), oreCh.getY(),
+											oreCh.getZ(), finder.aimBlockMeta)) {
+										ItemStack itemstack = new ItemStack(b,
+												1, finder.aimBlockMeta);
+										if (itemstack != null) {
+											this.dropBlockAsItem_do(par2World,
+													oreCh.getX(), oreCh.getY(),
+													oreCh.getZ(), itemstack);
+										}
+									} else {
+										b.dropBlockAsItem(par2World,
+												oreCh.getX(), oreCh.getY(),
+												oreCh.getZ(),
+												finder.aimBlockMeta, fortune);
+									}
+								}
+							}
 							if (ElectricItem.manager.canUse(par1ItemStack,
 									ENERGY_PER_USE)) {
 								ElectricItem.manager.use(par1ItemStack,
@@ -239,6 +311,26 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 			}
 		}
 		return true;
+	}
+
+	// From Block
+	public void dropBlockAsItem_do(World par1World, int par2, int par3,
+			int par4, ItemStack par5ItemStack) {
+		if (!par1World.isRemote
+				&& par1World.getGameRules().getGameRuleBooleanValue(
+						"doTileDrops")) {
+			float f = 0.7F;
+			double d0 = (double) (par1World.rand.nextFloat() * f)
+					+ (double) (1.0F - f) * 0.5D;
+			double d1 = (double) (par1World.rand.nextFloat() * f)
+					+ (double) (1.0F - f) * 0.5D;
+			double d2 = (double) (par1World.rand.nextFloat() * f)
+					+ (double) (1.0F - f) * 0.5D;
+			EntityItem entityitem = new EntityItem(par1World, (double) par2
+					+ d0, (double) par3 + d1, (double) par4 + d2, par5ItemStack);
+			entityitem.delayBeforeCanPickup = 10;
+			par1World.spawnEntityInWorld(entityitem);
+		}
 	}
 
 	public float getStrVsBlock(ItemStack itemstack, Block block, int md) {

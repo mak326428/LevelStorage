@@ -11,6 +11,7 @@ import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
+import makmods.levelstorage.api.IFlyArmor;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -34,7 +35,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorLevitationBoots extends ItemArmor implements
-		ISpecialArmor, IMetalArmor, IElectricItem {
+		ISpecialArmor, IMetalArmor, IElectricItem, IFlyArmor {
 
 	public static final String UNLOCALIZED_NAME = "armorLevitationBoots";
 	public static final String NAME = "Levitation Boots";
@@ -83,11 +84,13 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	private float jumpCharge;
 	
 	public static void checkPlayer(EntityPlayer p) {
+		if (p.capabilities.isCreativeMode)
+			return;
 		InventoryPlayer inv = p.inventory;
 		boolean isFound = false;
 		
 		for (ItemStack st : inv.armorInventory) {
-			if (st != null && st.getItem() instanceof ItemArmorLevitationBoots)
+			if (st != null && st.getItem() instanceof IFlyArmor)
 				isFound = true;
 		}
 		
@@ -266,6 +269,11 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 	@Override
 	public boolean isMetalArmor(ItemStack itemstack, EntityPlayer player) {
+		return true;
+	}
+
+	@Override
+	public boolean isFlyArmor() {
 		return true;
 	}
 
