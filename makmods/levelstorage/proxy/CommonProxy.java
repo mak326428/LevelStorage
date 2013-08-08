@@ -5,15 +5,12 @@ import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.ModTileEntities;
-import makmods.levelstorage.logic.Helper;
+import makmods.levelstorage.armor.ArmorTicker;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
-import makmods.levelstorage.logic.uumsystem.UUMHelper;
 import makmods.levelstorage.logic.uumsystem.UUMRecipeParser;
 import makmods.levelstorage.registry.XpStackRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLLog;
@@ -36,11 +33,8 @@ public class CommonProxy {
 		ModTileEntities.instance.init();
 		ModFluids.instance.init();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
-		ItemStack[] res = UUMHelper.recursivelyGetIngredients(new ItemStack(Block.anvil));
+		TickRegistry.registerTickHandler(new ArmorTicker(), Side.CLIENT);
 		//res = UUMHelper.removeDuplicates(res);
-		for (ItemStack r : res) {
-			System.out.println(Helper.getNiceStackName(r));
-		}
 	}
 
 	public void postInit() {

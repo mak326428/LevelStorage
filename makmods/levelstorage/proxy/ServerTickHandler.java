@@ -17,7 +17,7 @@ public class ServerTickHandler implements ITickHandler {
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
-
+		
 	}
 
 	@Override

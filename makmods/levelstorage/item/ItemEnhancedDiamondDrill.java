@@ -22,8 +22,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,7 +31,8 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem {
+public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
+		IElectricItem {
 
 	public static final String UNLOCALIZED_NAME = "enhancedDDrill";
 	public static final String NAME = "Enhanced Diamond Drill";
@@ -40,15 +41,13 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
 	public static final int ENERGY_PER_USE = 200;
-
 	public Icon iconPass1;
 	public Icon iconPass2;
 
 	public ItemEnhancedDiamondDrill() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(), 0,
-				EnumToolMaterial.EMERALD, (Block[]) mineableBlocks
-						.toArray(new Block[mineableBlocks.size()]));
+				LevelStorage.getAndIncrementCurrId()).getInt(),
+				EnumToolMaterial.EMERALD);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
@@ -59,6 +58,12 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 		MinecraftForge.setToolClass(this, "pickaxe", 3);
 		// MinecraftForge.setToolClass(this, "shovel", 3);
 		this.efficiencyOnProperMaterial = SPEED;
+	}
+
+	public boolean hitEntity(ItemStack par1ItemStack,
+			EntityLivingBase par2EntityLivingBase,
+			EntityLivingBase par3EntityLivingBase) {
+		return true;
 	}
 
 	public static void addCraftingRecipe() {
@@ -209,15 +214,9 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 				for (BlockLocation oreCh : finder.foundOre) {
 					int blockId = par2World.getBlockId(oreCh.getX(),
 							oreCh.getY(), oreCh.getZ());
+
 					int blockMeta = par2World.getBlockMetadata(oreCh.getX(),
 							oreCh.getY(), oreCh.getZ());
-					if (ElectricItem.manager.canUse(par1ItemStack,
-							ENERGY_PER_USE)) {
-						ElectricItem.manager.use(par1ItemStack, ENERGY_PER_USE,
-								par7EntityLivingBase);
-					} else {
-						break;
-					}
 					Block b = Block.blocksList[blockId];
 					if (b != null) {
 						if (par7EntityLivingBase instanceof EntityPlayer) {
@@ -227,6 +226,13 @@ public class ItemEnhancedDiamondDrill extends ItemTool implements IElectricItem 
 								b.dropBlockAsItem(par2World, oreCh.getX(),
 										oreCh.getY(), oreCh.getZ(),
 										finder.aimBlockMeta, 0);
+							if (ElectricItem.manager.canUse(par1ItemStack,
+									ENERGY_PER_USE)) {
+								ElectricItem.manager.use(par1ItemStack,
+										ENERGY_PER_USE, par7EntityLivingBase);
+							} else {
+								break;
+							}
 						}
 					}
 				}

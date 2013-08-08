@@ -3,11 +3,14 @@ package makmods.levelstorage.armor;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.item.IMetalArmor;
+import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
 
 import java.util.HashMap;
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -15,6 +18,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
@@ -77,6 +81,21 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 	public static HashMap<EntityPlayer, Boolean> onGroundMap = new HashMap<EntityPlayer, Boolean>();
 	private float jumpCharge;
+	
+	public static void checkPlayer(EntityPlayer p) {
+		InventoryPlayer inv = p.inventory;
+		boolean isFound = false;
+		
+		for (ItemStack st : inv.armorInventory) {
+			if (st != null && st.getItem() instanceof ItemArmorLevitationBoots)
+				isFound = true;
+		}
+		
+		if (!isFound) {
+			p.capabilities.allowFlying = false;
+			p.capabilities.isFlying = false;
+		}
+	}
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
@@ -118,10 +137,19 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 			}
 		}
 		// END OF QUANTUM SUIT ABILITIES
+
 		if (ElectricItem.manager.canUse(itemStack, FLYING_ENERGY_PER_TICK)) {
 			player.capabilities.allowFlying = true;
 			if (player.capabilities.isFlying) {
-				ElectricItem.manager.use(itemStack, FLYING_ENERGY_PER_TICK, player);
+				float boostSpeed = 0.44f;
+				if (IC2Access.instance.isKeyDown("Boost", player)) {
+					player.moveFlying(0.0F, 1.0F, boostSpeed);
+					ElectricItem.manager.use(itemStack,
+							FLYING_ENERGY_PER_TICK * 4, player);
+				} else {
+					ElectricItem.manager.use(itemStack, FLYING_ENERGY_PER_TICK,
+							player);
+				}
 			}
 		} else {
 			player.capabilities.allowFlying = false;
@@ -138,7 +166,11 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	}
 
 	public static void addCraftingRecipe() {
-
+		Recipes.advRecipes.addRecipe(new ItemStack(
+				ModItems.instance.itemLevitationBoots), "iii", "iqi", "lll",
+				Character.valueOf('i'), Items.getItem("iridiumPlate"),
+				Character.valueOf('q'), Items.getItem("quantumBoots"),
+				Character.valueOf('l'), Items.getItem("lapotronCrystal"));
 	}
 
 	@SideOnly(Side.CLIENT)
