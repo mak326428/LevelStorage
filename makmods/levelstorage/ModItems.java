@@ -5,6 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.Random;
 import java.util.logging.Level;
 
+import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemCompactTeleporter;
@@ -31,6 +32,7 @@ public class ModItems {
 	public ItemEnhancedDiamondDrill itemEnhDiamondDrill;
 	public ItemArmorSupersonicLeggings itemSupersonicLeggings;
 	public ItemPocketRefrigerant itemPocketRefrigerant;
+	public ItemArmorLevitationBoots itemLevitationBoots;
 	// TODO: reenable when ready
 	// public ItemWirelessCharger itemWirelessCharger;
 

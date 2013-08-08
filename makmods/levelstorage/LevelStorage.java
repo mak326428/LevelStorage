@@ -1,5 +1,6 @@
 package makmods.levelstorage;
 
+import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.packet.PacketHandler;
@@ -74,12 +75,14 @@ public class LevelStorage {
 	public void serverStarting(FMLServerStartingEvent event) {
 		WirelessPowerSynchronizerRegistry.instance.registry.clear();
 		ItemArmorSupersonicLeggings.speedTickerMap.clear();
+		ItemArmorLevitationBoots.onGroundMap.clear();
 	}
 
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event) {
 		WirelessPowerSynchronizerRegistry.instance.registry.clear();
 		ItemArmorSupersonicLeggings.speedTickerMap.clear();
+		ItemArmorLevitationBoots.onGroundMap.clear();
 	}
 
 	@EventHandler

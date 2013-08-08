@@ -25,6 +25,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String FREQUENCY_CARD_TEXTURE = getTexturePathFor("itemFreqCard");
 	public static final String SUPERSONIC_LEGGINGS_TEXTURE = getTexturePathFor("itemArmorSupersonicLeggings");
 	public static final String POCKET_REFRIGERANT_TEXTURE = getTexturePathFor("itemPocketRefrigerant");
+	public static final String LEVITATION_BOOTS_TEXTURE = getTexturePathFor("itemArmorLevitationBoots");
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
@@ -43,6 +44,7 @@ public class ClientProxy extends CommonProxy {
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "levelstorage:/armor/supersonic_2.png";
+	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "levelstorage:/armor/supersonic_1.png";
 
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
