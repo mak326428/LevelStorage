@@ -4,6 +4,7 @@ import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.entity.EntityTeslaRay;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
+import makmods.levelstorage.render.RenderOreRadar;
 import makmods.levelstorage.render.RenderTeslaRay;
 import makmods.levelstorage.render.WirelessConductorRender;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -12,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -49,8 +51,8 @@ public class ClientProxy extends CommonProxy {
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
-	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "levelstorage:/armor/supersonic_2.png";
-	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "levelstorage:/armor/supersonic_1.png";
+	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_2.png";
+	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/textures/models/armor/supersonic_1.png";
 	
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
@@ -82,6 +84,7 @@ public class ClientProxy extends CommonProxy {
 				ModBlocks.instance.blockWlessConductor.blockID,
 				new ItemWirelessConductorRender());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTeslaRay.class, new RenderTeslaRay());
+		//MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}
 
 	@Override

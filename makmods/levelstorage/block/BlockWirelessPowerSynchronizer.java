@@ -21,7 +21,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,14 +51,20 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 	public ItemStack advMachine = Items.getItem("advancedMachine");
 
 	public static void addCraftingRecipe() {
-		ItemStack sync = new ItemStack(ModBlocks.instance.blockWlessPowerSync,
-				4);
-		ItemStack advCircuit = Items.getItem("advancedCircuit");
-		ItemStack advMachine = Items.getItem("advancedMachine");
-		Recipes.advRecipes.addRecipe(sync, "ccc", "ama", "ccc",
-				Character.valueOf('a'), advCircuit, Character.valueOf('c'),
-				new ItemStack(ModBlocks.instance.blockWlessConductor),
-				Character.valueOf('m'), advMachine);
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enableWirelessPSyncCraftingRecipe", true);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(true)) {
+			ItemStack sync = new ItemStack(
+					ModBlocks.instance.blockWlessPowerSync, 4);
+			ItemStack advCircuit = Items.getItem("advancedCircuit");
+			ItemStack advMachine = Items.getItem("advancedMachine");
+			Recipes.advRecipes.addRecipe(sync, "ccc", "ama", "ccc",
+					Character.valueOf('a'), advCircuit, Character.valueOf('c'),
+					new ItemStack(ModBlocks.instance.blockWlessConductor),
+					Character.valueOf('m'), advMachine);
+		}
 	}
 
 	@Override

@@ -19,6 +19,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,18 +51,24 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	public static void addCraftingRecipe() {
 		// Scanner
-		ItemStack ovScanner = Items.getItem("ovScanner");
-		ItemStack uum = Items.getItem("matter");
-		ItemStack energyCrystal = Items.getItem("energyCrystal");
-		ItemStack advCircuit = Items.getItem("advancedCircuit");
-		ItemStack glassFiber = Items.getItem("glassFiberCableItem");
-		ItemStack advScanner = new ItemStack(ModItems.instance.itemAdvScanner);
-		Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
-				Character.valueOf('u'), uum, Character.valueOf('g'),
-				glassFiber, Character.valueOf('a'), advCircuit,
-				Character.valueOf('c'), energyCrystal, Character.valueOf('s'),
-				ovScanner);
-
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enableAdvScannerCraftingRecipe", false);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(false)) {
+			ItemStack ovScanner = Items.getItem("ovScanner");
+			ItemStack uum = Items.getItem("matter");
+			ItemStack energyCrystal = Items.getItem("energyCrystal");
+			ItemStack advCircuit = Items.getItem("advancedCircuit");
+			ItemStack glassFiber = Items.getItem("glassFiberCableItem");
+			ItemStack advScanner = new ItemStack(
+					ModItems.instance.itemAdvScanner);
+			Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
+					Character.valueOf('u'), uum, Character.valueOf('g'),
+					glassFiber, Character.valueOf('a'), advCircuit,
+					Character.valueOf('c'), energyCrystal,
+					Character.valueOf('s'), ovScanner);
+		}
 	}
 
 	public static void verifyStack(ItemStack stack) {

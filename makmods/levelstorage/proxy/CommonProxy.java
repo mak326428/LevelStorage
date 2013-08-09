@@ -1,16 +1,22 @@
 package makmods.levelstorage.proxy;
 
+import java.util.ArrayList;
+
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.ModTileEntities;
 import makmods.levelstorage.armor.ArmorTicker;
+import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
+import makmods.levelstorage.logic.uumsystem.UUMHelper;
 import makmods.levelstorage.logic.uumsystem.UUMRecipeParser;
 import makmods.levelstorage.registry.XpStackRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLLog;
@@ -33,8 +39,9 @@ public class CommonProxy {
 		ModTileEntities.instance.init();
 		ModFluids.instance.init();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
-		TickRegistry.registerTickHandler(new ArmorTicker(), Side.CLIENT);
-		//res = UUMHelper.removeDuplicates(res);
+		TickRegistry.registerTickHandler(new ArmorTicker(), Side.SERVER);
+
+		// res = UUMHelper.removeDuplicates(res);
 	}
 
 	public void postInit() {
@@ -48,7 +55,13 @@ public class CommonProxy {
 			LevelStorage.detectedGT = true;
 			XpStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
-		UUMRecipeParser.instance.init();
+		//UUMRecipeParser.instance.init();
+		//ArrayList<ItemStack> inputs = UUMHelper.recursivelyGetIngredients(new ItemStack(Block.anvil));
+		//System.out.println(inputs.size());
+		//for (ItemStack input : inputs) {
+		//	System.out.println(Helper.getNiceStackName(input));
+		//}
+
 	}
 
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {

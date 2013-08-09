@@ -19,6 +19,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -47,18 +49,26 @@ public class ItemPocketRefrigerant extends Item implements IElectricItem {
 
 	public static void addCraftingRecipe() {
 		// Temporary recipe. This item is worth much, much more than this recipe
-		// But i don't want it to be endgame item, because everybody has quantum suit there
-		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-				ModItems.instance.itemPocketRefrigerant), new ItemStack(
-				Block.ice), new ItemStack(Block.ice), new ItemStack(Block.ice),
-				new ItemStack(Block.ice), Items.getItem("advancedCircuit"),
-				Items.getItem("reBattery"));
-		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-				ModItems.instance.itemPocketRefrigerant), new ItemStack(
-				Block.ice), new ItemStack(Block.ice), new ItemStack(Block.ice),
-				new ItemStack(Block.ice), Items.getItem("advancedCircuit"),
-				Items.getItem("chargedReBattery"));
-		
+		// But i don't want it to be endgame item, because everybody has quantum
+		// suit there
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enablePocketRefrigerantCraftingRecipe", true);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(true)) {
+			Recipes.advRecipes.addShapelessRecipe(new ItemStack(
+					ModItems.instance.itemPocketRefrigerant), new ItemStack(
+					Block.ice), new ItemStack(Block.ice), new ItemStack(
+					Block.ice), new ItemStack(Block.ice), Items
+					.getItem("advancedCircuit"), Items.getItem("reBattery"));
+			Recipes.advRecipes.addShapelessRecipe(new ItemStack(
+					ModItems.instance.itemPocketRefrigerant), new ItemStack(
+					Block.ice), new ItemStack(Block.ice), new ItemStack(
+					Block.ice), new ItemStack(Block.ice), Items
+					.getItem("advancedCircuit"), Items
+					.getItem("chargedReBattery"));
+
+		}
 	}
 
 	@Override

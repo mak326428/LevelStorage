@@ -31,7 +31,10 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Property;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -43,7 +46,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	public static final String UNLOCALIZED_NAME = "enhancedDDrill";
 	public static final String NAME = "Enhanced Diamond Drill";
 
-	public static final float SPEED = 20.0F;
+	public static float SPEED = 32.0F;
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
 	public static final int ENERGY_PER_USE = 200;
@@ -67,8 +70,18 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 		}
 		this.setMaxStackSize(1);
 		MinecraftForge.setToolClass(this, "pickaxe", 3);
+		MinecraftForge.setToolClass(this, "shovel", 2);
+
 		// MinecraftForge.setToolClass(this, "shovel", 3);
 		this.efficiencyOnProperMaterial = SPEED;
+	}
+	
+	static {
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enhancedDiamondDrillSpeed", 32);
+		p.comment = "Speed of enhanced diamond drill (diamond drill = 16, default = 32)";
+		SPEED = p.getInt(32);
 	}
 
 	public boolean hitEntity(ItemStack par1ItemStack,
@@ -78,15 +91,22 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	}
 
 	public static void addCraftingRecipe() {
-		Recipes.advRecipes.addRecipe(new ItemStack(
-				ModItems.instance.itemEnhDiamondDrill), "cdc", "did", "aea",
-				Character.valueOf('c'), Items.getItem("carbonPlate"), Character
-						.valueOf('e'), Items.getItem("energyCrystal"),
-				Character.valueOf('i'), Items.getItem("diamondDrill"),
-				Character.valueOf('a'), Items.getItem("advancedCircuit"),
-				Character.valueOf('d'), new ItemStack(Item.diamond));
-		CraftingManager.getInstance().getRecipeList()
-				.add(new DrillEnhancementRecipe());
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enableEnhancedDiamondDrillCraftingRecipe", true);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(true)) {
+			Recipes.advRecipes.addRecipe(new ItemStack(
+					ModItems.instance.itemEnhDiamondDrill), "cdc", "did",
+					"aea", Character.valueOf('c'),
+					Items.getItem("carbonPlate"), Character.valueOf('e'), Items
+							.getItem("energyCrystal"), Character.valueOf('i'),
+					Items.getItem("diamondDrill"), Character.valueOf('a'),
+					Items.getItem("advancedCircuit"), Character.valueOf('d'),
+					new ItemStack(Item.diamond));
+			CraftingManager.getInstance().getRecipeList()
+					.add(new DrillEnhancementRecipe());
+		}
 	}
 
 	public static ArrayList<Block> mineableBlocks = new ArrayList<Block>();
@@ -219,14 +239,14 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	public int getItemEnchantability() {
 		return 0;
 	}
-	
+
 	public static ArrayList<Integer> blocksOtherThanOres = new ArrayList<Integer>();
-	
+
 	static {
 		blocksOtherThanOres.add(Block.gravel.blockID);
 		blocksOtherThanOres.add(Block.oreRedstone.blockID);
 	}
-	
+
 	@Override
 	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World,
 			int par3, int par4, int par5, int par6,
@@ -238,7 +258,8 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 						par7EntityLivingBase);
 			}
 			Block bl = Block.blocksList[par3];
-			if (OreDictHelper.getOreName(new ItemStack(bl)).startsWith("ore") || blocksOtherThanOres.contains(bl.blockID)) {
+			if (OreDictHelper.getOreName(new ItemStack(bl)).startsWith("ore")
+					|| blocksOtherThanOres.contains(bl.blockID)) {
 				OreFinder finder = new OreFinder();
 				finder.aimBlockId = bl.blockID;
 				finder.aimBlockMeta = par2World.getBlockMetadata(par4, par5,
@@ -334,12 +355,17 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	}
 
 	public float getStrVsBlock(ItemStack itemstack, Block block, int md) {
-		if (ElectricItem.manager.canUse(itemstack, ENERGY_PER_USE)) {
-			return SPEED;
-		} else {
-			return 0.1f;
+		if (!ElectricItem.manager.canUse(itemstack, ENERGY_PER_USE)) {
+			return 1.0F;
 		}
-		// return super.getStrVsBlock(itemstack, block, md);
+		if (ForgeHooks.isToolEffective(itemstack, block, 0)) {
+			return this.efficiencyOnProperMaterial;
+		}
+		if (canHarvestBlock(block)) {
+			return this.efficiencyOnProperMaterial;
+		}
+
+		return 1.0F;
 	}
 
 	@Override

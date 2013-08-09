@@ -15,11 +15,15 @@ import makmods.levelstorage.entity.EntityTeslaRay;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
@@ -28,7 +32,12 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ISpecialArmor;
+import net.minecraftforge.common.Property;
+
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -72,6 +81,18 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		if (!ray.worldObj.isRemote) {
 
 		}
+	}
+
+	public static ItemStack playerGetArmor(EntityPlayer p) {
+		InventoryPlayer inv = p.inventory;
+		ItemStack found = null;
+
+		for (ItemStack st : inv.armorInventory) {
+			if (st != null && st.getItem() instanceof ItemArmorTeslaHelmet)
+				found = st;
+		}
+
+		return found;
 	}
 
 	@Override
@@ -126,12 +147,18 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 	}
 
 	public static void addCraftingRecipe() {
-		Recipes.advRecipes.addRecipe(new ItemStack(
-				ModItems.instance.itemArmorTeslaHelmet), "tit", "iqi", "lll",
-				Character.valueOf('t'), IC2Items.TESLA_COIL, Character
-						.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
-						.valueOf('q'), IC2Items.QUANTUM_HELMET, Character
-						.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enableTeslaHelmetCraftingRecipe", true);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(true)) {
+			Recipes.advRecipes.addRecipe(new ItemStack(
+					ModItems.instance.itemArmorTeslaHelmet), "tit", "iqi",
+					"lll", Character.valueOf('t'), IC2Items.TESLA_COIL,
+					Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
+							.valueOf('q'), IC2Items.QUANTUM_HELMET, Character
+							.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -20,7 +20,9 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -163,17 +165,21 @@ public class ItemCompactTeleporter extends Item implements IElectricItem {
 
 	public static void addCraftingRecipe() {
 		// TEMPORARY RECIPE
-		Recipes.advRecipes
-				.addShapelessRecipe(new ItemStack(
-						ModItems.instance.itemCompactTeleporter), Items
-						.getItem("teleporter"), Items.getItem("teleporter"),
-						Items.getItem("frequencyTransmitter"), Items
-								.getItem("frequencyTransmitter"), Items
-								.getItem("lapotronCrystal"), Items
-								.getItem("lapotronCrystal"), Items
-								.getItem("lapotronCrystal"), Items
-								.getItem("iridiumPlate"), Items
-								.getItem("advancedCircuit"));
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enableCompactTeleporterCraftingRecipe", true);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(true)) {
+			Recipes.advRecipes.addShapelessRecipe(new ItemStack(
+					ModItems.instance.itemCompactTeleporter), Items
+					.getItem("teleporter"), Items.getItem("teleporter"), Items
+					.getItem("frequencyTransmitter"), Items
+					.getItem("frequencyTransmitter"), Items
+					.getItem("lapotronCrystal"), Items
+					.getItem("lapotronCrystal"), Items
+					.getItem("lapotronCrystal"), Items.getItem("iridiumPlate"),
+					Items.getItem("advancedCircuit"));
+		}
 	}
 
 	@Override

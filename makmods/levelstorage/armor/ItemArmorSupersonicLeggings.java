@@ -27,7 +27,9 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ISpecialArmor;
+import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -97,12 +99,19 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 	}
 
 	public static void addCraftingRecipe() {
-		Recipes.advRecipes.addRecipe(new ItemStack(
-				ModItems.instance.itemSupersonicLeggings), "ggg", "iqi", "lll",
-				Character.valueOf('g'), new ItemStack(Block.glowStone),
-				Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
-						.valueOf('q'), IC2Items.QUANTUM_LEGGINGS, Character
-						.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enableSupersonicLeggingsCraftingRecipe", true);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(true)) {
+			Recipes.advRecipes.addRecipe(new ItemStack(
+					ModItems.instance.itemSupersonicLeggings), "ggg", "iqi",
+					"lll", Character.valueOf('g'), new ItemStack(
+							Block.glowStone), Character.valueOf('i'),
+					IC2Items.IRIDIUM_PLATE, Character.valueOf('q'),
+					IC2Items.QUANTUM_LEGGINGS, Character.valueOf('l'),
+					IC2Items.LAPOTRON_CRYSTAL);
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

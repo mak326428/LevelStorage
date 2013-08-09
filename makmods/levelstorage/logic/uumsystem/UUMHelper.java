@@ -3,8 +3,11 @@ package makmods.levelstorage.logic.uumsystem;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import makmods.levelstorage.logic.Helper;
 import net.minecraft.item.ItemStack;
@@ -21,15 +24,43 @@ public class UUMHelper {
 		return false;
 	}
 
-	public static ItemStack[] recursivelyGetIngredients(ItemStack forWhat) {
-		ArrayList<ItemStack> ingredients = new ArrayList();
-		if (canCraft(forWhat)) {
-			
-		} else{
-			ingredients.add(forWhat);
+	public static ArrayList<ItemStack> recursivelyGetIngredients(
+			ItemStack forWhat) {
+		System.out.println("Crafting - " + Helper.getNiceStackName(forWhat));
+		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
+		ItemStack[] st = getRecipeInputsFor(forWhat);
+		if (st != null) {
+			for (ItemStack stack1 : st) {
+				if (stack1 != null) {
+					if (!canCraft(stack1))
+						stacks.add(stack1);
+					if (canCraft(stack1)) {
+
+						// ArrayList<ItemStack> st4 =
+						// recursivelyGetIngredients(stack1);
+						System.out.println("Can craft "
+								+ Helper.getNiceStackName(stack1));
+						ItemStack[] st4 = getRecipeInputs(getRecipeFor(stack1));
+						System.out.println("st4: " + getRecipeFor(stack1));
+						if (st4 != null) {
+							System.out.println("st4 lenght" + st4.length);
+							for (ItemStack st3 : st4)
+								stacks.add(st3);
+						} else {
+							stacks.add(stack1);
+						}
+					}
+
+				}
+			}
+		} else {
+			stacks.add(forWhat);
 		}
-		return (ItemStack[]) ingredients.toArray(new ItemStack[ingredients
-				.size()]);
+		return stacks;
+	}
+
+	public static ItemStack[] getRecipeInputsFor(ItemStack stack) {
+		return getRecipeInputs(getRecipeFor(stack));
 	}
 
 	public static ItemStack[] removeDuplicates(ItemStack[] a) {
@@ -46,9 +77,9 @@ public class UUMHelper {
 	}
 
 	public static boolean canCraft(ItemStack what) {
-		return getRecipeFor(what) != null;
+		return getRecipeInputsFor(what) == null;
 	}
-	
+
 	public static <T> ArrayList<T> convertArrayIntoArrList(T[] arr) {
 		ArrayList<T> arrList = new ArrayList<T>();
 		for (T entry : arr) {
@@ -57,14 +88,19 @@ public class UUMHelper {
 		return arrList;
 	}
 
-	public static ArrayList<ItemStack> getRecipeInputs(IRecipe rec) {
-		ArrayList<ItemStack> inputs = null;
+	public static ItemStack[] getRecipeInputs(IRecipe rec) {
+		System.out.println(rec);
+		if (rec == null)
+			return null;
+		ItemStack[] inputs = null;
 		if (rec instanceof ShapedRecipes) {
-			inputs = convertArrayIntoArrList(((ShapedRecipes) rec).recipeItems);
+			inputs = ((ShapedRecipes) rec).recipeItems;
+			System.out.println("ShapedRecipes set.");
 		}
 		if (rec instanceof ShapelessRecipes) {
 			List l = ((ShapelessRecipes) rec).recipeItems;
-			inputs = convertArrayIntoArrList((ItemStack[]) l.toArray(new ItemStack[l.size()]));
+			inputs = (ItemStack[]) l.toArray(new ItemStack[l.size()]);
+			System.out.println("ShapelessRecipes set.");
 		}
 		if (rec.getClass().getName() == UUMRecipeParser.ADV_RECIPE_CLASS) {
 			try {
@@ -76,25 +112,26 @@ public class UUMHelper {
 					if (obj instanceof ItemStack)
 						stacks.add((ItemStack) obj);
 				}
-				return stacks;
+				inputs = (ItemStack[]) stacks.toArray(new ItemStack[stacks
+						.size()]);
+				System.out.println("AdvRecipes set.");
 			} catch (Exception e) {
 			}
 		}
-		for (ItemStack inp1 : inputs) {
-			for (ItemStack inp2 : inputs) {
-				if (Helper.compareStacksGenerally(inp1, inp2)) {
-					
-				}
-			}
-		}
+		// for (ItemStack is : inputs) {
+		// if (is == null)
+		// inputs.
+		// }
 		return inputs;
 	}
 
 	public static IRecipe getRecipeFor(ItemStack forWhat) {
 		for (Object rec : CraftingManager.getInstance().getRecipeList()) {
-			if (Helper.compareStacksGenerallyNoStackSize(forWhat,
-					((IRecipe) rec).getRecipeOutput())) {
-				return (IRecipe) rec;
+			ItemStack outp = ((IRecipe) rec).getRecipeOutput();
+			if (forWhat != null && outp != null) {
+				if (forWhat.itemID == outp.itemID) {
+					return (IRecipe) rec;
+				}
 			}
 		}
 		return null;

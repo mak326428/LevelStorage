@@ -26,8 +26,10 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Property;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -173,11 +175,18 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	}
 
 	public static void addCraftingRecipe() {
-		Recipes.advRecipes.addRecipe(new ItemStack(
-				ModItems.instance.itemLevitationBoots), "iii", "iqi", "lll",
-				Character.valueOf('i'), Items.getItem("iridiumPlate"),
-				Character.valueOf('q'), Items.getItem("quantumBoots"),
-				Character.valueOf('l'), Items.getItem("lapotronCrystal"));
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enableLevitationBootsCraftingRecipe", true);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(true)) {
+			Recipes.advRecipes.addRecipe(new ItemStack(
+					ModItems.instance.itemLevitationBoots), "iii", "iqi",
+					"lll", Character.valueOf('i'), Items
+							.getItem("iridiumPlate"), Character.valueOf('q'),
+					Items.getItem("quantumBoots"), Character.valueOf('l'),
+					Items.getItem("lapotronCrystal"));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

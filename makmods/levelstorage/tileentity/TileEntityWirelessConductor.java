@@ -8,6 +8,7 @@ import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.tile.IWrenchable;
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.item.ItemFrequencyCard;
@@ -26,9 +27,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class TileEntityWirelessConductor extends TileEntity implements
@@ -40,6 +43,22 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	public static final String NBT_TYPE = "type";
 	public boolean addedToENet = false;
 	public ConductorType type;
+	public static boolean ENABLE_PARTICLES;
+	public static boolean ENABLE_LIGHTNINGS;
+	
+	public static void getConfig() {
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"conductorsSpawnLightnings", true);
+		p.comment = "If set to false, wireless conductors will stop spawning lightnings";
+		ENABLE_LIGHTNINGS = p.getBoolean(true);
+		Property p2 = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"conducorsSpawnParticles", true);
+		p2.comment = "If set to false, conductors will stop spawning particles (useful on servers, because every 40 ticks server will send 180 packets to all the clients)";
+		ENABLE_PARTICLES = p2.getBoolean(true);
+	}
+	
 
 	// This will be changed when a new valid (!!!) card is inserted.
 	public IWirelessConductor pair = null;
@@ -148,8 +167,11 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		else {
 			this.elapsedReceives++;
 			if (this.elapsedReceives > 600 && amount > 128) {
-				Helper.spawnLightning(this.worldObj, this.xCoord, this.yCoord,
-						this.zCoord, false);
+				
+				if (ENABLE_LIGHTNINGS) {
+					Helper.spawnLightning(this.worldObj, this.xCoord,
+							this.yCoord, this.zCoord, false);
+				}
 				this.elapsedReceives = 0;
 			}
 			EntityPlayer ep = this.worldObj.getClosestPlayer(this.xCoord,
@@ -265,27 +287,28 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	public void updateEntity() {
 		this.particleTime++;
 		if (this.particleTime > 40) {
+			
+			if (ENABLE_PARTICLES) {
+				for (int i = 0; i < 180; i++) {
+					PacketParticles packet = new PacketParticles();
+					packet.name = "enchantmenttable";
+					packet.x = this.xCoord + Math.sin(i);
+					packet.z = this.zCoord + Math.cos(i);
 
-			for (int i = 0; i < 180; i++) {
-				PacketParticles packet = new PacketParticles();
-				packet.name = "enchantmenttable";
-				packet.x = this.xCoord + Math.sin(i);
-				packet.z = this.zCoord + Math.cos(i);
+					packet.x += Helper.isNumberNegative(this.xCoord) ? +0.5F
+							: -0.5F;
+					packet.z += Helper.isNumberNegative(this.zCoord) ? -0.5F
+							: +0.5F;
 
-				packet.x += Helper.isNumberNegative(this.xCoord) ? +0.5F
-						: -0.5F;
-				packet.z += Helper.isNumberNegative(this.zCoord) ? -0.5F
-						: +0.5F;
-
-				packet.y = this.yCoord + 2F;
-				packet.velX = 0F;
-				packet.velZ = 0F;
-				packet.velY = -0.5F;
-				PacketDispatcher.sendPacketToAllInDimension(
-						PacketTypeHandler.populatePacket(packet),
-						this.worldObj.provider.dimensionId);
+					packet.y = this.yCoord + 2F;
+					packet.velX = 0F;
+					packet.velZ = 0F;
+					packet.velY = -0.5F;
+					PacketDispatcher.sendPacketToAllInDimension(
+							PacketTypeHandler.populatePacket(packet),
+							this.worldObj.provider.dimensionId);
+				}
 			}
-
 			this.particleTime = 0;
 		}
 		if (!this.addedToENet) {

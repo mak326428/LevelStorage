@@ -23,6 +23,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class BlockWirelessConductor extends BlockContainer {
@@ -40,20 +42,27 @@ public class BlockWirelessConductor extends BlockContainer {
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.375F, 1F);
+		TileEntityWirelessConductor.getConfig();
 	}
 
 	public static void addCraftingRecipe() {
-		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
-		ItemStack transformerHv = Items.getItem("hvTransformer");
-		ItemStack advCircuit = Items.getItem("advancedCircuit");
-		ItemStack advMachine = Items.getItem("advancedMachine");
-		ItemStack enderPearl = new ItemStack(Item.enderPearl);
-		Recipes.advRecipes.addRecipe(new ItemStack(
-				ModBlocks.instance.blockWlessConductor), "tmt", "cec", "chc",
-				Character.valueOf('t'), frequencyTr, Character.valueOf('e'),
-				enderPearl, Character.valueOf('c'), advCircuit, Character
-						.valueOf('h'), transformerHv, Character.valueOf('m'),
-				advMachine);
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enableWirelessConductorCraftingRecipe", true);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(true)) {
+			ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
+			ItemStack transformerHv = Items.getItem("hvTransformer");
+			ItemStack advCircuit = Items.getItem("advancedCircuit");
+			ItemStack advMachine = Items.getItem("advancedMachine");
+			ItemStack enderPearl = new ItemStack(Item.enderPearl);
+			Recipes.advRecipes.addRecipe(new ItemStack(
+					ModBlocks.instance.blockWlessConductor), "tmt", "cec",
+					"chc", Character.valueOf('t'), frequencyTr, Character
+							.valueOf('e'), enderPearl, Character.valueOf('c'),
+					advCircuit, Character.valueOf('h'), transformerHv,
+					Character.valueOf('m'), advMachine);
+		}
 	}
 
 	private Icon down;

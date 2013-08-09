@@ -25,8 +25,10 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Property;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -135,12 +137,18 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	}
 
 	public static void addCraftingRecipe() {
-		Recipes.advRecipes.addRecipe(new ItemStack(
-				ModItems.instance.itemArmorForcefieldChestplate), "ttt", "iqi",
-				"lll", Character.valueOf('t'), IC2Items.TESLA_COIL, Character
-						.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
-						.valueOf('q'), IC2Items.QUANTUM_CHESTPLATE, Character
-						.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
+		Property p = LevelStorage.configuration.get(
+				Configuration.CATEGORY_GENERAL,
+				"enableForcefieldChestplateCraftingRecipe", true);
+		p.comment = "Determines whether or not crafting recipe is enabled";
+		if (p.getBoolean(true)) {
+			Recipes.advRecipes.addRecipe(new ItemStack(
+					ModItems.instance.itemArmorForcefieldChestplate), "ttt",
+					"iqi", "lll", Character.valueOf('t'), IC2Items.TESLA_COIL,
+					Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
+							.valueOf('q'), IC2Items.QUANTUM_CHESTPLATE,
+					Character.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
