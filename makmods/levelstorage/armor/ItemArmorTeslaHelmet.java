@@ -3,13 +3,16 @@ package makmods.levelstorage.armor;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.item.IMetalArmor;
+import ic2.api.recipe.Recipes;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
 import makmods.levelstorage.entity.EntityTeslaRay;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -63,21 +66,25 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		potionRemovalCost.put(Integer.valueOf(Potion.wither.id),
 				Integer.valueOf(25000));
 	}
-	
-	public static void onTeslaRayImpact(EntityTeslaRay ray, EntityPlayer shootingEntity, double posX, double posY, double posZ) {
+
+	public static void onTeslaRayImpact(EntityTeslaRay ray,
+			EntityPlayer shootingEntity, double posX, double posY, double posZ) {
 		if (!ray.worldObj.isRemote) {
-			
+
 		}
 	}
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 			ItemStack itemStack) {
-		if (player.isSneaking() && IC2Access.instance.isKeyDown("Boost", player)) {
+		if (player.isSneaking()
+				&& IC2Access.instance.isKeyDown("Boost", player)) {
 			if (ElectricItem.manager.canUse(itemStack, RAY_COST)) {
 				if (!world.isRemote)
 					ElectricItem.manager.use(itemStack, RAY_COST, player);
 				EntityTeslaRay ray = new EntityTeslaRay(world, player);
+				double speedBoost = 0.25f;
+
 				world.spawnEntityInWorld(ray);
 			}
 		}
@@ -119,7 +126,12 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 	}
 
 	public static void addCraftingRecipe() {
-
+		Recipes.advRecipes.addRecipe(new ItemStack(
+				ModItems.instance.itemArmorTeslaHelmet), "tit", "iqi", "lll",
+				Character.valueOf('t'), IC2Items.TESLA_COIL, Character
+						.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
+						.valueOf('q'), IC2Items.QUANTUM_HELMET, Character
+						.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
 	}
 
 	@SideOnly(Side.CLIENT)

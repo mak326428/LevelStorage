@@ -3,10 +3,13 @@ package makmods.levelstorage.armor;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.item.IMetalArmor;
+import ic2.api.recipe.Recipes;
 
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -90,7 +93,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 							+ event.entityLiving.motionY;
 					double newPosZ = event.entityLiving.posZ
 							+ event.entityLiving.motionZ;
-					
+
 					double distanceX = Math.abs(p.posX - newPosX);
 					double distanceY = Math.abs(p.posY - newPosY);
 					double distanceZ = Math.abs(p.posZ - newPosZ);
@@ -100,8 +103,12 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 						if (ElectricItem.manager.canUse(armor,
 								ENERGY_PER_TICK_ENTITIES)) {
 							if (event.entityLiving instanceof EntityMob)
-								event.entityLiving.attackEntityFrom(LSDamageSource.forcefieldArmorInstaKill, 40);
-							ElectricItem.manager.use(armor, ENERGY_PER_TICK_ENTITIES, p);
+								event.entityLiving
+										.attackEntityFrom(
+												LSDamageSource.forcefieldArmorInstaKill,
+												40);
+							ElectricItem.manager.use(armor,
+									ENERGY_PER_TICK_ENTITIES, p);
 							event.entityLiving.motionX = -(event.entityLiving.motionX);
 							event.entityLiving.motionY = -(event.entityLiving.motionY - 0.05f);
 							event.entityLiving.motionZ = -(event.entityLiving.motionZ);
@@ -128,7 +135,12 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	}
 
 	public static void addCraftingRecipe() {
-
+		Recipes.advRecipes.addRecipe(new ItemStack(
+				ModItems.instance.itemArmorForcefieldChestplate), "ttt", "iqi",
+				"lll", Character.valueOf('t'), IC2Items.TESLA_COIL, Character
+						.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
+						.valueOf('q'), IC2Items.QUANTUM_CHESTPLATE, Character
+						.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -11,8 +11,10 @@ import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.proxy.ClientProxy;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -95,14 +97,12 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 	}
 
 	public static void addCraftingRecipe() {
-		Recipes.advRecipes
-				.addShapelessRecipe(new ItemStack(
-						ModItems.instance.itemSupersonicLeggings), Items
-						.getItem("quantumLeggings"), new ItemStack(
-						Item.glowstone), Items.getItem("advancedCircuit"),
-						Items.getItem("advancedCircuit"), Items
-								.getItem("iridiumPlate"), Items
-								.getItem("iridiumPlate"));
+		Recipes.advRecipes.addRecipe(new ItemStack(
+				ModItems.instance.itemSupersonicLeggings), "ggg", "iqi", "lll",
+				Character.valueOf('g'), new ItemStack(Block.glowStone),
+				Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
+						.valueOf('q'), IC2Items.QUANTUM_LEGGINGS, Character
+						.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
 	}
 
 	@SideOnly(Side.CLIENT)
