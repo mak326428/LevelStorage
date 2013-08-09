@@ -32,6 +32,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,7 +47,6 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
 	public static final int ENERGY_PER_USE = 200;
-
 	// Prank..
 	public static final String ENHANCEMENT_NBT = "enhancement";
 	public static final String ENHANCEMENT_ID_NBT = "id";
@@ -226,7 +226,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 		blocksOtherThanOres.add(Block.gravel.blockID);
 		blocksOtherThanOres.add(Block.oreRedstone.blockID);
 	}
-
+	
 	@Override
 	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World,
 			int par3, int par4, int par5, int par6,

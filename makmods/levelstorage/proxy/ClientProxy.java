@@ -1,8 +1,10 @@
 package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.ModBlocks;
+import makmods.levelstorage.entity.EntityTeslaRay;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
+import makmods.levelstorage.render.RenderTeslaRay;
 import makmods.levelstorage.render.WirelessConductorRender;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.Minecraft;
@@ -11,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -26,6 +29,8 @@ public class ClientProxy extends CommonProxy {
 	public static final String SUPERSONIC_LEGGINGS_TEXTURE = getTexturePathFor("itemArmorSupersonicLeggings");
 	public static final String POCKET_REFRIGERANT_TEXTURE = getTexturePathFor("itemPocketRefrigerant");
 	public static final String LEVITATION_BOOTS_TEXTURE = getTexturePathFor("itemArmorLevitationBoots");
+	public static final String FORCEFIELD_CHESTPLATE_TEXTURE = getTexturePathFor("itemArmorForcefieldChestplate");
+	public static final String TESLA_HELMET_TEXTURE = getTexturePathFor("itemArmorTeslaHelmet");
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
@@ -43,9 +48,10 @@ public class ClientProxy extends CommonProxy {
 	
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
+	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
 	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "levelstorage:/armor/supersonic_2.png";
 	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "levelstorage:/armor/supersonic_1.png";
-
+	
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
 		for (CreativeTabs t : CreativeTabs.creativeTabArray) {
@@ -75,6 +81,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(
 				ModBlocks.instance.blockWlessConductor.blockID,
 				new ItemWirelessConductorRender());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTeslaRay.class, new RenderTeslaRay());
 	}
 
 	@Override

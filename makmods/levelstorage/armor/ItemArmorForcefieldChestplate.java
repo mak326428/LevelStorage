@@ -3,21 +3,17 @@ package makmods.levelstorage.armor;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.item.IMetalArmor;
-import ic2.api.item.Items;
-import ic2.api.recipe.Recipes;
 
-import java.util.HashMap;
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
-import makmods.levelstorage.api.IFlyArmor;
-import makmods.levelstorage.logic.IC2Access;
+import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumArmorMaterial;
@@ -28,141 +24,100 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemArmorLevitationBoots extends ItemArmor implements
-		ISpecialArmor, IMetalArmor, IElectricItem, IFlyArmor {
+public class ItemArmorForcefieldChestplate extends ItemArmor implements
+		ISpecialArmor, IMetalArmor, IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "armorLevitationBoots";
-	public static final String NAME = "Levitation Boots";
+	public static final String UNLOCALIZED_NAME = "armorForcefieldChestplate";
+	public static final String NAME = "Forcefield Chestplate";
 
 	public static final int TIER = 3;
 	public static final int STORAGE = 3 * 1000 * 1000;
 	public static final int ENERGY_PER_DAMAGE = 900;
-	public static final int FLYING_ENERGY_PER_TICK = 512;
+	public static final int ENTITY_MAX_DISTANCE = 16;
+	public static final int ENERGY_PER_TICK_ENTITIES = 100;
 
-	public ItemArmorLevitationBoots() {
+	public ItemArmorForcefieldChestplate() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
 				LevelStorage.getAndIncrementCurrId()).getInt(),
-				EnumArmorMaterial.DIAMOND, 5, 3);
+				EnumArmorMaterial.DIAMOND, 5, 1);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
-		MinecraftForge.EVENT_BUS.register(this);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
 		this.setMaxStackSize(1);
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	@ForgeSubscribe
-	public void onEntityLivingFallEvent(LivingFallEvent event) {
-		if ((!event.entityLiving.worldObj.isRemote)
-				&& ((event.entity instanceof EntityLivingBase))) {
-			EntityLivingBase entity = (EntityLivingBase) event.entity;
-			ItemStack armor = entity.getCurrentItemOrArmor(1);
-
-			if ((armor != null) && (armor.itemID == this.itemID)) {
-				int fallDamage = Math.max((int) event.distance - 3 - 7, 0);
-				int energyCost = ENERGY_PER_DAMAGE * fallDamage;
-
-				if (energyCost <= ElectricItem.manager.getCharge(armor)) {
-					ElectricItem.manager.discharge(armor, energyCost,
-							2147483647, true, false);
-
-					event.setCanceled(true);
-				}
-			}
-		}
-	}
-
-	public static HashMap<EntityPlayer, Boolean> onGroundMap = new HashMap<EntityPlayer, Boolean>();
-	private float jumpCharge;
-
-	public static void checkPlayer(EntityPlayer p) {
-		if (p.capabilities.isCreativeMode)
-			return;
+	public static ItemStack playerGetArmor(EntityPlayer p) {
 		InventoryPlayer inv = p.inventory;
-		boolean isFound = false;
+		ItemStack found = null;
 
 		for (ItemStack st : inv.armorInventory) {
-			if (st != null && st.getItem() instanceof IFlyArmor)
-				isFound = true;
+			if (st != null
+					&& st.getItem() instanceof ItemArmorForcefieldChestplate)
+				found = st;
 		}
 
-		if (!isFound) {
-			p.capabilities.allowFlying = false;
-			p.capabilities.isFlying = false;
+		return found;
+	}
+
+	@ForgeSubscribe(priority = EventPriority.HIGHEST)
+	public void onLivingUpdate(LivingUpdateEvent event) {
+		// System.out.println(event.entityLiving.getClass().getCanonicalName());
+		// System.out.println("motionX" + event.entityLiving.motionX);
+		// System.out.println("motionY" + event.entityLiving.motionY);
+		// System.out.println("motionZ" + event.entityLiving.motionZ);
+		World w = event.entityLiving.worldObj;
+		if (!w.isRemote) {
+			if (event.entityLiving instanceof EntityPlayer)
+				return;
+			for (Object playerObj : w.playerEntities) {
+				EntityPlayer p = (EntityPlayer) playerObj;
+				ItemStack armor = playerGetArmor(p);
+				if (armor != null) {
+					double newPosX = event.entityLiving.posX
+							+ event.entityLiving.motionX;
+					double newPosY = event.entityLiving.posY
+							+ event.entityLiving.motionY;
+					double newPosZ = event.entityLiving.posZ
+							+ event.entityLiving.motionZ;
+					
+					double distanceX = Math.abs(p.posX - newPosX);
+					double distanceY = Math.abs(p.posY - newPosY);
+					double distanceZ = Math.abs(p.posZ - newPosZ);
+					double totalDistance = distanceX + distanceY + distanceZ;
+					// if (totalDistance > ENTITY_MAX_DISTANCE) {
+					if (totalDistance < ENTITY_MAX_DISTANCE) {
+						if (ElectricItem.manager.canUse(armor,
+								ENERGY_PER_TICK_ENTITIES)) {
+							if (event.entityLiving instanceof EntityMob)
+								event.entityLiving.attackEntityFrom(LSDamageSource.forcefieldArmorInstaKill, 40);
+							ElectricItem.manager.use(armor, ENERGY_PER_TICK_ENTITIES, p);
+							event.entityLiving.motionX = -(event.entityLiving.motionX);
+							event.entityLiving.motionY = -(event.entityLiving.motionY - 0.05f);
+							event.entityLiving.motionZ = -(event.entityLiving.motionZ);
+						}
+					}
+				}
+			}
 		}
 	}
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 			ItemStack itemStack) {
-		boolean boostKey = IC2Access.instance.isKeyDown("Boost", player);
-		// QUANTUM SUIT ABILITIES
-		if (!onGroundMap.containsKey(player))
-			onGroundMap.put(player, true);
 		if (!world.isRemote) {
-			boolean wasOnGround = onGroundMap.containsKey(player) ? ((Boolean) onGroundMap
-					.get(player)).booleanValue() : true;
-
-			if ((wasOnGround) && (!player.onGround)
-					&& (IC2Access.instance.isKeyDown("Jump", player))
-					&& (IC2Access.instance.isKeyDown("Boost", player))) {
-				ElectricItem.manager.use(itemStack, 4000, null);
-			}
-			onGroundMap.remove(player);
-			onGroundMap.put(player, Boolean.valueOf(player.onGround));
-		} else {
-			if ((ElectricItem.manager.canUse(itemStack, 4000))
-					&& (player.onGround))
-				this.jumpCharge = 2.0F;
-
-			if ((player.motionY >= 0.0D) && (this.jumpCharge > 0.0F)
-					&& (!player.isInWater())) {
-				if ((IC2Access.instance.isKeyDown("Jump", player) && (IC2Access.instance
-						.isKeyDown("Boost", player)))) {
-					if (this.jumpCharge == 2.0F) {
-						player.motionX *= 3.5D;
-						player.motionZ *= 3.5D;
-					}
-
-					player.motionY += this.jumpCharge * 0.3F;
-					this.jumpCharge = ((float) (this.jumpCharge * 0.75D));
-				} else if (this.jumpCharge < 1.0F) {
-					this.jumpCharge = 0.0F;
-				}
-
-			}// END OF QUANTUM SUIT ABILITIES
-
+			player.extinguish();
 		}
-		if (ElectricItem.manager.canUse(itemStack, FLYING_ENERGY_PER_TICK)) {
-			player.capabilities.allowFlying = true;
-			if (player.capabilities.isFlying) {
-				if (boostKey) {
-					float boost = 0.44f;
-					player.moveFlying(0.0F, 1.0F, boost);
-					if (!world.isRemote) {
-						ElectricItem.manager.use(itemStack,
-								FLYING_ENERGY_PER_TICK * 3, player);
-					}
-				}
-				if (!world.isRemote) {
-					ElectricItem.manager.use(itemStack, FLYING_ENERGY_PER_TICK,
-							player);
-				}
-			}
-		} else {
-			player.capabilities.allowFlying = false;
-			if (player.capabilities.isFlying)
-				player.capabilities.isFlying = false;
-		}
-
 	}
 
 	@Override
@@ -173,11 +128,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	}
 
 	public static void addCraftingRecipe() {
-		Recipes.advRecipes.addRecipe(new ItemStack(
-				ModItems.instance.itemLevitationBoots), "iii", "iqi", "lll",
-				Character.valueOf('i'), Items.getItem("iridiumPlate"),
-				Character.valueOf('q'), Items.getItem("quantumBoots"),
-				Character.valueOf('l'), Items.getItem("lapotronCrystal"));
+
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -189,7 +140,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
-				.registerIcon(ClientProxy.LEVITATION_BOOTS_TEXTURE);
+				.registerIcon(ClientProxy.FORCEFIELD_CHESTPLATE_TEXTURE);
 	}
 
 	public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player,
@@ -209,11 +160,11 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	}
 
 	private double getBaseAbsorptionRatio() {
-		return 0.15D;
+		return 0.4D;
 	}
 
 	public double getDamageAbsorptionRatio() {
-		return 1.0D;
+		return 1.1D;
 	}
 
 	public void damageArmor(EntityLivingBase entity, ItemStack stack,
@@ -232,7 +183,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 	@Override
 	public boolean canProvideEnergy(ItemStack itemStack) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -273,11 +224,6 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 	@Override
 	public boolean isMetalArmor(ItemStack itemstack, EntityPlayer player) {
-		return true;
-	}
-
-	@Override
-	public boolean isFlyArmor() {
 		return true;
 	}
 

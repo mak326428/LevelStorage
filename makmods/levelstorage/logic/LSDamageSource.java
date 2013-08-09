@@ -8,9 +8,14 @@ import net.minecraft.util.DamageSource;
 public class LSDamageSource extends DamageSource {
 
 	public static LSDamageSource energyField = (new LSDamageSource(
-			"energyFieldKill")
-			.setKillMessage("was in radius of high energy field."));
-
+			"energyFieldKill", "was in radius of high energy field."));
+	public static LSDamageSource forcefieldArmor = (new LSDamageSource(
+			"energyFieldKill", "was zapped by a huge impulse of energy."));
+	public static DamageSource forcefieldArmorInstaKill = (DamageSource)((new LSDamageSource(
+			"energyFieldKill", "was zapped by a huge impulse of energy."))).setDamageBypassesArmor();
+	public static DamageSource teslaRay = (DamageSource)((new LSDamageSource(
+			"energyFieldKill", "was zapped by a huge impulse of energy caused by a tesla ray."))).setDamageBypassesArmor();
+	
 	private String killMessage;
 
 	@Override
@@ -23,8 +28,9 @@ public class LSDamageSource extends DamageSource {
 		return ChatMessageComponent.func_111066_d(this.killMessage);
 	}
 
-	protected LSDamageSource(String par1Str) {
+	protected LSDamageSource(String par1Str, String killMessage) {
 		super(par1Str);
+		this.setKillMessage(killMessage);
 	}
 
 	public LSDamageSource setKillMessage(String message) {
