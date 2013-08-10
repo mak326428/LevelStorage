@@ -3,6 +3,7 @@ package makmods.levelstorage;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 
+import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
 import makmods.levelstorage.block.BlockXpCharger;
@@ -21,6 +22,7 @@ public class ModBlocks {
 	public BlockXpCharger blockXpCharger;
 	public BlockWirelessConductor blockWlessConductor;
 	public BlockWirelessPowerSynchronizer blockWlessPowerSync;
+	public BlockCableSuperconductor blockSuperconductor;
 
 	private ModBlocks() {
 	}

@@ -64,6 +64,7 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 			ItemStack itemStack) {
 		if (!speedTickerMap.containsKey(player))
 			speedTickerMap.put(player, 0);
+		float speed = 0.66F;
 		if ((ElectricItem.manager.canUse(itemStack, 1000))
 				&& ((player.onGround) || (player.isInWater()))
 				&& (player.isSprinting())) {
@@ -77,8 +78,6 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 			}
 			speedTickerMap.remove(player);
 			speedTickerMap.put(player, Integer.valueOf(speedTicker));
-
-			float speed = 0.66F;
 
 			if (player.isInWater()) {
 				speed = 0.1F;

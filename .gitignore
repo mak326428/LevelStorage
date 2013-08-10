@@ -213,3 +213,10 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+./makmods/levelstorage/block/BlockCableSuperconductor.java
+./makmods/levelstorage/item/ItemSuperconductor.java
+./makmods/levelstorage/render/RenderSuperconductorCable.java
+./makmods/levelstorage/tileentity/TileEntitySuperconductorCable.java
+
+

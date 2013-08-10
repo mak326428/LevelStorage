@@ -75,11 +75,11 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 		// MinecraftForge.setToolClass(this, "shovel", 3);
 		this.efficiencyOnProperMaterial = SPEED;
 	}
-	
+
 	static {
-		Property p = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"enhancedDiamondDrillSpeed", 32);
+		Property p = LevelStorage.configuration
+				.get(Configuration.CATEGORY_GENERAL,
+						"enhancedDiamondDrillSpeed", 32);
 		p.comment = "Speed of enhanced diamond drill (diamond drill = 16, default = 32)";
 		SPEED = p.getInt(32);
 	}
@@ -234,6 +234,27 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 				true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
+
+		int[][] enhancements = { { Enchantment.fortune.effectId, 3 },
+				{ Enchantment.silkTouch.effectId, 1 } };
+		for (int[] enh : enhancements) {
+
+			NBTTagCompound nbtEnh = new NBTTagCompound();
+			nbtEnh.setInteger(ENHANCEMENT_ID_NBT, enh[0]);
+			nbtEnh.setInteger(ENHANCEMENT_LVL_NBT, enh[1]);
+
+			ItemStack charged = new ItemStack(this, 1);
+			ElectricItem.manager.charge(charged, Integer.MAX_VALUE,
+					Integer.MAX_VALUE, true, false);
+			charged.stackTagCompound.setCompoundTag(ENHANCEMENT_NBT, nbtEnh);
+			par3List.add(charged);
+
+			ItemStack discharged = new ItemStack(this, 1, this.getMaxDamage());
+			discharged.stackTagCompound = new NBTTagCompound();
+			discharged.stackTagCompound.setInteger("charge", 0);
+			discharged.stackTagCompound.setCompoundTag(ENHANCEMENT_NBT, nbtEnh);
+			par3List.add(discharged);
+		}
 	}
 
 	public int getItemEnchantability() {
@@ -245,6 +266,9 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	static {
 		blocksOtherThanOres.add(Block.gravel.blockID);
 		blocksOtherThanOres.add(Block.oreRedstone.blockID);
+		blocksOtherThanOres.add(Block.oreRedstoneGlowing.blockID);
+		blocksOtherThanOres.add(Block.glowStone.blockID);
+		
 	}
 
 	@Override
@@ -359,6 +383,9 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 			return 1.0F;
 		}
 		if (ForgeHooks.isToolEffective(itemstack, block, 0)) {
+			return this.efficiencyOnProperMaterial;
+		}
+		if (mineableBlocks.contains(block)) {
 			return this.efficiencyOnProperMaterial;
 		}
 		if (canHarvestBlock(block)) {

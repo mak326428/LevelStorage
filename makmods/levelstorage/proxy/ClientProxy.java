@@ -4,7 +4,7 @@ import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.entity.EntityTeslaRay;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
-import makmods.levelstorage.render.RenderOreRadar;
+import makmods.levelstorage.render.RenderSuperconductorCable;
 import makmods.levelstorage.render.RenderTeslaRay;
 import makmods.levelstorage.render.WirelessConductorRender;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -13,7 +13,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -33,11 +32,13 @@ public class ClientProxy extends CommonProxy {
 	public static final String LEVITATION_BOOTS_TEXTURE = getTexturePathFor("itemArmorLevitationBoots");
 	public static final String FORCEFIELD_CHESTPLATE_TEXTURE = getTexturePathFor("itemArmorForcefieldChestplate");
 	public static final String TESLA_HELMET_TEXTURE = getTexturePathFor("itemArmorTeslaHelmet");
+	public static final String ITEM_SUPERCONDUCTOR_TEXTURE = getTexturePathFor("itemSuperconductor");
+	public static final String WIRELESS_CHARGER_TEXTURE = getTexturePathFor("itemWirelessCharger");
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
 	public static final String WIRELESS_POWER_SYNC_TEXTURE = getTexturePathFor("blockWirelessPSync");
-	public static final String WIRELESS_CHARGER_TEXTURE = getTexturePathFor("itemWirelessCharger");
+	public static final String BLOCK_SUPERCONDUCTOR_TEXTURE = getTexturePathFor("blockSuperconductorCable");
 	
 	// Fluids
 	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
@@ -53,6 +54,8 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
 	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_2.png";
 	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/textures/models/armor/supersonic_1.png";
+	
+	public static final int CABLE_RENDER_ID = RenderingRegistry.getNextAvailableRenderId();
 	
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
@@ -84,6 +87,7 @@ public class ClientProxy extends CommonProxy {
 				ModBlocks.instance.blockWlessConductor.blockID,
 				new ItemWirelessConductorRender());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTeslaRay.class, new RenderTeslaRay());
+		RenderingRegistry.registerBlockHandler(new RenderSuperconductorCable());
 		//MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}
 

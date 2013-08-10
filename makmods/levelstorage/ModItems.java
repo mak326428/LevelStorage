@@ -15,6 +15,7 @@ import makmods.levelstorage.item.ItemEnhancedDiamondDrill;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.item.ItemLevelStorageBook;
 import makmods.levelstorage.item.ItemPocketRefrigerant;
+import makmods.levelstorage.item.ItemSuperconductor;
 import makmods.levelstorage.lib.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,7 +38,7 @@ public class ModItems {
 	public ItemArmorLevitationBoots itemLevitationBoots;
 	public ItemArmorForcefieldChestplate itemArmorForcefieldChestplate;
 	public ItemArmorTeslaHelmet itemArmorTeslaHelmet;
-	
+	public ItemSuperconductor itemSuperconductor;
 	// TODO: reenable when ready
 	// public ItemWirelessCharger itemWirelessCharger;
 

@@ -1,5 +1,6 @@
 package makmods.levelstorage;
 
+import makmods.levelstorage.tileentity.TileEntitySuperconductorCable;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
@@ -22,6 +23,7 @@ public class ModTileEntities {
 		GameRegistry.registerTileEntity(
 				TileEntityWirelessPowerSynchronizer.class,
 				"tileWirelessPowerSync");
+		GameRegistry.registerTileEntity(TileEntitySuperconductorCable.class, "tileSuperconductor");
 
 	}
 }
