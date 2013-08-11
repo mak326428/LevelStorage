@@ -11,7 +11,10 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.LSDamageSource;
+import makmods.levelstorage.logic.NBTHelper;
 import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.proxy.CommonProxy;
+import makmods.levelstorage.render.EnergyRayFX;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -23,6 +26,7 @@ import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.src.ModLoader;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
@@ -43,7 +47,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	public static final String NAME = "Forcefield Chestplate";
 
 	public static final int TIER = 3;
-	public static final int STORAGE = 3 * 1000 * 1000;
+	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;
 	public static final int ENTITY_MAX_DISTANCE = 16;
 	public static final int ENERGY_PER_TICK_ENTITIES = 100;
@@ -111,9 +115,13 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 												40);
 							ElectricItem.manager.use(armor,
 									ENERGY_PER_TICK_ENTITIES, p);
-							event.entityLiving.motionX = -(event.entityLiving.motionX);
-							event.entityLiving.motionY = -(event.entityLiving.motionY - 0.05f);
-							event.entityLiving.motionZ = -(event.entityLiving.motionZ);
+							// Nobody uses this, so...
+							// event.entityLiving.motionX =
+							// -(event.entityLiving.motionX);
+							// event.entityLiving.motionY =
+							// -(event.entityLiving.motionY - 0.05f);
+							// event.entityLiving.motionZ =
+							// -(event.entityLiving.motionZ);
 						}
 					}
 				}
@@ -121,11 +129,47 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 		}
 	}
 
+	public static final String FORCEFIELD_NBT = "forcefield";
+	public static int OMISSION = 0;
+	
+	static {
+		Property p = LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
+				"forcefieldChestplateRayOmission", 1);
+		p.comment = "Determines the omission of Rays when rendering forcefield (set to 361 to completely remove the forcefield rendering)";
+		OMISSION = p.getInt(1);
+	}
+
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 			ItemStack itemStack) {
 		if (!world.isRemote) {
 			player.extinguish();
+		}
+		if (LevelStorage.fancyGraphics) {
+			if (!NBTHelper.verifyKey(itemStack, FORCEFIELD_NBT))
+				NBTHelper.setInteger(itemStack, FORCEFIELD_NBT, 10);
+			if (NBTHelper.getInteger(itemStack, FORCEFIELD_NBT) > 0)
+				NBTHelper.decreaseInteger(itemStack, FORCEFIELD_NBT, 1);
+			if (NBTHelper.getInteger(itemStack, FORCEFIELD_NBT) == 0) {
+				NBTHelper.setInteger(itemStack, FORCEFIELD_NBT, 10);
+				if (LevelStorage.getSide().isClient()) {
+					for (int i = 0; i < 360; i += OMISSION) {
+						double xC = player.posX + Math.cos(i)
+								* ENTITY_MAX_DISTANCE;
+						double zC = player.posZ + Math.sin(i)
+								* ENTITY_MAX_DISTANCE;
+						
+						EnergyRayFX p = new EnergyRayFX(world, xC,
+								player.posY + 32, zC, xC, player.posY - 32, zC,
+								48, 141, 255, 15);
+						world.spawnParticle("flame", xC,
+								player.posY + 32, zC, 0.0F, 2.0F, 0.0F);
+						ModLoader.getMinecraftInstance().effectRenderer
+								.addEffect(p);
+					}
+					
+				}
+			}
 		}
 	}
 
@@ -144,10 +188,11 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 		if (p.getBoolean(true)) {
 			Recipes.advRecipes.addRecipe(new ItemStack(
 					ModItems.instance.itemArmorForcefieldChestplate), "ttt",
-					"iqi", "lll", Character.valueOf('t'), IC2Items.TESLA_COIL,
+					"iqi", "lil", Character.valueOf('t'), IC2Items.TESLA_COIL,
 					Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
 							.valueOf('q'), IC2Items.QUANTUM_CHESTPLATE,
-					Character.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
+					Character.valueOf('l'), new ItemStack(
+							ModItems.instance.itemStorageFourMillion));
 		}
 	}
 

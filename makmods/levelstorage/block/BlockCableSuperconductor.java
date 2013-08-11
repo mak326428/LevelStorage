@@ -110,7 +110,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 		if ((te instanceof TileEntitySuperconductorCable)) {
 			TileEntitySuperconductorCable cable = (TileEntitySuperconductorCable) te;
 			world.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
-			return false;
+			// return true;
 		}
 
 		return world.setBlock(x, y, z, 0, 0, 3);
@@ -222,10 +222,12 @@ public class BlockCableSuperconductor extends BlockContainer {
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
+	@SideOnly(Side.CLIENT)
 	public int getRenderType() {
 		return ClientProxy.CABLE_RENDER_ID;
 	}

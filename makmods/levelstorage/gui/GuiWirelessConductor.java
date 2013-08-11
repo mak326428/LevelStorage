@@ -1,7 +1,7 @@
 package makmods.levelstorage.gui;
 
-import makmods.levelstorage.packet.PacketPressButton;
-import makmods.levelstorage.packet.PacketTypeHandler;
+import makmods.levelstorage.network.PacketPressButton;
+import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;

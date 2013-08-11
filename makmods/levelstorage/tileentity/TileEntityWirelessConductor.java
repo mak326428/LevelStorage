@@ -15,16 +15,18 @@ import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.logic.BlockLocation;
 import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.logic.LSDamageSource;
-import makmods.levelstorage.packet.PacketParticles;
-import makmods.levelstorage.packet.PacketTypeHandler;
+import makmods.levelstorage.network.PacketParticles;
+import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.registry.IWirelessConductor;
 import makmods.levelstorage.registry.WirelessConductorRegistry;
+import makmods.levelstorage.render.EnergyRayFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.src.ModLoader;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.Configuration;
@@ -45,20 +47,19 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	public ConductorType type;
 	public static boolean ENABLE_PARTICLES;
 	public static boolean ENABLE_LIGHTNINGS;
-	
+
 	public static void getConfig() {
 		Property p = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"conductorsSpawnLightnings", true);
+				Configuration.CATEGORY_GENERAL, "conductorsSpawnLightnings",
+				true);
 		p.comment = "If set to false, wireless conductors will stop spawning lightnings";
 		ENABLE_LIGHTNINGS = p.getBoolean(true);
-		Property p2 = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"conducorsSpawnParticles", true);
+		Property p2 = LevelStorage.configuration
+				.get(Configuration.CATEGORY_GENERAL, "conducorsSpawnParticles",
+						true);
 		p2.comment = "If set to false, conductors will stop spawning particles (useful on servers, because every 40 ticks server will send 180 packets to all the clients)";
 		ENABLE_PARTICLES = p2.getBoolean(true);
 	}
-	
 
 	// This will be changed when a new valid (!!!) card is inserted.
 	public IWirelessConductor pair = null;
@@ -151,7 +152,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 				int amtWithDisc = amount
 						- BlockLocation.getEnergyDiscount(amount,
 								thisTe.getDistance(pairTe));
-				return this.safePair.receiveEnergy(amtWithDisc);
+				return this.safePair.receiveEnergy(amtWithDisc, this);
 			}
 		}
 		return amount;
@@ -160,14 +161,14 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	public int elapsedReceives = 0;
 
 	@Override
-	public int receiveEnergy(int amount) {
-		// What the heck are you asking me, i am source!
+	public int receiveEnergy(int amount, IWirelessConductor transmitter) {
+		
 		if (this.type == ConductorType.SOURCE)
 			return amount;
 		else {
 			this.elapsedReceives++;
 			if (this.elapsedReceives > 600 && amount > 128) {
-				
+
 				if (ENABLE_LIGHTNINGS) {
 					Helper.spawnLightning(this.worldObj, this.xCoord,
 							this.yCoord, this.zCoord, false);
@@ -286,8 +287,8 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	@Override
 	public void updateEntity() {
 		this.particleTime++;
-		if (this.particleTime > 40) {
-			
+		/*if (this.particleTime > 40) {
+
 			if (ENABLE_PARTICLES) {
 				for (int i = 0; i < 180; i++) {
 					PacketParticles packet = new PacketParticles();
@@ -310,7 +311,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 				}
 			}
 			this.particleTime = 0;
-		}
+		}*/
 		if (!this.addedToENet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			this.addedToENet = true;

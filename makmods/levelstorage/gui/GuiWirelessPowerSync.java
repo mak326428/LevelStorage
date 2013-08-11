@@ -1,8 +1,8 @@
 package makmods.levelstorage.gui;
 
-import makmods.levelstorage.packet.PacketPressButton;
-import makmods.levelstorage.packet.PacketTextChanged;
-import makmods.levelstorage.packet.PacketTypeHandler;
+import makmods.levelstorage.network.PacketPressButton;
+import makmods.levelstorage.network.PacketTextChanged;
+import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;

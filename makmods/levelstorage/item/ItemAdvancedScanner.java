@@ -34,6 +34,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 	public static final int STORAGE = 100000;
 	public static final int COOLDOWN_PERIOD = 20;
 	public static final int ENERGY_PER_USE = 10000;
+	private static final int RADIUS = 16;
 
 	public static final String NBT_COOLDOWN = "cooldown";
 
@@ -53,9 +54,9 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 		// Scanner
 		Property p = LevelStorage.configuration.get(
 				Configuration.CATEGORY_GENERAL,
-				"enableAdvScannerCraftingRecipe", false);
+				"enableAdvScannerCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(false)) {
+		if (p.getBoolean(true)) {
 			ItemStack ovScanner = Items.getItem("ovScanner");
 			ItemStack uum = Items.getItem("matter");
 			ItemStack energyCrystal = Items.getItem("energyCrystal");
@@ -80,7 +81,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 			}
 		}
 	}
-
+	// TODO: refactor this later with the NBTHelper.
 	public static void setNBTInt(ItemStack stack, String name, int value) {
 		verifyStack(stack);
 		stack.stackTagCompound.setInteger(name, value);
@@ -97,19 +98,13 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 	public void printMessage(String message, EntityPlayer player) {
 		LevelStorage.proxy.messagePlayer(player, message, new Object[0]);
 	}
-
-	private static boolean isNumberNegative(int number) {
-		// Sneaky, right?
-		return Math.abs(number) != number;
-	}
-
+	
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		par3List.add("\247cThere currently is a bug: ");
-		par3List.add("\247cthis device will only work");
-		par3List.add("\247cin areas with positive coordinates (x and z)");
-
+		par3List.add("\2472This item will tell you");
+		par3List.add("\2472exactly how much ore there is in");
+		par3List.add("\2472your surroundings");
 	}
 
 	@Override
@@ -127,64 +122,26 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 			ArrayList<ItemStack> blocksFound = new ArrayList<ItemStack>();
 
-			int chunkX = (int) par3EntityPlayer.posX / 16;
-			int chunkZ = (int) par3EntityPlayer.posZ / 16;
+			int playerX = (int) par3EntityPlayer.posX;
 			int playerY = (int) par3EntityPlayer.posY;
+			int playerZ = (int) par3EntityPlayer.posZ;
 
-			/*
-			 * for (int y = 0; y < playerY; y++) { for (int x = chunkX * 16; x
-			 * != chunkX * 17; x++) { for (int z = chunkZ * 16; z != chunkZ *
-			 * 17; z++) { ItemStack foundStack = new ItemStack(
-			 * par2World.getBlockId(x, y, z), 1, par2World.getBlockMetadata(x,
-			 * y, z)); blocksFound.add(foundStack); } } }
-			 */
-			if (!isNumberNegative(chunkZ) && !isNumberNegative(chunkX)) {
-				for (int y = 0; y < playerY; y++) {
-					for (int x = chunkX * 16; x < chunkX * 17; x++) {
-						for (int z = chunkZ * 16; z < chunkZ * 17; z++) {
-							ItemStack foundStack = new ItemStack(
-									par2World.getBlockId(x, y, z), 1,
-									par2World.getBlockMetadata(x, y, z));
-							blocksFound.add(foundStack);
-						}
+			for (int y = 0; y < (int) par3EntityPlayer.posY; y++) {
+				for (int x = -(RADIUS / 2); x < (RADIUS / 2); x++) {
+					for (int z = -(RADIUS / 2); z < (RADIUS / 2); z++) {
+						ItemStack foundStack = new ItemStack(
+								par2World.getBlockId(playerX + x, y, playerZ
+										+ z), 1, par2World.getBlockMetadata(
+										playerX + x, y, playerZ + z));
+						blocksFound.add(foundStack);
 					}
 				}
 			}
 
-			/*
-			 * if (isNumberNegative(chunkZ) && isNumberNegative(chunkX)) { for
-			 * (int y = 0; y < playerY; y++) { for (int x = chunkX * 16; x >
-			 * chunkX * 17; x++) { for (int z = chunkZ * 16; z > chunkZ * 17;
-			 * z++) { ItemStack foundStack = new ItemStack(
-			 * par2World.getBlockId(x, y, z), 1, par2World.getBlockMetadata(x,
-			 * y, z)); blocksFound.add(foundStack); } } } }
-			 */
-
-			/*
-			 * int currX = chunkX * 16, currY = 0, currZ = chunkZ * 16; while
-			 * (true) { currY++; System.out.println("y: " + currY); while (true)
-			 * { if (isNumberNegative(chunkX)) { currX--; } else { currX++; }
-			 * 
-			 * System.out.println("x: " + currX);
-			 * 
-			 * while (true) { if (isNumberNegative(chunkZ)) { currZ--; } else {
-			 * currZ++; } System.out.println("z: " + currZ); ItemStack
-			 * foundStack = new ItemStack( par2World.getBlockId(currX, currY,
-			 * currZ), 1, par2World.getBlockMetadata(currX, currY, currZ));
-			 * blocksFound.add(foundStack);
-			 * 
-			 * if (isNumberNegative(currZ)) { if (currZ <= chunkZ * 17) break; }
-			 * else { if (currZ >= chunkZ * 17) break; } }
-			 * 
-			 * if (isNumberNegative(currX)) { if (currX <= chunkX * 17) break; }
-			 * else { if (currX >= chunkX * 17) break; } } if (currY >= playerY)
-			 * break; }
-			 */
-
 			this.printMessage("", par3EntityPlayer);
 			this.printMessage("", par3EntityPlayer);
-			this.printMessage("Found materials in your surroundings",
-					par3EntityPlayer);
+			this.printMessage("Found materials in " + RADIUS + "x" + RADIUS
+					+ " cubouid below you", par3EntityPlayer);
 			this.printMessage("", par3EntityPlayer);
 			ArrayList<String> names = new ArrayList<String>();
 			ArrayList<CollectedStatInfo> info = new ArrayList<CollectedStatInfo>();

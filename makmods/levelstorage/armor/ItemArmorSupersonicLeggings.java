@@ -14,6 +14,7 @@ import makmods.levelstorage.ModItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.proxy.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -41,7 +42,7 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 	public static final String NAME = "Supersonic Leggings";
 
 	public static final int TIER = 3;
-	public static final int STORAGE = 3 * 1000 * 1000;
+	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;
 
 	public ItemArmorSupersonicLeggings() {
@@ -105,11 +106,11 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 		if (p.getBoolean(true)) {
 			Recipes.advRecipes.addRecipe(new ItemStack(
 					ModItems.instance.itemSupersonicLeggings), "ggg", "iqi",
-					"lll", Character.valueOf('g'), new ItemStack(
+					"lil", Character.valueOf('g'), new ItemStack(
 							Block.glowStone), Character.valueOf('i'),
 					IC2Items.IRIDIUM_PLATE, Character.valueOf('q'),
 					IC2Items.QUANTUM_LEGGINGS, Character.valueOf('l'),
-					IC2Items.LAPOTRON_CRYSTAL);
+					new ItemStack(ModItems.instance.itemStorageFourMillion));
 		}
 	}
 

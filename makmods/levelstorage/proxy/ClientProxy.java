@@ -4,9 +4,11 @@ import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.entity.EntityTeslaRay;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
+import makmods.levelstorage.render.MassInfuserRender;
 import makmods.levelstorage.render.RenderSuperconductorCable;
 import makmods.levelstorage.render.RenderTeslaRay;
 import makmods.levelstorage.render.WirelessConductorRender;
+import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -34,6 +36,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String TESLA_HELMET_TEXTURE = getTexturePathFor("itemArmorTeslaHelmet");
 	public static final String ITEM_SUPERCONDUCTOR_TEXTURE = getTexturePathFor("itemSuperconductor");
 	public static final String WIRELESS_CHARGER_TEXTURE = getTexturePathFor("itemWirelessCharger");
+	public static final String ENERGETIC_ENRICHED_MATTER_ORB_TEXTURE = getTexturePathFor("itemEnergeticEnrichedMatterOrb");
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
@@ -48,14 +51,19 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_CHARGER = getResourceLocation("gui/charger.png");
 	public static final ResourceLocation GUI_CHARGER_NO_UUM = getResourceLocation("gui/chargeroutd.png");
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
+	public static final ResourceLocation GUI_MASS_INFUSER = getResourceLocation("gui/massInfuser.png");
 	
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
+	public static final ResourceLocation MASS_INFUSER_MODEL = getResourceLocation("model/MassInfuserModel.png");
 	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_2.png";
 	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/textures/models/armor/supersonic_1.png";
-	
+
+	// Custom renders
 	public static final int CABLE_RENDER_ID = RenderingRegistry.getNextAvailableRenderId();
+	public static final String TESLA_RAY_1 = "misc/tesla.png";
+
 	
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
@@ -83,6 +91,9 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(
 				TileEntityWirelessConductor.class,
 				new WirelessConductorRender());
+		ClientRegistry.bindTileEntitySpecialRenderer(
+				TileEntityMassInfuser.class,
+				new MassInfuserRender());
 		MinecraftForgeClient.registerItemRenderer(
 				ModBlocks.instance.blockWlessConductor.blockID,
 				new ItemWirelessConductorRender());

@@ -3,7 +3,7 @@ package makmods.levelstorage;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.packet.PacketHandler;
+import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
 import net.minecraftforge.common.Configuration;
@@ -37,6 +37,7 @@ public class LevelStorage {
 	public static boolean chargerOnlyUUM;
 	public static boolean experienceRecipesOn;
 	public static int currentIds = 250;
+	public static boolean fancyGraphics;
 
 	public static boolean detectedGT = false;
 
@@ -68,7 +69,11 @@ public class LevelStorage {
 		Property p2 = config.get(Configuration.CATEGORY_GENERAL,
 				"experienceRecipesEnabled", true);
 		p2.comment = "Whether or not experience recipes are enabled";
-		LevelStorage.experienceRecipesOn = p2.getBoolean(true);
+		
+		Property p3 = config.get(Configuration.CATEGORY_GENERAL,
+				"fanceGraphics", true);
+		p3.comment = "Whether or not fancy graphics for various energy rays are enabled";
+		LevelStorage.fancyGraphics = p3.getBoolean(true);
 	}
 
 	@EventHandler

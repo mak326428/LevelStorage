@@ -16,6 +16,7 @@ import makmods.levelstorage.registry.XpStackRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,6 +29,8 @@ import cpw.mods.fml.relauncher.Side;
 public class CommonProxy {
 
 	public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
+
+	public static final int ARMOR_STORAGE = 8 * 1000 * 1000;
 
 	public void init() {
 		NetworkRegistry.instance().registerGuiHandler(LevelStorage.instance,
@@ -44,6 +47,10 @@ public class CommonProxy {
 		// res = UUMHelper.removeDuplicates(res);
 	}
 
+	public double mag(int x, int y, int z) {
+		return Math.sqrt(x * x + y * y + z * z);
+	}
+
 	public void postInit() {
 		XpStackRegistry.instance.initCriticalNodes();
 		XpStackRegistry.instance.printRegistry();
@@ -55,13 +62,12 @@ public class CommonProxy {
 			LevelStorage.detectedGT = true;
 			XpStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
-		//UUMRecipeParser.instance.init();
-		//ArrayList<ItemStack> inputs = UUMHelper.recursivelyGetIngredients(new ItemStack(Block.anvil));
-		//System.out.println(inputs.size());
-		//for (ItemStack input : inputs) {
-		//	System.out.println(Helper.getNiceStackName(input));
-		//}
-
+		UUMRecipeParser.instance.init();
+		ItemStack[] inputs = UUMHelper.getRecipeInputsFor(new ItemStack(Item.axeDiamond));
+		System.out.println(inputs.length);
+		for (ItemStack input : inputs) {
+			System.out.println(Helper.getNiceStackName(input));
+		}
 	}
 
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {

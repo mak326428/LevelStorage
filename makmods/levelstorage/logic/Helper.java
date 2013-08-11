@@ -38,6 +38,46 @@ public class Helper {
 				&& (s1.getItemDamage() == s2.getItemDamage());
 	}
 
+	/*public static void addRecipe(ItemStack res, ItemStack... data) {
+		int currIngr = 0;
+		char[] letters = { 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o' };
+		String row1 = "";
+		String row2 = "";
+		String row3 = "";
+		for (ItemStack dt : data) {
+			currIngr++;
+			if (currIngr > 0 && currIngr < 4) {
+				if (dt != null) {
+					row1 += letters[currIngr - 1];
+				} else {
+					row1 += " ";
+				}
+			}
+			if (currIngr > 3 && currIngr < 7) {
+				if (dt != null) {
+					row2 += letters[currIngr - 1];
+				} else {
+					row2 += " ";
+				}
+			}
+			if (currIngr > 6 && currIngr < 10) {
+				if (dt != null) {
+					row3 += letters[currIngr - 1];
+				} else {
+					row3 += " ";
+				}
+			}
+		}
+
+		String total = row1 + row2 + row3;
+		total = total.replace(" ", "");
+		for (char ch : letters) {
+			if (total.) {
+				
+			}
+		}
+	}*/
+
 	public static boolean isNumberNegative(int number) {
 		return number != Math.abs(number);
 	}

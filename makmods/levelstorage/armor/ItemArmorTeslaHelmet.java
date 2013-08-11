@@ -8,20 +8,22 @@ import ic2.api.recipe.Recipes;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.entity.EntityTeslaRay;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
+import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.proxy.ClientProxy;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.Tessellator;
+import makmods.levelstorage.proxy.CommonProxy;
+import makmods.levelstorage.render.EnergyRayFX;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumArmorMaterial;
@@ -30,14 +32,17 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.src.ModLoader;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.Property;
-
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,7 +54,7 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 	public static final String NAME = "Tesla Helmet";
 
 	public static final int TIER = 3;
-	public static final int STORAGE = 3 * 1000 * 1000;
+	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;
 	public static final int FOOD_COST = 10000;
 	public static final int RAY_COST = 100;
@@ -96,6 +101,37 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 	}
 
 	@Override
+	protected MovingObjectPosition getMovingObjectPositionFromPlayer(
+			World par1World, EntityPlayer par2EntityPlayer, boolean par3) {
+		float var4 = 1.0F;
+		float var5 = par2EntityPlayer.prevRotationPitch
+				+ (par2EntityPlayer.rotationPitch - par2EntityPlayer.prevRotationPitch)
+				* var4;
+		float var6 = par2EntityPlayer.prevRotationYaw
+				+ (par2EntityPlayer.rotationYaw - par2EntityPlayer.prevRotationYaw)
+				* var4;
+		double var7 = par2EntityPlayer.prevPosX
+				+ (par2EntityPlayer.posX - par2EntityPlayer.prevPosX) * var4;
+		double var9 = par2EntityPlayer.prevPosY
+				+ (par2EntityPlayer.posY - par2EntityPlayer.prevPosY) * var4
+				+ 1.62D - par2EntityPlayer.yOffset;
+		double var11 = par2EntityPlayer.prevPosZ
+				+ (par2EntityPlayer.posZ - par2EntityPlayer.prevPosZ) * var4;
+		Vec3 var13 = par1World.getWorldVec3Pool().getVecFromPool(var7, var9,
+				var11);
+		float var14 = MathHelper.cos(-var6 * 0.017453292F - (float) Math.PI);
+		float var15 = MathHelper.sin(-var6 * 0.017453292F - (float) Math.PI);
+		float var16 = -MathHelper.cos(-var5 * 0.017453292F);
+		float var17 = MathHelper.sin(-var5 * 0.017453292F);
+		float var18 = var15 * var16;
+		float var20 = var14 * var16;
+		double var21 = 128.0D;
+		Vec3 var23 = var13.addVector(var18 * var21, var17 * var21, var20
+				* var21);
+		return par1World.rayTraceBlocks_do_do(var13, var23, par3, !par3);
+	}
+
+	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 			ItemStack itemStack) {
 		if (player.isSneaking()
@@ -103,10 +139,28 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 			if (ElectricItem.manager.canUse(itemStack, RAY_COST)) {
 				if (!world.isRemote)
 					ElectricItem.manager.use(itemStack, RAY_COST, player);
-				EntityTeslaRay ray = new EntityTeslaRay(world, player);
-				double speedBoost = 0.25f;
-
-				world.spawnEntityInWorld(ray);
+				int x = 0, y = 0, z = 0;
+				MovingObjectPosition mop = this
+						.getMovingObjectPositionFromPlayer(world, player, true);
+				if (mop != null && mop.typeOfHit == EnumMovingObjectType.TILE) {
+					float xOff = (float) (mop.blockX - player.posX);
+					float yOff = (float) (mop.blockY - player.posY);
+					float zOff = (float) (mop.blockZ - player.posZ);
+					x = mop.blockX;
+					y = mop.blockY;
+					z = mop.blockZ;
+					if (LevelStorage.getSide().isClient()) {
+						EnergyRayFX p = new EnergyRayFX(world, player.posX,
+								player.posY, player.posZ, x, y, z, 48, 141,
+								255, 100);
+						ModLoader.getMinecraftInstance().effectRenderer
+								.addEffect(p);
+					}
+					List entities = world.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getBoundingBox(x - 8, y - 8, x - 8, x + 8, y + 8, z + 8));
+					for (Object obj : entities) {
+						((EntityMob)obj).attackEntityFrom(LSDamageSource.teslaRay, new Random().nextInt(20 + 3));
+					}
+				}
 			}
 		}
 		if (!world.isRemote) {
@@ -154,10 +208,11 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		if (p.getBoolean(true)) {
 			Recipes.advRecipes.addRecipe(new ItemStack(
 					ModItems.instance.itemArmorTeslaHelmet), "tit", "iqi",
-					"lll", Character.valueOf('t'), IC2Items.TESLA_COIL,
+					"lil", Character.valueOf('t'), IC2Items.TESLA_COIL,
 					Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
 							.valueOf('q'), IC2Items.QUANTUM_HELMET, Character
-							.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL);
+							.valueOf('l'), new ItemStack(
+							ModItems.instance.itemStorageFourMillion));
 		}
 	}
 

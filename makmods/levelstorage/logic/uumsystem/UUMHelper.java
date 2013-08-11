@@ -3,18 +3,15 @@ package makmods.levelstorage.logic.uumsystem;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import makmods.levelstorage.logic.Helper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class UUMHelper {
 
@@ -22,41 +19,6 @@ public class UUMHelper {
 		if (!canCraft(what))
 			return false;
 		return false;
-	}
-
-	public static ArrayList<ItemStack> recursivelyGetIngredients(
-			ItemStack forWhat) {
-		System.out.println("Crafting - " + Helper.getNiceStackName(forWhat));
-		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
-		ItemStack[] st = getRecipeInputsFor(forWhat);
-		if (st != null) {
-			for (ItemStack stack1 : st) {
-				if (stack1 != null) {
-					if (!canCraft(stack1))
-						stacks.add(stack1);
-					if (canCraft(stack1)) {
-
-						// ArrayList<ItemStack> st4 =
-						// recursivelyGetIngredients(stack1);
-						System.out.println("Can craft "
-								+ Helper.getNiceStackName(stack1));
-						ItemStack[] st4 = getRecipeInputs(getRecipeFor(stack1));
-						System.out.println("st4: " + getRecipeFor(stack1));
-						if (st4 != null) {
-							System.out.println("st4 lenght" + st4.length);
-							for (ItemStack st3 : st4)
-								stacks.add(st3);
-						} else {
-							stacks.add(stack1);
-						}
-					}
-
-				}
-			}
-		} else {
-			stacks.add(forWhat);
-		}
-		return stacks;
 	}
 
 	public static ItemStack[] getRecipeInputsFor(ItemStack stack) {
@@ -77,7 +39,7 @@ public class UUMHelper {
 	}
 
 	public static boolean canCraft(ItemStack what) {
-		return getRecipeInputsFor(what) == null;
+		return getRecipeInputsFor(what) != null;
 	}
 
 	public static <T> ArrayList<T> convertArrayIntoArrList(T[] arr) {
@@ -95,12 +57,19 @@ public class UUMHelper {
 		ItemStack[] inputs = null;
 		if (rec instanceof ShapedRecipes) {
 			inputs = ((ShapedRecipes) rec).recipeItems;
-			System.out.println("ShapedRecipes set.");
 		}
 		if (rec instanceof ShapelessRecipes) {
 			List l = ((ShapelessRecipes) rec).recipeItems;
 			inputs = (ItemStack[]) l.toArray(new ItemStack[l.size()]);
-			System.out.println("ShapelessRecipes set.");
+		}
+		if (rec instanceof ShapedOreRecipe) {
+			Object[] currI = ((ShapedOreRecipe) rec).getInput();
+			ItemStack[] rrec = new ItemStack[currI.length];
+			for (int i = 0; i < currI.length; i++) {
+				if (currI[i] instanceof ItemStack)
+					rrec[i] = (ItemStack) currI[i];
+			}
+			inputs = rrec;
 		}
 		if (rec.getClass().getName() == UUMRecipeParser.ADV_RECIPE_CLASS) {
 			try {
@@ -114,7 +83,6 @@ public class UUMHelper {
 				}
 				inputs = (ItemStack[]) stacks.toArray(new ItemStack[stacks
 						.size()]);
-				System.out.println("AdvRecipes set.");
 			} catch (Exception e) {
 			}
 		}

@@ -96,6 +96,8 @@ public class TileEntitySuperconductorCable extends TileEntity implements
 		}
 		return null;
 	}
+	
+	public boolean needsUpdate = true;
 
 	@Override
 	public void updateEntity() {

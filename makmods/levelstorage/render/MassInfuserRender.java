@@ -13,11 +13,11 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
-public class WirelessConductorRender extends TileEntitySpecialRenderer {
-
+public class MassInfuserRender extends TileEntitySpecialRenderer {
+	// Model is the same, i see no sense in simple codecloning
 	public ConductorModel model = new ConductorModel();
 
-	public WirelessConductorRender() {
+	public MassInfuserRender() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -33,7 +33,7 @@ public class WirelessConductorRender extends TileEntitySpecialRenderer {
 		// as your other blocks here.
 		// BIND TEXTURE HERE
 		FMLClientHandler.instance().getClient().renderEngine
-				.func_110577_a(ClientProxy.CONDUCTOR_MODEL);
+				.func_110577_a(ClientProxy.MASS_INFUSER_MODEL);
 		// This rotation part is very important! Without it, your model will
 		// render upside-down! And for some reason you DO need PushMatrix again!
 		GL11.glPushMatrix();
@@ -44,33 +44,6 @@ public class WirelessConductorRender extends TileEntitySpecialRenderer {
 		// Tell it to stop rendering for both the PushMatrix's
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
-
-		// if (LevelStorage.getSide().isClient()) {
-		if (LevelStorage.fancyGraphics) {
-			TileEntityWirelessConductor cnd = (TileEntityWirelessConductor) te;
-			if (cnd.getType() == ConductorType.SOURCE) {
-				if (cnd.safePair != null) {
-					if (cnd.safePair.getDimId() == cnd.getDimId()) {
-						EnergyRayFX p = new EnergyRayFX(cnd.worldObj,
-								cnd.getX(), cnd.getY(), cnd.getZ(),
-								cnd.safePair.getX(), cnd.safePair.getY(),
-								cnd.safePair.getZ(), 48, 141, 255, 10);
-						ModLoader.getMinecraftInstance().effectRenderer
-								.addEffect(p);
-					}
-				}
-			}
-		}
-		// }
-
-		/*
-		 * GL11.glPushMatrix(); Tessellator.instance.startDrawingQuads();
-		 * Tessellator.instance.addVertex(0, 0, 1);
-		 * Tessellator.instance.addVertex(1, 0, 1);
-		 * Tessellator.instance.addVertex(1, 1, 1);
-		 * Tessellator.instance.addVertex(0, 1, 1); Tessellator.instance.draw();
-		 * GL11.glPopMatrix();
-		 */
 	}
 
 }

@@ -1,4 +1,4 @@
-package makmods.levelstorage.packet;
+package makmods.levelstorage.network;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

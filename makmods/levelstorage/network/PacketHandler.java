@@ -1,4 +1,4 @@
-package makmods.levelstorage.packet;
+package makmods.levelstorage.network;
 
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;

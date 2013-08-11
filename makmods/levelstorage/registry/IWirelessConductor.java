@@ -39,7 +39,7 @@ public interface IWirelessConductor {
 	 *            Energy being sent
 	 * @return Energy not being consumed
 	 */
-	public int receiveEnergy(int amount);
+	public int receiveEnergy(int amount, IWirelessConductor transmitter);
 
 	/**
 	 * Returns pair for the current instance
