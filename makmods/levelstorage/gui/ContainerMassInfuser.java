@@ -1,10 +1,12 @@
 package makmods.levelstorage.gui;
 
+import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -14,69 +16,63 @@ public class ContainerMassInfuser extends Container {
 	public ContainerMassInfuser(InventoryPlayer inventoryPlayer,
 			TileEntityMassInfuser te) {
 		this.tileEntity = te;
-		this.addSlotToContainer(new Slot(this.tileEntity, 0, 80, 35));
-		this.bindPlayerInventory(inventoryPlayer);
+		// this.addSlotToContainer(new Slot(this.tileEntity, 0, 80, 35));
+		// UUM page
+		for (int i = 0; i < 9; i++) {
+			addSlotToContainer(new SlotUntouchable(te, i, 19 + i * 18, 18));
+		}
+		// Crafting
+		for (int l = 0; l < 3; l++) {
+			for (int i1 = 0; i1 < 3; i1++) {
+				this.addSlotToContainer(new SlotUntouchable(tileEntity, 9 + i1 + l * 3, 17 + i1 * 18, 85 + l * 18));
+			}
+		}
+		this.addSlotToContainer(new SlotUntouchable(tileEntity, 19, 111, 103));
+		// Player inventory
+		bindPlayerInventory(inventoryPlayer);
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer p) {
 		return true;
 	}
+	
+	@Override
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+
+		for (int i = 0; i < this.crafters.size(); i++) {
+			ICrafting icrafting = (ICrafting) this.crafters.get(i);
+			icrafting.sendProgressBarUpdate(this, 0, this.tileEntity.page);
+		}
+	}
+
+	@Override
+	public void updateProgressBar(int i, int j) {
+		switch (i) {
+		case 0:
+			this.tileEntity.page = j;
+			break;
+		}
+	}
 
 	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(inventoryPlayer,
-						j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+						j + i * 9 + 9, 17 + j * 18, 174 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18,
-					142));
+			this.addSlotToContainer(new Slot(inventoryPlayer, i, 17 + i * 18,
+					232));
 		}
 	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,
 			int slotIndex) {
-
-		ItemStack itemStack = null;
-		Slot slot = (Slot) this.inventorySlots.get(slotIndex);
-
-		if (slot != null && slot.getHasStack()) {
-
-			ItemStack slotItemStack = slot.getStack();
-			itemStack = slotItemStack.copy();
-
-			if (slotIndex < TileEntityXpGenerator.INVENTORY_SIZE) {
-				// from the generator
-				if (!this.mergeItemStack(slotItemStack,
-						TileEntityXpGenerator.INVENTORY_SIZE,
-						this.inventorySlots.size(), false))
-					return null;
-			} else {
-				// into the generator
-				// WARNING: the following code is for this current case only.
-				// this won't work for you
-				// if (!(slotItemStack.getItem() instanceof
-				// ItemLevelStorageBook))
-				// return null;
-				//if (!SlotBook.checkItemValidity(slotItemStack))
-				//	return null;
-				// End of warning
-				if (!this.mergeItemStack(slotItemStack, 0,
-						TileEntityXpGenerator.INVENTORY_SIZE, false))
-					return null;
-			}
-
-			if (slotItemStack.stackSize == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
-				slot.onSlotChanged();
-			}
-		}
-
-		return itemStack;
+		return null;
 	}
 }

@@ -1,13 +1,16 @@
 package makmods.levelstorage.proxy;
 
+import makmods.levelstorage.gui.ContainerMassInfuser;
 import makmods.levelstorage.gui.ContainerPowerSync;
 import makmods.levelstorage.gui.ContainerWirelessConductor;
 import makmods.levelstorage.gui.ContainerXpCharger;
 import makmods.levelstorage.gui.ContainerXpGenerator;
+import makmods.levelstorage.gui.GuiMassInfuser;
 import makmods.levelstorage.gui.GuiWirelessConductor;
 import makmods.levelstorage.gui.GuiWirelessPowerSync;
 import makmods.levelstorage.gui.GuiXpCharger;
 import makmods.levelstorage.gui.GuiXpGenerator;
+import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
@@ -36,7 +39,10 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new ContainerPowerSync(player.inventory,
 					(TileEntityWirelessPowerSynchronizer) tileEntity);
-
+		if (tileEntity instanceof TileEntityMassInfuser)
+			return new ContainerMassInfuser(player.inventory,
+					(TileEntityMassInfuser) tileEntity);
+		
 		// switch (id) {
 		// case 60:
 		// return new ContainerWirelessCharger(world.provider.dimensionId,
@@ -64,7 +70,10 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new GuiWirelessPowerSync(player.inventory,
 					(TileEntityWirelessPowerSynchronizer) tileEntity);
-
+		if (tileEntity instanceof TileEntityMassInfuser)
+			return new GuiMassInfuser(player.inventory,
+					(TileEntityMassInfuser) tileEntity);
+		
 		// switch (id) {
 		// case 60:
 		// return new GuiWirelessCharger(player);

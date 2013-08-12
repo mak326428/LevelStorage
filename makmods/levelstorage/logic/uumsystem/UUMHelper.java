@@ -93,6 +93,32 @@ public class UUMHelper {
 		return inputs;
 	}
 
+	public static ItemStack[] getUUMRecipe(ItemStack forWhat) {
+		IRecipe rec2 = null;
+		for (Object rec : CraftingManager.getInstance().getRecipeList()) {
+			ItemStack outp = ((IRecipe) rec).getRecipeOutput();
+			if (forWhat != null && outp != null) {
+				if (forWhat.itemID == outp.itemID
+						&& rec.getClass().getName() == UUMRecipeParser.ADV_RECIPE_CLASS) {
+					rec2 = (IRecipe) rec;
+				}
+			}
+		}
+		try {
+			Field inputs_field = rec2.getClass().getField(
+					UUMRecipeParser.INPUT_FIELD);
+			Object[] input_recipe = (Object[]) inputs_field.get(rec2);
+			ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
+			for (Object obj : input_recipe) {
+				if (obj instanceof ItemStack)
+					stacks.add((ItemStack) obj);
+			}
+			return (ItemStack[]) stacks.toArray(new ItemStack[stacks.size()]);
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
 	public static IRecipe getRecipeFor(ItemStack forWhat) {
 		for (Object rec : CraftingManager.getInstance().getRecipeList()) {
 			ItemStack outp = ((IRecipe) rec).getRecipeOutput();

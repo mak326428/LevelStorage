@@ -29,13 +29,15 @@ import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -71,7 +73,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 		this.setMaxStackSize(1);
 		MinecraftForge.setToolClass(this, "pickaxe", 3);
 		MinecraftForge.setToolClass(this, "shovel", 2);
-
+		this.damageVsEntity = 2.0f;
 		// MinecraftForge.setToolClass(this, "shovel", 3);
 		this.efficiencyOnProperMaterial = SPEED;
 	}
@@ -87,7 +89,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	public boolean hitEntity(ItemStack par1ItemStack,
 			EntityLivingBase par2EntityLivingBase,
 			EntityLivingBase par3EntityLivingBase) {
-		return true;
+		return false;
 	}
 
 	public static void addCraftingRecipe() {
@@ -268,7 +270,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 		blocksOtherThanOres.add(Block.oreRedstone.blockID);
 		blocksOtherThanOres.add(Block.oreRedstoneGlowing.blockID);
 		blocksOtherThanOres.add(Block.glowStone.blockID);
-		
+
 	}
 
 	@Override
@@ -277,6 +279,20 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 			EntityLivingBase par7EntityLivingBase) {
 		// if ()
 		if (!par2World.isRemote) {
+			int fortune = 0;
+			boolean silktouch = false;
+			NBTTagCompound enh = par1ItemStack.stackTagCompound
+					.getCompoundTag(ENHANCEMENT_NBT);
+			if (enh.hasKey(ENHANCEMENT_ID_NBT)) {
+				int encid = enh.getInteger(ENHANCEMENT_ID_NBT);
+				int lvl = enh.getInteger(ENHANCEMENT_LVL_NBT);
+				if (encid > 0 && lvl > 0) {
+					if (Enchantment.enchantmentsList[encid] == Enchantment.fortune)
+						fortune = lvl;
+					if (Enchantment.enchantmentsList[encid] == Enchantment.silkTouch)
+						silktouch = true;
+				}
+			}
 			if (ElectricItem.manager.canUse(par1ItemStack, ENERGY_PER_USE)) {
 				ElectricItem.manager.use(par1ItemStack, ENERGY_PER_USE,
 						par7EntityLivingBase);
@@ -299,58 +315,347 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 					Block b = Block.blocksList[blockId];
 					if (b != null) {
 						if (par7EntityLivingBase instanceof EntityPlayer) {
-							if (b.removeBlockByPlayer(par2World,
-									(EntityPlayer) par7EntityLivingBase,
-									oreCh.getX(), oreCh.getY(), oreCh.getZ())) {
-								int fortune = 0;
-								boolean silktouch = false;
-								NBTTagCompound enh = par1ItemStack.stackTagCompound
-										.getCompoundTag(ENHANCEMENT_NBT);
-								if (enh.hasKey(ENHANCEMENT_ID_NBT)) {
-									int encid = enh
-											.getInteger(ENHANCEMENT_ID_NBT);
-									int lvl = enh
-											.getInteger(ENHANCEMENT_LVL_NBT);
-									if (encid > 0 && lvl > 0) {
-										if (Enchantment.enchantmentsList[encid] == Enchantment.fortune)
-											fortune = lvl;
-										if (Enchantment.enchantmentsList[encid] == Enchantment.silkTouch)
-											silktouch = true;
-									}
-								}
-								if (!silktouch) {
-									b.dropBlockAsItem(par2World, oreCh.getX(),
-											oreCh.getY(), oreCh.getZ(),
-											finder.aimBlockMeta, fortune);
-								} else {
-									if (b.canSilkHarvest(
-											par2World,
-											(EntityPlayer) par7EntityLivingBase,
-											oreCh.getX(), oreCh.getY(),
-											oreCh.getZ(), finder.aimBlockMeta)) {
-										ItemStack itemstack = new ItemStack(b,
-												1, finder.aimBlockMeta);
-										if (itemstack != null) {
-											this.dropBlockAsItem_do(par2World,
-													oreCh.getX(), oreCh.getY(),
-													oreCh.getZ(), itemstack);
-										}
-									} else {
+							if (b.getBlockHardness(par2World, oreCh.getX(),
+									oreCh.getY(), oreCh.getZ()) != -1.0F) {
+								if (b.removeBlockByPlayer(par2World,
+										(EntityPlayer) par7EntityLivingBase,
+										oreCh.getX(), oreCh.getY(),
+										oreCh.getZ())) {
+
+									if (!silktouch) {
 										b.dropBlockAsItem(par2World,
 												oreCh.getX(), oreCh.getY(),
 												oreCh.getZ(),
 												finder.aimBlockMeta, fortune);
+									} else {
+										if (b.canSilkHarvest(
+												par2World,
+												(EntityPlayer) par7EntityLivingBase,
+												oreCh.getX(), oreCh.getY(),
+												oreCh.getZ(),
+												finder.aimBlockMeta)) {
+											ItemStack itemstack = new ItemStack(
+													b, 1, finder.aimBlockMeta);
+											if (itemstack != null) {
+												this.dropBlockAsItem_do(
+														par2World,
+														oreCh.getX(),
+														oreCh.getY(),
+														oreCh.getZ(), itemstack);
+											}
+										} else {
+											b.dropBlockAsItem(par2World,
+													oreCh.getX(), oreCh.getY(),
+													oreCh.getZ(),
+													finder.aimBlockMeta,
+													fortune);
+										}
 									}
 								}
-							}
-							if (ElectricItem.manager.canUse(par1ItemStack,
-									ENERGY_PER_USE)) {
-								ElectricItem.manager.use(par1ItemStack,
-										ENERGY_PER_USE, par7EntityLivingBase);
-							} else {
-								break;
+								if (ElectricItem.manager.canUse(par1ItemStack,
+										ENERGY_PER_USE)) {
+									ElectricItem.manager.use(par1ItemStack,
+											ENERGY_PER_USE,
+											par7EntityLivingBase);
+								} else {
+									break;
+								}
 							}
 						}
+					}
+				}
+			} else {
+				if (par7EntityLivingBase instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer) par7EntityLivingBase;
+					if (!player.isSneaking()) {
+						MovingObjectPosition pos = this
+								.getMovingObjectPositionFromPlayer(par2World,
+										player, true);
+						if (pos != null)
+							if (pos.typeOfHit == EnumMovingObjectType.TILE) {
+								ForgeDirection hitFrom = ForgeDirection.VALID_DIRECTIONS[pos.sideHit];
+								BlockLocation currBlock = new BlockLocation(
+										par2World.provider.dimensionId, par4,
+										par5, par6);
+								BlockLocation[] removeBlocks = new BlockLocation[12];
+								switch (hitFrom) {
+								case DOWN: {
+									removeBlocks[0] = currBlock.move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[1] = currBlock.move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[2] = currBlock.move(
+											ForgeDirection.SOUTH, 1);
+									removeBlocks[3] = currBlock.move(
+											ForgeDirection.EAST, 1);
+
+									removeBlocks[4] = currBlock.move(
+											ForgeDirection.NORTH, 1).move(
+											ForgeDirection.EAST, 1);
+									removeBlocks[5] = currBlock.move(
+											ForgeDirection.WEST, 1).move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[6] = currBlock.move(
+											ForgeDirection.NORTH, 1).move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[7] = currBlock.move(
+											ForgeDirection.WEST, 1).move(
+											ForgeDirection.SOUTH, 1);
+									removeBlocks[8] = currBlock.move(
+											ForgeDirection.SOUTH, 1).move(
+											ForgeDirection.EAST, 1);
+									break;
+								}
+								case UP: {
+									removeBlocks[0] = currBlock.move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[1] = currBlock.move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[2] = currBlock.move(
+											ForgeDirection.SOUTH, 1);
+									removeBlocks[3] = currBlock.move(
+											ForgeDirection.EAST, 1);
+
+									removeBlocks[4] = currBlock.move(
+											ForgeDirection.NORTH, 1).move(
+											ForgeDirection.EAST, 1);
+									removeBlocks[5] = currBlock.move(
+											ForgeDirection.WEST, 1).move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[6] = currBlock.move(
+											ForgeDirection.NORTH, 1).move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[7] = currBlock.move(
+											ForgeDirection.WEST, 1).move(
+											ForgeDirection.SOUTH, 1);
+									removeBlocks[8] = currBlock.move(
+											ForgeDirection.SOUTH, 1).move(
+											ForgeDirection.EAST, 1);
+									break;
+								}
+								case NORTH: {
+									// Up & down
+									removeBlocks[0] = currBlock.move(
+											ForgeDirection.UP, 1);
+									removeBlocks[1] = currBlock.move(
+											ForgeDirection.DOWN, 1);
+									// West & east
+									removeBlocks[2] = currBlock.move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[3] = currBlock.move(
+											ForgeDirection.EAST, 1);
+									// Up-west & Down-west
+									removeBlocks[4] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[5] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.EAST, 1);
+
+									removeBlocks[6] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[7] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.EAST, 1);
+
+									removeBlocks[8] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.EAST, 1);
+									removeBlocks[9] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.WEST, 1);
+
+									break;
+									// South up & north down
+								}
+								case WEST: {
+									removeBlocks[0] = currBlock.move(
+											ForgeDirection.UP, 1);
+									removeBlocks[1] = currBlock.move(
+											ForgeDirection.DOWN, 1);
+									// West & east
+									removeBlocks[2] = currBlock.move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[3] = currBlock.move(
+											ForgeDirection.SOUTH, 1);
+
+									removeBlocks[4] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[5] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.SOUTH, 1);
+
+									removeBlocks[6] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[7] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.SOUTH, 1);
+									removeBlocks[10] = currBlock.move(
+											ForgeDirection.SOUTH, 1).move(
+											ForgeDirection.UP, 1);
+									removeBlocks[11] = currBlock.move(
+											ForgeDirection.NORTH, 1).move(
+											ForgeDirection.DOWN, 1);
+									break;
+								}
+								case EAST: {
+									removeBlocks[0] = currBlock.move(
+											ForgeDirection.UP, 1);
+									removeBlocks[1] = currBlock.move(
+											ForgeDirection.DOWN, 1);
+									// West & east
+									removeBlocks[2] = currBlock.move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[3] = currBlock.move(
+											ForgeDirection.SOUTH, 1);
+
+									removeBlocks[4] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[5] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.SOUTH, 1);
+
+									removeBlocks[6] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.NORTH, 1);
+									removeBlocks[7] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.SOUTH, 1);
+									removeBlocks[10] = currBlock.move(
+											ForgeDirection.SOUTH, 1).move(
+											ForgeDirection.UP, 1);
+									removeBlocks[11] = currBlock.move(
+											ForgeDirection.NORTH, 1).move(
+											ForgeDirection.DOWN, 1);
+									break;
+								}
+								case SOUTH: {
+									removeBlocks[0] = currBlock.move(
+											ForgeDirection.UP, 1);
+									removeBlocks[1] = currBlock.move(
+											ForgeDirection.DOWN, 1);
+									// West & east
+									removeBlocks[2] = currBlock.move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[3] = currBlock.move(
+											ForgeDirection.EAST, 1);
+									// Up-west & Down-west
+									removeBlocks[4] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[5] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.EAST, 1);
+
+									removeBlocks[6] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.WEST, 1);
+									removeBlocks[7] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.EAST, 1);
+
+									removeBlocks[8] = currBlock.move(
+											ForgeDirection.UP, 1).move(
+											ForgeDirection.EAST, 1);
+									removeBlocks[9] = currBlock.move(
+											ForgeDirection.DOWN, 1).move(
+											ForgeDirection.WEST, 1);
+									break;
+								}
+								case UNKNOWN:
+									break;
+								}
+								// Stuff destroying part.. messy code, but it
+								// works.
+								for (BlockLocation blockLoc : removeBlocks) {
+									if (blockLoc != null) {
+										Block b = Block.blocksList[par2World
+												.getBlockId(blockLoc.getX(),
+														blockLoc.getY(),
+														blockLoc.getZ())];
+										int aimBlockMeta = par2World
+												.getBlockMetadata(
+														blockLoc.getX(),
+														blockLoc.getY(),
+														blockLoc.getZ());
+										if (b != null) {
+											if (b.getBlockHardness(par2World,
+													blockLoc.getX(),
+													blockLoc.getY(),
+													blockLoc.getZ()) != -1.0F) {
+												if (b.removeBlockByPlayer(
+														par2World,
+														(EntityPlayer) par7EntityLivingBase,
+														blockLoc.getX(),
+														blockLoc.getY(),
+														blockLoc.getZ())) {
+
+													if (!silktouch) {
+														b.dropBlockAsItem(
+																par2World,
+																blockLoc.getX(),
+																blockLoc.getY(),
+																blockLoc.getZ(),
+																aimBlockMeta,
+																fortune);
+													} else {
+														if (b.canSilkHarvest(
+																par2World,
+																(EntityPlayer) par7EntityLivingBase,
+																blockLoc.getX(),
+																blockLoc.getY(),
+																blockLoc.getZ(),
+																aimBlockMeta)) {
+															ItemStack itemstack = new ItemStack(
+																	b, 1,
+																	aimBlockMeta);
+															if (itemstack != null) {
+																this.dropBlockAsItem_do(
+																		par2World,
+																		blockLoc.getX(),
+																		blockLoc.getY(),
+																		blockLoc.getZ(),
+																		itemstack);
+															}
+														} else {
+															b.dropBlockAsItem(
+																	par2World,
+																	blockLoc.getX(),
+																	blockLoc.getY(),
+																	blockLoc.getZ(),
+																	aimBlockMeta,
+																	fortune);
+														}
+													}
+												}
+												if (ElectricItem.manager
+														.canUse(par1ItemStack,
+																ENERGY_PER_USE)) {
+													ElectricItem.manager
+															.use(par1ItemStack,
+																	ENERGY_PER_USE,
+																	par7EntityLivingBase);
+												} else {
+													break;
+												}
+											}
+										}
+									}
+									// End of messy part
+									// if (hitFrom == ForgeDirection.DOWN ||
+									// hitFrom
+									// ==
+									// ForgeDirection.UP) {
+									//
+									// } else {
+									//
+									// }
+								}
+							}
 					}
 				}
 			}

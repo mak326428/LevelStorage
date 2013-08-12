@@ -63,7 +63,7 @@ public class CommonProxy {
 			XpStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
 		UUMRecipeParser.instance.init();
-		ItemStack[] inputs = UUMHelper.getRecipeInputsFor(new ItemStack(Item.axeDiamond));
+		ItemStack[] inputs = UUMHelper.getUUMRecipe(new ItemStack(Item.redstone, 24));
 		System.out.println(inputs.length);
 		for (ItemStack input : inputs) {
 			System.out.println(Helper.getNiceStackName(input));

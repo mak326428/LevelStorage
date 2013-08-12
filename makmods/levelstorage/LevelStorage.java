@@ -71,9 +71,9 @@ public class LevelStorage {
 		p2.comment = "Whether or not experience recipes are enabled";
 		
 		Property p3 = config.get(Configuration.CATEGORY_GENERAL,
-				"fanceGraphics", true);
+				"fancyGraphics", false);
 		p3.comment = "Whether or not fancy graphics for various energy rays are enabled";
-		LevelStorage.fancyGraphics = p3.getBoolean(true);
+		LevelStorage.fancyGraphics = p3.getBoolean(false);
 	}
 
 	@EventHandler

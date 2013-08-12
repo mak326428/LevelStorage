@@ -5,6 +5,7 @@ import ic2.api.item.IElectricItem;
 import ic2.api.item.IMetalArmor;
 import ic2.api.recipe.Recipes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,11 +15,13 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.entity.EntityTeslaRay;
 import makmods.levelstorage.lib.IC2Items;
+import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.render.EnergyRayFX;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -32,8 +35,6 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.src.ModLoader;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MathHelper;
@@ -84,6 +85,9 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 	public static void onTeslaRayImpact(EntityTeslaRay ray,
 			EntityPlayer shootingEntity, double posX, double posY, double posZ) {
 		if (!ray.worldObj.isRemote) {
+			// the problem is that ray renders on client side, but we do need to
+			// invoke it on server side (or simulated server side, for
+			// singleplayer, which !remote does
 
 		}
 	}
@@ -131,6 +135,8 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		return par1World.rayTraceBlocks_do_do(var13, var23, par3, !par3);
 	}
 
+	public static final int ENTITY_HIT_COST = 10000;
+
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 			ItemStack itemStack) {
@@ -152,13 +158,46 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 					if (LevelStorage.getSide().isClient()) {
 						EnergyRayFX p = new EnergyRayFX(world, player.posX,
 								player.posY, player.posZ, x, y, z, 48, 141,
-								255, 100);
-						ModLoader.getMinecraftInstance().effectRenderer
-								.addEffect(p);
+								255, 40);
+						Minecraft.getMinecraft().effectRenderer.addEffect(p);
+
 					}
-					List entities = world.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getBoundingBox(x - 8, y - 8, x - 8, x + 8, y + 8, z + 8));
-					for (Object obj : entities) {
-						((EntityMob)obj).attackEntityFrom(LSDamageSource.teslaRay, new Random().nextInt(20 + 3));
+					if (!world.isRemote) {
+						ArrayList<Object> entities = new ArrayList<Object>();
+						for (Object e : world.loadedEntityList) {
+							if (!(e instanceof EntityPlayer)) {
+								double distanceX = Math.abs(((Entity) e).posX
+										- x);
+								double distanceY = Math.abs(((Entity) e).posY
+										- y);
+								double distanceZ = Math.abs(((Entity) e).posZ
+										- z);
+								if ((distanceX + distanceY + distanceZ) < 4.0F) {
+									entities.add(e);
+								}
+							}
+						}
+						if (entities.size() == 0) {
+							if (new Random().nextBoolean()) {
+								if (ElectricItem.manager.canUse(itemStack,
+										ENTITY_HIT_COST)) {
+									ElectricItem.manager.use(itemStack,
+											ENTITY_HIT_COST, player);
+									Helper.spawnLightning(world, x, y, z, false);
+								}
+							}
+						}
+						for (Object obj : entities) {
+							if (ElectricItem.manager.canUse(itemStack,
+									ENTITY_HIT_COST)) {
+								ElectricItem.manager.use(itemStack,
+										ENTITY_HIT_COST, player);
+								((Entity) obj).attackEntityFrom(
+										LSDamageSource.teslaRay,
+										20 + new Random().nextInt(15));
+							}
+
+						}
 					}
 				}
 			}
@@ -170,6 +209,9 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 					player.getFoodStats().setFoodLevel(20);
 					player.getFoodStats().setFoodSaturationLevel(10F);
 				}
+			}
+			if (player.getAir() < 100) {
+				player.setAir(200);
 			}
 			LinkedList<PotionEffect> lk = new LinkedList(
 					player.getActivePotionEffects());
