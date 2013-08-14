@@ -42,7 +42,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
 	public static final String WIRELESS_POWER_SYNC_TEXTURE = getTexturePathFor("blockWirelessPSync");
 	public static final String BLOCK_SUPERCONDUCTOR_TEXTURE = getTexturePathFor("blockSuperconductorCable");
-	
+
 	// Fluids
 	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
 
@@ -52,19 +52,23 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_CHARGER_NO_UUM = getResourceLocation("gui/chargeroutd.png");
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
 	public static final ResourceLocation GUI_MASS_INFUSER = getResourceLocation("gui/massInfuser.png");
-	
+
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
 	public static final ResourceLocation MASS_INFUSER_MODEL = getResourceLocation("model/MassInfuserModel.png");
-	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_2.png";
-	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/textures/models/armor/supersonic_1.png";
+	// public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE =
+	// "/textures/models/armor/supersonic_2.png";
+	// public static final String ARMOR_LEVITATION_BOOTS_TEXTURE =
+	// "/textures/models/armor/supersonic_1.png";
+	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/supersonic_2.png";
+	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/supersonic_1.png";
 
 	// Custom renders
-	public static final int CABLE_RENDER_ID = RenderingRegistry.getNextAvailableRenderId();
+	public static final int CABLE_RENDER_ID = RenderingRegistry
+	        .getNextAvailableRenderId();
 	public static final String TESLA_RAY_1 = "misc/tesla.png";
 
-	
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
 		for (CreativeTabs t : CreativeTabs.creativeTabArray) {
@@ -89,22 +93,22 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		super.init();
 		ClientRegistry.bindTileEntitySpecialRenderer(
-				TileEntityWirelessConductor.class,
-				new WirelessConductorRender());
+		        TileEntityWirelessConductor.class,
+		        new WirelessConductorRender());
 		ClientRegistry.bindTileEntitySpecialRenderer(
-				TileEntityMassInfuser.class,
-				new MassInfuserRender());
+		        TileEntityMassInfuser.class, new MassInfuserRender());
 		MinecraftForgeClient.registerItemRenderer(
-				ModBlocks.instance.blockWlessConductor.blockID,
-				new ItemWirelessConductorRender());
-		RenderingRegistry.registerEntityRenderingHandler(EntityTeslaRay.class, new RenderTeslaRay());
+		        ModBlocks.instance.blockWlessConductor.blockID,
+		        new ItemWirelessConductorRender());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTeslaRay.class,
+		        new RenderTeslaRay());
 		RenderingRegistry.registerBlockHandler(new RenderSuperconductorCable());
-		//MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
+		// MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}
 
 	@Override
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {
 		Minecraft.getMinecraft().ingameGUI.getChatGUI().addTranslatedMessage(
-				message, args);
+		        message, args);
 	}
 }

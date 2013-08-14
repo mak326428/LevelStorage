@@ -26,8 +26,8 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
-		IHasTextBoxes, IHasButtons, IEnergyTile, IEnergySink, IWrenchable,
-		IEnergySource, IWirelessPowerSync {
+        IHasTextBoxes, IHasButtons, IEnergyTile, IEnergySink, IWrenchable,
+        IEnergySource, IWirelessPowerSync {
 
 	public int frequency;
 	public SyncType type;
@@ -104,7 +104,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 			return amount;
 		else {
 			EnergyTileSourceEvent sourceEvent = new EnergyTileSourceEvent(this,
-					amount);
+			        amount);
 			MinecraftForge.EVENT_BUS.post(sourceEvent);
 			return sourceEvent.amount;
 		}
@@ -193,15 +193,20 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 
 	@Override
 	public int demandsEnergy() {
+		/*
+		 * if (this.type == SyncType.TRANSMITTER) { if (this.pairs != null ||
+		 * WirelessPowerSynchronizerRegistry .hasChargersOnFreq(this.frequency))
+		 * { if (this.pairs.length > 0 || WirelessPowerSynchronizerRegistry
+		 * .hasChargersOnFreq(this.frequency)) { for (IWirelessPowerSync ent :
+		 * this.pairs) { if (ent.doesNeedEnergy() ||
+		 * WirelessPowerSynchronizerRegistry .hasChargersOnFreq(this.frequency))
+		 * return MAX_PACKET_SIZE; } } } }
+		 */
+		// TODO: more sensitive version, for IC2 not to yell at the user that
+		// BlaBlaBla tile entity BlaBlaBla didn't implement demands energy
+		// properly
 		if (this.type == SyncType.TRANSMITTER) {
-			if (this.pairs != null) {
-				if (this.pairs.length > 0) {
-					for (IWirelessPowerSync ent : this.pairs) {
-						if (ent.doesNeedEnergy())
-							return MAX_PACKET_SIZE;
-					}
-				}
-			}
+			return MAX_PACKET_SIZE;
 		}
 		return 0;
 	}
@@ -209,8 +214,8 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	@Override
 	public void updateState() {
 		this.pairs = WirelessPowerSynchronizerRegistry.instance
-				.getDevicesForFreqAndType(this.frequency,
-						Helper.invertType(this.type));
+		        .getDevicesForFreqAndType(this.frequency,
+		                Helper.invertType(this.type));
 	}
 
 	public int lastX;
@@ -222,7 +227,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		if (!this.worldObj.isRemote) {
 			// WirelessPowerSynchronizerRegistry.instance.registry.clear();
 			if (this.lastX != this.xCoord || this.lastY != this.yCoord
-					|| this.lastZ != this.zCoord) {
+			        || this.lastZ != this.zCoord) {
 				this.unloadEverything();
 				this.loadEverything();
 			}
@@ -238,76 +243,12 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		}
 	}
 
-	public int sendEnergyToDevices(ArrayList<IWirelessPowerSync> devs,
-			int amount) {
-		int unused = 0;
-		if (devs.size() > 0) {
-			int forEach;
-			if (devs.size() != 0) {
-				forEach = amount / devs.size();
-			} else {
-				forEach = amount;
-			}
-			for (IWirelessPowerSync s : devs) {
-				BlockLocation thisTe = new BlockLocation(
-						this.getWorld().provider.dimensionId, this.getX(),
-						this.getY(), this.getZ());
-				BlockLocation pairTe = new BlockLocation(
-						s.getWorld().provider.dimensionId, s.getX(), s.getY(),
-						s.getZ());
-				unused += s
-						.receiveEnergy(forEach -= BlockLocation
-								.getEnergyDiscount(forEach,
-										thisTe.getDistance(pairTe)));
-			}
-			return unused;
-		}
-		return amount;
-	}
-
-	public int sendEnergyEqually(int amount) {
-		if (this.pairs.length > 0) {
-			int energyNotUsed = 0;
-
-			int forEach = amount;
-			if (this.pairs.length > 0) {
-				forEach = amount / this.pairs.length;
-			}
-
-			for (IWirelessPowerSync s : this.pairs) {
-				BlockLocation thisTe = new BlockLocation(
-						this.getWorld().provider.dimensionId, this.getX(),
-						this.getY(), this.getZ());
-				BlockLocation pairTe = new BlockLocation(
-						s.getWorld().provider.dimensionId, s.getX(), s.getY(),
-						s.getZ());
-				int forEachWithDisc = forEach
-						- BlockLocation.getEnergyDiscount(forEach,
-								thisTe.getDistance(pairTe));
-				int leftover = s.receiveEnergy(forEachWithDisc);
-				if (leftover == forEachWithDisc) {
-					ArrayList<IWirelessPowerSync> par5 = new ArrayList<IWirelessPowerSync>();
-					for (IWirelessPowerSync par6 : this.pairs) {
-						if (par6 != s) {
-							par5.add(par6);
-						}
-					}
-					int par7 = this.sendEnergyToDevices(par5, leftover);
-					energyNotUsed += par7;
-				} else {
-					energyNotUsed += leftover;
-				}
-			}
-			return energyNotUsed;
-		}
-		return amount;
-	}
-
 	@Override
 	public int injectEnergy(Direction directionFrom, int amount) {
 
 		if (this.type == SyncType.TRANSMITTER)
-			return this.sendEnergyEqually(amount);
+			return WirelessPowerSynchronizerRegistry.instance.onInjectEnergy(
+			        amount, this);
 		return amount;
 	}
 

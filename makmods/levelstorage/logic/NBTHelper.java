@@ -61,5 +61,45 @@ public class NBTHelper {
 		}
 		return stack.stackTagCompound.getString(name);
 	}
+	
+	/**
+	 * A bunch of helpers for easier item NBT cooldown
+	 * @author mak326428
+	 *
+	 */
+	public static class Cooldownable {
+		
+		public static final String COOLDOWN_NBT = "cooldown";
+		
+		/**
+		 * Call this onUpdate() in your Item
+		 * WARNING: you should check for !world.isRemote
+		 * @param stack stack to update
+		 * @param maxCooldown maximum cooldown
+		 */
+		public static void onUpdate(ItemStack stack, int maxCooldown) {
+			NBTHelper.checkNBT(stack);
+			if (!NBTHelper.verifyKey(stack, COOLDOWN_NBT))
+				NBTHelper.setInteger(stack, COOLDOWN_NBT, maxCooldown);
+			if (NBTHelper.getInteger(stack, COOLDOWN_NBT) > 0)
+				NBTHelper.decreaseInteger(stack, COOLDOWN_NBT, 1);
+		}
+		
+		/**
+		 * Checks for cooldown. Call it when your item needs to be used
+		 * @param stack Stack to check
+		 * @param maxCooldown Maximum cooldown
+		 * @return True if item's cooldown is zero, returns true and sets it to maximum, otherwise false
+		 */
+		public static boolean use(ItemStack stack, int maxCooldown) {
+			NBTHelper.checkNBT(stack);
+			if (NBTHelper.getInteger(stack, COOLDOWN_NBT) > 0)
+				return false;
+			else {
+				NBTHelper.setInteger(stack, COOLDOWN_NBT, maxCooldown);
+				return true;
+			}
+		}
+	}
 
 }

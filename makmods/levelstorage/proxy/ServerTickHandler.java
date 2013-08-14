@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 
 import makmods.levelstorage.lib.Reference;
+import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
+import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry.WChargerEntry;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
@@ -17,7 +19,7 @@ public class ServerTickHandler implements ITickHandler {
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
-		
+		WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
 	}
 
 	@Override
@@ -35,7 +37,7 @@ public class ServerTickHandler implements ITickHandler {
 
 	@Override
 	public EnumSet<TickType> ticks() {
-		return EnumSet.of(TickType.WORLD);
+		return EnumSet.of(TickType.PLAYER);
 	}
 
 	@Override

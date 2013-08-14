@@ -17,6 +17,7 @@ import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.item.ItemLevelStorageBook;
 import makmods.levelstorage.item.ItemPocketRefrigerant;
 import makmods.levelstorage.item.ItemSuperconductor;
+import makmods.levelstorage.item.ItemWirelessCharger;
 import makmods.levelstorage.lib.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,15 +35,14 @@ public class ModItems {
 	public ItemFrequencyCard itemFreqCard;
 	public ItemCompactTeleporter itemCompactTeleporter;
 	public ItemEnhancedDiamondDrill itemEnhDiamondDrill;
-	public ItemArmorSupersonicLeggings itemSupersonicLeggings;
 	public ItemPocketRefrigerant itemPocketRefrigerant;
 	public ItemArmorLevitationBoots itemLevitationBoots;
+	public ItemArmorSupersonicLeggings itemSupersonicLeggings;
 	public ItemArmorForcefieldChestplate itemArmorForcefieldChestplate;
 	public ItemArmorTeslaHelmet itemArmorTeslaHelmet;
 	public ItemSuperconductor itemSuperconductor;
 	public ItemEnergeticEnrichedMatterOrb itemStorageFourMillion;
-	// TODO: reenable when ready
-	// public ItemWirelessCharger itemWirelessCharger;
+	public ItemWirelessCharger itemWirelessCharger;
 
 	private int incr = 0;
 
@@ -60,7 +60,7 @@ public class ModItems {
 					} catch (ClassCastException e) {
 					} catch (Exception e) {
 						FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-								+ ": failed to initialize item");
+						        + ": failed to initialize item");
 						e.printStackTrace();
 					}
 				}
@@ -78,7 +78,7 @@ public class ModItems {
 					} catch (ClassCastException e) {
 					} catch (Exception e) {
 						FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-								+ ": failed to add recipe");
+						        + ": failed to add recipe");
 						e.printStackTrace();
 					}
 				}
@@ -97,12 +97,12 @@ public class ModItems {
 				ItemStack bookStack = new ItemStack(this.itemLevelStorageBook);
 				bookStack.stackTagCompound = new NBTTagCompound();
 				bookStack.stackTagCompound.setInteger(
-						ItemLevelStorageBook.STORED_XP_NBT,
-						rnd.nextInt(LevelStorage.itemLevelStorageBookSpace));
+				        ItemLevelStorageBook.STORED_XP_NBT,
+				        rnd.nextInt(LevelStorage.itemLevelStorageBookSpace));
 				bookStack.setItemDamage(ItemLevelStorageBook
-						.calculateDurability(bookStack));
+				        .calculateDurability(bookStack));
 				ChestGenHooks.addItem(category, new WeightedRandomChestContent(
-						bookStack.copy(), 0, 1, 10));
+				        bookStack.copy(), 0, 1, 10));
 				this.incr++;
 			} catch (Exception e) {
 			}
@@ -117,12 +117,12 @@ public class ModItems {
 					try {
 						Item currItem = (Item) f.get(ModItems.instance);
 						String name = (String) currItem.getClass()
-								.getField("NAME").get(null);
+						        .getField("NAME").get(null);
 						LanguageRegistry.addName(currItem, name);
 					} catch (ClassCastException e) {
 					} catch (Exception e) {
 						FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-								+ ": failed to name item");
+						        + ": failed to name item");
 						e.printStackTrace();
 					}
 				}

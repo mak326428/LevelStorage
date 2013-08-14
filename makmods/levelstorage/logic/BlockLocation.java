@@ -62,7 +62,7 @@ public class BlockLocation {
 		try {
 			World w = DimensionManager.getWorld(this.dimId);
 			return new ItemStack(Block.blocksList[w.getBlockId(x, y, z)])
-					.getDisplayName();
+			        .getDisplayName();
 		} catch (Exception e) {
 			return "Unknown.";
 		}
@@ -135,8 +135,8 @@ public class BlockLocation {
 		NBTTagCompound blockLocationC = nbt.getCompoundTag(BLOCK_LOCATION_NBT);
 		BlockLocation loc = new BlockLocation();
 		if ((blockLocationC.getInteger(X_NBT) == 0)
-				&& (blockLocationC.getInteger(Y_NBT) == 0)
-				&& (blockLocationC.getInteger(Z_NBT) == 0))
+		        && (blockLocationC.getInteger(Y_NBT) == 0)
+		        && (blockLocationC.getInteger(Z_NBT) == 0))
 			return null;
 		loc.setDimId(blockLocationC.getInteger(DIM_ID_NBT));
 		loc.setX(blockLocationC.getInteger(X_NBT));
@@ -171,7 +171,7 @@ public class BlockLocation {
 	 */
 	public static int getEnergyDiscount(int energy, int distance) {
 		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
-				"enableEnergyLoss", false).getBoolean(false)) {
+		        "enableEnergyLoss", false).getBoolean(false)) {
 			// Cross-Dimensional
 			if (distance == Integer.MAX_VALUE)
 				return (int) (energy * 0.25f);
@@ -203,6 +203,25 @@ public class BlockLocation {
 		return false;
 	}
 
+	public World getWorld() {
+		return DimensionManager.getWorld(dimId);
+	}
+
+	public Block getBlock() {
+		return getWorld().isAirBlock(x, y, z) == true ? Block.blocksList[getWorld()
+		        .getBlockId(x, y, z)] : null;
+	}
+
+	public int getBlockId() {
+		return getWorld().isAirBlock(x, y, z) == true ? getWorld().getBlockId(
+		        x, y, z) : 0;
+	}
+
+	public int getBlockMeta() {
+		return getWorld().isAirBlock(x, y, z) == true ? getWorld()
+		        .getBlockMetadata(x, y, z) : 0;
+	}
+
 	/**
 	 * Gets TileEntity
 	 * 
@@ -212,7 +231,7 @@ public class BlockLocation {
 		if (!isDimIdValid(this.dimId))
 			return null;
 		return DimensionManager.getWorld(this.dimId).getBlockTileEntity(this.x,
-				this.y, this.z);
+		        this.y, this.z);
 	}
 
 	// Getters & setters ahead
