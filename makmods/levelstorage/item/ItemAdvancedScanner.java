@@ -6,7 +6,10 @@ import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
@@ -40,7 +43,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	public ItemAdvancedScanner() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt());
+		        LevelStorage.getAndIncrementCurrId()).getInt());
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
@@ -50,11 +53,27 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 		this.setMaxStackSize(1);
 	}
 
+	public static <K, V extends Comparable<V>> Map<K, V> sortByValues(
+	        final Map<K, V> map) {
+		Comparator<K> valueComparator = new Comparator<K>() {
+			public int compare(K k1, K k2) {
+				int compare = map.get(k2).compareTo(map.get(k1));
+				if (compare == 0)
+					return 1;
+				else
+					return compare;
+			}
+		};
+		Map<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);
+		sortedByValues.putAll(map);
+		return sortedByValues;
+	}
+
 	public static void addCraftingRecipe() {
 		// Scanner
 		Property p = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"enableAdvScannerCraftingRecipe", true);
+		        Configuration.CATEGORY_GENERAL,
+		        "enableAdvScannerCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
 			ItemStack ovScanner = Items.getItem("ovScanner");
@@ -63,12 +82,12 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 			ItemStack advCircuit = Items.getItem("advancedCircuit");
 			ItemStack glassFiber = Items.getItem("glassFiberCableItem");
 			ItemStack advScanner = new ItemStack(
-					ModItems.instance.itemAdvScanner);
+			        ModItems.instance.itemAdvScanner);
 			Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
-					Character.valueOf('u'), uum, Character.valueOf('g'),
-					glassFiber, Character.valueOf('a'), advCircuit,
-					Character.valueOf('c'), energyCrystal,
-					Character.valueOf('s'), ovScanner);
+			        Character.valueOf('u'), uum, Character.valueOf('g'),
+			        glassFiber, Character.valueOf('a'), advCircuit,
+			        Character.valueOf('c'), energyCrystal,
+			        Character.valueOf('s'), ovScanner);
 		}
 	}
 
@@ -81,6 +100,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 			}
 		}
 	}
+
 	// TODO: refactor this later with the NBTHelper.
 	public static void setNBTInt(ItemStack stack, String name, int value) {
 		verifyStack(stack);
@@ -98,10 +118,10 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 	public void printMessage(String message, EntityPlayer player) {
 		LevelStorage.proxy.messagePlayer(player, message, new Object[0]);
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		par3List.add("\2472This item will tell you");
 		par3List.add("\2472exactly how much ore there is in");
 		par3List.add("\2472your surroundings");
@@ -109,11 +129,11 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
+	        EntityPlayer par3EntityPlayer) {
 		if (!par2World.isRemote) {
 			if (ElectricItem.manager.canUse(par1ItemStack, ENERGY_PER_USE)) {
 				ElectricItem.manager.use(par1ItemStack, ENERGY_PER_USE,
-						par3EntityPlayer);
+				        par3EntityPlayer);
 			} else
 				return par1ItemStack;
 			if (!(getNBTInt(par1ItemStack, NBT_COOLDOWN) == 0))
@@ -130,9 +150,9 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 				for (int x = -(RADIUS / 2); x < (RADIUS / 2); x++) {
 					for (int z = -(RADIUS / 2); z < (RADIUS / 2); z++) {
 						ItemStack foundStack = new ItemStack(
-								par2World.getBlockId(playerX + x, y, playerZ
-										+ z), 1, par2World.getBlockMetadata(
-										playerX + x, y, playerZ + z));
+						        par2World.getBlockId(playerX + x, y, playerZ
+						                + z), 1, par2World.getBlockMetadata(
+						                playerX + x, y, playerZ + z));
 						blocksFound.add(foundStack);
 					}
 				}
@@ -141,7 +161,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 			this.printMessage("", par3EntityPlayer);
 			this.printMessage("", par3EntityPlayer);
 			this.printMessage("Found materials in " + RADIUS + "x" + RADIUS
-					+ " cubouid below you", par3EntityPlayer);
+			        + " cubouid below you", par3EntityPlayer);
 			this.printMessage("", par3EntityPlayer);
 			ArrayList<String> names = new ArrayList<String>();
 			ArrayList<CollectedStatInfo> info = new ArrayList<CollectedStatInfo>();
@@ -163,7 +183,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 						}
 						info.remove(indexAt);
 						info.add(new CollectedStatInfo(currentName,
-								amountAlreadyHas + 1));
+						        amountAlreadyHas + 1));
 					}
 				}
 				// There will be a ton of these guys, let's ignore em
@@ -180,12 +200,12 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
-			Entity par3Entity, int par4, boolean par5) {
+	        Entity par3Entity, int par4, boolean par5) {
 		if (!par2World.isRemote) {
 			verifyStack(par1ItemStack);
 			if (getNBTInt(par1ItemStack, NBT_COOLDOWN) > 0) {
 				setNBTInt(par1ItemStack, NBT_COOLDOWN,
-						getNBTInt(par1ItemStack, NBT_COOLDOWN) - 1);
+				        getNBTInt(par1ItemStack, NBT_COOLDOWN) - 1);
 			}
 		}
 	}
@@ -222,10 +242,10 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
-			List par3List) {
+	        List par3List) {
 		ItemStack var4 = new ItemStack(this, 1);
 		ElectricItem.manager.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE,
-				true, false);
+		        true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
 
@@ -235,7 +255,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
-				.registerIcon(ClientProxy.ADV_SCANNER_TEXTURE);
+		        .registerIcon(ClientProxy.ADV_SCANNER_TEXTURE);
 	}
 
 	public class CollectedStatInfo {

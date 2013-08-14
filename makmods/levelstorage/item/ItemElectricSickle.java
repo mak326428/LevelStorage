@@ -2,11 +2,14 @@ package makmods.levelstorage.item;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.recipe.Recipes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.BlockLocation;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
@@ -60,6 +63,15 @@ public class ItemElectricSickle extends ItemTool implements IElectricItem {
 	@Override
 	public int getChargedItemId(ItemStack itemStack) {
 		return this.itemID;
+	}
+
+	public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block) {
+		if (par2Block != null) {
+			if (par2Block.isLeaves(null, 0, 0, 0) || par2Block instanceof IPlantable) {
+				return EnumToolMaterial.IRON.getEfficiencyOnProperMaterial();
+			}
+		}
+		return 1.0F;
 	}
 
 	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World,
@@ -232,7 +244,16 @@ public class ItemElectricSickle extends ItemTool implements IElectricItem {
 		        "enableElectricSickleCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
-			// TODO: add recipe
+			Recipes.advRecipes.addRecipe(new ItemStack(
+			        ModItems.instance.itemElectricSickle), "  i", "eii", "r  ",
+			        Character.valueOf('i'), IC2Items.REFINED_IRON, Character
+			                .valueOf('e'), IC2Items.BASIC_CIRCUIT, Character
+			                .valueOf('r'), IC2Items.RE_BATTERY);
+			Recipes.advRecipes.addRecipe(new ItemStack(
+			        ModItems.instance.itemElectricSickle), "  i", "eii", "r  ",
+			        Character.valueOf('i'), IC2Items.REFINED_IRON, Character
+			                .valueOf('e'), IC2Items.BASIC_CIRCUIT, Character
+			                .valueOf('r'), IC2Items.RE_BATTERY_CHARHED);
 		}
 	}
 

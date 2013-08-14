@@ -19,6 +19,7 @@ import makmods.levelstorage.item.ItemLevelStorageBook;
 import makmods.levelstorage.item.ItemPocketRefrigerant;
 import makmods.levelstorage.item.ItemSuperconductor;
 import makmods.levelstorage.item.ItemWirelessCharger;
+import makmods.levelstorage.item.ItemQuantumSaber;
 import makmods.levelstorage.lib.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -45,6 +46,7 @@ public class ModItems {
 	public ItemEnergeticEnrichedMatterOrb itemStorageFourMillion;
 	public ItemWirelessCharger itemWirelessCharger;
 	public ItemElectricSickle itemElectricSickle;
+	public ItemQuantumSaber itemQuantumSaber;
 
 	private int incr = 0;
 

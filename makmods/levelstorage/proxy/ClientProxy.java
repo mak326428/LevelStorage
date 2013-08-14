@@ -38,6 +38,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String WIRELESS_CHARGER_TEXTURE = getTexturePathFor("itemWirelessCharger");
 	public static final String ENERGETIC_ENRICHED_MATTER_ORB_TEXTURE = getTexturePathFor("itemEnergeticEnrichedMatterOrb");
 	public static final String ELECTRIC_SICKLE_TEXTURE = getTexturePathFor("itemElectricSickle");
+	public static final String QUANTUM_SABER_TEXTURE = getTexturePathFor("itemQuantumSaber");
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
@@ -69,6 +70,7 @@ public class ClientProxy extends CommonProxy {
 	public static final int CABLE_RENDER_ID = RenderingRegistry
 	        .getNextAvailableRenderId();
 	public static final String TESLA_RAY_1 = "misc/tesla.png";
+
 	
 
 	@SideOnly(Side.CLIENT)
