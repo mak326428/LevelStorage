@@ -11,6 +11,7 @@ import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemCompactTeleporter;
+import makmods.levelstorage.item.ItemElectricSickle;
 import makmods.levelstorage.item.ItemEnergeticEnrichedMatterOrb;
 import makmods.levelstorage.item.ItemEnhancedDiamondDrill;
 import makmods.levelstorage.item.ItemFrequencyCard;
@@ -43,6 +44,7 @@ public class ModItems {
 	public ItemSuperconductor itemSuperconductor;
 	public ItemEnergeticEnrichedMatterOrb itemStorageFourMillion;
 	public ItemWirelessCharger itemWirelessCharger;
+	public ItemElectricSickle itemElectricSickle;
 
 	private int incr = 0;
 

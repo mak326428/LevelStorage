@@ -17,4 +17,6 @@ public class IC2Items {
 	public static final ItemStack QUANTUM_BOOTS = Items.getItem("quantumBoots");
 	public static final ItemStack QUANTUM_LEGGINGS = Items.getItem("quantumLeggings");
 	public static final ItemStack QUANTUM_HELMET = Items.getItem("quantumHelmet");
+	
+	public static final ItemStack ADV_CIRCUIT = Items.getItem("advancedCircuit");
 }

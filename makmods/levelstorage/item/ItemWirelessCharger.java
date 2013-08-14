@@ -2,11 +2,15 @@ package makmods.levelstorage.item;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.recipe.Recipes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModBlocks;
+import makmods.levelstorage.ModItems;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.NBTHelper;
 import makmods.levelstorage.logic.NBTHelper.Cooldownable;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -19,7 +23,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
@@ -55,7 +58,12 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 		        "enableWirelessChargerCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
-
+			Recipes.advRecipes.addRecipe(new ItemStack(
+			        ModItems.instance.itemWirelessCharger), "ccc", "ebe",
+			        "eoe", Character.valueOf('c'), IC2Items.ADV_CIRCUIT,
+			        Character.valueOf('e'), new ItemStack(Item.enderPearl),
+			        Character.valueOf('b'), new ItemStack(
+			                ModBlocks.instance.blockWlessPowerSync), Character.valueOf('o'), IC2Items.ENERGY_CRYSTAL);
 		}
 	}
 
@@ -96,19 +104,65 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 	 * return amount; }
 	 */
 
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
+	        EntityPlayer par3EntityPlayer) {
+		if (!par2World.isRemote) {
+			boolean changedSomething = false;
+			NBTHelper.checkNBT(par1ItemStack);
+			if (!NBTHelper.verifyKey(par1ItemStack, FREQUENCY_NBT))
+				NBTHelper.setInteger(par1ItemStack, FREQUENCY_NBT, 0);
+			if (Cooldownable.use(par1ItemStack, FREQUENCY_CHANGE_COOLDOWN)) {
+				if (par3EntityPlayer.isSneaking()
+				        && (NBTHelper.getInteger(par1ItemStack, FREQUENCY_NBT) > 0)) {
+					NBTHelper.decreaseIntegerIgnoreZero(par1ItemStack,
+					        FREQUENCY_NBT, 1);
+					changedSomething = true;
+				} else {
+					NBTHelper.decreaseIntegerIgnoreZero(par1ItemStack,
+					        FREQUENCY_NBT, -1);
+					changedSomething = true;
+				}
+			}
+			if (changedSomething)
+				LevelStorage.proxy.messagePlayer(
+				        par3EntityPlayer,
+				        "\2472New frequency: "
+				                + NBTHelper.getInteger(par1ItemStack,
+				                        FREQUENCY_NBT), new Object[0]);
+		}
+		return par1ItemStack;
+	}
+
+	public void addInformation(ItemStack par1ItemStack,
+	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+		NBTHelper.checkNBT(par1ItemStack);
+		if (!NBTHelper.verifyKey(par1ItemStack, FREQUENCY_NBT))
+			NBTHelper.setInteger(par1ItemStack, FREQUENCY_NBT, 0);
+		par3List.add("\2472Frequency: "
+		        + NBTHelper.getInteger(par1ItemStack, FREQUENCY_NBT));
+	}
+
 	public static ItemStack[] getElectricItems(InventoryPlayer inv) {
 		ArrayList<ItemStack> ints = new ArrayList<ItemStack>();
 		for (int index = 0; index < inv.mainInventory.length; index++) {
 			if (inv.mainInventory[index] != null)
 				if (inv.mainInventory[index].getItem() instanceof IElectricItem)
 					if (stackDemandsEnergy(inv.mainInventory[index]))
-						ints.add(inv.mainInventory[index]);
+						if (!(inv.mainInventory[index].getItem() instanceof ItemWirelessCharger))
+							ints.add(inv.mainInventory[index]);
 		}
 		for (int index = 0; index < inv.armorInventory.length; index++) {
 			if (inv.armorInventory[index] != null)
 				if (inv.armorInventory[index].getItem() instanceof IElectricItem)
 					if (stackDemandsEnergy(inv.armorInventory[index]))
 						ints.add(inv.armorInventory[index]);
+		}
+		for (int index = 0; index < inv.mainInventory.length; index++) {
+			if (inv.mainInventory[index] != null)
+				if (inv.mainInventory[index].getItem() instanceof IElectricItem)
+					if (stackDemandsEnergy(inv.mainInventory[index]))
+						if (inv.mainInventory[index].getItem() instanceof ItemWirelessCharger)
+							ints.add(inv.mainInventory[index]);
 		}
 		return (ItemStack[]) ints.toArray(new ItemStack[ints.size()]);
 	}
@@ -124,10 +178,12 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 		if (!par2World.isRemote) {
 			Cooldownable.onUpdate(par1ItemStack, FREQUENCY_CHANGE_COOLDOWN);
 			NBTHelper.checkNBT(par1ItemStack);
+			if (!NBTHelper.verifyKey(par1ItemStack, FREQUENCY_NBT))
+				NBTHelper.setInteger(par1ItemStack, FREQUENCY_NBT, 0);
 			if (par3Entity instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) par3Entity;
 				WChargerEntry entry = new WChargerEntry(player, par1ItemStack,
-				        0);
+				        NBTHelper.getInteger(par1ItemStack, FREQUENCY_NBT));
 				WirelessPowerSynchronizerRegistry.instance.registryChargers
 				        .add(entry);
 			}
@@ -150,17 +206,14 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 	        ItemStack stack) {
 		if (!player.worldObj.isRemote) {
 			if (getElectricItems(player.inventory).length > 0) {
-				return chargeItems(player.inventory,
-				        (int) (amount - (amount * 0.05f)));
+				int energyLoose = (int) (amount * 0.05f);
+				if (ElectricItem.manager.canUse(stack, energyLoose)) {
+					ElectricItem.manager.use(stack, energyLoose, player);
+					return chargeItems(player.inventory, amount);
+				}
 			} else {
 				return amount;
 			}
-			// System.out.println("Accept energy");
-			// System.out.println("Amount: " + amount);
-			// System.out.println("Player: " + player);
-			// System.out.println("Stack: " + stack);
-			// player.attackEntityFrom(DamageSource.causePlayerDamage(player),
-			// 1);
 		}
 		return amount;
 	}
