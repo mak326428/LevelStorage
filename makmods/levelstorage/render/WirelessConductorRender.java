@@ -12,7 +12,10 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class WirelessConductorRender extends TileEntitySpecialRenderer {
 
 	public ConductorModel model = new ConductorModel();
@@ -23,7 +26,7 @@ public class WirelessConductorRender extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z,
-			float scale) {
+	        float scale) {
 		// The PushMatrix tells the renderer to "start" doing something.
 
 		GL11.glPushMatrix();
@@ -33,14 +36,14 @@ public class WirelessConductorRender extends TileEntitySpecialRenderer {
 		// as your other blocks here.
 		// BIND TEXTURE HERE
 		FMLClientHandler.instance().getClient().renderEngine
-				.func_110577_a(ClientProxy.CONDUCTOR_MODEL);
+		        .func_110577_a(ClientProxy.CONDUCTOR_MODEL);
 		// This rotation part is very important! Without it, your model will
 		// render upside-down! And for some reason you DO need PushMatrix again!
 		GL11.glPushMatrix();
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		// A reference to your Model file. Again, very important.
 		this.model
-				.render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		        .render((Entity) null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		// Tell it to stop rendering for both the PushMatrix's
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
@@ -52,11 +55,11 @@ public class WirelessConductorRender extends TileEntitySpecialRenderer {
 				if (cnd.safePair != null) {
 					if (cnd.safePair.getDimId() == cnd.getDimId()) {
 						EnergyRayFX p = new EnergyRayFX(cnd.worldObj,
-								cnd.getX(), cnd.getY(), cnd.getZ(),
-								cnd.safePair.getX(), cnd.safePair.getY(),
-								cnd.safePair.getZ(), 48, 141, 255, 10);
+						        cnd.getX(), cnd.getY(), cnd.getZ(),
+						        cnd.safePair.getX(), cnd.safePair.getY(),
+						        cnd.safePair.getZ(), 48, 141, 255, 10);
 						ModLoader.getMinecraftInstance().effectRenderer
-								.addEffect(p);
+						        .addEffect(p);
 					}
 				}
 			}

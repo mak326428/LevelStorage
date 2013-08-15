@@ -60,6 +60,7 @@ public class ModItems {
 				if (!Modifier.isPrivate(f.getModifiers())) {
 					try {
 						Class c = f.getType();
+						//System.out.println(c.getName());
 						f.set(ModItems.instance, c.newInstance());
 					} catch (ClassCastException e) {
 					} catch (Exception e) {

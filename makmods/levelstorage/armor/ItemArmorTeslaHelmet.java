@@ -13,20 +13,19 @@ import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
-import makmods.levelstorage.entity.EntityTeslaRay;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.logic.LSDamageSource;
+import makmods.levelstorage.network.PacketTeslaRay;
+import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.render.EnergyRayFX;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumArmorMaterial;
@@ -45,8 +44,11 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+//import makmods.levelstorage.render.EnergyRayFX;
 
 public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
         IMetalArmor, IElectricItem {
@@ -80,16 +82,6 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		        Integer.valueOf(10000));
 		potionRemovalCost.put(Integer.valueOf(Potion.wither.id),
 		        Integer.valueOf(25000));
-	}
-
-	public static void onTeslaRayImpact(EntityTeslaRay ray,
-	        EntityPlayer shootingEntity, double posX, double posY, double posZ) {
-		if (!ray.worldObj.isRemote) {
-			// the problem is that ray renders on client side, but we do need to
-			// invoke it on server side (or simulated server side, for
-			// singleplayer, which !remote does
-
-		}
 	}
 
 	public static ItemStack playerGetArmor(EntityPlayer p) {
@@ -156,14 +148,21 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 					x = mop.blockX;
 					y = mop.blockY;
 					z = mop.blockZ;
-					if (LevelStorage.getSide().isClient()) {
-						EnergyRayFX p = new EnergyRayFX(world, player.posX,
-						        player.posY, player.posZ, x, y, z, 48, 141,
-						        255, 40);
-						Minecraft.getMinecraft().effectRenderer.addEffect(p);
 
-					}
+					// EnergyRayFX p = new EnergyRayFX(world, player.posX,
+					// player.posY, player.posZ, x, y, z, 48, 141, 255, 40);
 					if (!world.isRemote) {
+						PacketTeslaRay packet = new PacketTeslaRay();
+						packet.initX = player.posX;
+						packet.initY = player.posY;
+						packet.initZ = player.posZ;
+						packet.tX = x;
+						packet.tY = y;
+						packet.tZ = z;
+						PacketDispatcher.sendPacketToAllAround(player.posX,
+						        player.posY, player.posZ, 128.0F,
+						        world.provider.dimensionId,
+						        PacketTypeHandler.populatePacket(packet));
 						ArrayList<Object> entities = new ArrayList<Object>();
 						for (Object e : world.loadedEntityList) {
 							if (!(e instanceof EntityPlayer)) {
@@ -204,11 +203,11 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 			}
 		}
 		if (!world.isRemote) {
-			if (player.getFoodStats().getFoodLevel() < 8) {
+			if (player.getFoodStats().getFoodLevel() < 18) {
 				if (ElectricItem.manager.canUse(itemStack, FOOD_COST)) {
 					ElectricItem.manager.use(itemStack, FOOD_COST, player);
 					player.getFoodStats().setFoodLevel(20);
-					player.getFoodStats().setFoodSaturationLevel(10F);
+					player.getFoodStats().setFoodSaturationLevel(40F);
 				}
 			}
 			if (player.getAir() < 100) {

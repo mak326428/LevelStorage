@@ -6,15 +6,10 @@ import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.ModTileEntities;
 import makmods.levelstorage.armor.ArmorTicker;
-import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
-import makmods.levelstorage.logic.uumsystem.UUMHelper;
-import makmods.levelstorage.logic.uumsystem.UUMRecipeParser;
 import makmods.levelstorage.registry.XpStackRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLLog;
@@ -25,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 
 public class CommonProxy {
 
-	public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
+	//public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
 
 	public static final int ARMOR_STORAGE = 8 * 1000 * 1000;
 
@@ -72,13 +67,13 @@ public class CommonProxy {
 			LevelStorage.detectedGT = true;
 			XpStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
-		UUMRecipeParser.instance.init();
-		ItemStack[] inputs = UUMHelper.getUUMRecipe(new ItemStack(
-		        Item.redstone, 24));
-		System.out.println(inputs.length);
-		for (ItemStack input : inputs) {
-			System.out.println(Helper.getNiceStackName(input));
-		}
+		//UUMRecipeParser.instance.init();
+		//ItemStack[] inputs = UUMHelper.getUUMRecipe(new ItemStack(
+		//        Item.redstone, 24));
+		//System.out.println(inputs.length);
+		//for (ItemStack input : inputs) {
+		//	System.out.println(Helper.getNiceStackName(input));
+		//}
 	}
 
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {

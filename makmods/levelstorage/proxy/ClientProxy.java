@@ -1,12 +1,10 @@
 package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.ModBlocks;
-import makmods.levelstorage.entity.EntityTeslaRay;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
 import makmods.levelstorage.render.MassInfuserRender;
 import makmods.levelstorage.render.RenderSuperconductorCable;
-import makmods.levelstorage.render.RenderTeslaRay;
 import makmods.levelstorage.render.WirelessConductorRender;
 import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -59,19 +57,13 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
 	public static final ResourceLocation MASS_INFUSER_MODEL = getResourceLocation("model/MassInfuserModel.png");
-	// public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE =
-	// "/textures/models/armor/supersonic_2.png";
-	// public static final String ARMOR_LEVITATION_BOOTS_TEXTURE =
-	// "/textures/models/armor/supersonic_1.png";
-	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/supersonic_2.png";
-	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/supersonic_1.png";
+	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_layer_2.png";
+	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/textures/models/armor/supersonic_layer_1.png";
 
 	// Custom renders
 	public static final int CABLE_RENDER_ID = RenderingRegistry
 	        .getNextAvailableRenderId();
 	public static final String TESLA_RAY_1 = "misc/tesla.png";
-
-	
 
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
@@ -104,8 +96,8 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(
 		        ModBlocks.instance.blockWlessConductor.blockID,
 		        new ItemWirelessConductorRender());
-		RenderingRegistry.registerEntityRenderingHandler(EntityTeslaRay.class,
-		        new RenderTeslaRay());
+		//RenderingRegistry.registerEntityRenderingHandler(EntityTeslaRay.class,
+		//        new RenderTeslaRay());
 		RenderingRegistry.registerBlockHandler(new RenderSuperconductorCable());
 		// MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}
