@@ -2,10 +2,14 @@ package makmods.levelstorage.item;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
 
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.NBTHelper;
 import makmods.levelstorage.logic.NBTHelper.Cooldownable;
 import makmods.levelstorage.logic.SimpleMode;
@@ -165,10 +169,15 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 		// TEMPORARY RECIPE
 		Property p = LevelStorage.configuration.get(
 		        Configuration.CATEGORY_GENERAL,
-		        "enableQuantumSaberCraftingRecipe", true);
+		        "enableElectricMagnetCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
-
+			Recipes.advRecipes.addRecipe(new ItemStack(
+			        ModItems.instance.itemElectricMagnet), "crc", "ccc", "ea ",
+			        Character.valueOf('c'), Items.getItem("copperCableItem"),
+			        Character.valueOf('r'), IC2Items.REFINED_IRON, Character
+			                .valueOf('e'), IC2Items.ENERGY_CRYSTAL, Character
+			                .valueOf('a'), IC2Items.BASIC_CIRCUIT);
 		}
 	}
 
