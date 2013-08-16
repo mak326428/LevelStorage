@@ -37,6 +37,10 @@ public class ClientProxy extends CommonProxy {
 	public static final String ENERGETIC_ENRICHED_MATTER_ORB_TEXTURE = getTexturePathFor("itemEnergeticEnrichedMatterOrb");
 	public static final String ELECTRIC_SICKLE_TEXTURE = getTexturePathFor("itemElectricSickle");
 	public static final String QUANTUM_SABER_TEXTURE = getTexturePathFor("itemQuantumSaber");
+	public static final String TIME_ACCELERATOR_TEXTURE = getTexturePathFor("itemTimeAccelerator");
+	public static final String WATERALIER_TEXTURE = getTexturePathFor("itemWateralizer");
+	public static final String QUANTUM_RING_TEXTURE = getTexturePathFor("itemQuantumRing");
+	public static final String ELECTRIC_MAGNET_TEXTURE = getTexturePathFor("itemElectricMagnet");
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");

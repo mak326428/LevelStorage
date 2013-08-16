@@ -154,7 +154,7 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 					if (!world.isRemote) {
 						PacketTeslaRay packet = new PacketTeslaRay();
 						packet.initX = player.posX;
-						packet.initY = player.posY;
+						packet.initY = player.posY + 1.6f;
 						packet.initZ = player.posZ;
 						packet.tX = x;
 						packet.tY = y;

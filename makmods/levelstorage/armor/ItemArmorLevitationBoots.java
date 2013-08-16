@@ -11,7 +11,9 @@ import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
+import makmods.levelstorage.api.BootsFlyingEvent;
 import makmods.levelstorage.api.IFlyArmor;
+import makmods.levelstorage.item.ItemQuantumRing;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.network.PacketFlightUpdate;
 import makmods.levelstorage.network.PacketTypeHandler;
@@ -100,6 +102,12 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 			if (st != null && st.getItem() instanceof IFlyArmor)
 				isFound = true;
 		}
+		
+		for (ItemStack st : inv.mainInventory) {
+			if (st != null)
+				if (st.getItem() instanceof ItemQuantumRing)
+					isFound = true;
+		}
 
 		if (!isFound) {
 			if (!p.worldObj.isRemote) {
@@ -171,8 +179,13 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 					}
 				}
 				if (!world.isRemote) {
-					ElectricItem.manager.use(itemStack, FLYING_ENERGY_PER_TICK,
-					        player);
+					if (!player.capabilities.isCreativeMode) {
+						ElectricItem.manager.use(itemStack,
+						        FLYING_ENERGY_PER_TICK, player);
+
+						MinecraftForge.EVENT_BUS.post(new BootsFlyingEvent(
+						        player, itemStack));
+					}
 				}
 			}
 		} else {

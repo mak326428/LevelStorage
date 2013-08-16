@@ -11,15 +11,18 @@ import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemCompactTeleporter;
+import makmods.levelstorage.item.ItemElectricMagnet;
 import makmods.levelstorage.item.ItemElectricSickle;
 import makmods.levelstorage.item.ItemEnergeticEnrichedMatterOrb;
 import makmods.levelstorage.item.ItemEnhancedDiamondDrill;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.item.ItemLevelStorageBook;
 import makmods.levelstorage.item.ItemPocketRefrigerant;
-import makmods.levelstorage.item.ItemSuperconductor;
-import makmods.levelstorage.item.ItemWirelessCharger;
+import makmods.levelstorage.item.ItemQuantumRing;
 import makmods.levelstorage.item.ItemQuantumSaber;
+import makmods.levelstorage.item.ItemSuperconductor;
+import makmods.levelstorage.item.ItemTimeAccelerator;
+import makmods.levelstorage.item.ItemWirelessCharger;
 import makmods.levelstorage.lib.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -47,6 +50,9 @@ public class ModItems {
 	public ItemWirelessCharger itemWirelessCharger;
 	public ItemElectricSickle itemElectricSickle;
 	public ItemQuantumSaber itemQuantumSaber;
+	public ItemTimeAccelerator itemTimeAccelerator;
+	public ItemQuantumRing itemQuantumRing;
+	public ItemElectricMagnet itemElectricMagnet;
 
 	private int incr = 0;
 
@@ -60,7 +66,7 @@ public class ModItems {
 				if (!Modifier.isPrivate(f.getModifiers())) {
 					try {
 						Class c = f.getType();
-						//System.out.println(c.getName());
+						// System.out.println(c.getName());
 						f.set(ModItems.instance, c.newInstance());
 					} catch (ClassCastException e) {
 					} catch (Exception e) {
