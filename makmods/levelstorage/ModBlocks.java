@@ -5,6 +5,8 @@ import java.util.logging.Level;
 
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockMassInfuser;
+import makmods.levelstorage.block.BlockMultiblockNukeChamber;
+import makmods.levelstorage.block.BlockMultiblockNukeCore;
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
 import makmods.levelstorage.block.BlockXpCharger;
@@ -25,6 +27,9 @@ public class ModBlocks {
 	public BlockWirelessPowerSynchronizer blockWlessPowerSync;
 	public BlockCableSuperconductor blockSuperconductor;
 	public BlockMassInfuser blockMassInfuser;
+	// TODO: maybe reenable later. most probably not.
+	//public BlockMultiblockNukeCore blockMultiblockNukeCore;
+	//public BlockMultiblockNukeChamber blockMultiblockNukeChamber;
 	
 	private ModBlocks() {
 	}

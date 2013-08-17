@@ -6,6 +6,7 @@ import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.ModItems;
 import makmods.levelstorage.ModTileEntities;
 import makmods.levelstorage.armor.ArmorTicker;
+import makmods.levelstorage.inventory.InventoryNetTicker;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
 import makmods.levelstorage.registry.XpStackRegistry;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +21,7 @@ import cpw.mods.fml.relauncher.Side;
 
 public class CommonProxy {
 
-	//public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
+	// public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
 
 	public static final int ARMOR_STORAGE = 8 * 1000 * 1000;
 
@@ -38,6 +39,8 @@ public class CommonProxy {
 		ModFluids.instance.init();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
 		TickRegistry.registerTickHandler(new ArmorTicker(), Side.SERVER);
+		TickRegistry.registerTickHandler(InventoryNetTicker.instance,
+		        Side.SERVER);
 		/*
 		 * if (Loader.isModLoaded("AppliedEnergistics")) {
 		 * FMLLog.info("Applied Energistics detected. Enabling compatibility.");
@@ -67,13 +70,13 @@ public class CommonProxy {
 			LevelStorage.detectedGT = true;
 			XpStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
-		//UUMRecipeParser.instance.init();
-		//ItemStack[] inputs = UUMHelper.getUUMRecipe(new ItemStack(
-		//        Item.redstone, 24));
-		//System.out.println(inputs.length);
-		//for (ItemStack input : inputs) {
-		//	System.out.println(Helper.getNiceStackName(input));
-		//}
+		// UUMRecipeParser.instance.init();
+		// ItemStack[] inputs = UUMHelper.getUUMRecipe(new ItemStack(
+		// Item.redstone, 24));
+		// System.out.println(inputs.length);
+		// for (ItemStack input : inputs) {
+		// System.out.println(Helper.getNiceStackName(input));
+		// }
 	}
 
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {

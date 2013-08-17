@@ -19,6 +19,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -113,8 +114,8 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 				if (ElectricItem.manager.canUse(par1ItemStack, ENERGY_PER_TICK)) {
 					boolean used = false;
 					for (Object obj : par2World.loadedEntityList) {
-						if (obj instanceof EntityItem) {
-							EntityItem item = (EntityItem) obj;
+						if (obj instanceof EntityItem || obj instanceof EntityXPOrb) {
+							Entity item = (Entity) obj;
 							double distanceX = Math.abs(par3Entity.posX
 							        - item.posX);
 							double distanceY = Math.abs(par3Entity.posY

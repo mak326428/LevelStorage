@@ -46,6 +46,8 @@ public class ClientProxy extends CommonProxy {
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
 	public static final String WIRELESS_POWER_SYNC_TEXTURE = getTexturePathFor("blockWirelessPSync");
 	public static final String BLOCK_SUPERCONDUCTOR_TEXTURE = getTexturePathFor("blockSuperconductorCable");
+	public static final String MULTINUKE_CORE_TEXTURE = getTexturePathFor("blockMultinukeCore");
+	public static final String MULTINUKE_CHAMBER_TEXTURE = getTexturePathFor("blockMultinukeChamber");
 
 	// Fluids
 	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
@@ -68,6 +70,7 @@ public class ClientProxy extends CommonProxy {
 	public static final int CABLE_RENDER_ID = RenderingRegistry
 	        .getNextAvailableRenderId();
 	public static final String TESLA_RAY_1 = "misc/tesla.png";
+
 
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
