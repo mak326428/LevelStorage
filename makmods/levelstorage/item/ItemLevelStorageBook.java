@@ -3,9 +3,9 @@ package makmods.levelstorage.item;
 import java.util.List;
 import java.util.logging.Level;
 
-import makmods.levelstorage.ExperienceRecipe;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModItems;
+import makmods.levelstorage.logic.ExperienceRecipe;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;

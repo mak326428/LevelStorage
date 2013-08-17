@@ -1,7 +1,9 @@
-package makmods.levelstorage;
+package makmods.levelstorage.logic;
 
 import java.util.ArrayList;
 
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModItems;
 import makmods.levelstorage.api.XpStack;
 import makmods.levelstorage.item.ItemLevelStorageBook;
 import makmods.levelstorage.registry.XpStackRegistry;

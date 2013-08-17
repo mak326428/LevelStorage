@@ -54,26 +54,28 @@ public class LevelStorage {
 	public void preInit(FMLPreInitializationEvent event) {
 		FMLLog.info(Reference.MOD_NAME + ": Pre-Initialization...");
 		Configuration config = new Configuration(
-				event.getSuggestedConfigurationFile());
+		        event.getSuggestedConfigurationFile());
 		configuration = config;
 		configuration.load();
 		LevelStorage.itemLevelStorageBookSpace = config.get(
-				Configuration.CATEGORY_GENERAL, "bookCapacity",
-				2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2) // 16384
-				.getInt();
+		        Configuration.CATEGORY_GENERAL, "bookCapacity",
+		        2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2) // 16384
+		        .getInt();
 		Property p = config.get(Configuration.CATEGORY_GENERAL,
-				"chargerOnlyUsesUUM", true);
+		        "chargerOnlyUsesUUM", true);
 		p.comment = "If set to true, chargers will consume UUM and only UUM (they will refuse to receive any energy), if set to false, chargers will receive energy and only energy (no UUM)";
 		LevelStorage.chargerOnlyUUM = p.getBoolean(true);
 
 		Property p2 = config.get(Configuration.CATEGORY_GENERAL,
-				"experienceRecipesEnabled", true);
+		        "experienceRecipesEnabled", true);
 		p2.comment = "Whether or not experience recipes are enabled";
-		
+		LevelStorage.experienceRecipesOn = p2.getBoolean(true);
+
 		Property p3 = config.get(Configuration.CATEGORY_GENERAL,
-				"fancyGraphics", false);
+		        "fancyGraphics", false);
 		p3.comment = "Whether or not fancy graphics for various energy rays are enabled";
-		LevelStorage.fancyGraphics = p3.getBoolean(false);
+		LevelStorage.fancyGraphics = p3.getBoolean(true);
+
 	}
 
 	@EventHandler

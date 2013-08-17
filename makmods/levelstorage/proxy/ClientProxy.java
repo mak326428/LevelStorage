@@ -2,10 +2,13 @@ package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.lib.Reference;
+import makmods.levelstorage.render.InventoryProviderRender;
+import makmods.levelstorage.render.ItemInventoryProviderRender;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
 import makmods.levelstorage.render.MassInfuserRender;
 import makmods.levelstorage.render.RenderSuperconductorCable;
 import makmods.levelstorage.render.WirelessConductorRender;
+import makmods.levelstorage.tileentity.TileEntityInventoryProvider;
 import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.Minecraft;
@@ -63,6 +66,8 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
 	public static final ResourceLocation MASS_INFUSER_MODEL = getResourceLocation("model/MassInfuserModel.png");
+	public static final ResourceLocation INV_PROVIDER_MODEL = getResourceLocation("model/ModelProviderTexture.png");
+	
 	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_layer_2.png";
 	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/textures/models/armor/supersonic_layer_1.png";
 
@@ -100,9 +105,15 @@ public class ClientProxy extends CommonProxy {
 		        new WirelessConductorRender());
 		ClientRegistry.bindTileEntitySpecialRenderer(
 		        TileEntityMassInfuser.class, new MassInfuserRender());
+		ClientRegistry.bindTileEntitySpecialRenderer(
+		        TileEntityInventoryProvider.class, new InventoryProviderRender());
+		
 		MinecraftForgeClient.registerItemRenderer(
 		        ModBlocks.instance.blockWlessConductor.blockID,
 		        new ItemWirelessConductorRender());
+		MinecraftForgeClient.registerItemRenderer(
+		        ModBlocks.instance.blockInventoryProvider.blockID,
+		        new ItemInventoryProviderRender());
 		//RenderingRegistry.registerEntityRenderingHandler(EntityTeslaRay.class,
 		//        new RenderTeslaRay());
 		RenderingRegistry.registerBlockHandler(new RenderSuperconductorCable());

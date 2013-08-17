@@ -45,7 +45,11 @@ public class InventoryNet {
 		public HashMap<InventoryMachineType, InventoryMachine> machines = new HashMap<InventoryMachineType, InventoryMachine>();
 
 		public void tick() {
-
+			for (Entry<InventoryMachineType, InventoryMachine> machine : machines.entrySet()) {
+				InventoryMachine m = machine.getValue();
+				if (m != null)
+					m.onSegmentUpdate();
+			}
 		}
 
 		public InventoryMachine[] getMachinesByType(InventoryMachineType type) {

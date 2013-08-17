@@ -11,9 +11,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
- * Used to get access to Items in this mod Currently existing items:
- * itemLevelStorageBook itemAdvScanner itemFreqCard blockXpGen blockXpCharger
- * blockWlessConductor blockWlessPowerSync
+ * Used to get access to Items in this mod Some examples:
+ * <ul>
+ * <li>itemLevelStorageBook - XP Tome</li>
+ * <li>itemAdvScanner - Advanced Scanner</li>
+ * <li>itemFreqCard - Frequency Card</li>
+ * <li>itemCompactTeleporter - Compact Teleporter</li>
+ * <li>itemPocketRefrigerant</li>
+ * <li>blockWlessPSync - Wireless Power Synchronizer</li>
+ * </ul>
+ * And so on and so forth...
  */
 public class ItemAPI {
 	private static Class modItemsClass;
@@ -80,7 +87,7 @@ public class ItemAPI {
 
 		while (it.hasNext()) {
 			Map.Entry<String, Object> current = (Map.Entry<String, Object>) it
-					.next();
+			        .next();
 			String nameCurrent = current.getKey();
 			Object objCurrent = current.getValue();
 

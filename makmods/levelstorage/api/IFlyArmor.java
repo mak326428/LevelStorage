@@ -9,7 +9,7 @@ package makmods.levelstorage.api;
 public interface IFlyArmor {
 	/**
 	 * Should return true
-	 * @return true
+	 * @return <b>true</b>
 	 */
 	public boolean isFlyArmor();
 }
