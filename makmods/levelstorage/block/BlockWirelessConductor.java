@@ -5,10 +5,10 @@ import ic2.api.recipe.Recipes;
 
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModBlocks;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.item.ItemFrequencyCard;
+import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.block.Block;
@@ -23,8 +23,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class BlockWirelessConductor extends BlockContainer {
@@ -34,7 +32,7 @@ public class BlockWirelessConductor extends BlockContainer {
 
 	public BlockWirelessConductor() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
@@ -46,23 +44,18 @@ public class BlockWirelessConductor extends BlockContainer {
 	}
 
 	public static void addCraftingRecipe() {
-		Property p = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"enableWirelessConductorCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
-			ItemStack transformerHv = Items.getItem("hvTransformer");
-			ItemStack advCircuit = Items.getItem("advancedCircuit");
-			ItemStack advMachine = Items.getItem("advancedMachine");
-			ItemStack enderPearl = new ItemStack(Item.enderPearl);
-			Recipes.advRecipes.addRecipe(new ItemStack(
-					ModBlocks.instance.blockWlessConductor), "tmt", "cec",
-					"chc", Character.valueOf('t'), frequencyTr, Character
-							.valueOf('e'), enderPearl, Character.valueOf('c'),
-					advCircuit, Character.valueOf('h'), transformerHv,
-					Character.valueOf('m'), advMachine);
-		}
+		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
+		ItemStack transformerHv = Items.getItem("hvTransformer");
+		ItemStack advCircuit = Items.getItem("advancedCircuit");
+		ItemStack advMachine = Items.getItem("advancedMachine");
+		ItemStack enderPearl = new ItemStack(Item.enderPearl);
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.blockWlessConductor), "tmt", "cec", "chc",
+		        Character.valueOf('t'), frequencyTr, Character.valueOf('e'),
+		        enderPearl, Character.valueOf('c'), advCircuit, Character
+		                .valueOf('h'), transformerHv, Character.valueOf('m'),
+		        advMachine);
+
 	}
 
 	private Icon down;
@@ -122,12 +115,12 @@ public class BlockWirelessConductor extends BlockContainer {
 				float rz = rand.nextFloat() * 0.8F + 0.1F;
 
 				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
-						+ rz, new ItemStack(item.itemID, item.stackSize,
-						item.getItemDamage()));
+				        + rz, new ItemStack(item.itemID, item.stackSize,
+				        item.getItemDamage()));
 
 				if (item.hasTagCompound()) {
 					entityItem.getEntityItem().setTagCompound(
-							(NBTTagCompound) item.getTagCompound().copy());
+					        (NBTTagCompound) item.getTagCompound().copy());
 				}
 
 				float factor = 0.05F;
@@ -142,19 +135,19 @@ public class BlockWirelessConductor extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
+	        EntityPlayer player, int par6, float par7, float par8, float par9) {
 		if (!world.isRemote) {
 			ItemStack stack = player.inventory.getCurrentItem();
 			boolean isEmptyCard = false;
 			if (stack != null) {
-				ItemFrequencyCard.verifyStack(stack);
-				if (stack.itemID == ModItems.instance.itemFreqCard.itemID) {
+				NBTHelper.checkNBT(stack);
+				if (stack.itemID == LSBlockItemList.itemFreqCard.itemID) {
 					isEmptyCard = !ItemFrequencyCard.hasCardData(stack);
 				}
 			}
 			if (isEmptyCard) {
 				LevelStorage.proxy.messagePlayer(player, "Card data set",
-						new Object[0]);
+				        new Object[0]);
 				return false;
 			}
 		}
@@ -163,7 +156,7 @@ public class BlockWirelessConductor extends BlockContainer {
 		else {
 			if (!world.isRemote) {
 				TileEntityWirelessConductor tileWirelessConductor = (TileEntityWirelessConductor) world
-						.getBlockTileEntity(x, y, z);
+				        .getBlockTileEntity(x, y, z);
 				if (tileWirelessConductor != null) {
 					player.openGui(LevelStorage.instance, 52, world, x, y, z);
 				}

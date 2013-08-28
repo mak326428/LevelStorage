@@ -3,7 +3,7 @@ package makmods.levelstorage.registry;
 import java.util.ArrayList;
 
 import makmods.levelstorage.item.ItemWirelessCharger;
-import makmods.levelstorage.logic.BlockLocation;
+import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

@@ -19,8 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class BlockMassInfuser extends BlockContainer {
@@ -42,13 +40,6 @@ public class BlockMassInfuser extends BlockContainer {
 	}
 
 	public static void addCraftingRecipe() {
-		Property p = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"enableMassInfuserCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			// TODO: add recipe
-		}
 	}
 
 	private Icon down;

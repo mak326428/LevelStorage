@@ -1,7 +1,6 @@
 package makmods.levelstorage.logic;
 
 import ic2.api.item.ElectricItem;
-import makmods.levelstorage.api.BootsFlyingEvent;
 import makmods.levelstorage.item.ItemPocketRefrigerant;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;

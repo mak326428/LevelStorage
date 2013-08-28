@@ -9,11 +9,13 @@ import ic2.api.recipe.Recipes;
 import java.util.HashMap;
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.api.BootsFlyingEvent;
 import makmods.levelstorage.api.IFlyArmor;
+import makmods.levelstorage.item.ItemCraftingIngredients;
 import makmods.levelstorage.item.ItemQuantumRing;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.network.PacketFlightUpdate;
 import makmods.levelstorage.network.PacketTypeHandler;
@@ -21,7 +23,6 @@ import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -57,7 +58,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	public ItemArmorLevitationBoots() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
 		        LevelStorage.getAndIncrementCurrId()).getInt(),
-		        EnumArmorMaterial.DIAMOND, 5, 3);
+		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 3);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
@@ -88,7 +89,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 			}
 		}
 	}
-
+	
 	public static HashMap<EntityPlayer, Boolean> onGroundMap = new HashMap<EntityPlayer, Boolean>();
 	private float jumpCharge;
 
@@ -102,7 +103,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 			if (st != null && st.getItem() instanceof IFlyArmor)
 				isFound = true;
 		}
-		
+
 		for (ItemStack st : inv.mainInventory) {
 			if (st != null)
 				if (st.getItem() instanceof ItemQuantumRing)
@@ -196,12 +197,13 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-	        int layer) {
-		return ClientProxy.ARMOR_LEVITATION_BOOTS_TEXTURE;
-	}
+	/*
+	 * @Override
+	 * 
+	 * @SideOnly(Side.CLIENT) public String getArmorTexture(ItemStack stack,
+	 * Entity entity, int slot, int layer) { return
+	 * ClientProxy.ARMOR_LEVITATION_BOOTS_TEXTURE; }
+	 */
 
 	public static void addCraftingRecipe() {
 		Property p = LevelStorage.configuration.get(
@@ -209,12 +211,22 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 		        "enableLevitationBootsCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemLevitationBoots), "iii", "iqi",
-			        "lil", Character.valueOf('i'), Items
-			                .getItem("iridiumPlate"), Character.valueOf('q'),
-			        Items.getItem("quantumBoots"), Character.valueOf('l'),
-			        new ItemStack(ModItems.instance.itemStorageFourMillion));
+			if (LevelStorage.recipesHardmode) {
+				Recipes.advRecipes.addRecipe(new ItemStack(
+						LSBlockItemList.itemLevitationBoots), "iii", "iqi",
+				        "lil", Character.valueOf('i'),
+				        ItemCraftingIngredients.instance.getIngredient(3),
+				        Character.valueOf('q'), Items.getItem("quantumBoots"),
+				        Character.valueOf('l'), new ItemStack(
+				        		LSBlockItemList.itemStorageFourMillion));
+			} else {
+				Recipes.advRecipes.addRecipe(new ItemStack(
+						LSBlockItemList.itemLevitationBoots), "iii", "iqi",
+				        "lil", Character.valueOf('i'), IC2Items.IRIDIUM_PLATE,
+				        Character.valueOf('q'), Items.getItem("quantumBoots"),
+				        Character.valueOf('l'), new ItemStack(
+				        		LSBlockItemList.itemStorageFourMillion));
+			}
 		}
 	}
 

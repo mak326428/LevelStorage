@@ -7,12 +7,12 @@ import ic2.api.recipe.Recipes;
 
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.NBTHelper;
-import makmods.levelstorage.logic.NBTHelper.Cooldownable;
-import makmods.levelstorage.logic.SimpleMode;
+import makmods.levelstorage.logic.util.NBTHelper;
+import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
+import makmods.levelstorage.logic.util.SimpleMode;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -25,8 +25,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -114,7 +112,8 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 				if (ElectricItem.manager.canUse(par1ItemStack, ENERGY_PER_TICK)) {
 					boolean used = false;
 					for (Object obj : par2World.loadedEntityList) {
-						if (obj instanceof EntityItem || obj instanceof EntityXPOrb) {
+						if (obj instanceof EntityItem
+						        || obj instanceof EntityXPOrb) {
 							Entity item = (Entity) obj;
 							double distanceX = Math.abs(par3Entity.posX
 							        - item.posX);
@@ -167,19 +166,13 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 	}
 
 	public static void addCraftingRecipe() {
-		// TEMPORARY RECIPE
-		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableElectricMagnetCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemElectricMagnet), "crc", "ccc", "ea ",
-			        Character.valueOf('c'), Items.getItem("copperCableItem"),
-			        Character.valueOf('r'), IC2Items.REFINED_IRON, Character
-			                .valueOf('e'), IC2Items.ENERGY_CRYSTAL, Character
-			                .valueOf('a'), IC2Items.BASIC_CIRCUIT);
-		}
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.itemElectricMagnet), "crc", "ccc", "ea ",
+		        Character.valueOf('c'), Items.getItem("copperCableItem"),
+		        Character.valueOf('r'), IC2Items.REFINED_IRON, Character
+		                .valueOf('e'), IC2Items.ENERGY_CRYSTAL, Character
+		                .valueOf('a'), IC2Items.BASIC_CIRCUIT);
+
 	}
 
 	@Override

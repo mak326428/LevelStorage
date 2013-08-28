@@ -5,8 +5,8 @@ import ic2.api.recipe.Recipes;
 
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import net.minecraft.block.Block;
@@ -21,9 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,7 +33,7 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 
 	public BlockWirelessPowerSynchronizer() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
@@ -51,20 +49,15 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 	public ItemStack advMachine = Items.getItem("advancedMachine");
 
 	public static void addCraftingRecipe() {
-		Property p = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"enableWirelessPSyncCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			ItemStack sync = new ItemStack(
-					ModBlocks.instance.blockWlessPowerSync, 4);
-			ItemStack advCircuit = Items.getItem("advancedCircuit");
-			ItemStack advMachine = Items.getItem("advancedMachine");
-			Recipes.advRecipes.addRecipe(sync, "ccc", "ama", "ccc",
-					Character.valueOf('a'), advCircuit, Character.valueOf('c'),
-					new ItemStack(ModBlocks.instance.blockWlessConductor),
-					Character.valueOf('m'), advMachine);
-		}
+		ItemStack sync = new ItemStack(LSBlockItemList.blockWlessPowerSync,
+		        4);
+		ItemStack advCircuit = Items.getItem("advancedCircuit");
+		ItemStack advMachine = Items.getItem("advancedMachine");
+		Recipes.advRecipes.addRecipe(sync, "ccc", "ama", "ccc",
+		        Character.valueOf('a'), advCircuit, Character.valueOf('c'),
+		        new ItemStack(LSBlockItemList.blockWlessConductor),
+		        Character.valueOf('m'), advMachine);
+
 	}
 
 	@Override
@@ -100,12 +93,12 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 				float rz = rand.nextFloat() * 0.8F + 0.1F;
 
 				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
-						+ rz, new ItemStack(item.itemID, item.stackSize,
-						item.getItemDamage()));
+				        + rz, new ItemStack(item.itemID, item.stackSize,
+				        item.getItemDamage()));
 
 				if (item.hasTagCompound()) {
 					entityItem.getEntityItem().setTagCompound(
-							(NBTTagCompound) item.getTagCompound().copy());
+					        (NBTTagCompound) item.getTagCompound().copy());
 				}
 
 				float factor = 0.05F;
@@ -120,13 +113,13 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
+	        EntityPlayer player, int par6, float par7, float par8, float par9) {
 		if (player.isSneaking())
 			return false;
 		else {
 			if (!world.isRemote) {
 				TileEntityWirelessPowerSynchronizer tileWirelessSync = (TileEntityWirelessPowerSynchronizer) world
-						.getBlockTileEntity(x, y, z);
+				        .getBlockTileEntity(x, y, z);
 				if (tileWirelessSync != null) {
 					player.openGui(LevelStorage.instance, 53, world, x, y, z);
 				}
@@ -146,9 +139,9 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 		if (orientation == ForgeDirection.UP)
 			return this.up;
 		if (orientation == ForgeDirection.NORTH
-				|| orientation == ForgeDirection.WEST
-				|| orientation == ForgeDirection.SOUTH
-				|| orientation == ForgeDirection.EAST)
+		        || orientation == ForgeDirection.WEST
+		        || orientation == ForgeDirection.SOUTH
+		        || orientation == ForgeDirection.EAST)
 			return this.side;
 		return null;
 	}
@@ -157,11 +150,11 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		this.side = iconRegister
-				.registerIcon(ClientProxy.WIRELESS_POWER_SYNC_TEXTURE + "Side");
+		        .registerIcon(ClientProxy.WIRELESS_POWER_SYNC_TEXTURE + "Side");
 		this.up = iconRegister
-				.registerIcon(ClientProxy.WIRELESS_POWER_SYNC_TEXTURE + "Up");
+		        .registerIcon(ClientProxy.WIRELESS_POWER_SYNC_TEXTURE + "Up");
 		this.down = iconRegister
-				.registerIcon(ClientProxy.WIRELESS_POWER_SYNC_TEXTURE + "Down");
+		        .registerIcon(ClientProxy.WIRELESS_POWER_SYNC_TEXTURE + "Down");
 	}
 
 	@Override

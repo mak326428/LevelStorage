@@ -6,13 +6,10 @@ import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -22,8 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -53,42 +48,20 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 		this.setMaxStackSize(1);
 	}
 
-	public static <K, V extends Comparable<V>> Map<K, V> sortByValues(
-	        final Map<K, V> map) {
-		Comparator<K> valueComparator = new Comparator<K>() {
-			public int compare(K k1, K k2) {
-				int compare = map.get(k2).compareTo(map.get(k1));
-				if (compare == 0)
-					return 1;
-				else
-					return compare;
-			}
-		};
-		Map<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);
-		sortedByValues.putAll(map);
-		return sortedByValues;
-	}
-
 	public static void addCraftingRecipe() {
-		// Scanner
-		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableAdvScannerCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			ItemStack ovScanner = Items.getItem("ovScanner");
-			ItemStack uum = Items.getItem("matter");
-			ItemStack energyCrystal = Items.getItem("energyCrystal");
-			ItemStack advCircuit = Items.getItem("advancedCircuit");
-			ItemStack glassFiber = Items.getItem("glassFiberCableItem");
-			ItemStack advScanner = new ItemStack(
-			        ModItems.instance.itemAdvScanner);
-			Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
-			        Character.valueOf('u'), uum, Character.valueOf('g'),
-			        glassFiber, Character.valueOf('a'), advCircuit,
-			        Character.valueOf('c'), energyCrystal,
-			        Character.valueOf('s'), ovScanner);
-		}
+
+		ItemStack ovScanner = Items.getItem("ovScanner");
+		ItemStack uum = Items.getItem("matter");
+		ItemStack energyCrystal = Items.getItem("energyCrystal");
+		ItemStack advCircuit = Items.getItem("advancedCircuit");
+		ItemStack glassFiber = Items.getItem("glassFiberCableItem");
+		ItemStack advScanner = new ItemStack(LSBlockItemList.itemAdvScanner);
+		Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
+		        Character.valueOf('u'), uum, Character.valueOf('g'),
+		        glassFiber, Character.valueOf('a'), advCircuit,
+		        Character.valueOf('c'), energyCrystal, Character.valueOf('s'),
+		        ovScanner);
+
 	}
 
 	public static void verifyStack(ItemStack stack) {
@@ -237,7 +210,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	@Override
 	public int getTransferLimit(ItemStack itemStack) {
-		return 200;
+		return 2000;
 	}
 
 	@Override

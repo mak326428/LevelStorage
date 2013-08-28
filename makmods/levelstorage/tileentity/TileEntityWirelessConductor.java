@@ -8,25 +8,21 @@ import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.tile.IWrenchable;
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.item.ItemFrequencyCard;
-import makmods.levelstorage.logic.BlockLocation;
-import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.logic.LSDamageSource;
-import makmods.levelstorage.network.PacketParticles;
-import makmods.levelstorage.network.PacketTypeHandler;
+import makmods.levelstorage.logic.util.BlockLocation;
+import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.registry.IWirelessConductor;
 import makmods.levelstorage.registry.WirelessConductorRegistry;
-import makmods.levelstorage.render.EnergyRayFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.src.ModLoader;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.Configuration;
@@ -34,7 +30,6 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class TileEntityWirelessConductor extends TileEntity implements
 		IWirelessConductor, IInventory, IEnergyTile, IEnergySink, IWrenchable,
@@ -66,7 +61,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 
 	@Override
 	public ItemStack getWrenchDrop(EntityPlayer p) {
-		return new ItemStack(ModBlocks.instance.blockWlessConductor);
+		return new ItemStack(LSBlockItemList.blockWlessConductor);
 	}
 
 	@Override
@@ -254,16 +249,9 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		ItemStack stack = this.inv[0];
 		if (stack != null) {
 			if (ItemFrequencyCard.isValid(stack)) {
-				int x = stack.stackTagCompound
-						.getInteger(ItemFrequencyCard.NBT_X_POS);
-				int y = stack.stackTagCompound
-						.getInteger(ItemFrequencyCard.NBT_Y_POS);
-				int z = stack.stackTagCompound
-						.getInteger(ItemFrequencyCard.NBT_Z_POS);
-				int dimId = stack.stackTagCompound
-						.getInteger(ItemFrequencyCard.NBT_DIM_ID);
-				WorldServer world = DimensionManager.getWorld(dimId);
-				TileEntity te = world.getBlockTileEntity(x, y, z);
+				BlockLocation devLocation = BlockLocation.readFromNBT(stack.stackTagCompound);
+				WorldServer world = DimensionManager.getWorld(devLocation.getDimId());
+				TileEntity te = world.getBlockTileEntity(devLocation.getX(), devLocation.getY(), devLocation.getZ());
 				if (te != null) {
 					if (te instanceof IWirelessConductor) {
 						if (te != this) {
@@ -287,31 +275,6 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	@Override
 	public void updateEntity() {
 		this.particleTime++;
-		/*if (this.particleTime > 40) {
-
-			if (ENABLE_PARTICLES) {
-				for (int i = 0; i < 180; i++) {
-					PacketParticles packet = new PacketParticles();
-					packet.name = "enchantmenttable";
-					packet.x = this.xCoord + Math.sin(i);
-					packet.z = this.zCoord + Math.cos(i);
-
-					packet.x += Helper.isNumberNegative(this.xCoord) ? +0.5F
-							: -0.5F;
-					packet.z += Helper.isNumberNegative(this.zCoord) ? -0.5F
-							: +0.5F;
-
-					packet.y = this.yCoord + 2F;
-					packet.velX = 0F;
-					packet.velZ = 0F;
-					packet.velY = -0.5F;
-					PacketDispatcher.sendPacketToAllInDimension(
-							PacketTypeHandler.populatePacket(packet),
-							this.worldObj.provider.dimensionId);
-				}
-			}
-			this.particleTime = 0;
-		}*/
 		if (!this.addedToENet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			this.addedToENet = true;

@@ -8,8 +8,8 @@ import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.item.Items;
 import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.gui.SlotBook;
 import makmods.levelstorage.item.ItemLevelStorageBook;
 import makmods.levelstorage.registry.XpStackRegistry;
@@ -114,7 +114,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 
 	@Override
 	public ItemStack getWrenchDrop(EntityPlayer p) {
-		return new ItemStack(ModBlocks.instance.blockXpCharger);
+		return new ItemStack(LSBlockItemList.blockXpCharger);
 	}
 
 	@Override

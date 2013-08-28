@@ -2,18 +2,16 @@ package makmods.levelstorage.item;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
-import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.NBTHelper;
-import makmods.levelstorage.logic.NBTHelper.Cooldownable;
+import makmods.levelstorage.logic.util.NBTHelper;
+import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
 import makmods.levelstorage.proxy.ClientProxy;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -23,8 +21,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -56,19 +52,14 @@ public class ItemTimeAccelerator extends Item implements IElectricItem {
 	}
 
 	public static void addCraftingRecipe() {
-		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableTimeAcceleratorCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemTimeAccelerator), "iii", "ses",
-			        "iii", Character.valueOf('i'), IC2Items.IRIDIUM_PLATE
-			                .copy(), Character.valueOf('e'), new ItemStack(
-			                ModItems.instance.itemStorageFourMillion).copy(),
-			        Character.valueOf('s'), new ItemStack(
-			                ModItems.instance.itemSuperconductor).copy());
-		}
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.itemTimeAccelerator), "iii", "ses", "iii",
+		        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE.copy(),
+		        Character.valueOf('e'), new ItemStack(
+		                LSBlockItemList.itemStorageFourMillion).copy(),
+		        Character.valueOf('s'), new ItemStack(
+		                LSBlockItemList.itemSuperconductor).copy());
+
 	}
 
 	@Override
@@ -78,13 +69,9 @@ public class ItemTimeAccelerator extends Item implements IElectricItem {
 			if (Cooldownable.use(par1ItemStack, TURN_ON_OFF_COOLDOWN)) {
 				NBTHelper.setBoolean(par1ItemStack, NBT_ON,
 				        !NBTHelper.getBoolean(par1ItemStack, NBT_ON));
-				LevelStorage.proxy
-				        .messagePlayer(
-				                par3EntityPlayer,
-				                "Active: "
-				                        + (NBTHelper.getBoolean(par1ItemStack,
-				                                NBT_ON) ? "yes" : "no"),
-				                new Object[0]);
+				LevelStorage.proxy.messagePlayer(par3EntityPlayer, "Active: "
+				        + (NBTHelper.getBoolean(par1ItemStack, NBT_ON) ? "yes"
+				                : "no"), new Object[0]);
 			}
 		}
 		return par1ItemStack;

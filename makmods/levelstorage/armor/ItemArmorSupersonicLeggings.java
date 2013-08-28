@@ -3,14 +3,14 @@ package makmods.levelstorage.armor;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.item.IMetalArmor;
-import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
 import java.util.HashMap;
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
+import makmods.levelstorage.item.ItemCraftingIngredients;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -18,12 +18,10 @@ import makmods.levelstorage.proxy.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -36,7 +34,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorSupersonicLeggings extends ItemArmor implements
-		ISpecialArmor, IMetalArmor, IElectricItem {
+        ISpecialArmor, IMetalArmor, IElectricItem {
 
 	public static final String UNLOCALIZED_NAME = "armorSupersonicLeggings";
 	public static final String NAME = "Supersonic Leggings";
@@ -47,8 +45,8 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 
 	public ItemArmorSupersonicLeggings() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(),
-				EnumArmorMaterial.DIAMOND, 5, 2);
+		        LevelStorage.getAndIncrementCurrId()).getInt(),
+		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 2);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
@@ -58,19 +56,20 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 		this.setMaxStackSize(1);
 	}
 
+	
 	public static HashMap<EntityPlayer, Integer> speedTickerMap = new HashMap<EntityPlayer, Integer>();
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
-			ItemStack itemStack) {
+	        ItemStack itemStack) {
 		if (!speedTickerMap.containsKey(player))
 			speedTickerMap.put(player, 0);
 		float speed = 0.66F;
 		if ((ElectricItem.manager.canUse(itemStack, 1000))
-				&& ((player.onGround) || (player.isInWater()))
-				&& (player.isSprinting())) {
+		        && ((player.onGround) || (player.isInWater()))
+		        && (player.isSprinting())) {
 			int speedTicker = speedTickerMap.containsKey(player) ? ((Integer) speedTickerMap
-					.get(player)).intValue() : 0;
+			        .get(player)).intValue() : 0;
 			speedTicker++;
 
 			if (speedTicker >= 10) {
@@ -91,26 +90,47 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 		}
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-			int layer) {
-		return ClientProxy.ARMOR_SUPERSONIC_LEGGINGS_TEXTURE;
-	}
+	/*
+	 * @Override
+	 * 
+	 * @SideOnly(Side.CLIENT) public String getArmorTexture(ItemStack stack,
+	 * Entity entity, int slot, int layer) { return
+	 * ClientProxy.ARMOR_SUPERSONIC_LEGGINGS_TEXTURE; }
+	 */
 
 	public static void addCraftingRecipe() {
 		Property p = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"enableSupersonicLeggingsCraftingRecipe", true);
+		        Configuration.CATEGORY_GENERAL,
+		        "enableSupersonicLeggingsCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-					ModItems.instance.itemSupersonicLeggings), "ggg", "iqi",
-					"lil", Character.valueOf('g'), new ItemStack(
-							Block.glowStone), Character.valueOf('i'),
-					IC2Items.IRIDIUM_PLATE, Character.valueOf('q'),
-					IC2Items.QUANTUM_LEGGINGS, Character.valueOf('l'),
-					new ItemStack(ModItems.instance.itemStorageFourMillion));
+			if (LevelStorage.recipesHardmode) {
+				Recipes.advRecipes.addRecipe(new ItemStack(
+						LSBlockItemList.itemSupersonicLeggings), "ggg",
+				        "iqi", "lil", Character.valueOf('g'), new ItemStack(
+				                Block.glowStone), Character.valueOf('i'),
+				        ItemCraftingIngredients.instance.getIngredient(3),
+				        Character.valueOf('q'), IC2Items.QUANTUM_LEGGINGS,
+				        Character.valueOf('l'), new ItemStack(
+				        		LSBlockItemList.itemStorageFourMillion));
+			} else {
+				Recipes.advRecipes
+				        .addRecipe(
+				                new ItemStack(
+				                		LSBlockItemList.itemSupersonicLeggings),
+				                "ggg",
+				                "iqi",
+				                "lil",
+				                Character.valueOf('g'),
+				                new ItemStack(Block.glowStone),
+				                Character.valueOf('i'),
+				                IC2Items.IRIDIUM_PLATE,
+				                Character.valueOf('q'),
+				                IC2Items.QUANTUM_LEGGINGS,
+				                Character.valueOf('l'),
+				                new ItemStack(
+				                		LSBlockItemList.itemStorageFourMillion));
+			}
 		}
 	}
 
@@ -123,23 +143,23 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
-				.registerIcon(ClientProxy.SUPERSONIC_LEGGINGS_TEXTURE);
+		        .registerIcon(ClientProxy.SUPERSONIC_LEGGINGS_TEXTURE);
 	}
 
 	public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player,
-			ItemStack armor, DamageSource source, double damage, int slot) {
+	        ItemStack armor, DamageSource source, double damage, int slot) {
 		if (source.isUnblockable())
 			return new ISpecialArmor.ArmorProperties(0, 0.0D, 0);
 
 		double absorptionRatio = getBaseAbsorptionRatio()
-				* getDamageAbsorptionRatio();
+		        * getDamageAbsorptionRatio();
 		int energyPerDamage = ENERGY_PER_DAMAGE;
 
 		int damageLimit = energyPerDamage > 0 ? 25
-				* ElectricItem.manager.getCharge(armor) / energyPerDamage : 0;
+		        * ElectricItem.manager.getCharge(armor) / energyPerDamage : 0;
 
 		return new ISpecialArmor.ArmorProperties(0, absorptionRatio,
-				damageLimit);
+		        damageLimit);
 	}
 
 	private double getBaseAbsorptionRatio() {
@@ -151,15 +171,15 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 	}
 
 	public void damageArmor(EntityLivingBase entity, ItemStack stack,
-			DamageSource source, int damage, int slot) {
+	        DamageSource source, int damage, int slot) {
 		ElectricItem.manager.discharge(stack, damage * ENERGY_PER_DAMAGE,
-				2147483647, true, false);
+		        2147483647, true, false);
 	}
 
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
 		if (ElectricItem.manager.getCharge(armor) >= ENERGY_PER_DAMAGE) {
 			return (int) Math.round(20.0D * getBaseAbsorptionRatio()
-					* getDamageAbsorptionRatio());
+			        * getDamageAbsorptionRatio());
 		}
 		return 0;
 	}
@@ -196,10 +216,10 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
-			List par3List) {
+	        List par3List) {
 		ItemStack var4 = new ItemStack(this, 1);
 		ElectricItem.manager.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE,
-				true, false);
+		        true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
 

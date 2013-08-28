@@ -7,15 +7,15 @@ import ic2.api.recipe.Recipes;
 
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
+import makmods.levelstorage.item.ItemCraftingIngredients;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,7 +52,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	public ItemArmorForcefieldChestplate() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
 		        LevelStorage.getAndIncrementCurrId()).getInt(),
-		        EnumArmorMaterial.DIAMOND, 5, 1);
+		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 1);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
@@ -163,26 +163,39 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 		 */
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-	        int layer) {
-		return ClientProxy.ARMOR_LEVITATION_BOOTS_TEXTURE;
-	}
-
 	public static void addCraftingRecipe() {
 		Property p = LevelStorage.configuration.get(
 		        Configuration.CATEGORY_GENERAL,
 		        "enableForcefieldChestplateCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemArmorForcefieldChestplate), "ttt",
-			        "iqi", "lil", Character.valueOf('t'), IC2Items.TESLA_COIL,
-			        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
-			                .valueOf('q'), IC2Items.QUANTUM_CHESTPLATE,
-			        Character.valueOf('l'), new ItemStack(
-			                ModItems.instance.itemStorageFourMillion));
+			if (LevelStorage.recipesHardmode) {
+				Recipes.advRecipes.addRecipe(new ItemStack(
+						LSBlockItemList.itemArmorForcefieldChestplate),
+				        "ttt", "iqi", "lil", Character.valueOf('t'),
+				        IC2Items.TESLA_COIL, Character.valueOf('i'),
+				        ItemCraftingIngredients.instance.getIngredient(3),
+				        Character.valueOf('q'), IC2Items.QUANTUM_CHESTPLATE,
+				        Character.valueOf('l'), new ItemStack(
+				        		LSBlockItemList.itemStorageFourMillion));
+			} else {
+				Recipes.advRecipes
+				        .addRecipe(
+				                new ItemStack(
+				                		LSBlockItemList.itemArmorForcefieldChestplate),
+				                "ttt",
+				                "iqi",
+				                "lil",
+				                Character.valueOf('t'),
+				                IC2Items.TESLA_COIL,
+				                Character.valueOf('i'),
+				                IC2Items.IRIDIUM_PLATE,
+				                Character.valueOf('q'),
+				                IC2Items.QUANTUM_CHESTPLATE,
+				                Character.valueOf('l'),
+				                new ItemStack(
+				                		LSBlockItemList.itemStorageFourMillion));
+			}
 		}
 	}
 

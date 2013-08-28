@@ -1,109 +1,47 @@
 package makmods.levelstorage.api;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
- * Used to get access to Items in this mod Some examples:
- * <ul>
- * <li>itemLevelStorageBook - XP Tome</li>
- * <li>itemAdvScanner - Advanced Scanner</li>
- * <li>itemFreqCard - Frequency Card</li>
- * <li>itemCompactTeleporter - Compact Teleporter</li>
- * <li>itemPocketRefrigerant</li>
- * <li>blockWlessPSync - Wireless Power Synchronizer</li>
- * </ul>
- * And so on and so forth...
+ * ItemAPI for all the items (and blocks for that matter) inside of
+ * LevelStorage. <br />
  */
 public class ItemAPI {
-	private static Class modItemsClass;
-	private static Class modBlocksClass;
-	private static Object modItemsInstance;
-	private static Object modBlocksInstance;
-	private static Map<String, Object> everythingInClasses = new HashMap<String, Object>();
-
-	private static Map<String, Object> getItemsAndBlocks() {
-		Map<String, Object> objs = new HashMap<String, Object>();
-
-		Field[] items = modItemsClass.getDeclaredFields();
-		Field[] blocks = modBlocksClass.getDeclaredFields();
-
-		for (Field item : items) {
-			if (item.getName() != "instance") {
-				if (!Modifier.isPrivate(item.getModifiers())) {
-					try {
-						objs.put(item.getName(), item.get(modItemsInstance));
-					} catch (Exception e) {
-						APIHelper.logFailure();
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		for (Field block : blocks) {
-			if (block.getName() != "instance") {
-				if (!Modifier.isPrivate(block.getModifiers())) {
-					try {
-						objs.put(block.getName(), block.get(modBlocksInstance));
-					} catch (Exception e) {
-						APIHelper.logFailure();
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-
-		return objs;
-	}
+	private static Class c_LSBlockItemList;
 
 	static {
-		try {
-			modItemsClass = Class.forName("makmods.levelstorage.ModItems");
-			modBlocksClass = Class.forName("makmods.levelstorage.ModBlocks");
-			modItemsInstance = APIHelper.getInstanceFor("ModItems");
-			modBlocksInstance = APIHelper.getInstanceFor("ModBlocks");
-			everythingInClasses = getItemsAndBlocks();
-		} catch (ClassNotFoundException e) {
-			APIHelper.logFailure();
-			e.printStackTrace();
-		}
+		c_LSBlockItemList = APIHelper.getClassByName("LSBlockItemList");
 	}
 
 	/**
-	 * Gets the item (or block)
+	 * Gets item for the name and metadata you specified. <br />
+	 * <b>WARNING: call this after LevelStorage passed its init-phase.</b>
 	 * 
-	 * @return ItemStack for requested Item, if doesn't exist, null.
+	 * @param name
+	 *            Name of the item you wanna access
+	 * @param meta
+	 *            Metadata of the item (set to OreDictionary.WILDCARD_VALUE if
+	 *            you don't care)
+	 * @return ItemStack containing the item you requested, null and report to
+	 *         console if it doesn't exist
 	 */
-	public static ItemStack getItem(String name) {
-
-		Iterator it = everythingInClasses.entrySet().iterator();
-
-		while (it.hasNext()) {
-			Map.Entry<String, Object> current = (Map.Entry<String, Object>) it
-			        .next();
-			String nameCurrent = current.getKey();
-			Object objCurrent = current.getValue();
-
-			if (nameCurrent == name) {
-				if (objCurrent instanceof Block)
-					return new ItemStack((Block) objCurrent);
-				else {
-					if (objCurrent instanceof Item)
-						return new ItemStack((Item) objCurrent);
-				}
-			}
-
-			it.remove();
+	public static ItemStack getItem(String name, int meta) {
+		try {
+			Field f = c_LSBlockItemList.getDeclaredField(name);
+			Object obj = f.get(null);
+			if (obj instanceof Item)
+				return new ItemStack((Item) obj, 1, meta);
+			if (obj instanceof Block)
+				return new ItemStack((Block) obj, 1, meta);
+			return null;
+		} catch (Exception e) {
+			APIHelper.logFailure();
+			e.printStackTrace();
+			return null;
 		}
-
-		return null;
 	}
-
 }

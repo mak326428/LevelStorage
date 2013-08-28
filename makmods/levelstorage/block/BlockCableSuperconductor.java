@@ -6,8 +6,8 @@ import ic2.api.event.RetextureEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.logic.uumsystem.UUMHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntitySuperconductorCable;
@@ -52,7 +52,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3) {
-		return ModItems.instance.itemSuperconductor.itemID;
+		return LSBlockItemList.itemSuperconductor.itemID;
 	}
 
 	@Override

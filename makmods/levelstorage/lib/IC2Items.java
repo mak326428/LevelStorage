@@ -2,6 +2,7 @@ package makmods.levelstorage.lib;
 
 import ic2.api.item.Items;
 import net.minecraft.item.ItemStack;
+
 /**
  * Just an easier access class
  * @author mak326428
@@ -21,4 +22,7 @@ public class IC2Items {
 	public static final ItemStack RE_BATTERY = Items.getItem("reBattery");
 	public static final ItemStack RE_BATTERY_CHARHED = Items.getItem("chargedReBattery");
 	public static final ItemStack REFINED_IRON = Items.getItem("refinedIronIngot");
+	public static final ItemStack ADV_MACHINE = Items.getItem("advancedMachine");
+	public static final ItemStack CARBON_PLATE = Items.getItem("carbonPlate");
+	
 }

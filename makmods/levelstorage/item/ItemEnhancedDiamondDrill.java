@@ -8,16 +8,16 @@ import ic2.api.recipe.Recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.logic.BlockLocation;
 import makmods.levelstorage.logic.DrillEnhancementRecipe;
 import makmods.levelstorage.logic.IC2Access;
-import makmods.levelstorage.logic.NBTHelper;
-import makmods.levelstorage.logic.NBTHelper.Cooldownable;
-import makmods.levelstorage.logic.OreDictHelper;
-import makmods.levelstorage.logic.OreFinder;
+import makmods.levelstorage.logic.util.AdvBlockFinder;
+import makmods.levelstorage.logic.util.BlockLocation;
+import makmods.levelstorage.logic.util.NBTHelper;
+import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
+import makmods.levelstorage.logic.util.OreDictHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -129,11 +129,15 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 			                + Mode.values()[NBTHelper.getInteger(stack,
 			                        MODE_NBT)].name, new Object[0]);
 		} catch (Exception e) {
-			System.out.println(Reference.MOD_NAME + ": something went wrong.");
+			System.out.println(Reference.MOD_NAME
+			        + ": something went wrong when tried to set drill's mode.");
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Drill's onUpdate method. Used only for cooldown
+	 */
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 	        Entity par3Entity, int par4, boolean par5) {
 		if (!par2World.isRemote) {
@@ -144,6 +148,9 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 		}
 	}
 
+	/**
+	 * Drill's onItemRightClick method. Used only for mode change.
+	 */
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 	        EntityPlayer par3EntityPlayer) {
 		if (!par2World.isRemote) {
@@ -165,22 +172,17 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	}
 
 	public static void addCraftingRecipe() {
-		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableEnhancedDiamondDrillCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemEnhDiamondDrill), "cdc", "did",
-			        "aea", Character.valueOf('c'),
-			        Items.getItem("carbonPlate"), Character.valueOf('e'), Items
-			                .getItem("energyCrystal"), Character.valueOf('i'),
-			        Items.getItem("diamondDrill"), Character.valueOf('a'),
-			        Items.getItem("advancedCircuit"), Character.valueOf('d'),
-			        new ItemStack(Item.diamond));
-			CraftingManager.getInstance().getRecipeList()
-			        .add(new DrillEnhancementRecipe());
-		}
+
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.itemEnhDiamondDrill), "cdc", "did", "aea",
+		        Character.valueOf('c'), Items.getItem("carbonPlate"), Character
+		                .valueOf('e'), Items.getItem("energyCrystal"),
+		        Character.valueOf('i'), Items.getItem("diamondDrill"),
+		        Character.valueOf('a'), Items.getItem("advancedCircuit"),
+		        Character.valueOf('d'), new ItemStack(Item.diamond));
+		CraftingManager.getInstance().getRecipeList()
+		        .add(new DrillEnhancementRecipe());
+
 	}
 
 	public static ArrayList<Block> mineableBlocks = new ArrayList<Block>();
@@ -370,15 +372,44 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 				        par7EntityLivingBase);
 			}
 			Block bl = Block.blocksList[par3];
-			if (OreDictHelper.getOreName(new ItemStack(bl)).startsWith("ore")
-			        || blocksOtherThanOres.contains(bl.blockID)) {
-				OreFinder finder = new OreFinder();
-				finder.aimBlockId = bl.blockID;
-				finder.aimBlockMeta = par2World.getBlockMetadata(par4, par5,
-				        par6);
-				finder.world = par2World;
-				finder.calibrate(par4, par5, par6);
-				for (BlockLocation oreCh : finder.foundOre) {
+			/*
+			 * if (OreDictHelper.getOreName(new ItemStack(bl)).startsWith("ore")
+			 * || blocksOtherThanOres.contains(bl.blockID)) { OreFinder finder =
+			 * new OreFinder(); finder.aimBlockId = bl.blockID;
+			 * finder.aimBlockMeta = par2World.getBlockMetadata(par4, par5,
+			 * par6); finder.world = par2World; finder.calibrate(par4, par5,
+			 * par6); for (BlockLocation oreCh : finder.foundOre) { int blockId
+			 * = par2World.getBlockId(oreCh.getX(), oreCh.getY(), oreCh.getZ());
+			 * 
+			 * int blockMeta = par2World.getBlockMetadata(oreCh.getX(),
+			 * oreCh.getY(), oreCh.getZ()); Block b = Block.blocksList[blockId];
+			 * if (b != null) { if (par7EntityLivingBase instanceof
+			 * EntityPlayer) { if (b.getBlockHardness(par2World, oreCh.getX(),
+			 * oreCh.getY(), oreCh.getZ()) != -1.0F) { if
+			 * (b.removeBlockByPlayer(par2World, (EntityPlayer)
+			 * par7EntityLivingBase, oreCh.getX(), oreCh.getY(), oreCh.getZ()))
+			 * {
+			 * 
+			 * if (!silktouch) { b.dropBlockAsItem(par2World, oreCh.getX(),
+			 * oreCh.getY(), oreCh.getZ(), finder.aimBlockMeta, fortune); } else
+			 * { if (b.canSilkHarvest( par2World, (EntityPlayer)
+			 * par7EntityLivingBase, oreCh.getX(), oreCh.getY(), oreCh.getZ(),
+			 * finder.aimBlockMeta)) { ItemStack itemstack = new ItemStack( b,
+			 * 1, finder.aimBlockMeta); if (itemstack != null) {
+			 * this.dropBlockAsItem_do( par2World, oreCh.getX(), oreCh.getY(),
+			 * oreCh.getZ(), itemstack); } } else { b.dropBlockAsItem(par2World,
+			 * oreCh.getX(), oreCh.getY(), oreCh.getZ(), finder.aimBlockMeta,
+			 * fortune); } } } if (ElectricItem.manager.canUse(par1ItemStack,
+			 * ENERGY_PER_USE)) { ElectricItem.manager.use(par1ItemStack,
+			 * ENERGY_PER_USE, par7EntityLivingBase); } else { break; } } } } }
+			 * }
+			 */
+			String name = OreDictHelper.getOreName(new ItemStack(bl));
+			int metadata = par2World.getBlockMetadata(par4, par5, par6);
+			if (name.startsWith("ore")) {
+				AdvBlockFinder finder = new AdvBlockFinder(par2World, par4,
+				        par5, par6, name);
+				for (BlockLocation oreCh : finder.getBlocksFound()) {
 					int blockId = par2World.getBlockId(oreCh.getX(),
 					        oreCh.getY(), oreCh.getZ());
 
@@ -397,17 +428,15 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 									if (!silktouch) {
 										b.dropBlockAsItem(par2World,
 										        oreCh.getX(), oreCh.getY(),
-										        oreCh.getZ(),
-										        finder.aimBlockMeta, fortune);
+										        oreCh.getZ(), metadata, fortune);
 									} else {
 										if (b.canSilkHarvest(
 										        par2World,
 										        (EntityPlayer) par7EntityLivingBase,
 										        oreCh.getX(), oreCh.getY(),
-										        oreCh.getZ(),
-										        finder.aimBlockMeta)) {
+										        oreCh.getZ(), metadata)) {
 											ItemStack itemstack = new ItemStack(
-											        b, 1, finder.aimBlockMeta);
+											        b, 1, metadata);
 											if (itemstack != null) {
 												this.dropBlockAsItem_do(
 												        par2World,
@@ -418,8 +447,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 										} else {
 											b.dropBlockAsItem(par2World,
 											        oreCh.getX(), oreCh.getY(),
-											        oreCh.getZ(),
-											        finder.aimBlockMeta,
+											        oreCh.getZ(), metadata,
 											        fortune);
 										}
 									}

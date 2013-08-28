@@ -7,12 +7,11 @@ import ic2.api.recipe.Recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModBlocks;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.NBTHelper;
-import makmods.levelstorage.logic.NBTHelper.Cooldownable;
+import makmods.levelstorage.logic.util.NBTHelper;
+import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
 import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry.WChargerEntry;
@@ -24,8 +23,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -53,18 +50,14 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 	}
 
 	public static void addCraftingRecipe() {
-		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableWirelessChargerCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemWirelessCharger), "ccc", "ebe",
-			        "eoe", Character.valueOf('c'), IC2Items.ADV_CIRCUIT,
-			        Character.valueOf('e'), new ItemStack(Item.enderPearl),
-			        Character.valueOf('b'), new ItemStack(
-			                ModBlocks.instance.blockWlessPowerSync), Character.valueOf('o'), IC2Items.ENERGY_CRYSTAL);
-		}
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.itemWirelessCharger), "ccc", "ebe", "eoe",
+		        Character.valueOf('c'), IC2Items.ADV_CIRCUIT, Character
+		                .valueOf('e'), new ItemStack(Item.enderPearl),
+		        Character.valueOf('b'), new ItemStack(
+		                LSBlockItemList.blockWlessPowerSync), Character
+		                .valueOf('o'), IC2Items.ENERGY_CRYSTAL);
+
 	}
 
 	/*

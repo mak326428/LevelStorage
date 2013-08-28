@@ -20,7 +20,7 @@ public class APIHelper {
 		FMLLog.log(Level.SEVERE,
 		        "LevelStorage API: failure. It may be caused by either");
 		FMLLog.log(Level.SEVERE,
-		        "by LevelStorage not being installed on your minecraft instance");
+		        "LevelStorage not being installed on your minecraft instance");
 		FMLLog.log(Level.SEVERE, "or mod incorrectly using API.");
 	}
 

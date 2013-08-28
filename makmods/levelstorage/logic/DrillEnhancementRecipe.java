@@ -1,11 +1,10 @@
 package makmods.levelstorage.logic;
 
-import makmods.levelstorage.ModItems;
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.item.ItemEnhancedDiamondDrill;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,7 +41,7 @@ public class DrillEnhancementRecipe implements IRecipe {
 					foundBook = true;
 				}
 
-				if (currentStack.itemID == ModItems.instance.itemEnhDiamondDrill.itemID) {
+				if (currentStack.itemID == LSBlockItemList.itemEnhDiamondDrill.itemID) {
 					if (foundDrill)
 						return null;
 					drill = currentStack;

@@ -4,8 +4,8 @@ import ic2.api.item.Items;
 
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import net.minecraft.block.Block;
@@ -49,7 +49,7 @@ public class BlockXpGenerator extends BlockContainer {
 	private Icon side;
 
 	public static void addCraftingRecipe() {
-		ItemStack blockXpGenStack = new ItemStack(ModBlocks.instance.blockXpGen);
+		ItemStack blockXpGenStack = new ItemStack(LSBlockItemList.blockXpGen);
 		ItemStack machine = Items.getItem("machine");
 		ItemStack generator = Items.getItem("generator");
 		ItemStack refIron = Items.getItem("refinedIronIngot");

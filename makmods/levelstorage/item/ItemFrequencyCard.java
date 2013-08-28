@@ -5,10 +5,10 @@ import ic2.api.recipe.Recipes;
 
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModBlocks;
-import makmods.levelstorage.ModItems;
-import makmods.levelstorage.logic.BlockLocation;
+import makmods.levelstorage.logic.util.BlockLocation;
+import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,19 +23,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemFrequencyCard extends Item {
-
-	public static final String NBT_WAS_USED = "wasUsed";
-	public static final String NBT_DIM_ID = "dimId";
-	public static final String NBT_X_POS = "xPos";
-	public static final String NBT_Y_POS = "yPos";
-	public static final String NBT_Z_POS = "zPos";
-
 	public static final String UNLOCALIZED_NAME = "freqCard";
 	public static final String NAME = "Frequency Card";
 
 	public ItemFrequencyCard() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt());
+		        LevelStorage.getAndIncrementCurrId()).getInt());
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
@@ -48,59 +41,34 @@ public class ItemFrequencyCard extends Item {
 		// Frequency card
 		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
 		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-				ModItems.instance.itemFreqCard), frequencyTr, new ItemStack(
-				Item.paper));
+		        LSBlockItemList.itemFreqCard), frequencyTr, new ItemStack(
+		        Item.paper));
 		// To get rid of card data
 		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-				ModItems.instance.itemFreqCard), new ItemStack(
-				ModItems.instance.itemFreqCard));
+		        LSBlockItemList.itemFreqCard), new ItemStack(
+		        LSBlockItemList.itemFreqCard));
 	}
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		verifyStack(par1ItemStack);
-		if (par1ItemStack.stackTagCompound.getBoolean(NBT_WAS_USED)) {
+	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+		NBTHelper.checkNBT(par1ItemStack);
+		if (par1ItemStack.getTagCompound().hasKey(BlockLocation.BLOCK_LOCATION_NBT)) {
 			boolean isValid = isValid(par1ItemStack);
-			par3List.add("Location: "
-					+ par1ItemStack.stackTagCompound.getInteger(NBT_DIM_ID)
-					+ ";"
-					+ par1ItemStack.stackTagCompound.getInteger(NBT_X_POS)
-					+ ":"
-					+ par1ItemStack.stackTagCompound.getInteger(NBT_Y_POS)
-					+ ":"
-					+ par1ItemStack.stackTagCompound.getInteger(NBT_Z_POS));
+			BlockLocation location = BlockLocation.readFromNBT(par1ItemStack
+			        .getTagCompound());
+			par3List.add("Location: " + location);
 			par3List.add("Is valid: " + (isValid ? "yes" : "no"));
-			// The following is pretty neat, but i dunno if i add it.
-			/*
-			 * if (isValid) { int dimId =
-			 * par1ItemStack.stackTagCompound.getInteger(NBT_DIM_ID); int x =
-			 * par1ItemStack.stackTagCompound.getInteger(NBT_X_POS); int y =
-			 * par1ItemStack.stackTagCompound.getInteger(NBT_Y_POS); int z =
-			 * par1ItemStack.stackTagCompound.getInteger(NBT_Z_POS);
-			 * 
-			 * TileEntity te =
-			 * DimensionManager.getWorld(dimId).getBlockTileEntity(x, y, z); if
-			 * (te instanceof IWirelessConductor) { IWirelessConductor c =
-			 * (IWirelessConductor)te; if
-			 * (WirelessConductorRegistry.instance.isAddedToRegistry(c)) {
-			 * par3List.add("Mode: "); } } }
-			 */
 		}
 	}
 
 	public static boolean isValid(ItemStack stack) {
-		NBTTagCompound cardNBT = stack.getTagCompound();
-
 		if (hasCardData(stack)) {
-			if (BlockLocation.isDimIdValid((cardNBT.getInteger(NBT_DIM_ID)))) {
-				WorldServer w = DimensionManager.getWorld(cardNBT
-						.getInteger(NBT_DIM_ID));
-				int x = cardNBT.getInteger(NBT_X_POS);
-				int y = cardNBT.getInteger(NBT_Y_POS);
-				int z = cardNBT.getInteger(NBT_Z_POS);
+			BlockLocation loc = BlockLocation.readFromNBT(stack.getTagCompound());
+			if (BlockLocation.isDimIdValid(loc.getDimId())) {
+				WorldServer w = DimensionManager.getWorld(loc.getDimId());
 
-				if (w.getBlockId(x, y, z) == ModBlocks.instance.blockWlessConductor.blockID)
+				if (w.getBlockId(loc.getX(), loc.getY(), loc.getZ()) == LSBlockItemList.blockWlessConductor.blockID)
 					return true;
 
 			}
@@ -113,15 +81,15 @@ public class ItemFrequencyCard extends Item {
 	 */
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
+	        EntityPlayer par3EntityPlayer) {
 		if (!par2World.isRemote) {
 			if (par1ItemStack != null) {
 				if (par3EntityPlayer.isSneaking()) {
-					verifyStack(par1ItemStack);
+					NBTHelper.checkNBT(par1ItemStack);
 					if (!isValid(par1ItemStack)) {
 						par1ItemStack = new ItemStack(
-								ModItems.instance.itemFreqCard);
-						verifyStack(par1ItemStack);
+						        LSBlockItemList.itemFreqCard);
+						NBTHelper.checkNBT(par1ItemStack);
 					}
 				}
 			}
@@ -131,20 +99,12 @@ public class ItemFrequencyCard extends Item {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
-			int x, int y, int z, int par7, float par8, float par9, float par10) {
+	        int x, int y, int z, int par7, float par8, float par9, float par10) {
 		if (!world.isRemote) {
-			if (world.getBlockId(x, y, z) == ModBlocks.instance.blockWlessConductor.blockID) {
-				verifyStack(stack);
-				if (!stack.stackTagCompound.getBoolean(NBT_WAS_USED)) {
-					// System.out.println("Setting frequency card up");
-					stack.stackTagCompound.setInteger(NBT_DIM_ID,
-							world.provider.dimensionId);
-					stack.stackTagCompound.setInteger(NBT_X_POS, x);
-					stack.stackTagCompound.setInteger(NBT_Y_POS, y);
-					stack.stackTagCompound.setInteger(NBT_Z_POS, z);
-					stack.stackTagCompound.setBoolean(NBT_WAS_USED, true);
-					return true;
-				}
+			if (world.getBlockId(x, y, z) == LSBlockItemList.blockWlessConductor.blockID) {
+				NBTHelper.checkNBT(stack);
+				BlockLocation loc = new BlockLocation(world.provider.dimensionId, x, y, z);
+				BlockLocation.writeToNBT(stack.stackTagCompound, loc);
 			}
 		}
 		return false;
@@ -152,26 +112,13 @@ public class ItemFrequencyCard extends Item {
 
 	public static boolean hasCardData(ItemStack stack) {
 		NBTTagCompound cardNBT = stack.stackTagCompound;
-		return (cardNBT.getBoolean(NBT_WAS_USED))
-				&& (cardNBT.hasKey(NBT_DIM_ID) && cardNBT.hasKey(NBT_X_POS)
-						&& cardNBT.hasKey(NBT_Y_POS) && cardNBT
-							.hasKey(NBT_Z_POS));
+		return cardNBT.hasKey(BlockLocation.BLOCK_LOCATION_NBT);
 	}
-
-	public static void verifyStack(ItemStack stack) {
-		// Just in case... Whatever!
-		if (stack.stackTagCompound == null) {
-			stack.stackTagCompound = new NBTTagCompound();
-			if (!stack.stackTagCompound.hasKey(NBT_WAS_USED)) {
-				stack.stackTagCompound.setBoolean(NBT_WAS_USED, false);
-			}
-		}
-	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
-				.registerIcon(ClientProxy.FREQUENCY_CARD_TEXTURE);
+		        .registerIcon(ClientProxy.FREQUENCY_CARD_TEXTURE);
 	}
 }

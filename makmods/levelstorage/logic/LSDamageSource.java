@@ -15,6 +15,8 @@ public class LSDamageSource extends DamageSource {
 			"energyFieldKill", "was zapped by a huge impulse of energy."))).setDamageBypassesArmor();
 	public static DamageSource teslaRay = (DamageSource)((new LSDamageSource(
 			"energyFieldKill", "was zapped by a huge impulse of energy caused by a tesla ray."))).setDamageBypassesArmor();
+	public static DamageSource disassembled = (DamageSource)((new LSDamageSource(
+			"disassemble", "was accidentally disassembled into basic elementary atoms."))).setDamageBypassesArmor();
 	
 	private String killMessage;
 

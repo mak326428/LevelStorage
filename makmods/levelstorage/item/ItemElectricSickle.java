@@ -7,10 +7,10 @@ import ic2.api.recipe.Recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.BlockLocation;
+import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTallGrass;
@@ -23,9 +23,7 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -67,7 +65,8 @@ public class ItemElectricSickle extends ItemTool implements IElectricItem {
 
 	public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block) {
 		if (par2Block != null) {
-			if (par2Block.isLeaves(null, 0, 0, 0) || par2Block instanceof IPlantable) {
+			if (par2Block.isLeaves(null, 0, 0, 0)
+			        || par2Block instanceof IPlantable) {
 				return EnumToolMaterial.IRON.getEfficiencyOnProperMaterial();
 			}
 		}
@@ -238,23 +237,18 @@ public class ItemElectricSickle extends ItemTool implements IElectricItem {
 	}
 
 	public static void addCraftingRecipe() {
-		// TEMPORARY RECIPE
-		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableElectricSickleCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemElectricSickle), "  i", "eii", "r  ",
-			        Character.valueOf('i'), IC2Items.REFINED_IRON, Character
-			                .valueOf('e'), IC2Items.BASIC_CIRCUIT, Character
-			                .valueOf('r'), IC2Items.RE_BATTERY);
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemElectricSickle), "  i", "eii", "r  ",
-			        Character.valueOf('i'), IC2Items.REFINED_IRON, Character
-			                .valueOf('e'), IC2Items.BASIC_CIRCUIT, Character
-			                .valueOf('r'), IC2Items.RE_BATTERY_CHARHED);
-		}
+
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.itemElectricSickle), "  i", "eii", "r  ",
+		        Character.valueOf('i'), IC2Items.REFINED_IRON, Character
+		                .valueOf('e'), IC2Items.BASIC_CIRCUIT, Character
+		                .valueOf('r'), IC2Items.RE_BATTERY);
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.itemElectricSickle), "  i", "eii", "r  ",
+		        Character.valueOf('i'), IC2Items.REFINED_IRON, Character
+		                .valueOf('e'), IC2Items.BASIC_CIRCUIT, Character
+		                .valueOf('r'), IC2Items.RE_BATTERY_CHARHED);
+
 	}
 
 	@Override

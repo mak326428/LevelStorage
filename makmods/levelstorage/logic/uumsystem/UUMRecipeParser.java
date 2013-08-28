@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.logic.Helper;
+import makmods.levelstorage.logic.util.Helper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import cpw.mods.fml.common.FMLLog;

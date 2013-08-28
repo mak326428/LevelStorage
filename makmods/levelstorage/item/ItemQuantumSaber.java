@@ -7,8 +7,8 @@ import ic2.api.recipe.Recipes;
 
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -19,8 +19,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -110,20 +108,14 @@ public class ItemQuantumSaber extends Item implements IElectricItem {
 	}
 
 	public static void addCraftingRecipe() {
-		// TEMPORARY RECIPE
-		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableQuantumSaberCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemQuantumSaber), "ai ", "ai ", "cnl",
-			        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
-			                .valueOf('a'), IC2Items.ADV_ALLOY, Character
-			                .valueOf('c'), IC2Items.ADV_CIRCUIT, Character
-			                .valueOf('l'), IC2Items.LAPOTRON_CRYSTAL, Character
-			                .valueOf('n'), Items.getItem("nanoSaber"));
-		}
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.itemQuantumSaber), "ai ", "ai ", "cnl",
+		        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
+		                .valueOf('a'), IC2Items.ADV_ALLOY, Character
+		                .valueOf('c'), IC2Items.ADV_CIRCUIT, Character
+		                .valueOf('l'), IC2Items.LAPOTRON_CRYSTAL, Character
+		                .valueOf('n'), Items.getItem("nanoSaber"));
+
 	}
 
 	@Override

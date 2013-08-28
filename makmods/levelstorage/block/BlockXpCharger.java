@@ -4,8 +4,8 @@ import ic2.api.item.Items;
 
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModBlocks;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.block.Block;
@@ -21,7 +21,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -35,7 +34,7 @@ public class BlockXpCharger extends BlockContainer {
 
 	public BlockXpCharger() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
@@ -51,21 +50,19 @@ public class BlockXpCharger extends BlockContainer {
 	public static void addCraftingRecipe() {
 
 		ItemStack blockXpChargerStack = new ItemStack(
-				ModBlocks.instance.blockXpCharger);
-		ItemStack blockXpGenStack = new ItemStack(ModBlocks.instance.blockXpGen);
+		        LSBlockItemList.blockXpCharger);
+		ItemStack blockXpGenStack = new ItemStack(LSBlockItemList.blockXpGen);
 		ItemStack machine = Items.getItem("machine");
 		ItemStack generator = Items.getItem("generator");
 		ItemStack refIron = Items.getItem("refinedIronIngot");
 		ItemStack goldIngot = new ItemStack(Item.ingotGold);
 		ItemStack advMachine = Items.getItem("advancedMachine");
-		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
-				"enableChargerRecipe", true).getBoolean(true)) {
-			GameRegistry.addRecipe(blockXpChargerStack, "iai", "geg", "imi",
-					Character.valueOf('i'), refIron, Character.valueOf('g'),
-					goldIngot, Character.valueOf('a'), advMachine,
-					Character.valueOf('m'), machine, Character.valueOf('e'),
-					blockXpGenStack);
-		}
+		GameRegistry.addRecipe(blockXpChargerStack, "iai", "geg", "imi",
+		        Character.valueOf('i'), refIron, Character.valueOf('g'),
+		        goldIngot, Character.valueOf('a'), advMachine,
+		        Character.valueOf('m'), machine, Character.valueOf('e'),
+		        blockXpGenStack);
+
 	}
 
 	public ItemStack advMachine = Items.getItem("advancedMachine");
@@ -83,14 +80,14 @@ public class BlockXpCharger extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
+	        EntityPlayer player, int par6, float par7, float par8, float par9) {
 
 		if (player.isSneaking())
 			return false;
 		else {
 			if (!world.isRemote) {
 				TileEntityXpCharger tileXpCharger = (TileEntityXpCharger) world
-						.getBlockTileEntity(x, y, z);
+				        .getBlockTileEntity(x, y, z);
 				if (tileXpCharger != null) {
 					player.openGui(LevelStorage.instance, 51, world, x, y, z);
 				}
@@ -118,12 +115,12 @@ public class BlockXpCharger extends BlockContainer {
 				float rz = rand.nextFloat() * 0.8F + 0.1F;
 
 				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
-						+ rz, new ItemStack(item.itemID, item.stackSize,
-						item.getItemDamage()));
+				        + rz, new ItemStack(item.itemID, item.stackSize,
+				        item.getItemDamage()));
 
 				if (item.hasTagCompound()) {
 					entityItem.getEntityItem().setTagCompound(
-							(NBTTagCompound) item.getTagCompound().copy());
+					        (NBTTagCompound) item.getTagCompound().copy());
 				}
 
 				float factor = 0.05F;
@@ -155,9 +152,9 @@ public class BlockXpCharger extends BlockContainer {
 		if (orientation == ForgeDirection.UP)
 			return this.up;
 		if (orientation == ForgeDirection.NORTH
-				|| orientation == ForgeDirection.WEST
-				|| orientation == ForgeDirection.SOUTH
-				|| orientation == ForgeDirection.EAST)
+		        || orientation == ForgeDirection.WEST
+		        || orientation == ForgeDirection.SOUTH
+		        || orientation == ForgeDirection.EAST)
 			return this.side;
 		return null;
 	}
@@ -166,10 +163,10 @@ public class BlockXpCharger extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		this.side = iconRegister.registerIcon(ClientProxy.XP_CHARGER_TEXTURE
-				+ "Side");
+		        + "Side");
 		this.up = iconRegister.registerIcon(ClientProxy.XP_CHARGER_TEXTURE
-				+ "Up");
+		        + "Up");
 		this.down = iconRegister.registerIcon(ClientProxy.XP_CHARGER_TEXTURE
-				+ "Down");
+		        + "Down");
 	}
 }

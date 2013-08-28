@@ -3,7 +3,7 @@ package makmods.levelstorage.render;
 import java.util.List;
 
 import makmods.levelstorage.logic.LSDamageSource;
-import makmods.levelstorage.logic.RenderHelper;
+import makmods.levelstorage.logic.util.RenderHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
@@ -157,7 +157,7 @@ public class EnergyRayFX extends EntityFX {
 	public void renderParticle(Tessellator tessellator, float f, float f1,
 	        float f2, float f3, float f4, float f5) {
 		tessellator.draw();
-
+		GL11.glPushMatrix();
 		GL11.glPushMatrix();
 		float var9 = 1.0F;
 		float slide = (float) this.worldObj.getWorldTime();
@@ -245,6 +245,7 @@ public class EnergyRayFX extends EntityFX {
 		tessellator.startDrawingQuads();
 		this.prevSize = size;
 		GL11.glDisable(2884);
+		GL11.glPopMatrix();
 	}
 
 	public void renderImpact(Tessellator tessellator, float f, float f1,
@@ -253,9 +254,6 @@ public class EnergyRayFX extends EntityFX {
 		GL11.glDepthMask(false);
 		GL11.glEnable(3042);
 		GL11.glBlendFunc(770, 1);
-
-		// UtilsFX.bindTexture("/mods/thaumcraft/textures/misc/particles.png");
-		// RenderHelper.bindTexture(ClientProxy.TESLA_PARTICLES_TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.66F);
 		int part = this.particleAge % 16;

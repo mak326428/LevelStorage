@@ -8,12 +8,8 @@ import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.tile.IWrenchable;
-
-import java.util.ArrayList;
-
-import makmods.levelstorage.ModBlocks;
-import makmods.levelstorage.logic.BlockLocation;
-import makmods.levelstorage.logic.Helper;
+import makmods.levelstorage.LSBlockItemList;
+import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.registry.IWirelessPowerSync;
 import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
@@ -138,7 +134,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 
 	@Override
 	public ItemStack getWrenchDrop(EntityPlayer p) {
-		return new ItemStack(ModBlocks.instance.blockWlessPowerSync);
+		return new ItemStack(LSBlockItemList.blockWlessPowerSync);
 	}
 
 	@Override

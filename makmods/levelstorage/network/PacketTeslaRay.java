@@ -7,10 +7,11 @@ import java.io.IOException;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.render.EnergyRayFX;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class PacketTeslaRay extends PacketLV {
 
@@ -44,7 +45,8 @@ public class PacketTeslaRay extends PacketLV {
 		dos.writeDouble(tY);
 		dos.writeDouble(tZ);
 	}
-
+	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void execute(INetworkManager network, Player player) {
 		if (LevelStorage.getSide().isClient()) {

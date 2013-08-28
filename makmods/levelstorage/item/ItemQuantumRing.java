@@ -9,17 +9,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.api.BootsFlyingEvent;
 import makmods.levelstorage.armor.ItemArmorForcefieldChestplate;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.logic.LSDamageSource;
+import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.network.PacketTeslaRay;
 import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -38,9 +38,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.Property;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -475,25 +473,36 @@ public class ItemQuantumRing extends Item implements IElectricItem {
 	}
 
 	public static void addCraftingRecipe() {
-		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableQuantumRingCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
+		if (LevelStorage.recipesHardmode) {
 			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemQuantumRing), "hic", "iei", "bil",
+			        LSBlockItemList.itemQuantumRing), "hic", "iei", "bil",
+			        Character.valueOf('i'), ItemCraftingIngredients.instance
+			                .getIngredient(3), Character.valueOf('e'),
+			        new ItemStack(LSBlockItemList.itemStorageFourMillion),
+			        Character.valueOf('h'), new ItemStack(
+			                LSBlockItemList.itemArmorTeslaHelmet), Character
+			                .valueOf('c'), new ItemStack(
+			                LSBlockItemList.itemArmorForcefieldChestplate),
+			        Character.valueOf('b'), new ItemStack(
+			                LSBlockItemList.itemLevitationBoots), Character
+			                .valueOf('l'), new ItemStack(
+			                LSBlockItemList.itemSupersonicLeggings));
+		} else {
+			Recipes.advRecipes.addRecipe(new ItemStack(
+			        LSBlockItemList.itemQuantumRing), "hic", "iei", "bil",
 			        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE.copy(),
 			        Character.valueOf('e'), new ItemStack(
-			                ModItems.instance.itemStorageFourMillion),
+			                LSBlockItemList.itemStorageFourMillion),
 			        Character.valueOf('h'), new ItemStack(
-			                ModItems.instance.itemArmorTeslaHelmet), Character
+			                LSBlockItemList.itemArmorTeslaHelmet), Character
 			                .valueOf('c'), new ItemStack(
-			                ModItems.instance.itemArmorForcefieldChestplate),
+			                LSBlockItemList.itemArmorForcefieldChestplate),
 			        Character.valueOf('b'), new ItemStack(
-			                ModItems.instance.itemLevitationBoots), Character
+			                LSBlockItemList.itemLevitationBoots), Character
 			                .valueOf('l'), new ItemStack(
-			                ModItems.instance.itemSupersonicLeggings));
+			                LSBlockItemList.itemSupersonicLeggings));
 		}
+
 	}
 
 	@Override

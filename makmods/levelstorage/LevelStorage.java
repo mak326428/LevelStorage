@@ -1,11 +1,14 @@
 package makmods.levelstorage;
 
+import makmods.levelstorage.api.ItemAPI;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.lib.Reference;
+import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -20,9 +23,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
+//@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "Forge@[9.10.0.804,);required-after:IC2")
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "required-after:IC2@[1.118.401-lf,)")
 @NetworkMod(channels = { Reference.MOD_ID }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class LevelStorage {
 
@@ -38,6 +43,9 @@ public class LevelStorage {
 	public static boolean experienceRecipesOn;
 	public static int currentIds = 250;
 	public static boolean fancyGraphics;
+	public static boolean recipesHardmode = false;
+	
+	public static final String RECIPES_CATEGORY = "recipes";
 
 	public static boolean detectedGT = false;
 
@@ -76,11 +84,22 @@ public class LevelStorage {
 		p3.comment = "Whether or not fancy graphics for various energy rays are enabled";
 		LevelStorage.fancyGraphics = p3.getBoolean(true);
 
+		Property p4 = config.get(Configuration.CATEGORY_GENERAL, "hardRecipes",
+		        false);
+		p4.comment = "If set to true, armors (and other) will require hard-to-get materials (f.e. full set of armor will require 72 stacks of UUM)";
+		LevelStorage.recipesHardmode = p4.getBoolean(false);
+	}
+
+	public static boolean isSimulating() {
+		return !FMLCommonHandler.instance().getEffectiveSide().isClient();
 	}
 
 	@EventHandler
 	public void serverStarting(FMLServerStartingEvent event) {
+		// Clearing all the stuff, so we don't occasionally do bad things
+		// like wasting energy for nothing.
 		WirelessPowerSynchronizerRegistry.instance.registry.clear();
+		WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
 		ItemArmorSupersonicLeggings.speedTickerMap.clear();
 		ItemArmorLevitationBoots.onGroundMap.clear();
 	}
@@ -88,6 +107,7 @@ public class LevelStorage {
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event) {
 		WirelessPowerSynchronizerRegistry.instance.registry.clear();
+		WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
 		ItemArmorSupersonicLeggings.speedTickerMap.clear();
 		ItemArmorLevitationBoots.onGroundMap.clear();
 	}
@@ -102,6 +122,7 @@ public class LevelStorage {
 	public void postInit(FMLPostInitializationEvent event) {
 		FMLLog.info(Reference.MOD_NAME + ": Post-Initialization...");
 		proxy.postInit();
+		ItemStack stack = ItemAPI.getItem("itemFreqCard", 0);
 	}
 
 	public static Side getSide() {

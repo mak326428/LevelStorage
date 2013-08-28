@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
-import makmods.levelstorage.logic.BlockLocation;
-import makmods.levelstorage.logic.OreDictHelper;
+import makmods.levelstorage.logic.util.BlockLocation;
+import makmods.levelstorage.logic.util.OreDictHelper;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;

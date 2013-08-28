@@ -1,16 +1,13 @@
 package makmods.levelstorage.item;
 
-import java.util.List;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.recipe.Recipes;
+
+import java.util.List;
+
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -18,6 +15,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemEnergeticEnrichedMatterOrb extends Item implements
 		IElectricItem {
@@ -43,10 +43,10 @@ public class ItemEnergeticEnrichedMatterOrb extends Item implements
 
 	public static void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
-				ModItems.instance.itemStorageFourMillion), "lsl", "sis", "lsl",
+				LSBlockItemList.itemStorageFourMillion), "lsl", "sis", "lsl",
 				Character.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL, Character
 						.valueOf('s'), new ItemStack(
-						ModItems.instance.itemSuperconductor).copy(), Character
+						LSBlockItemList.itemSuperconductor).copy(), Character
 						.valueOf('i'), IC2Items.IRIDIUM_PLATE);
 	}
 

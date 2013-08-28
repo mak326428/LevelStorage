@@ -11,17 +11,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
+import makmods.levelstorage.item.ItemCraftingIngredients;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.Helper;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.logic.LSDamageSource;
+import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.network.PacketTeslaRay;
 import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
-import makmods.levelstorage.render.EnergyRayFX;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -65,7 +65,7 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 	public ItemArmorTeslaHelmet() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
 		        LevelStorage.getAndIncrementCurrId()).getInt(),
-		        EnumArmorMaterial.DIAMOND, 5, 0);
+		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 0);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
@@ -246,12 +246,13 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		}
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-	        int layer) {
-		return ClientProxy.ARMOR_LEVITATION_BOOTS_TEXTURE;
-	}
+	/*
+	 * @Override
+	 * 
+	 * @SideOnly(Side.CLIENT) public String getArmorTexture(ItemStack stack,
+	 * Entity entity, int slot, int layer) { return
+	 * ClientProxy.ARMOR_LEVITATION_BOOTS_TEXTURE; }
+	 */
 
 	public static void addCraftingRecipe() {
 		Property p = LevelStorage.configuration.get(
@@ -259,13 +260,24 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		        "enableTeslaHelmetCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        ModItems.instance.itemArmorTeslaHelmet), "tit", "iqi",
-			        "lil", Character.valueOf('t'), IC2Items.TESLA_COIL,
-			        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
-			                .valueOf('q'), IC2Items.QUANTUM_HELMET, Character
-			                .valueOf('l'), new ItemStack(
-			                ModItems.instance.itemStorageFourMillion));
+			if (LevelStorage.recipesHardmode) {
+				Recipes.advRecipes.addRecipe(new ItemStack(
+						LSBlockItemList.itemArmorTeslaHelmet), "tit", "iqi",
+				        "lil", Character.valueOf('t'), IC2Items.TESLA_COIL,
+				        Character.valueOf('i'),
+				        ItemCraftingIngredients.instance.getIngredient(3),
+				        Character.valueOf('q'), IC2Items.QUANTUM_HELMET,
+				        Character.valueOf('l'), new ItemStack(
+				        		LSBlockItemList.itemStorageFourMillion));
+			} else {
+				Recipes.advRecipes.addRecipe(new ItemStack(
+						LSBlockItemList.itemArmorTeslaHelmet), "tit", "iqi",
+				        "lil", Character.valueOf('t'), IC2Items.TESLA_COIL,
+				        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE,
+				        Character.valueOf('q'), IC2Items.QUANTUM_HELMET,
+				        Character.valueOf('l'), new ItemStack(
+				        		LSBlockItemList.itemStorageFourMillion));
+			}
 		}
 	}
 

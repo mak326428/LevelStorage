@@ -2,8 +2,8 @@ package makmods.levelstorage.logic;
 
 import java.util.ArrayList;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModItems;
 import makmods.levelstorage.api.XpStack;
 import makmods.levelstorage.item.ItemLevelStorageBook;
 import makmods.levelstorage.registry.XpStackRegistry;
@@ -81,7 +81,7 @@ public class ExperienceRecipe implements IRecipe {
 			return null;
 		if (!seenBook)
 			return null;
-		ItemStack result = new ItemStack(ModItems.instance.itemLevelStorageBook);
+		ItemStack result = new ItemStack(LSBlockItemList.itemLevelStorageBook);
 		result.stackTagCompound = new NBTTagCompound();
 		result.stackTagCompound.setInteger(ItemLevelStorageBook.STORED_XP_NBT,
 				totalXp);

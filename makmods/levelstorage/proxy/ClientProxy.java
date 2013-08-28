@@ -1,14 +1,11 @@
 package makmods.levelstorage.proxy;
 
-import makmods.levelstorage.ModBlocks;
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.render.InventoryProviderRender;
-import makmods.levelstorage.render.ItemInventoryProviderRender;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
 import makmods.levelstorage.render.MassInfuserRender;
 import makmods.levelstorage.render.RenderSuperconductorCable;
 import makmods.levelstorage.render.WirelessConductorRender;
-import makmods.levelstorage.tileentity.TileEntityInventoryProvider;
 import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.Minecraft;
@@ -41,9 +38,12 @@ public class ClientProxy extends CommonProxy {
 	public static final String ELECTRIC_SICKLE_TEXTURE = getTexturePathFor("itemElectricSickle");
 	public static final String QUANTUM_SABER_TEXTURE = getTexturePathFor("itemQuantumSaber");
 	public static final String TIME_ACCELERATOR_TEXTURE = getTexturePathFor("itemTimeAccelerator");
-	public static final String WATERALIER_TEXTURE = getTexturePathFor("itemWateralizer");
 	public static final String QUANTUM_RING_TEXTURE = getTexturePathFor("itemQuantumRing");
 	public static final String ELECTRIC_MAGNET_TEXTURE = getTexturePathFor("itemElectricMagnet");
+	public static final String DESTRUCTOR_TEXTURE = getTexturePathFor("itemDestructor");
+	public static final String ENHANCED_LAPPACK_TEXTURE = getTexturePathFor("itemEnhLappack");
+	public static final String REMOTE_ACESSOR_TEXTURE = getTexturePathFor("itemRemoteAccessor");
+	
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
@@ -51,6 +51,8 @@ public class ClientProxy extends CommonProxy {
 	public static final String BLOCK_SUPERCONDUCTOR_TEXTURE = getTexturePathFor("blockSuperconductorCable");
 	public static final String MULTINUKE_CORE_TEXTURE = getTexturePathFor("blockMultinukeCore");
 	public static final String MULTINUKE_CHAMBER_TEXTURE = getTexturePathFor("blockMultinukeChamber");
+	public static final String ADV_MINER_TEXTURE = getTexturePathFor("blockAdvMiner");
+	public static final String MOLECULAR_HEATER_FACING = getTexturePathFor("blockMolHeaterFacing");
 
 	// Fluids
 	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
@@ -61,6 +63,9 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_CHARGER_NO_UUM = getResourceLocation("gui/chargeroutd.png");
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
 	public static final ResourceLocation GUI_MASS_INFUSER = getResourceLocation("gui/massInfuser.png");
+	public static final ResourceLocation GUI_MOLECULAR_HEATER = getResourceLocation("gui/molecularHeater.png");
+	public static final ResourceLocation GUI_MINER = new ResourceLocation("ic2", "textures/gui/GUIMiner.png");
+
 
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
@@ -70,13 +75,14 @@ public class ClientProxy extends CommonProxy {
 	
 	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_layer_2.png";
 	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/textures/models/armor/supersonic_layer_1.png";
+	public static int ARMOR_SUPERSONIC_RENDER_INDEX;
+	public static int ARMOR_ENHANCED_LAPPACK_RENDER_INDEX;
 
 	// Custom renders
 	public static final int CABLE_RENDER_ID = RenderingRegistry
 	        .getNextAvailableRenderId();
 	public static final String TESLA_RAY_1 = "misc/tesla.png";
-
-
+	
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
 		for (CreativeTabs t : CreativeTabs.creativeTabArray) {
@@ -99,24 +105,20 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void init() {
+		RenderingRegistry.registerBlockHandler(new RenderSuperconductorCable());
+		ARMOR_SUPERSONIC_RENDER_INDEX = RenderingRegistry.addNewArmourRendererPrefix("supersonic");
+		ARMOR_ENHANCED_LAPPACK_RENDER_INDEX = RenderingRegistry.addNewArmourRendererPrefix("enhlappack");
+		
 		super.init();
 		ClientRegistry.bindTileEntitySpecialRenderer(
 		        TileEntityWirelessConductor.class,
 		        new WirelessConductorRender());
 		ClientRegistry.bindTileEntitySpecialRenderer(
 		        TileEntityMassInfuser.class, new MassInfuserRender());
-		ClientRegistry.bindTileEntitySpecialRenderer(
-		        TileEntityInventoryProvider.class, new InventoryProviderRender());
+		MinecraftForgeClient.registerItemRenderer(
+				LSBlockItemList.blockWlessConductor.blockID,
+				new ItemWirelessConductorRender());
 		
-		MinecraftForgeClient.registerItemRenderer(
-		        ModBlocks.instance.blockWlessConductor.blockID,
-		        new ItemWirelessConductorRender());
-		MinecraftForgeClient.registerItemRenderer(
-		        ModBlocks.instance.blockInventoryProvider.blockID,
-		        new ItemInventoryProviderRender());
-		//RenderingRegistry.registerEntityRenderingHandler(EntityTeslaRay.class,
-		//        new RenderTeslaRay());
-		RenderingRegistry.registerBlockHandler(new RenderSuperconductorCable());
 		// MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}
 
