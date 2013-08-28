@@ -226,13 +226,33 @@ public class ItemQuantumRing extends Item implements IElectricItem {
 		        * var21);
 		return par1World.rayTraceBlocks_do_do(var13, var23, par3, !par3);
 	}
+	
+	public void chargeItem(ItemStack stack, ItemStack ring) {
+		if (stack == null)
+			return;
+		if (!(stack.getItem() instanceof IElectricItem))
+			return;
+		IElectricItem item = (IElectricItem)stack.getItem();
+		if (!ElectricItem.manager.canUse(ring, item.getTransferLimit(stack)))
+			return;
+		ElectricItem.manager.discharge(ring, ElectricItem.manager.charge(stack, item.getTransferLimit(stack), 4, false, false), 4, true, false);
+	}
 
 	public void onUpdate(ItemStack itemStack, World world, Entity par3Entity,
 	        int par4, boolean par5) {
 
 		if (par3Entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) par3Entity;
-
+			
+			// CHARGING THE STUFF IN THE INVENTORY
+			InventoryPlayer inv = player.inventory;
+			for (ItemStack stack : inv.mainInventory) {
+				chargeItem(stack, itemStack);
+			}
+			for (ItemStack stack : inv.armorInventory) {
+				chargeItem(stack, itemStack);
+			}
+			// END
 			// CHESTPLATE ABILIIES
 			if (!world.isRemote)
 				player.extinguish();

@@ -2,6 +2,7 @@ package makmods.levelstorage.logic.util;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityAdvancedMiner;
@@ -54,15 +55,39 @@ public class Helper {
 		}
 	}
 
-	public static void dropBlockInWorld_exact(World par1World, double par2,
-	        double par3, double par4, ItemStack par5ItemStack) {
-		if (!par1World.isRemote
-		        && par1World.getGameRules().getGameRuleBooleanValue(
-		                "doTileDrops")) {
-			EntityItem entityitem = new EntityItem(par1World, par2, par3, par4,
-			        par5ItemStack);
+	/**
+	 * Just a shortcut
+	 * 
+	 * @param player
+	 *            Player to message to
+	 * @param message
+	 *            Message
+	 */
+	public static void messagePlayer(EntityPlayer player, String message) {
+		LevelStorage.proxy.messagePlayer(player, message, new Object[0]);
+	}
+
+	/**
+	 * Creates a EntityItem in the world with the given arguments
+	 * 
+	 * @param world
+	 *            World
+	 * @param x
+	 *            X
+	 * @param y
+	 *            Y
+	 * @param z
+	 *            Z
+	 * @param stack
+	 *            Stack to be dropped to the world
+	 */
+	public static void dropBlockInWorld_exact(World world, double x, double y,
+	        double z, ItemStack stack) {
+		if (!world.isRemote
+		        && world.getGameRules().getGameRuleBooleanValue("doTileDrops")) {
+			EntityItem entityitem = new EntityItem(world, x, y, z, stack);
 			entityitem.delayBeforeCanPickup = 0;
-			par1World.spawnEntityInWorld(entityitem);
+			world.spawnEntityInWorld(entityitem);
 		}
 	}
 
@@ -182,8 +207,12 @@ public class Helper {
 			return sb.toString();
 		}
 		sb.append(stack.stackSize);
-		sb.append(" x ");
-		sb.append(stack.getDisplayName());
+		sb.append(" of ");
+		String name = stack.getDisplayName();
+		if (name.endsWith(".name"))
+			sb.append(LanguageRegistry.instance().getStringLocalization(name));
+		else
+			sb.append(stack.getDisplayName());
 		return sb.toString();
 	}
 }

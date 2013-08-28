@@ -2,10 +2,13 @@ package makmods.levelstorage.item;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.recipe.Recipes;
 
 import java.util.List;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.RemotePlayer;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.NBTHelper;
@@ -34,7 +37,13 @@ public class ItemRemoteAccessor extends Item implements IElectricItem {
 	public static final int TIER = 3;
 	public static final int STORAGE = 10000000;
 	public static final int COOLDOWN_PERIOD = 20;
-	public static final int ENERGY_PER_USE = 2000;
+	public static int ENERGY_PER_USE;
+
+	static {
+		ENERGY_PER_USE = LevelStorage.configuration.get(
+		        LevelStorage.BALANCE_CATEGORY, "remoteAccessorEnergyPerUse",
+		        100000).getInt();
+	}
 
 	public ItemRemoteAccessor() {
 		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
@@ -49,7 +58,13 @@ public class ItemRemoteAccessor extends Item implements IElectricItem {
 	}
 
 	public static void addCraftingRecipe() {
-		
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.itemRemoteAccessor), "ccc", "eae", "ppp",
+		        Character.valueOf('p'), IC2Items.CARBON_PLATE.copy(), Character
+		                .valueOf('c'), new ItemStack(
+		                LSBlockItemList.itemStorageFourMillion), Character
+		                .valueOf('a'), IC2Items.ADV_CIRCUIT, Character
+		                .valueOf('e'), new ItemStack(Item.enderPearl));
 	}
 
 	@Override
@@ -109,7 +124,7 @@ public class ItemRemoteAccessor extends Item implements IElectricItem {
 					LevelStorage.proxy
 					        .messagePlayer(
 					                par3EntityPlayer,
-					                "\247cWorld this device is linked to is unloaded completely. You need to chunload it.",
+					                "\247cWorld this device is linked to is unloaded completely. You need to chunkload it.",
 					                new Object[0]);
 					return par1ItemStack;
 				}
@@ -122,11 +137,19 @@ public class ItemRemoteAccessor extends Item implements IElectricItem {
 				Block b = Block.blocksList[w.getBlockId(location.getX(),
 				        location.getY(), location.getZ())];
 				if (b != null) {
-					// TODO: is the 6th argument side or metadata?
-					b.onBlockActivated(w, location.getX(), location.getY(),
-					        location.getZ(), par3EntityPlayer,
-					        ForgeDirection.UP.ordinal(), 0, 0, 0);
-					return par1ItemStack;
+					if (ElectricItem.manager.canUse(par1ItemStack,
+					        ENERGY_PER_USE)) {
+						ElectricItem.manager.use(par1ItemStack, ENERGY_PER_USE,
+						        par3EntityPlayer);
+						b.onBlockActivated(w, location.getX(), location.getY(),
+						        location.getZ(), par3EntityPlayer,
+						        ForgeDirection.UP.ordinal(), 0, 0, 0);
+						return par1ItemStack;
+					} else {
+						LevelStorage.proxy.messagePlayer(par3EntityPlayer,
+						        "\247cOut of energy.", new Object[0]);
+						return par1ItemStack;
+					}
 				}
 				LevelStorage.proxy.messagePlayer(par3EntityPlayer,
 				        "\247cUnknown error.", new Object[0]);

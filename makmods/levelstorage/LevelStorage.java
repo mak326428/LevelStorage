@@ -45,7 +45,7 @@ public class LevelStorage {
 	public static int currentIds = 250;
 	public static boolean fancyGraphics;
 	public static boolean recipesHardmode = false;
-	
+	public static final String BALANCE_CATEGORY = "balance";
 	public static final String RECIPES_CATEGORY = "recipes";
 
 	public static boolean detectedGT = false;

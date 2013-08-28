@@ -33,7 +33,7 @@ import makmods.levelstorage.item.ItemWirelessCharger;
 /**
  * Contains all the items and blocks mod has.
  * These are initialized dynamically via {@link ModUniversalInitializer}
- * during init-phase.
+ * during LevelStorage's init-phase.
  * @author mak326428
  *
  */
