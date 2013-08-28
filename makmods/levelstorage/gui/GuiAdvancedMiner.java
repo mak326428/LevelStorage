@@ -42,9 +42,9 @@ public class GuiAdvancedMiner extends GuiContainer {
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
-		ContainerMolecularHeater container = (ContainerMolecularHeater) this.inventorySlots;
+		ContainerAdvancedMiner container = (ContainerAdvancedMiner) this.inventorySlots;
 		if (container.energy > 0) {
-			int l = container.tileEntity.gaugeEnergyScaled(14);
+			int l = container.gaugeEnergyScaled(14);
 			drawTexturedModalRect(x + 56, y + 36 + 14 - l, 176, 14 - l, 14, l);
 		}
 	}

@@ -1,6 +1,7 @@
 package makmods.levelstorage;
 
 import makmods.levelstorage.api.ItemAPI;
+import makmods.levelstorage.api.ItemAPI.SimpleItemAPI;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.lib.Reference;
@@ -122,7 +123,8 @@ public class LevelStorage {
 	public void postInit(FMLPostInitializationEvent event) {
 		FMLLog.info(Reference.MOD_NAME + ": Post-Initialization...");
 		proxy.postInit();
-		ItemStack stack = ItemAPI.getItem("itemFreqCard", 0);
+		ItemStack stack = SimpleItemAPI.getSimpleItem("ingotIridium");
+		System.out.println(Helper.getNiceStackName(stack));
 	}
 
 	public static Side getSide() {

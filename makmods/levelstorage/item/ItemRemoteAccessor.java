@@ -122,12 +122,9 @@ public class ItemRemoteAccessor extends Item implements IElectricItem {
 				Block b = Block.blocksList[w.getBlockId(location.getX(),
 				        location.getY(), location.getZ())];
 				if (b != null) {
-					RemotePlayer dummy = new RemotePlayer(w, location.getX(),
-					        location.getY() + 1, location.getZ(),
-					        par3EntityPlayer.inventory, par3EntityPlayer);
 					// TODO: is the 6th argument side or metadata?
 					b.onBlockActivated(w, location.getX(), location.getY(),
-					        location.getZ(), dummy,
+					        location.getZ(), par3EntityPlayer,
 					        ForgeDirection.UP.ordinal(), 0, 0, 0);
 					return par1ItemStack;
 				}

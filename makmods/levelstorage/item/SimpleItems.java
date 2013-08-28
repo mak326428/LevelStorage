@@ -74,7 +74,7 @@ public class SimpleItems extends Item {
 	}
 
 	private List<Icon> itemIcons = Lists.newArrayList();
-	private List<String> itemNames = Lists.newArrayList();
+	public List<String> itemNames = Lists.newArrayList();
 
 	public void addItem(String name, String localizedName) {
 		itemNames.add(name);
