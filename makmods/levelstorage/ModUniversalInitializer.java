@@ -131,18 +131,20 @@ public class ModUniversalInitializer {
 			        + ": failed to set block's mining level");
 			e.printStackTrace();
 		}
-
 	}
 
-	
 	public void init() {
 		Field[] items = LSBlockItemList.class.getDeclaredFields();
-		for (Field f : items) {
+		for (Field f : items)
 			this.create(f);
+		for (Field f : items)
 			this.registerBlock(f);
+		for (Field f : items)
 			this.addName(f);
+		for (Field f : items)
 			this.addRecipe(f);
+		for (Field f : items)
 			this.setBlockMiningLevels(f);
-		}
+
 	}
 }
