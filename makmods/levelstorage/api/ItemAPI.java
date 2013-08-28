@@ -44,4 +44,8 @@ public class ItemAPI {
 			return null;
 		}
 	}
+	
+	public static ItemStack getSimpleItem(String name) {
+		
+	}
 }

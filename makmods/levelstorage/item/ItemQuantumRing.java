@@ -476,7 +476,7 @@ public class ItemQuantumRing extends Item implements IElectricItem {
 		if (LevelStorage.recipesHardmode) {
 			Recipes.advRecipes.addRecipe(new ItemStack(
 			        LSBlockItemList.itemQuantumRing), "hic", "iei", "bil",
-			        Character.valueOf('i'), ItemCraftingIngredients.instance
+			        Character.valueOf('i'), SimpleItems.instance
 			                .getIngredient(3), Character.valueOf('e'),
 			        new ItemStack(LSBlockItemList.itemStorageFourMillion),
 			        Character.valueOf('h'), new ItemStack(

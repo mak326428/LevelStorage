@@ -10,7 +10,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.item.ItemCraftingIngredients;
+import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -109,7 +109,7 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 						LSBlockItemList.itemSupersonicLeggings), "ggg",
 				        "iqi", "lil", Character.valueOf('g'), new ItemStack(
 				                Block.glowStone), Character.valueOf('i'),
-				        ItemCraftingIngredients.instance.getIngredient(3),
+				        SimpleItems.instance.getIngredient(3),
 				        Character.valueOf('q'), IC2Items.QUANTUM_LEGGINGS,
 				        Character.valueOf('l'), new ItemStack(
 				        		LSBlockItemList.itemStorageFourMillion));

@@ -13,7 +13,7 @@ import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.item.ItemCraftingIngredients;
+import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.logic.LSDamageSource;
@@ -265,7 +265,7 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 						LSBlockItemList.itemArmorTeslaHelmet), "tit", "iqi",
 				        "lil", Character.valueOf('t'), IC2Items.TESLA_COIL,
 				        Character.valueOf('i'),
-				        ItemCraftingIngredients.instance.getIngredient(3),
+				        SimpleItems.instance.getIngredient(3),
 				        Character.valueOf('q'), IC2Items.QUANTUM_HELMET,
 				        Character.valueOf('l'), new ItemStack(
 				        		LSBlockItemList.itemStorageFourMillion));

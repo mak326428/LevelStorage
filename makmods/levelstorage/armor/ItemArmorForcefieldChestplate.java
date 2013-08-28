@@ -9,7 +9,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.item.ItemCraftingIngredients;
+import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -174,7 +174,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 						LSBlockItemList.itemArmorForcefieldChestplate),
 				        "ttt", "iqi", "lil", Character.valueOf('t'),
 				        IC2Items.TESLA_COIL, Character.valueOf('i'),
-				        ItemCraftingIngredients.instance.getIngredient(3),
+				        SimpleItems.instance.getIngredient(3),
 				        Character.valueOf('q'), IC2Items.QUANTUM_CHESTPLATE,
 				        Character.valueOf('l'), new ItemStack(
 				        		LSBlockItemList.itemStorageFourMillion));

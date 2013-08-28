@@ -36,11 +36,11 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author mak326428
  * 
  */
-public class ItemCraftingIngredients extends Item {
+public class SimpleItems extends Item {
 
-	public static ItemCraftingIngredients instance = null;
+	public static SimpleItems instance = null;
 
-	public ItemCraftingIngredients() {
+	public SimpleItems() {
 		super(LevelStorage.getAndIncrementCurrId());
 		this.setHasSubtypes(true);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {

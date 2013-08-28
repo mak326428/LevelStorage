@@ -7,7 +7,7 @@ import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.ModTileEntities;
 import makmods.levelstorage.ModUniversalInitializer;
 import makmods.levelstorage.armor.ArmorTicker;
-import makmods.levelstorage.item.ItemCraftingIngredients;
+import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
 import makmods.levelstorage.registry.XpStackRegistry;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,29 +36,29 @@ public class CommonProxy {
 
 	public void addSimpleCraftingRecipes() {
 		// Osmiridium alloy -> osmiridium plate
-		ItemStack rec1 = ItemCraftingIngredients.instance.getIngredient(2);
+		ItemStack rec1 = SimpleItems.instance.getIngredient(2);
 		rec1.stackSize = 4;
 		Recipes.compressor.addRecipe(rec1,
-		        ItemCraftingIngredients.instance.getIngredient(3));
+		        SimpleItems.instance.getIngredient(3));
 		// 4 tiny osmium dusts -> 1 dust
 		GameRegistry.addRecipe(
-		        ItemCraftingIngredients.instance.getIngredient(1), "SS", "SS",
+		        SimpleItems.instance.getIngredient(1), "SS", "SS",
 		        Character.valueOf('S'),
-		        ItemCraftingIngredients.instance.getIngredient(0));
+		        SimpleItems.instance.getIngredient(0));
 
 		// Osmium dust -> osmium ingot
-		ItemStack osmIngot = ItemCraftingIngredients.instance.getIngredient(4);
-		ItemStack osmDust = ItemCraftingIngredients.instance.getIngredient(1);
+		ItemStack osmIngot = SimpleItems.instance.getIngredient(4);
+		ItemStack osmDust = SimpleItems.instance.getIngredient(1);
 		FurnaceRecipes.smelting().addSmelting(osmDust.itemID,
 		        osmDust.getItemDamage(), osmIngot, 20.0F);
 
 		// Osmium Ingots + Iridium Ingots = Osmiridium Alloy
 		Recipes.advRecipes.addRecipe(
-		        ItemCraftingIngredients.instance.getIngredient(2), "OOO",
+		        SimpleItems.instance.getIngredient(2), "OOO",
 		        "III", "   ", Character.valueOf('O'), "ingotOsmium",
 		        Character.valueOf('I'), "ingotIridium");
 		Recipes.advRecipes.addRecipe(
-		        ItemCraftingIngredients.instance.getIngredient(2), "   ",
+		        SimpleItems.instance.getIngredient(2), "   ",
 		        "OOO", "III", Character.valueOf('O'), "ingotOsmium",
 		        Character.valueOf('I'), "ingotIridium");
 
@@ -66,12 +66,12 @@ public class CommonProxy {
 		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
 		        "addIridiumOreToIngotCompressorRecipe", true).getBoolean(true)) {
 			Recipes.compressor.addRecipe(Items.getItem("iridiumOre"),
-			        ItemCraftingIngredients.instance.getIngredient(5));
+			        SimpleItems.instance.getIngredient(5));
 		}
 
 		// UUM -> Osmium pile
 		GameRegistry.addRecipe(
-		        ItemCraftingIngredients.instance.getIngredient(0), "U U",
+		        SimpleItems.instance.getIngredient(0), "U U",
 		        "UUU", "U U", Character.valueOf('U'), Items.getItem("matter"));
 	}
 
@@ -80,7 +80,7 @@ public class CommonProxy {
 		        new GuiHandler());
 		// TODO: mess around with this neat thingy
 		MinecraftForge.EVENT_BUS.register(new LevelStorageEventHandler());
-		ItemCraftingIngredients.instance = new ItemCraftingIngredients();
+		SimpleItems.instance = new SimpleItems();
 		addSimpleCraftingRecipes();
 		//LSBlockItemList.init();
 		//LSBlockItemList.init();

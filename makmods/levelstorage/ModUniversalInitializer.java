@@ -57,8 +57,7 @@ public class ModUniversalInitializer {
 		} catch (ClassCastException e) {
 			;
 		} catch (Exception e) {
-			FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-			        + ": failed to register block");
+			LogHelper.severe(": failed to register block");
 			e.printStackTrace();
 		}
 
@@ -86,8 +85,7 @@ public class ModUniversalInitializer {
 
 		} catch (ClassCastException e) {
 		} catch (Exception e) {
-			FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-			        + ": failed to add name");
+			LogHelper.severe(": failed to add name");
 			e.printStackTrace();
 		}
 
@@ -105,8 +103,7 @@ public class ModUniversalInitializer {
 					f.getType().getMethod("addCraftingRecipe").invoke(null);
 				} catch (ClassCastException e) {
 				} catch (Exception e) {
-					FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-					        + ": failed to add recipe");
+					LogHelper.severe(": failed to add recipe");
 					e.printStackTrace();
 				}
 			} else {
@@ -127,8 +124,7 @@ public class ModUniversalInitializer {
 			}
 		} catch (ClassCastException e) {
 		} catch (Exception e) {
-			FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-			        + ": failed to set block's mining level");
+			LogHelper.severe("failed to set block's mining level");
 			e.printStackTrace();
 		}
 	}

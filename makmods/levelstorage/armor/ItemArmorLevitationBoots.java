@@ -13,7 +13,7 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.api.BootsFlyingEvent;
 import makmods.levelstorage.api.IFlyArmor;
-import makmods.levelstorage.item.ItemCraftingIngredients;
+import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.item.ItemQuantumRing;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
@@ -215,7 +215,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 				Recipes.advRecipes.addRecipe(new ItemStack(
 						LSBlockItemList.itemLevitationBoots), "iii", "iqi",
 				        "lil", Character.valueOf('i'),
-				        ItemCraftingIngredients.instance.getIngredient(3),
+				        SimpleItems.instance.getIngredient(3),
 				        Character.valueOf('q'), Items.getItem("quantumBoots"),
 				        Character.valueOf('l'), new ItemStack(
 				        		LSBlockItemList.itemStorageFourMillion));
