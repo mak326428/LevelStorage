@@ -7,9 +7,12 @@ import java.util.logging.Level;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.api.XpStack;
 import makmods.levelstorage.lib.Reference;
+import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Property;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.FMLLog;
 
@@ -21,6 +24,7 @@ public class XpStackRegistry {
 	}
 
 	public ArrayList<XpStack> ITEM_XP_CONVERSIONS = new ArrayList<XpStack>();
+	public static final String XP_REGISTRY_CATEGORY = "xpRegistry";
 
 	public static final AbstractMap.SimpleEntry<Integer, Integer> XP_EU_CONVERSION = new AbstractMap.SimpleEntry<Integer, Integer>(
 	        1, 64); // 1 XP = 64 EU
@@ -30,12 +34,18 @@ public class XpStackRegistry {
 	public static final int ORE_DICT_NOT_FOUND = -1;
 
 	public void initCriticalNodes() {
-		this.pushToRegistry(new XpStack(new ItemStack(Item.redstone), 8));
-		this.pushToRegistry(new XpStack(new ItemStack(Item.netherQuartz), 4));
-		this.pushToRegistry(new XpStack(new ItemStack(Item.glowstone), 32));
-		this.pushToRegistry(new XpStack(new ItemStack(Item.diamond), 512));
-		this.pushToRegistry(new XpStack(new ItemStack(Item.netherStar), 4096));
-		this.pushToRegistry(new XpStack(new ItemStack(Block.obsidian), 8));
+		this.pushToRegistry_critical(new XpStack(new ItemStack(Item.redstone),
+		        8));
+		this.pushToRegistry_critical(new XpStack(new ItemStack(
+		        Item.netherQuartz), 4));
+		this.pushToRegistry_critical(new XpStack(new ItemStack(Item.glowstone),
+		        32));
+		this.pushToRegistry_critical(new XpStack(new ItemStack(Item.diamond),
+		        512));
+		this.pushToRegistry_critical(new XpStack(
+		        new ItemStack(Item.netherStar), 4096));
+		this.pushToRegistry_critical(new XpStack(new ItemStack(Block.obsidian),
+		        8));
 		// dummy for debug
 		// this.pushOreToRegistry("ingotGold", 1);
 
@@ -67,6 +77,25 @@ public class XpStackRegistry {
 		        + stack.stack.getItemDamage() + " to the Xp Registry, value: "
 		        + stack.value);
 		this.ITEM_XP_CONVERSIONS.add(stack);
+	}
+
+	public void pushToRegistry_critical(XpStack stack) {
+		Property property = LevelStorage.configuration
+		        .get(XP_REGISTRY_CATEGORY,
+		                stack.stack.getItem().getUnlocalizedName()
+		                        .replace("item.", "").replace(".name", "")
+		                        .replace("tile.", ""), stack.value);
+		property.comment = "Set to -1 to disable";
+		int value = property.getInt();
+		if (value == -1) {
+			LogHelper.warning("XP entry for item "
+			        + Helper.getNiceStackName(stack.stack) + " is disabled");
+			return;
+		}
+		FMLLog.log(Level.INFO, "Adding #" + stack.stack.itemID + ":"
+		        + stack.stack.getItemDamage() + " to the Xp Registry, value: "
+		        + stack.value);
+		this.ITEM_XP_CONVERSIONS.add(new XpStack(stack.stack, value));
 	}
 
 	public void pushOreToRegistry(String name, int value) {
