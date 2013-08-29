@@ -339,7 +339,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 		blocksOtherThanOres.add(Block.oreRedstone.blockID);
 		blocksOtherThanOres.add(Block.oreRedstoneGlowing.blockID);
 		blocksOtherThanOres.add(Block.glowStone.blockID);
-
+		blocksOtherThanOres.add(Block.blockClay.blockID);
 	}
 
 	@Override

@@ -28,6 +28,7 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -41,6 +42,8 @@ public class BlockMolecularHeater extends BlockContainer {
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 	}
+	
+	private String ICON = "blockMolHeater";
 
 	public Icon facing;
 
@@ -81,7 +84,7 @@ public class BlockMolecularHeater extends BlockContainer {
 	public Icon getIcon(int side, int par2) {
 		return side == ForgeDirection.SOUTH.ordinal() ? facing
 		        : BlockTextureRegistry.instance.getIcon(side,
-		                getUnlocalizedName());
+		                ICON);
 	}
 
 	// TODO: DO NOT FORGET ABOUT DESCRIPTION PACKETS IN BASE SINK.
@@ -132,7 +135,7 @@ public class BlockMolecularHeater extends BlockContainer {
 				}
 			}
 			SimpleBlockTexture txt = BlockTextureRegistry.instance
-			        .getTextureFor(getUnlocalizedName());
+			        .getTextureFor(ICON);
 			ForgeDirection dir = ForgeDirection.VALID_DIRECTIONS[side];
 			switch (dir) {
 				case UP:
@@ -150,7 +153,7 @@ public class BlockMolecularHeater extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		BlockTextureRegistry.instance.registerIcons(iconRegister,
-		        getUnlocalizedName());
+		        ICON);
 		facing = iconRegister.registerIcon(ClientProxy.MOLECULAR_HEATER_FACING);
 	}
 
