@@ -7,9 +7,9 @@ import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.logic.util.NBTHelper;
-import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -29,8 +29,8 @@ public class BlockWirelessConductor extends BlockContainer {
 
 	public BlockWirelessConductor(int id) {
 		super(id, Material.iron);
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);

@@ -2,8 +2,6 @@ package makmods.levelstorage;
 
 import makmods.levelstorage.api.ItemAPI.SimpleItemAPI;
 import makmods.levelstorage.armor.ArmorFunctions;
-import makmods.levelstorage.armor.ItemArmorLevitationBoots;
-import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.network.PacketHandler;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.api.IChargeable;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.IC2Access;
@@ -49,8 +50,8 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 
 		this.setMaxDamage(27);
 		this.setNoRepair();
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 	}

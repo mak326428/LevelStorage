@@ -37,5 +37,4 @@ public class LocalizationInitializer {
 			        LOCALIZATION_PATH_PREFIX + locale + ".lang", locale, false);
 		}
 	}
-
 }

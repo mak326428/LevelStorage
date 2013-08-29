@@ -5,7 +5,7 @@ import ic2.api.item.Items;
 import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.block.Block;
@@ -25,8 +25,8 @@ public class BlockMassInfuser extends BlockContainer {
 
 	public BlockMassInfuser(int id) {
 		super(id, Material.iron);
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);

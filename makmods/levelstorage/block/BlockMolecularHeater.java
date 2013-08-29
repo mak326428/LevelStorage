@@ -5,6 +5,7 @@ import ic2.api.tile.IWrenchable;
 import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.BlockTextureRegistry;
 import makmods.levelstorage.logic.BlockTextureRegistry.SimpleBlockTexture;
@@ -28,7 +29,6 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -36,8 +36,8 @@ public class BlockMolecularHeater extends BlockContainer {
 
 	public BlockMolecularHeater(int id) {
 		super(id, Material.iron);
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);

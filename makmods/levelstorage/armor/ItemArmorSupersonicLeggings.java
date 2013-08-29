@@ -5,14 +5,13 @@ import ic2.api.item.IElectricItem;
 import ic2.api.item.IMetalArmor;
 import ic2.api.recipe.Recipes;
 
-import java.util.HashMap;
 import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
 import net.minecraft.block.Block;
@@ -46,8 +45,8 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 
 		this.setMaxDamage(27);
 		this.setNoRepair();
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 	}

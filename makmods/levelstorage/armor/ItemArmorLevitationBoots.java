@@ -6,24 +6,19 @@ import ic2.api.item.IMetalArmor;
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
-import java.util.HashMap;
 import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.api.BootsFlyingEvent;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.api.IFlyArmor;
 import makmods.levelstorage.item.ItemQuantumRing;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.network.PacketFlightUpdate;
 import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
-import makmods.levelstorage.registry.FlightRegistry;
-import makmods.levelstorage.registry.FlightRegistry.Flight;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -62,8 +57,8 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		MinecraftForge.EVENT_BUS.register(this);
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 	}

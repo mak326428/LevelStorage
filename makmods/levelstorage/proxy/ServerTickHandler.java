@@ -5,7 +5,6 @@ import java.util.EnumSet;
 
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
-import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry.WChargerEntry;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 

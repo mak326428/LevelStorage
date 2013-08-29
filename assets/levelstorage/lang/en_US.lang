@@ -27,3 +27,4 @@ item.itemElectricMagnet.name=Electric Magnet
 item.itemDestructor.name=Atomic Disassembler
 item.itemEnhLappack.name=Enhanced Lappack
 item.itemRemoteAccessor.name=Remote Accessor
+itemGroup.levelstorage=LevelStorage

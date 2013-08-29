@@ -9,6 +9,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
@@ -48,8 +49,8 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 
 		this.setMaxDamage(27);
 		this.setNoRepair();
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 		MinecraftForge.EVENT_BUS.register(this);

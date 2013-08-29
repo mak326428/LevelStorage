@@ -9,6 +9,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -39,8 +40,8 @@ public class ItemPortableTeleporter extends Item implements IElectricItem {
 		super(id);
 		this.setMaxDamage(27);
 		this.setNoRepair();
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 	}

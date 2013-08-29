@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
 
 /**
  * Used internally, for other APIs. Use at your own risk.

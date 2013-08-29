@@ -1,12 +1,8 @@
 package makmods.levelstorage.render;
 
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.proxy.ClientProxy;
-import makmods.levelstorage.registry.ConductorType;
-import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.src.ModLoader;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;

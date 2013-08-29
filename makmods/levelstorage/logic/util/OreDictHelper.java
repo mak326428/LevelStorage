@@ -1,13 +1,10 @@
 package makmods.levelstorage.logic.util;
 
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.api.XpStack;
-import makmods.levelstorage.lib.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.FMLLog;
 
 public class OreDictHelper {
 

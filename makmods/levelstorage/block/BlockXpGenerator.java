@@ -6,6 +6,7 @@ import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import net.minecraft.block.Block;
@@ -31,8 +32,8 @@ public class BlockXpGenerator extends BlockContainer {
 
 	public BlockXpGenerator(int id) {
 		super(id, Material.iron);
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);

@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 
-import makmods.levelstorage.tileentity.IHasTextBoxes;
 import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;

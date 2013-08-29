@@ -45,7 +45,7 @@ public class LSBlockItemList {
 	public static BlockWirelessConductor blockWlessConductor;
 	public static BlockWirelessPowerSynchronizer blockWlessPowerSync;
 	public static BlockCableSuperconductor blockSuperconductor;
-	public static BlockMassInfuser blockMassInfuser;
+	// public static BlockMassInfuser blockMassInfuser;
 	public static BlockAdvancedMiner blockAdvMiner;
 	public static BlockMolecularHeater blockMolHeater;
 

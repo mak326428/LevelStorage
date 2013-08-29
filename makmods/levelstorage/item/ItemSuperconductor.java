@@ -4,6 +4,7 @@ import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -28,8 +29,8 @@ public class ItemSuperconductor extends Item {
 
 		this.setNoRepair();
 		this.setMaxStackSize(16);
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			this.setCreativeTab(LevelStorageCreativeTab.instance);
 		}
 		Property pEnable = LevelStorage.configuration.get(
 		        Configuration.CATEGORY_GENERAL,

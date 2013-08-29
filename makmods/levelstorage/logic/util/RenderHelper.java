@@ -1,7 +1,7 @@
 package makmods.levelstorage.logic.util;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import makmods.levelstorage.proxy.ClientProxy;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class RenderHelper {
 	public static void bindTexture(String path) {

@@ -1,6 +1,7 @@
 package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.LSBlockItemList;
+import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
 import makmods.levelstorage.render.MassInfuserRender;
@@ -110,7 +111,7 @@ public class ClientProxy extends CommonProxy {
 		        .addNewArmourRendererPrefix("supersonic");
 		ARMOR_ENHANCED_LAPPACK_RENDER_INDEX = RenderingRegistry
 		        .addNewArmourRendererPrefix("enhlappack");
-
+		LevelStorageCreativeTab.instance = new LevelStorageCreativeTab();
 		super.init();
 		ClientRegistry.bindTileEntitySpecialRenderer(
 		        TileEntityWirelessConductor.class,

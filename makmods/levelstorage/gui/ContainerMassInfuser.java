@@ -1,8 +1,6 @@
 package makmods.levelstorage.gui;
 
-import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityMassInfuser;
-import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

@@ -1,12 +1,11 @@
 package makmods.levelstorage.logic.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import cpw.mods.fml.common.FMLLog;
 
 public final class StackHelper {
 

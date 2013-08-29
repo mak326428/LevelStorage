@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
 import makmods.levelstorage.api.BootsFlyingEvent;
 import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate.WearType;
 import makmods.levelstorage.lib.Reference;
@@ -34,6 +33,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
  * Refactored armor functions

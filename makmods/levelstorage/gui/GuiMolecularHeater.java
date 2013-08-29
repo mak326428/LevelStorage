@@ -1,7 +1,6 @@
 package makmods.levelstorage.gui;
 
 import makmods.levelstorage.proxy.ClientProxy;
-import makmods.levelstorage.tileentity.TileEntityAdvancedMiner;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;

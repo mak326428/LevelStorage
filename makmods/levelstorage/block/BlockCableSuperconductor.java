@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.logic.uumsystem.UUMHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntitySuperconductorCable;
@@ -33,7 +32,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 
 	public BlockCableSuperconductor(int id) {
 		super(id, Material.iron);
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+		if (FMLCommonHandler.instance().getSide().isClient()) {
 			this.setCreativeTab(null);
 		}
 		this.setStepSound(Block.soundClothFootstep);
