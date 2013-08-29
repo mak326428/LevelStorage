@@ -1,13 +1,14 @@
 package makmods.levelstorage;
 
-import makmods.levelstorage.api.ItemAPI;
 import makmods.levelstorage.api.ItemAPI.SimpleItemAPI;
+import makmods.levelstorage.armor.ArmorFunctions;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
+import makmods.levelstorage.registry.FlightRegistry;
 import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
@@ -24,7 +25,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 //@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "Forge@[9.10.0.804,);required-after:IC2")
@@ -42,12 +42,13 @@ public class LevelStorage {
 	public static Configuration configuration;
 	public static boolean chargerOnlyUUM;
 	public static boolean experienceRecipesOn;
-	public static int currentIds = 250;
+	public static int currentIds = 450;
 	public static boolean fancyGraphics;
 	public static boolean recipesHardmode = false;
 	public static final String BALANCE_CATEGORY = "balance";
 	public static final String RECIPES_CATEGORY = "recipes";
-
+	public static final String IDS_CATEGORY = "ids";
+	
 	public static boolean detectedGT = false;
 
 	public static int getAndIncrementCurrId() {
@@ -101,16 +102,18 @@ public class LevelStorage {
 		// like wasting energy for nothing.
 		WirelessPowerSynchronizerRegistry.instance.registry.clear();
 		WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
-		ItemArmorSupersonicLeggings.speedTickerMap.clear();
-		ItemArmorLevitationBoots.onGroundMap.clear();
+		ArmorFunctions.speedTickerMap.clear();
+		ArmorFunctions.onGroundMap.clear();
+		FlightRegistry.instance.modEnabledFlights.clear();
 	}
 
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event) {
 		WirelessPowerSynchronizerRegistry.instance.registry.clear();
 		WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
-		ItemArmorSupersonicLeggings.speedTickerMap.clear();
-		ItemArmorLevitationBoots.onGroundMap.clear();
+		ArmorFunctions.speedTickerMap.clear();
+		ArmorFunctions.onGroundMap.clear();
+		FlightRegistry.instance.modEnabledFlights.clear();
 	}
 
 	@EventHandler

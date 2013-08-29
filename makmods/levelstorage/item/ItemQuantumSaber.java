@@ -33,9 +33,8 @@ public class ItemQuantumSaber extends Item implements IElectricItem {
 	public static final int STORAGE = 1000000;
 	public static final int ENERGY_PER_USE = 1000;
 
-	public ItemQuantumSaber() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemQuantumSaber(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

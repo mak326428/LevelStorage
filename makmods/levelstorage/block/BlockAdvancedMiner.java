@@ -32,9 +32,8 @@ public class BlockAdvancedMiner extends BlockContainer {
 	public static final String UNLOCALIZED_NAME = "blockAdvMiner";
 	public static final String NAME = "Advanced Miner";
 
-	public BlockAdvancedMiner() {
-		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+	public BlockAdvancedMiner(int id) {
+		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}

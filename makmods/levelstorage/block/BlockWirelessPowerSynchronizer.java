@@ -31,9 +31,8 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 	public static final String UNLOCALIZED_NAME = "blockWirelessPowerSynchronizer";
 	public static final String NAME = "Wireless Power Synchronizer";
 
-	public BlockWirelessPowerSynchronizer() {
-		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+	public BlockWirelessPowerSynchronizer(int id) {
+		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}

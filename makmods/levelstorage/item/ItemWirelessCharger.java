@@ -37,9 +37,8 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 	public static final int FREQUENCY_CHANGE_COOLDOWN = 4;
 	public static final int TIER = 2;
 
-	public ItemWirelessCharger() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemWirelessCharger(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

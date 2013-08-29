@@ -26,9 +26,8 @@ public class BlockMassInfuser extends BlockContainer {
 	public static final String UNLOCALIZED_NAME = "blockMassInfuser";
 	public static final String NAME = "Mass Infuser";
 
-	public BlockMassInfuser() {
-		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+	public BlockMassInfuser(int id) {
+		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}

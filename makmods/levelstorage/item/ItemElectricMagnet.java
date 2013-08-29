@@ -40,9 +40,8 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 	public static final int TURN_ON_OFF_COOLDOWN = 10;
 	public static final double RANGE = 32;
 
-	public ItemElectricMagnet() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemElectricMagnet(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

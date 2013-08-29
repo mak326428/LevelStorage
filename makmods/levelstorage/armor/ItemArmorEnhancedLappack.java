@@ -39,10 +39,8 @@ public class ItemArmorEnhancedLappack extends ItemArmor implements
 	public static final int STORAGE = CommonProxy.ENH_LAPPACK_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;
 
-	public ItemArmorEnhancedLappack() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(),
-		        EnumArmorMaterial.DIAMOND,
+	public ItemArmorEnhancedLappack(int id) {
+		super(id, EnumArmorMaterial.DIAMOND,
 		        ClientProxy.ARMOR_ENHANCED_LAPPACK_RENDER_INDEX, 1);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
@@ -60,10 +58,11 @@ public class ItemArmorEnhancedLappack extends ItemArmor implements
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
 			Recipes.advRecipes.addRecipe(new ItemStack(
-					LSBlockItemList.itemEnhLappack), "ccc", "lal", "apa", Character
-			        .valueOf('l'), IC2Items.LAPOTRON_CRYSTAL, Character
-			        .valueOf('a'), IC2Items.ADV_CIRCUIT,
-			        Character.valueOf('p'), Items.getItem("lapPack"), Character.valueOf('c'), IC2Items.CARBON_PLATE);
+			        LSBlockItemList.itemEnhLappack), "ccc", "lal", "apa",
+			        Character.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL,
+			        Character.valueOf('a'), IC2Items.ADV_CIRCUIT, Character
+			                .valueOf('p'), Items.getItem("lapPack"), Character
+			                .valueOf('c'), IC2Items.CARBON_PLATE);
 		}
 	}
 

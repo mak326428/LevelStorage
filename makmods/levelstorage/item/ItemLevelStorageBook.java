@@ -34,9 +34,8 @@ public class ItemLevelStorageBook extends Item {
 	public static final String UNLOCALIZED_NAME = "xpStorageBook";
 	public static final String NAME = "XP Tome";
 
-	public ItemLevelStorageBook() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemLevelStorageBook(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.bookMaxStorage = LevelStorage.itemLevelStorageBookSpace;
 		this.setMaxDamage(512);

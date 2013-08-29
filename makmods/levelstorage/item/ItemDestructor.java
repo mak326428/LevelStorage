@@ -47,9 +47,8 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 	public static final int COOLDOWN_USE = 20;
 	public static final int ENERGY_USE_BASE = 80;
 
-	public ItemDestructor() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemDestructor(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

@@ -6,9 +6,9 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.ModTileEntities;
 import makmods.levelstorage.ModUniversalInitializer;
-import makmods.levelstorage.armor.ArmorTicker;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
+import makmods.levelstorage.registry.FlightRegistry;
 import makmods.levelstorage.registry.XpStackRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -89,8 +89,8 @@ public class CommonProxy {
 		ModFluids.instance.init();
 		// TODO: reenable when ready
 		//ModAchievements.instance.init();
+		FlightRegistry.instance = new FlightRegistry();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
-		TickRegistry.registerTickHandler(new ArmorTicker(), Side.SERVER);
 	}
 
 	public void postInit() {

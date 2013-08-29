@@ -39,9 +39,8 @@ public class ItemElectricSickle extends ItemTool implements IElectricItem {
 	public static final int RADIUS = 10;
 	public static final int RADIUS_LEAVES = 6;
 
-	public ItemElectricSickle() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(), 0,
+	public ItemElectricSickle(int id) {
+		super(id, 0,
 		        EnumToolMaterial.IRON, new Block[] { Block.leaves,
 		                Block.tallGrass });
 		this.setUnlocalizedName(UNLOCALIZED_NAME);

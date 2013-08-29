@@ -32,9 +32,8 @@ public class BlockXpCharger extends BlockContainer {
 	public static final String UNLOCALIZED_NAME = "blockXpCharger";
 	public static final String NAME = "XP Charger";
 
-	public BlockXpCharger() {
-		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+	public BlockXpCharger(int id) {
+		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}

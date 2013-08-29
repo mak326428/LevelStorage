@@ -36,9 +36,8 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	public static final String NBT_COOLDOWN = "cooldown";
 
-	public ItemAdvancedScanner() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemAdvancedScanner(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

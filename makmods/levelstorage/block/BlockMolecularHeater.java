@@ -36,9 +36,8 @@ public class BlockMolecularHeater extends BlockContainer {
 	public static final String UNLOCALIZED_NAME = "blockMolHeater";
 	public static final String NAME = "Molecular Heater";
 
-	public BlockMolecularHeater() {
-		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+	public BlockMolecularHeater(int id) {
+		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}

@@ -34,11 +34,12 @@ import makmods.levelstorage.item.ItemWirelessCharger;
  * Contains all the items and blocks mod has.
  * These are initialized dynamically via {@link ModUniversalInitializer}
  * during LevelStorage's init-phase.
+ * Block's type name MUST start with Block
  * @author mak326428
  *
  */
 public class LSBlockItemList {
-	
+	// Blocks
 	public static BlockXpGenerator blockXpGen;
 	public static BlockXpCharger blockXpCharger;
 	public static BlockWirelessConductor blockWlessConductor;
@@ -47,6 +48,8 @@ public class LSBlockItemList {
 	public static BlockMassInfuser blockMassInfuser;
 	public static BlockAdvancedMiner blockAdvMiner;
 	public static BlockMolecularHeater blockMolHeater;
+	
+	// Items
 	public static ItemLevelStorageBook itemLevelStorageBook;
 	public static ItemAdvancedScanner itemAdvScanner;
 	public static ItemFrequencyCard itemFreqCard;

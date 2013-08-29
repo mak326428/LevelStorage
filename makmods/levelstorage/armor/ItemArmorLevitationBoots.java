@@ -13,14 +13,17 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.api.BootsFlyingEvent;
 import makmods.levelstorage.api.IFlyArmor;
-import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.item.ItemQuantumRing;
+import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
+import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.network.PacketFlightUpdate;
 import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
+import makmods.levelstorage.registry.FlightRegistry;
+import makmods.levelstorage.registry.FlightRegistry.Flight;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -55,9 +58,8 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	public static final int ENERGY_PER_DAMAGE = 900;
 	public static final int FLYING_ENERGY_PER_TICK = 512;
 
-	public ItemArmorLevitationBoots() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(),
+	public ItemArmorLevitationBoots(int id) {
+		super(id,
 		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 3);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
@@ -90,12 +92,11 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 		}
 	}
 	
-	public static HashMap<EntityPlayer, Boolean> onGroundMap = new HashMap<EntityPlayer, Boolean>();
-	private float jumpCharge;
 
-	public static void checkPlayer(EntityPlayer p) {
+
+	public static boolean checkPlayer(EntityPlayer p) {
 		if (p.capabilities.isCreativeMode)
-			return;
+			return true;
 		InventoryPlayer inv = p.inventory;
 		boolean isFound = false;
 
@@ -123,78 +124,19 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 				flUpd.isFlying = false;
 				PacketDispatcher.sendPacketToPlayer(
 				        PacketTypeHandler.populatePacket(flUpd), (Player) p);
+				return false;
 			}
+		} else {
+			return true;
 		}
+		return false;
 	}
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 	        ItemStack itemStack) {
-		boolean boostKey = IC2Access.instance.isKeyDown("Boost", player);
-		// QUANTUM SUIT ABILITIES
-		if (!onGroundMap.containsKey(player))
-			onGroundMap.put(player, true);
-		if (!world.isRemote) {
-			boolean wasOnGround = onGroundMap.containsKey(player) ? ((Boolean) onGroundMap
-			        .get(player)).booleanValue() : true;
-
-			if ((wasOnGround) && (!player.onGround)
-			        && (IC2Access.instance.isKeyDown("Jump", player))
-			        && (IC2Access.instance.isKeyDown("Boost", player))) {
-				ElectricItem.manager.use(itemStack, 4000, null);
-			}
-			onGroundMap.remove(player);
-			onGroundMap.put(player, Boolean.valueOf(player.onGround));
-		} else {
-			if ((ElectricItem.manager.canUse(itemStack, 4000))
-			        && (player.onGround))
-				this.jumpCharge = 2.0F;
-
-			if ((player.motionY >= 0.0D) && (this.jumpCharge > 0.0F)
-			        && (!player.isInWater())) {
-				if ((IC2Access.instance.isKeyDown("Jump", player) && (IC2Access.instance
-				        .isKeyDown("Boost", player)))) {
-					if (this.jumpCharge == 2.0F) {
-						player.motionX *= 3.5D;
-						player.motionZ *= 3.5D;
-					}
-
-					player.motionY += this.jumpCharge * 0.3F;
-					this.jumpCharge = ((float) (this.jumpCharge * 0.75D));
-				} else if (this.jumpCharge < 1.0F) {
-					this.jumpCharge = 0.0F;
-				}
-
-			}// END OF QUANTUM SUIT ABILITIES
-
-		}
-		if (ElectricItem.manager.canUse(itemStack, FLYING_ENERGY_PER_TICK)) {
-			player.capabilities.allowFlying = true;
-			if (player.capabilities.isFlying) {
-				if (boostKey) {
-					float boost = 0.44f;
-					player.moveFlying(0.0F, 1.0F, boost);
-					if (!world.isRemote) {
-						ElectricItem.manager.use(itemStack,
-						        FLYING_ENERGY_PER_TICK * 3, player);
-					}
-				}
-				if (!world.isRemote) {
-					if (!player.capabilities.isCreativeMode) {
-						ElectricItem.manager.use(itemStack,
-						        FLYING_ENERGY_PER_TICK, player);
-
-						MinecraftForge.EVENT_BUS.post(new BootsFlyingEvent(
-						        player, itemStack));
-					}
-				}
-			}
-		} else {
-			player.capabilities.allowFlying = false;
-			if (player.capabilities.isFlying)
-				player.capabilities.isFlying = false;
-		}
-
+		ArmorFunctions.jumpBooster(world, player, itemStack);
+		ArmorFunctions.fly(FLYING_ENERGY_PER_TICK, player, itemStack, world);
 	}
 
 	/*

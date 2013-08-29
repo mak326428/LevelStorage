@@ -39,9 +39,8 @@ public class ItemTimeAccelerator extends Item implements IElectricItem {
 
 	public static final int TIER = 3;
 
-	public ItemTimeAccelerator() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemTimeAccelerator(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

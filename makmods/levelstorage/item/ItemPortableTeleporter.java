@@ -37,9 +37,8 @@ public class ItemPortableTeleporter extends Item implements IElectricItem {
 	public static final int COOLDOWN_PERIOD = 20;
 	public static final int ENERGY_PER_USE = 100000;
 
-	public ItemPortableTeleporter() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemPortableTeleporter(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

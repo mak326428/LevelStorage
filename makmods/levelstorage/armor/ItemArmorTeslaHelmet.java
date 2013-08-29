@@ -62,9 +62,8 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 	public static final int FOOD_COST = 10000;
 	public static final int RAY_COST = 100;
 
-	public ItemArmorTeslaHelmet() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(),
+	public ItemArmorTeslaHelmet(int id) {
+		super(id,
 		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 0);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
@@ -73,15 +72,6 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
 		this.setMaxStackSize(1);
-	}
-
-	public static HashMap<Integer, Integer> potionRemovalCost = new HashMap<Integer, Integer>();
-
-	static {
-		potionRemovalCost.put(Integer.valueOf(Potion.poison.id),
-		        Integer.valueOf(10000));
-		potionRemovalCost.put(Integer.valueOf(Potion.wither.id),
-		        Integer.valueOf(25000));
 	}
 
 	public static ItemStack playerGetArmor(EntityPlayer p) {
@@ -96,154 +86,13 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		return found;
 	}
 
-	@Override
-	protected MovingObjectPosition getMovingObjectPositionFromPlayer(
-	        World par1World, EntityPlayer par2EntityPlayer, boolean par3) {
-		float var4 = 1.0F;
-		float var5 = par2EntityPlayer.prevRotationPitch
-		        + (par2EntityPlayer.rotationPitch - par2EntityPlayer.prevRotationPitch)
-		        * var4;
-		float var6 = par2EntityPlayer.prevRotationYaw
-		        + (par2EntityPlayer.rotationYaw - par2EntityPlayer.prevRotationYaw)
-		        * var4;
-		double var7 = par2EntityPlayer.prevPosX
-		        + (par2EntityPlayer.posX - par2EntityPlayer.prevPosX) * var4;
-		double var9 = par2EntityPlayer.prevPosY
-		        + (par2EntityPlayer.posY - par2EntityPlayer.prevPosY) * var4
-		        + 1.62D - par2EntityPlayer.yOffset;
-		double var11 = par2EntityPlayer.prevPosZ
-		        + (par2EntityPlayer.posZ - par2EntityPlayer.prevPosZ) * var4;
-		Vec3 var13 = par1World.getWorldVec3Pool().getVecFromPool(var7, var9,
-		        var11);
-		float var14 = MathHelper.cos(-var6 * 0.017453292F - (float) Math.PI);
-		float var15 = MathHelper.sin(-var6 * 0.017453292F - (float) Math.PI);
-		float var16 = -MathHelper.cos(-var5 * 0.017453292F);
-		float var17 = MathHelper.sin(-var5 * 0.017453292F);
-		float var18 = var15 * var16;
-		float var20 = var14 * var16;
-		double var21 = 128.0D;
-		Vec3 var23 = var13.addVector(var18 * var21, var17 * var21, var20
-		        * var21);
-		return par1World.rayTraceBlocks_do_do(var13, var23, par3, !par3);
-	}
-
 	public static final int ENTITY_HIT_COST = 10000;
 	public static final int HEAL_COST = 1000;
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 	        ItemStack itemStack) {
-		if (player.isSneaking()
-		        && IC2Access.instance.isKeyDown("Boost", player)) {
-			if (ElectricItem.manager.canUse(itemStack, RAY_COST)) {
-				if (!world.isRemote)
-					ElectricItem.manager.use(itemStack, RAY_COST, player);
-				int x = 0, y = 0, z = 0;
-				MovingObjectPosition mop = this
-				        .getMovingObjectPositionFromPlayer(world, player, true);
-				if (mop != null && mop.typeOfHit == EnumMovingObjectType.TILE) {
-					float xOff = (float) (mop.blockX - player.posX);
-					float yOff = (float) (mop.blockY - player.posY);
-					float zOff = (float) (mop.blockZ - player.posZ);
-					x = mop.blockX;
-					y = mop.blockY;
-					z = mop.blockZ;
-
-					// EnergyRayFX p = new EnergyRayFX(world, player.posX,
-					// player.posY, player.posZ, x, y, z, 48, 141, 255, 40);
-					if (!world.isRemote) {
-						PacketTeslaRay packet = new PacketTeslaRay();
-						packet.initX = player.posX;
-						packet.initY = player.posY + 1.6f;
-						packet.initZ = player.posZ;
-						packet.tX = x;
-						packet.tY = y;
-						packet.tZ = z;
-						PacketDispatcher.sendPacketToAllAround(player.posX,
-						        player.posY, player.posZ, 128.0F,
-						        world.provider.dimensionId,
-						        PacketTypeHandler.populatePacket(packet));
-						ArrayList<Object> entities = new ArrayList<Object>();
-						for (Object e : world.loadedEntityList) {
-							if (!(e instanceof EntityPlayer)) {
-								double distanceX = Math.abs(((Entity) e).posX
-								        - x);
-								double distanceY = Math.abs(((Entity) e).posY
-								        - y);
-								double distanceZ = Math.abs(((Entity) e).posZ
-								        - z);
-								if ((distanceX + distanceY + distanceZ) < 4.0F) {
-									entities.add(e);
-								}
-							}
-						}
-						if (entities.size() == 0) {
-							if (new Random().nextBoolean()) {
-								if (ElectricItem.manager.canUse(itemStack,
-								        ENTITY_HIT_COST)) {
-									ElectricItem.manager.use(itemStack,
-									        ENTITY_HIT_COST, player);
-									Helper.spawnLightning(world, x, y, z, false);
-								}
-							}
-						}
-						for (Object obj : entities) {
-							if (ElectricItem.manager.canUse(itemStack,
-							        ENTITY_HIT_COST)) {
-								ElectricItem.manager.use(itemStack,
-								        ENTITY_HIT_COST, player);
-								((Entity) obj).attackEntityFrom(
-								        LSDamageSource.teslaRay,
-								        20 + new Random().nextInt(15));
-							}
-
-						}
-					}
-				}
-			}
-		}
-		if (!world.isRemote) {
-			if (player.getFoodStats().getFoodLevel() < 18) {
-				if (ElectricItem.manager.canUse(itemStack, FOOD_COST)) {
-					ElectricItem.manager.use(itemStack, FOOD_COST, player);
-					player.getFoodStats().setFoodLevel(20);
-					player.getFoodStats().setFoodSaturationLevel(40F);
-				}
-			}
-			if (player.getAir() < 100) {
-				player.setAir(200);
-			}
-			LinkedList<PotionEffect> lk = new LinkedList(
-			        player.getActivePotionEffects());
-			for (PotionEffect effect : lk) {
-				int id = effect.getPotionID();
-
-				Integer cost = (Integer) potionRemovalCost.get(Integer
-				        .valueOf(id));
-
-				if (cost != null) {
-					cost = Integer.valueOf(cost.intValue()
-					        * (effect.getAmplifier() + 1));
-
-					if (ElectricItem.manager.canUse(itemStack, cost.intValue())) {
-						ElectricItem.manager.use(itemStack, cost.intValue(),
-						        null);
-						player.removePotionEffect(id);
-					}
-				}
-			}
-			// if (player.shouldHeal()) {
-			// if (ElectricItem.manager.canUse(itemStack, HEAL_COST)) {
-			// ElectricItem.manager.use(itemStack, HEAL_COST,
-			// player);
-			// player.addPotionEffect(new PotionEffect(Potion.regeneration.id,
-			// 100, 3));
-			// // The following line heals player like crazy, making armor
-			// obsolete. I won't use it.
-			// player.heal(0.5f);
-			// }
-			// }
-		}
+		ArmorFunctions.helmetFunctions(world, player, itemStack, RAY_COST, ENTITY_HIT_COST, FOOD_COST);
 	}
 
 	/*

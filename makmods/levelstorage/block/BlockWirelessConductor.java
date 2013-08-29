@@ -30,9 +30,8 @@ public class BlockWirelessConductor extends BlockContainer {
 	public static final String UNLOCALIZED_NAME = "blockWirelessConductor";
 	public static final String NAME = "Wireless Conductor";
 
-	public BlockWirelessConductor() {
-		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+	public BlockWirelessConductor(int id) {
+		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}

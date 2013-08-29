@@ -45,9 +45,8 @@ public class ItemRemoteAccessor extends Item implements IElectricItem {
 		        100000).getInt();
 	}
 
-	public ItemRemoteAccessor() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemRemoteAccessor(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

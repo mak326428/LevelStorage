@@ -34,9 +34,8 @@ public class BlockCableSuperconductor extends BlockContainer {
 	public static final String UNLOCALIZED_NAME = "blockSuperconductor";
 	public static final String NAME = "Superconductor";
 
-	public BlockCableSuperconductor() {
-		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+	public BlockCableSuperconductor(int id) {
+		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(null);
 		}

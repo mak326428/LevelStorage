@@ -68,10 +68,8 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	public Icon iconPass1;
 	public Icon iconPass2;
 
-	public ItemEnhancedDiamondDrill() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(),
-		        EnumToolMaterial.EMERALD);
+	public ItemEnhancedDiamondDrill(int id) {
+		super(id, EnumToolMaterial.EMERALD);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

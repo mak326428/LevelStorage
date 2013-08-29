@@ -9,15 +9,14 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumArmorMaterial;
@@ -30,15 +29,12 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
-import net.minecraftforge.event.EventPriority;
-import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorForcefieldChestplate extends ItemArmor implements
-        ISpecialArmor, IMetalArmor, IElectricItem {
+        ISpecialArmor, IMetalArmor, IElectricItem, IForcefieldChestplate {
 
 	public static final String UNLOCALIZED_NAME = "armorForcefieldChestplate";
 	public static final String NAME = "Forcefield Chestplate";
@@ -49,9 +45,8 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	public static final int ENTITY_MAX_DISTANCE = 16;
 	public static final int ENERGY_PER_TICK_ENTITIES = 100;
 
-	public ItemArmorForcefieldChestplate() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(),
+	public ItemArmorForcefieldChestplate(int id) {
+		super(id,
 		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 1);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
@@ -76,56 +71,6 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 		return found;
 	}
 
-	@ForgeSubscribe(priority = EventPriority.HIGHEST)
-	public void onLivingUpdate(LivingUpdateEvent event) {
-		// System.out.println(event.entityLiving.getClass().getCanonicalName());
-		// System.out.println("motionX" + event.entityLiving.motionX);
-		// System.out.println("motionY" + event.entityLiving.motionY);
-		// System.out.println("motionZ" + event.entityLiving.motionZ);
-		World w = event.entityLiving.worldObj;
-		if (!w.isRemote) {
-			if (event.entityLiving instanceof EntityPlayer)
-				return;
-			for (Object playerObj : w.playerEntities) {
-				EntityPlayer p = (EntityPlayer) playerObj;
-				ItemStack armor = playerGetArmor(p);
-				if (armor != null) {
-					double newPosX = event.entityLiving.posX
-					        + event.entityLiving.motionX;
-					double newPosY = event.entityLiving.posY
-					        + event.entityLiving.motionY;
-					double newPosZ = event.entityLiving.posZ
-					        + event.entityLiving.motionZ;
-
-					double distanceX = Math.abs(p.posX - newPosX);
-					double distanceY = Math.abs(p.posY - newPosY);
-					double distanceZ = Math.abs(p.posZ - newPosZ);
-					double totalDistance = distanceX + distanceY + distanceZ;
-					// if (totalDistance > ENTITY_MAX_DISTANCE) {
-					if (totalDistance < ENTITY_MAX_DISTANCE) {
-						if (ElectricItem.manager.canUse(armor,
-						        ENERGY_PER_TICK_ENTITIES)) {
-							if (event.entityLiving instanceof EntityMob)
-								event.entityLiving
-								        .attackEntityFrom(
-								                LSDamageSource.forcefieldArmorInstaKill,
-								                40);
-							ElectricItem.manager.use(armor,
-							        ENERGY_PER_TICK_ENTITIES, p);
-							// Nobody uses this, so...
-							// event.entityLiving.motionX =
-							// -(event.entityLiving.motionX);
-							// event.entityLiving.motionY =
-							// -(event.entityLiving.motionY - 0.05f);
-							// event.entityLiving.motionZ =
-							// -(event.entityLiving.motionZ);
-						}
-					}
-				}
-			}
-		}
-	}
-
 	public static final String FORCEFIELD_NBT = "forcefield";
 	public static int OMISSION = 0;
 
@@ -140,27 +85,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 	        ItemStack itemStack) {
-		if (!world.isRemote) {
-			player.extinguish();
-		}
-		/*
-		 * if (LevelStorage.fancyGraphics) { if (!NBTHelper.verifyKey(itemStack,
-		 * FORCEFIELD_NBT)) NBTHelper.setInteger(itemStack, FORCEFIELD_NBT, 10);
-		 * if (NBTHelper.getInteger(itemStack, FORCEFIELD_NBT) > 0)
-		 * NBTHelper.decreaseInteger(itemStack, FORCEFIELD_NBT, 1); if
-		 * (NBTHelper.getInteger(itemStack, FORCEFIELD_NBT) == 0) {
-		 * NBTHelper.setInteger(itemStack, FORCEFIELD_NBT, 10); if
-		 * (LevelStorage.getSide().isClient()) { for (int i = 0; i < 360; i +=
-		 * OMISSION) { double xC = player.posX + Math.cos(i)
-		 * ENTITY_MAX_DISTANCE; double zC = player.posZ + Math.sin(i)
-		 * ENTITY_MAX_DISTANCE;
-		 * 
-		 * EnergyRayFX p = new EnergyRayFX(world, xC, player.posY + 32, zC, xC,
-		 * player.posY - 32, zC, 48, 141, 255, 15);
-		 * ModLoader.getMinecraftInstance().effectRenderer .addEffect(p); }
-		 * 
-		 * } } }
-		 */
+		ArmorFunctions.extinguish(player, world);
 	}
 
 	public static void addCraftingRecipe() {
@@ -294,5 +219,15 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	public boolean isMetalArmor(ItemStack itemstack, EntityPlayer player) {
 		return true;
 	}
+
+	@Override
+    public int energyPerTick() {
+	    return ENERGY_PER_TICK_ENTITIES;
+    }
+
+	@Override
+    public WearType getWearType() {
+	    return WearType.ARMOR;
+    }
 
 }

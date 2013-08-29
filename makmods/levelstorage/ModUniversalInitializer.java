@@ -1,15 +1,21 @@
 package makmods.levelstorage;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.logging.Level;
 
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
+
+import com.google.common.collect.Maps;
+
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -26,15 +32,31 @@ public class ModUniversalInitializer {
 	public static final ModUniversalInitializer instance = new ModUniversalInitializer();
 
 	public static final String NAME = "NAME";
+	public static final String BLOCK_PREFIX = "Block";
+	public static final String ITEM_PREFIX = "Item";
 
 	private ModUniversalInitializer() {
 		;
 	}
 
+	// TODO: finish up stuff here
+	// because everything seems broken
 	public void create(Field f) {
 		LogHelper.info("Initializing block/item: " + f.getName());
 		try {
-			f.set(null, f.getType().newInstance());
+			Class c = f.getType();
+			int id = 0;
+			if (c.getSimpleName().startsWith(BLOCK_PREFIX))
+				id = LevelStorage.configuration.getBlock(f.getName(),
+				        LevelStorage.getAndIncrementCurrId()).getInt();
+			else if (c.getSimpleName().startsWith(ITEM_PREFIX))
+				id = LevelStorage.configuration.getItem(f.getName(),
+				        LevelStorage.getAndIncrementCurrId()).getInt();
+			else
+				LogHelper
+				        .severe("object is neither item nor block. This is a bug!");
+			Constructor con = c.getConstructor(int.class);
+			f.set(null, con.newInstance(id));
 		} catch (ClassCastException e) {
 		} catch (Exception e) {
 			FMLLog.log(Level.SEVERE, Reference.MOD_NAME

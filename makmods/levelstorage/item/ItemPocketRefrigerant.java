@@ -32,9 +32,8 @@ public class ItemPocketRefrigerant extends Item implements IElectricItem {
 
 	public static final int TIER = 1;
 
-	public ItemPocketRefrigerant() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemPocketRefrigerant(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

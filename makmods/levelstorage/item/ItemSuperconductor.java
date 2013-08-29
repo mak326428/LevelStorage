@@ -26,9 +26,8 @@ public class ItemSuperconductor extends Item {
 	public static final String UNLOCALIZED_NAME = "itemSuperconductor";
 	public static final String NAME = "Superconductor Cable";
 
-	public ItemSuperconductor() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemSuperconductor(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setNoRepair();
 		this.setMaxStackSize(16);

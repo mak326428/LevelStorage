@@ -56,6 +56,7 @@ public class SimpleItems extends Item {
 		addItem("itemOsmiridiumPlate", "Osmiridium Plate"); // 3
 		addItem("ingotOsmium", "Osmium Ingot"); // 4
 		addItem("ingotIridium", "Iridium Ingot"); // 5
+		addItem("itemUltimateCircuit", "Ultimate Circuit");
 	}
 
 	/**

@@ -26,9 +26,8 @@ public class ItemFrequencyCard extends Item {
 	public static final String UNLOCALIZED_NAME = "freqCard";
 	public static final String NAME = "Frequency Card";
 
-	public ItemFrequencyCard() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemFrequencyCard(int id) {
+		super(id);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));

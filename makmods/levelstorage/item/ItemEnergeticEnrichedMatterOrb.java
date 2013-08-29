@@ -29,9 +29,8 @@ public class ItemEnergeticEnrichedMatterOrb extends Item implements
 	public static final int TIER = 3;
 	public static final int STORAGE = 4 * 1000 * 1000;
 
-	public ItemEnergeticEnrichedMatterOrb() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt());
+	public ItemEnergeticEnrichedMatterOrb(int id) {
+		super(id);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();

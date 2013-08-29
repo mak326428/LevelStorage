@@ -43,9 +43,8 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;
 
-	public ItemArmorSupersonicLeggings() {
-		super(LevelStorage.configuration.getItem(UNLOCALIZED_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(),
+	public ItemArmorSupersonicLeggings(int id) {
+		super(id,
 		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 2);
 		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
@@ -57,37 +56,12 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 	}
 
 	
-	public static HashMap<EntityPlayer, Integer> speedTickerMap = new HashMap<EntityPlayer, Integer>();
+
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 	        ItemStack itemStack) {
-		if (!speedTickerMap.containsKey(player))
-			speedTickerMap.put(player, 0);
-		float speed = 0.66F;
-		if ((ElectricItem.manager.canUse(itemStack, 1000))
-		        && ((player.onGround) || (player.isInWater()))
-		        && (player.isSprinting())) {
-			int speedTicker = speedTickerMap.containsKey(player) ? ((Integer) speedTickerMap
-			        .get(player)).intValue() : 0;
-			speedTicker++;
-
-			if (speedTicker >= 10) {
-				speedTicker = 0;
-				ElectricItem.manager.use(itemStack, 1000, null);
-			}
-			speedTickerMap.remove(player);
-			speedTickerMap.put(player, Integer.valueOf(speedTicker));
-
-			if (player.isInWater()) {
-				speed = 0.1F;
-				if (IC2Access.instance.isKeyDown("Jump", player))
-					player.motionY += 0.1000000014901161D;
-			}
-
-			if (speed > 0.0F)
-				player.moveFlying(0.0F, 1.0F, speed);
-		}
+		ArmorFunctions.speedUp(player, itemStack);
 	}
 
 	/*
