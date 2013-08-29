@@ -8,7 +8,6 @@ public enum SimpleMode {
 	public boolean boolValue;
 	public static String NBT_NAME = "mode";
 	public static String NBT_COMPOUND_NAME = "mode_c";
-	
 
 	private SimpleMode(boolean value) {
 		this.boolValue = value;
@@ -17,11 +16,11 @@ public enum SimpleMode {
 	public SimpleMode getReverse(SimpleMode forWhat) {
 		return forWhat == ON ? OFF : ON;
 	}
-	
+
 	public SimpleMode getReverse() {
 		return getReverse(this);
 	}
-	
+
 	public void writeToNBT(NBTTagCompound nbt) {
 		if (nbt != null) {
 			NBTTagCompound compound = new NBTTagCompound();
@@ -29,7 +28,7 @@ public enum SimpleMode {
 			nbt.setCompoundTag(NBT_COMPOUND_NAME, compound);
 		}
 	}
-	
+
 	public static SimpleMode readFromNBT(NBTTagCompound nbtTag) {
 		if (nbtTag != null) {
 			NBTTagCompound compound = nbtTag.getCompoundTag(NBT_COMPOUND_NAME);

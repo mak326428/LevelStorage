@@ -40,7 +40,7 @@ public interface ICustomElectricItem extends IElectricItem {
 	 * @return Energy transferred into the electric item
 	 */
 	public int charge(ItemStack itemStack, int amount, int tier,
-			boolean ignoreTransferLimit, boolean simulate);
+	        boolean ignoreTransferLimit, boolean simulate);
 
 	/**
 	 * Discharge an item by a specified amount of energy
@@ -60,7 +60,7 @@ public interface ICustomElectricItem extends IElectricItem {
 	 * @return Energy retrieved from the electric item
 	 */
 	public int discharge(ItemStack itemStack, int amount, int tier,
-			boolean ignoreTransferLimit, boolean simulate);
+	        boolean ignoreTransferLimit, boolean simulate);
 
 	/**
 	 * Determine if the specified electric item has at least a specific amount

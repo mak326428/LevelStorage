@@ -41,7 +41,7 @@ public class ItemTimeAccelerator extends Item implements IElectricItem {
 
 	public ItemTimeAccelerator(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {

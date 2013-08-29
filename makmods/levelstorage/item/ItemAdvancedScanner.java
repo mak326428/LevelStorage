@@ -25,9 +25,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemAdvancedScanner extends Item implements IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "advScanner";
-	public static final String NAME = "Advanced OV-Scanner";
-
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
 	public static final int COOLDOWN_PERIOD = 20;
@@ -38,7 +35,6 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 
 	public ItemAdvancedScanner(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {

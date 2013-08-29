@@ -90,6 +90,7 @@ public class TileEntityMolecularHeater extends TileEntityBasicMachine implements
 		        .getItem()).getTransferLimit(getDischargeStack())))
 			addEnergy(discharge(Integer.MAX_VALUE, false));
 	}
+
 	// TODO: complete
 	public List<ItemStack> getInputStacks() {
 		ItemStack i0 = this.getStackInSlot(0);
@@ -107,13 +108,15 @@ public class TileEntityMolecularHeater extends TileEntityBasicMachine implements
 			stacks.add(i3);
 		return stacks;
 	}
-	
+
 	public boolean canSmelt(int slot) {
 		int inp = slot;
 		int outp = slot + 4;
-		if (this.getStackInSlot(inp) == null || this.getStackInSlot(outp) == null)
+		if (this.getStackInSlot(inp) == null
+		        || this.getStackInSlot(outp) == null)
 			return false;
-		ItemStack outputFor = FurnaceRecipes.smelting().getSmeltingResult(this.getStackInSlot(inp));
+		ItemStack outputFor = FurnaceRecipes.smelting().getSmeltingResult(
+		        this.getStackInSlot(inp));
 		if (outputFor == null)
 			return false;
 		if (this.getStackInSlot(outp).stackSize < 64 - outputFor.stackSize)

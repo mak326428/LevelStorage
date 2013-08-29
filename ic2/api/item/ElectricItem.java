@@ -46,9 +46,9 @@ public final class ElectricItem {
 	 */
 	@Deprecated
 	public static int charge(ItemStack itemStack, int amount, int tier,
-			boolean ignoreTransferLimit, boolean simulate) {
+	        boolean ignoreTransferLimit, boolean simulate) {
 		return manager.charge(itemStack, amount, tier, ignoreTransferLimit,
-				simulate);
+		        simulate);
 	}
 
 	/**
@@ -72,9 +72,9 @@ public final class ElectricItem {
 	 */
 	@Deprecated
 	public static int discharge(ItemStack itemStack, int amount, int tier,
-			boolean ignoreTransferLimit, boolean simulate) {
+	        boolean ignoreTransferLimit, boolean simulate) {
 		return manager.discharge(itemStack, amount, tier, ignoreTransferLimit,
-				simulate);
+		        simulate);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public final class ElectricItem {
 	 */
 	@Deprecated
 	public static boolean use(ItemStack itemStack, int amount,
-			EntityPlayer player) {
+	        EntityPlayer player) {
 		return manager.use(itemStack, amount, player);
 	}
 

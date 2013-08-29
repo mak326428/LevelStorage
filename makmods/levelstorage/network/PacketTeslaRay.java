@@ -45,9 +45,9 @@ public class PacketTeslaRay extends PacketLV {
 		dos.writeDouble(tY);
 		dos.writeDouble(tZ);
 	}
-	
-	@SideOnly(Side.CLIENT)
+
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void execute(INetworkManager network, Player player) {
 		if (LevelStorage.getSide().isClient()) {
 			EntityPlayer p = (EntityPlayer) player;

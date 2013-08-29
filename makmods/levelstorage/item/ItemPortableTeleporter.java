@@ -27,8 +27,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemPortableTeleporter extends Item implements IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "portableTeleporter";
-	public static final String NAME = "Portable Teleporter";
 	public static final String COOLDOWN_NBT = "cooldown";
 
 	public static final int COOLDOWN = 20;
@@ -39,7 +37,6 @@ public class ItemPortableTeleporter extends Item implements IElectricItem {
 
 	public ItemPortableTeleporter(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {

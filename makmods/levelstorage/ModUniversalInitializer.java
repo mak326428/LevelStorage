@@ -3,22 +3,16 @@ package makmods.levelstorage;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
 import java.util.logging.Level;
 
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
-
-import com.google.common.collect.Maps;
-
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 /**
  * Initializes all the items and blocks in the {@link LSBlockItemList}. Invoked
@@ -31,7 +25,6 @@ public class ModUniversalInitializer {
 
 	public static final ModUniversalInitializer instance = new ModUniversalInitializer();
 
-	public static final String NAME = "NAME";
 	public static final String BLOCK_PREFIX = "Block";
 	public static final String ITEM_PREFIX = "Item";
 
@@ -57,6 +50,11 @@ public class ModUniversalInitializer {
 				        .severe("object is neither item nor block. This is a bug!");
 			Constructor con = c.getConstructor(int.class);
 			f.set(null, con.newInstance(id));
+			Object obj = f.get(null);
+			if (obj instanceof Block)
+				((Block) obj).setUnlocalizedName(f.getName());
+			if (obj instanceof Item)
+				((Item) obj).setUnlocalizedName(f.getName());
 		} catch (ClassCastException e) {
 		} catch (Exception e) {
 			FMLLog.log(Level.SEVERE, Reference.MOD_NAME
@@ -72,42 +70,13 @@ public class ModUniversalInitializer {
 				LogHelper.info("Registering block " + f.getName()
 				        + " in GameRegistry");
 				Block currBlock = (Block) obj;
-				String name = (String) currBlock.getClass()
-				        .getField("UNLOCALIZED_NAME").get(null);
+				String name = f.getName();
 				GameRegistry.registerBlock(currBlock, name);
 			}
 		} catch (ClassCastException e) {
 			;
 		} catch (Exception e) {
 			LogHelper.severe(": failed to register block");
-			e.printStackTrace();
-		}
-
-	}
-
-	private void addName(Field f) {
-		try {
-			Object obj = f.get(null);
-			if (obj instanceof Block) {
-				Block curr = (Block) obj;
-				String name = (String) curr.getClass().getField(NAME).get(null);
-				LanguageRegistry.addName(curr, name);
-				LogHelper.info("Added name for block " + f.getName() + ": "
-				        + name);
-			} else if (obj instanceof Item) {
-				Item curr = (Item) obj;
-				String name = (String) curr.getClass().getField(NAME).get(null);
-				LanguageRegistry.addName(curr, name);
-				LogHelper.info("Added name for item " + f.getName() + ": "
-				        + name);
-			} else {
-				throw new Exception(
-				        "Object is neither item nor block. This is a bug!");
-			}
-
-		} catch (ClassCastException e) {
-		} catch (Exception e) {
-			LogHelper.severe(": failed to add name");
 			e.printStackTrace();
 		}
 
@@ -157,8 +126,6 @@ public class ModUniversalInitializer {
 			this.create(f);
 		for (Field f : items)
 			this.registerBlock(f);
-		for (Field f : items)
-			this.addName(f);
 		for (Field f : items)
 			this.addRecipe(f);
 		for (Field f : items)

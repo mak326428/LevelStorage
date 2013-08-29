@@ -261,5 +261,5 @@ public interface ICropTile {
 	 * @return Plant seed item
 	 */
 	public ItemStack generateSeeds(short plant, byte growth, byte gain,
-			byte resis, byte scan);
+	        byte resis, byte scan);
 }

@@ -22,8 +22,8 @@ public final class EnergyNet {
 		try {
 			if (EnergyNet_getForWorld == null) {
 				EnergyNet_getForWorld = Class.forName(
-						getPackage() + ".core.EnergyNet").getMethod(
-						"getForWorld", World.class);
+				        getPackage() + ".core.EnergyNet").getMethod(
+				        "getForWorld", World.class);
 			}
 
 			return new EnergyNet(EnergyNet_getForWorld.invoke(null, world));
@@ -50,12 +50,12 @@ public final class EnergyNet {
 		try {
 			if (EnergyNet_addTileEntity == null) {
 				EnergyNet_addTileEntity = Class.forName(
-						getPackage() + ".core.EnergyNet").getMethod(
-						"addTileEntity", TileEntity.class);
+				        getPackage() + ".core.EnergyNet").getMethod(
+				        "addTileEntity", TileEntity.class);
 			}
 
 			EnergyNet_addTileEntity.invoke(this.energyNetInstance,
-					addedTileEntity);
+			        addedTileEntity);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -75,12 +75,12 @@ public final class EnergyNet {
 		try {
 			if (EnergyNet_removeTileEntity == null) {
 				EnergyNet_removeTileEntity = Class.forName(
-						getPackage() + ".core.EnergyNet").getMethod(
-						"removeTileEntity", TileEntity.class);
+				        getPackage() + ".core.EnergyNet").getMethod(
+				        "removeTileEntity", TileEntity.class);
 			}
 
 			EnergyNet_removeTileEntity.invoke(this.energyNetInstance,
-					removedTileEntity);
+			        removedTileEntity);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -102,12 +102,12 @@ public final class EnergyNet {
 		try {
 			if (EnergyNet_emitEnergyFrom == null) {
 				EnergyNet_emitEnergyFrom = Class.forName(
-						getPackage() + ".core.EnergyNet").getMethod(
-						"emitEnergyFrom", IEnergySource.class, Integer.TYPE);
+				        getPackage() + ".core.EnergyNet").getMethod(
+				        "emitEnergyFrom", IEnergySource.class, Integer.TYPE);
 			}
 
 			return ((Integer) EnergyNet_emitEnergyFrom.invoke(
-					this.energyNetInstance, energySource, amount)).intValue();
+			        this.energyNetInstance, energySource, amount)).intValue();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -128,12 +128,12 @@ public final class EnergyNet {
 		try {
 			if (EnergyNet_getTotalEnergyConducted == null) {
 				EnergyNet_getTotalEnergyConducted = Class.forName(
-						getPackage() + ".core.EnergyNet").getMethod(
-						"getTotalEnergyConducted", TileEntity.class);
+				        getPackage() + ".core.EnergyNet").getMethod(
+				        "getTotalEnergyConducted", TileEntity.class);
 			}
 
 			return ((Long) EnergyNet_getTotalEnergyConducted.invoke(
-					this.energyNetInstance, tileEntity)).longValue();
+			        this.energyNetInstance, tileEntity)).longValue();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -152,12 +152,12 @@ public final class EnergyNet {
 		try {
 			if (EnergyNet_getTotalEnergyEmitted == null) {
 				EnergyNet_getTotalEnergyEmitted = Class.forName(
-						getPackage() + ".core.EnergyNet").getMethod(
-						"getTotalEnergyEmitted", TileEntity.class);
+				        getPackage() + ".core.EnergyNet").getMethod(
+				        "getTotalEnergyEmitted", TileEntity.class);
 			}
 
 			return ((Long) EnergyNet_getTotalEnergyEmitted.invoke(
-					this.energyNetInstance, tileEntity)).longValue();
+			        this.energyNetInstance, tileEntity)).longValue();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -176,12 +176,12 @@ public final class EnergyNet {
 		try {
 			if (EnergyNet_getTotalEnergySunken == null) {
 				EnergyNet_getTotalEnergySunken = Class.forName(
-						getPackage() + ".core.EnergyNet").getMethod(
-						"getTotalEnergySunken", TileEntity.class);
+				        getPackage() + ".core.EnergyNet").getMethod(
+				        "getTotalEnergySunken", TileEntity.class);
 			}
 
 			return ((Long) EnergyNet_getTotalEnergySunken.invoke(
-					this.energyNetInstance, tileEntity)).longValue();
+			        this.energyNetInstance, tileEntity)).longValue();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -199,7 +199,7 @@ public final class EnergyNet {
 			String packageName = pkg.getName();
 
 			return packageName.substring(0, packageName.length()
-					- ".api.energy".length());
+			        - ".api.energy".length());
 		}
 
 		return "ic2";

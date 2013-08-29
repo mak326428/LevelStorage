@@ -59,9 +59,9 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	public static final int FLYING_ENERGY_PER_TICK = 512;
 
 	public ItemArmorLevitationBoots(int id) {
-		super(id,
-		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 3);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+		super(id, EnumArmorMaterial.DIAMOND,
+		        ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 3);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		MinecraftForge.EVENT_BUS.register(this);
@@ -91,8 +91,6 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 			}
 		}
 	}
-	
-
 
 	public static boolean checkPlayer(EntityPlayer p) {
 		if (p.capabilities.isCreativeMode)
@@ -155,19 +153,18 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 		if (p.getBoolean(true)) {
 			if (LevelStorage.recipesHardmode) {
 				Recipes.advRecipes.addRecipe(new ItemStack(
-						LSBlockItemList.itemLevitationBoots), "iii", "iqi",
-				        "lil", Character.valueOf('i'),
-				        SimpleItems.instance.getIngredient(3),
-				        Character.valueOf('q'), Items.getItem("quantumBoots"),
-				        Character.valueOf('l'), new ItemStack(
-				        		LSBlockItemList.itemStorageFourMillion));
+				        LSBlockItemList.itemLevitationBoots), "iii", "iqi",
+				        "lil", Character.valueOf('i'), SimpleItems.instance
+				                .getIngredient(3), Character.valueOf('q'),
+				        Items.getItem("quantumBoots"), Character.valueOf('l'),
+				        new ItemStack(LSBlockItemList.itemStorageFourMillion));
 			} else {
 				Recipes.advRecipes.addRecipe(new ItemStack(
-						LSBlockItemList.itemLevitationBoots), "iii", "iqi",
+				        LSBlockItemList.itemLevitationBoots), "iii", "iqi",
 				        "lil", Character.valueOf('i'), IC2Items.IRIDIUM_PLATE,
 				        Character.valueOf('q'), Items.getItem("quantumBoots"),
 				        Character.valueOf('l'), new ItemStack(
-				        		LSBlockItemList.itemStorageFourMillion));
+				                LSBlockItemList.itemStorageFourMillion));
 			}
 		}
 	}

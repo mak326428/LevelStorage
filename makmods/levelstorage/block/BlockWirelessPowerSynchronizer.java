@@ -28,15 +28,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockWirelessPowerSynchronizer extends BlockContainer {
 
-	public static final String UNLOCALIZED_NAME = "blockWirelessPowerSynchronizer";
-	public static final String NAME = "Wireless Power Synchronizer";
-
 	public BlockWirelessPowerSynchronizer(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 	}
@@ -48,8 +44,7 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 	public ItemStack advMachine = Items.getItem("advancedMachine");
 
 	public static void addCraftingRecipe() {
-		ItemStack sync = new ItemStack(LSBlockItemList.blockWlessPowerSync,
-		        4);
+		ItemStack sync = new ItemStack(LSBlockItemList.blockWlessPowerSync, 4);
 		ItemStack advCircuit = Items.getItem("advancedCircuit");
 		ItemStack advMachine = Items.getItem("advancedMachine");
 		Recipes.advRecipes.addRecipe(sync, "ccc", "ama", "ccc",

@@ -34,7 +34,7 @@ public class ItemPocketRefrigerant extends Item implements IElectricItem {
 
 	public ItemPocketRefrigerant(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -44,16 +44,18 @@ public class ItemPocketRefrigerant extends Item implements IElectricItem {
 	}
 
 	public static void addCraftingRecipe() {
+		Recipes.advRecipes
+		        .addShapelessRecipe(new ItemStack(
+		                LSBlockItemList.itemPocketRefrigerant), new ItemStack(
+		                Block.ice), new ItemStack(Block.ice), new ItemStack(
+		                Block.ice), new ItemStack(Block.ice), Items
+		                .getItem("advancedCircuit"), Items.getItem("reBattery"));
 		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-		        LSBlockItemList.itemPocketRefrigerant), new ItemStack(
-		        Block.ice), new ItemStack(Block.ice), new ItemStack(Block.ice),
-		        new ItemStack(Block.ice), Items.getItem("advancedCircuit"),
-		        Items.getItem("reBattery"));
-		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
-		        LSBlockItemList.itemPocketRefrigerant), new ItemStack(
-		        Block.ice), new ItemStack(Block.ice), new ItemStack(Block.ice),
-		        new ItemStack(Block.ice), Items.getItem("advancedCircuit"),
-		        Items.getItem("chargedReBattery"));
+		        LSBlockItemList.itemPocketRefrigerant),
+		        new ItemStack(Block.ice), new ItemStack(Block.ice),
+		        new ItemStack(Block.ice), new ItemStack(Block.ice), Items
+		                .getItem("advancedCircuit"), Items
+		                .getItem("chargedReBattery"));
 
 	}
 

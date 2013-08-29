@@ -21,7 +21,7 @@ public class SlotBook extends Slot {
 	public static boolean checkItemValidity(ItemStack stack) {
 		for (XpStack s : XpStackRegistry.instance.ITEM_XP_CONVERSIONS) {
 			if (s.stack.getItemDamage() == stack.getItemDamage()
-					&& s.stack.itemID == stack.itemID)
+			        && s.stack.itemID == stack.itemID)
 				return true;
 		}
 

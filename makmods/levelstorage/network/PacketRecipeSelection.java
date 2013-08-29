@@ -52,7 +52,7 @@ public class PacketRecipeSelection extends PacketLV {
 			if (world != null) {
 				if (!world.isRemote) {
 					TileEntity te = world.getBlockTileEntity(this.x, this.y,
-							this.z);
+					        this.z);
 					if (te != null) {
 						if (te instanceof TileEntityMassInfuser) {
 							TileEntityMassInfuser ihb = (TileEntityMassInfuser) te;
@@ -63,7 +63,7 @@ public class PacketRecipeSelection extends PacketLV {
 			}
 		} catch (Exception e) {
 			FMLLog.log(Level.SEVERE,
-					"LevelStorage: PacketRecipeSelection - exception:");
+			        "LevelStorage: PacketRecipeSelection - exception:");
 			e.printStackTrace();
 		}
 	}

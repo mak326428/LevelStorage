@@ -49,7 +49,7 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 
 	public ItemDestructor(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -410,10 +410,9 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 	public static void addCraftingRecipe() {
 
 		Recipes.advRecipes.addRecipe(new ItemStack(
-		        LSBlockItemList.itemDestructor), "cee", "ccd", "ccc",
-		        Character.valueOf('c'), IC2Items.CARBON_PLATE, Character
-		                .valueOf('e'), IC2Items.ENERGY_CRYSTAL, Character
-		                .valueOf('d'), new ItemStack(
+		        LSBlockItemList.itemDestructor), "cee", "ccd", "ccc", Character
+		        .valueOf('c'), IC2Items.CARBON_PLATE, Character.valueOf('e'),
+		        IC2Items.ENERGY_CRYSTAL, Character.valueOf('d'), new ItemStack(
 		                LSBlockItemList.itemEnhDiamondDrill));
 
 	}

@@ -56,15 +56,15 @@ public enum Direction {
 	 */
 	public TileEntity applyToTileEntity(TileEntity tileEntity) {
 		int coords[] = { tileEntity.xCoord, tileEntity.yCoord,
-				tileEntity.zCoord };
+		        tileEntity.zCoord };
 
 		coords[this.dir / 2] += this.getSign();
 
 		if (tileEntity.worldObj != null
-				&& tileEntity.worldObj.blockExists(coords[0], coords[1],
-						coords[2]))
+		        && tileEntity.worldObj.blockExists(coords[0], coords[1],
+		                coords[2]))
 			return tileEntity.worldObj.getBlockTileEntity(coords[0], coords[1],
-					coords[2]);
+			        coords[2]);
 		else
 			return null;
 	}

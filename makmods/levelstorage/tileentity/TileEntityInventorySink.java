@@ -6,20 +6,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public abstract class TileEntityInventorySink extends TileEntityBasicSink implements IInventory {
-	
+public abstract class TileEntityInventorySink extends TileEntityBasicSink
+        implements IInventory {
+
 	public ItemStack[] inv;
-	
+
 	public TileEntityInventorySink(int inventorySize) {
 		super();
 		inv = new ItemStack[inventorySize];
 	}
-	
+
 	@Override
 	public boolean isInvNameLocalized() {
 		return true;
 	}
-	
 
 	@Override
 	public int getSizeInventory() {
@@ -54,7 +54,6 @@ public abstract class TileEntityInventorySink extends TileEntityBasicSink implem
 		}
 		return stack;
 	}
-	
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
@@ -82,7 +81,7 @@ public abstract class TileEntityInventorySink extends TileEntityBasicSink implem
 	@Override
 	public void closeChest() {
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);

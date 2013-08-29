@@ -22,16 +22,17 @@ public class BlockMultiblockNukeChamber extends BlockContainer {
 
 	public BlockMultiblockNukeChamber() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 	}
+
 	public static void addCraftingRecipe() {
-		
+
 	}
 
 	@Override
@@ -39,7 +40,6 @@ public class BlockMultiblockNukeChamber extends BlockContainer {
 		return new TileEntityXpCharger();
 	}
 
-	
 	private Icon down;
 	private Icon up;
 	private Icon side;
@@ -53,22 +53,21 @@ public class BlockMultiblockNukeChamber extends BlockContainer {
 		if (orientation == ForgeDirection.UP)
 			return this.up;
 		if (orientation == ForgeDirection.NORTH
-				|| orientation == ForgeDirection.WEST
-				|| orientation == ForgeDirection.SOUTH
-				|| orientation == ForgeDirection.EAST)
+		        || orientation == ForgeDirection.WEST
+		        || orientation == ForgeDirection.SOUTH
+		        || orientation == ForgeDirection.EAST)
 			return this.side;
 		return null;
 	}
 
-	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		this.side = iconRegister
-				.registerIcon(ClientProxy.MULTINUKE_CHAMBER_TEXTURE+ "Side");
+		        .registerIcon(ClientProxy.MULTINUKE_CHAMBER_TEXTURE + "Side");
 		this.up = iconRegister
-				.registerIcon(ClientProxy.MULTINUKE_CHAMBER_TEXTURE + "Up");
+		        .registerIcon(ClientProxy.MULTINUKE_CHAMBER_TEXTURE + "Up");
 		this.down = iconRegister
-				.registerIcon(ClientProxy.MULTINUKE_CHAMBER_TEXTURE + "Down");
+		        .registerIcon(ClientProxy.MULTINUKE_CHAMBER_TEXTURE + "Down");
 	}
 }

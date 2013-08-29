@@ -20,32 +20,25 @@ public class ModAchievements {
 		;
 	}
 
-
 	public void init() {
-		/*Achievement[] achs = new Achievement[ACHIEVEMENTS_LIMIT];
-		Field[] f = this.getClass().getDeclaredFields();
-		ArrayList<Field> okayAchs = Lists.newArrayList();
-		for (Field f2 : f) {
-			if (f2 != null)
-				if (f2.getType().getCanonicalName() == Achievement.class
-				        .getCanonicalName()) {
-					okayAchs.add(f2);
-				}
-		}
-		for (int index = 0; index < okayAchs.size(); index++) {
-			try {
-				achs[index] = (Achievement) okayAchs.get(index).get(instance);
-			} catch (Exception e) {
-				FMLLog.severe(Reference.MOD_NAME
-				        + ": failed to register achievement");
-				e.printStackTrace();
-			}
-		}*/
-		craftHelmet = new Achievement(736781, "tesla", 3,
-		        -4, new ItemStack(LSBlockItemList.itemArmorTeslaHelmet), null)
+		/*
+		 * Achievement[] achs = new Achievement[ACHIEVEMENTS_LIMIT]; Field[] f =
+		 * this.getClass().getDeclaredFields(); ArrayList<Field> okayAchs =
+		 * Lists.newArrayList(); for (Field f2 : f) { if (f2 != null) if
+		 * (f2.getType().getCanonicalName() == Achievement.class
+		 * .getCanonicalName()) { okayAchs.add(f2); } } for (int index = 0;
+		 * index < okayAchs.size(); index++) { try { achs[index] = (Achievement)
+		 * okayAchs.get(index).get(instance); } catch (Exception e) {
+		 * FMLLog.severe(Reference.MOD_NAME +
+		 * ": failed to register achievement"); e.printStackTrace(); } }
+		 */
+		craftHelmet = new Achievement(736781, "tesla", 3, -4, new ItemStack(
+		        LSBlockItemList.itemArmorTeslaHelmet), null)
 		        .registerAchievement();
-		LanguageRegistry.instance().addStringLocalization("achievement.tesla", "Rays, rays everywhere!");
-		LanguageRegistry.instance().addStringLocalization("achievement.tesla.desc","Craft a tesla helmet.");
+		LanguageRegistry.instance().addStringLocalization("achievement.tesla",
+		        "Rays, rays everywhere!");
+		LanguageRegistry.instance().addStringLocalization(
+		        "achievement.tesla.desc", "Craft a tesla helmet.");
 		LEVEL_STORAGE_ACHIEVEMENT_PAGE = new AchievementPage("LevelStorage",
 		        craftHelmet);
 		AchievementPage.registerAchievementPage(LEVEL_STORAGE_ACHIEVEMENT_PAGE);

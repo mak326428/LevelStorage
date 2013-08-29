@@ -14,7 +14,7 @@ public class ContainerWirelessCharger extends Container {
 
 	public class SlotItemCharger extends Slot {
 		public SlotItemCharger(IInventory par1IInventory, int par2, int par3,
-				int par4) {
+		        int par4) {
 			super(par1IInventory, par2, par3, par4);
 		}
 
@@ -30,26 +30,26 @@ public class ContainerWirelessCharger extends Container {
 		this.inventory = new NBTInventory(dimId, playerName, itemStack);
 		this.addSlotToContainer(new SlotFrequencyCard(this.inventory, 0, 80, 35));
 		this.bindPlayerInventory(DimensionManager.getWorld(dimId)
-				.getPlayerEntityByName(playerName).inventory);
+		        .getPlayerEntityByName(playerName).inventory);
 	}
 
 	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(inventoryPlayer,
-						j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				        j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18,
-					142));
+			        142));
 		}
 	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,
-			int slotIndex) {
+	        int slotIndex) {
 
 		ItemStack itemStack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotIndex);
@@ -61,7 +61,7 @@ public class ContainerWirelessCharger extends Container {
 
 			if (slotIndex < NBTInventory.SIZE) {
 				if (!this.mergeItemStack(slotItemStack, NBTInventory.SIZE,
-						this.inventorySlots.size(), false))
+				        this.inventorySlots.size(), false))
 					return null;
 			} else {
 				// WARNING: the following code is for this current case only.
@@ -72,7 +72,7 @@ public class ContainerWirelessCharger extends Container {
 				}
 				// End of warning
 				if (!this.mergeItemStack(slotItemStack, 0, NBTInventory.SIZE,
-						false))
+				        false))
 					return null;
 			}
 

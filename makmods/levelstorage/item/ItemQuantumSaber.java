@@ -35,7 +35,7 @@ public class ItemQuantumSaber extends Item implements IElectricItem {
 
 	public ItemQuantumSaber(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {

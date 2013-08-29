@@ -52,7 +52,7 @@ public class BaseSeed {
 	 *            for internal usage only
 	 */
 	public BaseSeed(int id, int size, int statGrowth, int statGain,
-			int statResistance, int stackSize) {
+	        int statResistance, int stackSize) {
 		super();
 		this.id = id;
 		this.size = size;

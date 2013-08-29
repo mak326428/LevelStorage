@@ -12,6 +12,6 @@ public class FluidElectrolyte extends Fluid {
 		this.setGaseous(false);
 		// this.setBlockID(ModFluids.instance.blockElectrolyte);
 		FluidContainerRegistry.registerFluidContainer(this,
-				Items.getItem("electrolyzedWaterCell"), Items.getItem("cell"));
+		        Items.getItem("electrolyzedWaterCell"), Items.getItem("cell"));
 	}
 }

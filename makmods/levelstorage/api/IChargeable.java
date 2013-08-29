@@ -4,11 +4,12 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Interface for dealing with chargeables
+ * 
  * @author mak326428
- *
+ * 
  */
 public interface IChargeable {
-	
+
 	public static final String CHARGE_NBT = "itemChargeMode";
 
 	/**

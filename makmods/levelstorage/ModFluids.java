@@ -20,9 +20,8 @@ public class ModFluids {
 		FluidRegistry.registerFluid(this.fluidElectrolyte);
 		this.blockElectrolyte = new BlockFluidElectrolyte();
 		GameRegistry.registerBlock(this.blockElectrolyte,
-				BlockFluidElectrolyte.UNLOC_NAME);
-		LanguageRegistry.addName(blockElectrolyte,
-		BlockFluidElectrolyte.NAME);
+		        BlockFluidElectrolyte.UNLOC_NAME);
+		LanguageRegistry.addName(blockElectrolyte, BlockFluidElectrolyte.NAME);
 	}
 
 }

@@ -35,12 +35,12 @@ public class ExperienceRecipe implements IRecipe {
 				if (currentStack.getItem() instanceof ItemLevelStorageBook) {
 					if (currentStack.stackTagCompound != null) {
 						if (currentStack.stackTagCompound
-								.hasKey(ItemLevelStorageBook.STORED_XP_NBT)) {
+						        .hasKey(ItemLevelStorageBook.STORED_XP_NBT)) {
 							if (seenBook)
 								return null;
 							initialBookStack = currentStack;
 							bookXp = currentStack.stackTagCompound
-									.getInteger(ItemLevelStorageBook.STORED_XP_NBT);
+							        .getInteger(ItemLevelStorageBook.STORED_XP_NBT);
 							seenBook = true;
 							cycleCompleted = true;
 						}
@@ -84,7 +84,7 @@ public class ExperienceRecipe implements IRecipe {
 		ItemStack result = new ItemStack(LSBlockItemList.itemLevelStorageBook);
 		result.stackTagCompound = new NBTTagCompound();
 		result.stackTagCompound.setInteger(ItemLevelStorageBook.STORED_XP_NBT,
-				totalXp);
+		        totalXp);
 
 		return result;
 	}

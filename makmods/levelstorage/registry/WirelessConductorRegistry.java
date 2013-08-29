@@ -22,7 +22,7 @@ public class WirelessConductorRegistry {
 	 * @return whether conductor was added or not
 	 */
 	public boolean addConductorToRegistry(IWirelessConductor conductor,
-			ConductorType type) {
+	        ConductorType type) {
 		if (this.conductors.containsKey(conductor)) {
 			this.conductors.remove(conductor);
 		}
@@ -85,7 +85,7 @@ public class WirelessConductorRegistry {
 	 * @return whether or not type was set
 	 */
 	public boolean setConductorType(IWirelessConductor conductor,
-			ConductorType type) {
+	        ConductorType type) {
 		if (!this.conductors.containsKey(conductor))
 			return false;
 		this.conductors.remove(conductor);

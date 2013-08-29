@@ -26,7 +26,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
-		IEnergySink, IEnergyStorage, IInventory, IWrenchable, ISidedInventory {
+        IEnergySink, IEnergyStorage, IInventory, IWrenchable, ISidedInventory {
 	public static final int INTERNAL_CAPACITOR = 4096;
 	public static final int INVENTORY_SIZE = 2;
 	public static final String INVENTORY_NAME = "XP Charger";
@@ -57,7 +57,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 
 	public void syncUUMProgress() {
 		float percent = ((this.uumPoints * 100.0f) / XpStackRegistry.UUM_XP_CONVERSION
-				.getValue()) / 100;
+		        .getValue()) / 100;
 		this.progress = (int) (36 * percent);
 	}
 
@@ -67,9 +67,9 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 			if (amount > MAX_PACKET_SIZE) {
 				this.invalidate();
 				this.worldObj.setBlockToAir(this.xCoord, this.yCoord,
-						this.zCoord);
+				        this.zCoord);
 				this.worldObj.createExplosion(null, this.xCoord, this.yCoord,
-						this.zCoord, 2F, false);
+				        this.zCoord, 2F, false);
 			}
 			if ((this.getCapacity() - this.getStored()) > amount) {
 				this.addEnergy(amount);
@@ -159,7 +159,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		this.writeToNBT(nbtTag);
 		return new Packet132TileEntityData(this.xCoord, this.yCoord,
-				this.zCoord, 1, nbtTag);
+		        this.zCoord, 1, nbtTag);
 	}
 
 	@Override
@@ -213,7 +213,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 			if (!LevelStorage.chargerOnlyUUM) {
 				if (this.addedToENet) {
 					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(
-							this));
+					        this));
 					this.addedToENet = false;
 				}
 			}
@@ -248,9 +248,9 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
-				this.zCoord) == this
-				&& player.getDistanceSq(this.xCoord + 0.5, this.yCoord + 0.5,
-						this.zCoord + 0.5) < 64;
+		        this.zCoord) == this
+		        && player.getDistanceSq(this.xCoord + 0.5, this.yCoord + 0.5,
+		                this.zCoord + 0.5) < 64;
 	}
 
 	@Override
@@ -340,33 +340,33 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 			if (!LevelStorage.chargerOnlyUUM) {
 				if (!this.addedToENet) {
 					MinecraftForge.EVENT_BUS
-							.post(new EnergyTileLoadEvent(this));
+					        .post(new EnergyTileLoadEvent(this));
 					this.addedToENet = true;
 				}
 			}
 			this.isWorking = (!this.worldObj.isBlockIndirectlyGettingPowered(
-					this.xCoord, this.yCoord, this.zCoord) && this.worldObj
-					.getBlockPowerInput(this.xCoord, this.yCoord, this.zCoord) < 1);
+			        this.xCoord, this.yCoord, this.zCoord) && this.worldObj
+			        .getBlockPowerInput(this.xCoord, this.yCoord, this.zCoord) < 1);
 			if (this.isWorking) {
 
 				if (!LevelStorage.chargerOnlyUUM) {
 					if (this.inv[0] != null) {
 						if (this.inv[0].getItem() instanceof ItemLevelStorageBook) {
 							if (this.getStored() > XpStackRegistry.XP_EU_CONVERSION
-									.getValue() * ENERGY_COST_MULTIPLIER) {
+							        .getValue() * ENERGY_COST_MULTIPLIER) {
 								if ((LevelStorage.itemLevelStorageBookSpace - ItemLevelStorageBook
-										.getStoredXP(this.inv[0])) > XpStackRegistry.XP_EU_CONVERSION
-										.getKey()) {
+								        .getStoredXP(this.inv[0])) > XpStackRegistry.XP_EU_CONVERSION
+								        .getKey()) {
 									this.addEnergy(-(XpStackRegistry.XP_EU_CONVERSION
-											.getValue() * ENERGY_COST_MULTIPLIER));
+									        .getValue() * ENERGY_COST_MULTIPLIER));
 									ItemLevelStorageBook.increaseStoredXP(
-											this.inv[0],
-											XpStackRegistry.XP_EU_CONVERSION
-													.getKey());
+									        this.inv[0],
+									        XpStackRegistry.XP_EU_CONVERSION
+									                .getKey());
 								}
 							}
 							this.inv[0].setItemDamage(ItemLevelStorageBook
-									.calculateDurability(this.inv[0]));
+							        .calculateDurability(this.inv[0]));
 						}
 					}
 				}
@@ -376,14 +376,14 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 					if (this.uumPoints <= 0) {
 						if (this.inv[1] != null) {
 							if (this.inv[1].stackSize >= XpStackRegistry.UUM_XP_CONVERSION
-									.getKey()) {
+							        .getKey()) {
 								if (this.inv[1].getItem() == Items.getItem(
-										"matter").getItem()) {
+								        "matter").getItem()) {
 									this.decrStackSize(1,
-											XpStackRegistry.UUM_XP_CONVERSION
-													.getKey());
+									        XpStackRegistry.UUM_XP_CONVERSION
+									                .getKey());
 									this.uumPoints += XpStackRegistry.UUM_XP_CONVERSION
-											.getValue();
+									        .getValue();
 								}
 							}
 						}
@@ -391,12 +391,12 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 					if (this.uumPoints > 0) {
 						if (this.inv[0] != null) {
 							if ((LevelStorage.itemLevelStorageBookSpace - ItemLevelStorageBook
-									.getStoredXP(this.inv[0])) > 1) {
+							        .getStoredXP(this.inv[0])) > 1) {
 								ItemLevelStorageBook.increaseStoredXP(
-										this.inv[0], 1);
+								        this.inv[0], 1);
 								this.uumPoints--;
 								this.inv[0].setItemDamage(ItemLevelStorageBook
-										.calculateDurability(this.inv[0]));
+								        .calculateDurability(this.inv[0]));
 							}
 						}
 						this.syncUUMProgress();

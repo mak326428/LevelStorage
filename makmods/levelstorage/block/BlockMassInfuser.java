@@ -23,15 +23,11 @@ import cpw.mods.fml.common.FMLCommonHandler;
 
 public class BlockMassInfuser extends BlockContainer {
 
-	public static final String UNLOCALIZED_NAME = "blockMassInfuser";
-	public static final String NAME = "Mass Infuser";
-
 	public BlockMassInfuser(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.375F, 1F);
@@ -98,12 +94,12 @@ public class BlockMassInfuser extends BlockContainer {
 				float rz = rand.nextFloat() * 0.8F + 0.1F;
 
 				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
-						+ rz, new ItemStack(item.itemID, item.stackSize,
-						item.getItemDamage()));
+				        + rz, new ItemStack(item.itemID, item.stackSize,
+				        item.getItemDamage()));
 
 				if (item.hasTagCompound()) {
 					entityItem.getEntityItem().setTagCompound(
-							(NBTTagCompound) item.getTagCompound().copy());
+					        (NBTTagCompound) item.getTagCompound().copy());
 				}
 
 				float factor = 0.05F;
@@ -118,13 +114,13 @@ public class BlockMassInfuser extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
+	        EntityPlayer player, int par6, float par7, float par8, float par9) {
 		if (player.isSneaking())
 			return false;
 		else {
 			if (!world.isRemote) {
 				TileEntityMassInfuser tile = (TileEntityMassInfuser) world
-						.getBlockTileEntity(x, y, z);
+				        .getBlockTileEntity(x, y, z);
 				if (tile != null) {
 					player.openGui(LevelStorage.instance, 70, world, x, y, z);
 				}

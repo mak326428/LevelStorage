@@ -26,7 +26,7 @@ public interface IReactorComponent {
 	 *            Y-coordinate of the stack in the grid
 	 */
 	public void processChamber(IReactor reactor, ItemStack yourStack, int x,
-			int y);
+	        int y);
 
 	/**
 	 * Can be called by Uranium-Components who attempt to generate energy by
@@ -51,7 +51,7 @@ public interface IReactorComponent {
 	 *         therefore meant to produce heat)
 	 */
 	public boolean acceptUraniumPulse(IReactor reactor, ItemStack yourStack,
-			ItemStack pulsingStack, int youX, int youY, int pulseX, int pulseY);
+	        ItemStack pulsingStack, int youX, int youY, int pulseX, int pulseY);
 
 	/**
 	 * Called by components to determine whether your component can be heated.
@@ -67,7 +67,7 @@ public interface IReactorComponent {
 	 * @return true if your component can take heat
 	 */
 	public boolean canStoreHeat(IReactor reactor, ItemStack yourStack, int x,
-			int y);
+	        int y);
 
 	/**
 	 * Called by heat-switches to determine how much heat to distribute into
@@ -102,7 +102,7 @@ public interface IReactorComponent {
 	 * @return Current Heat
 	 */
 	public int getCurrentHeat(IReactor reactor, ItemStack yourStack, int x,
-			int y);
+	        int y);
 
 	/**
 	 * Called by components to distribute heat to your component. Perform
@@ -125,7 +125,7 @@ public interface IReactorComponent {
 	 *         <0)
 	 */
 	public int alterHeat(IReactor reactor, ItemStack yourStack, int x, int y,
-			int heat);
+	        int heat);
 
 	/**
 	 * Called upon reactor explosion Alter the explosion size. Returning a float

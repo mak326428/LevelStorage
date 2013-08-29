@@ -46,16 +46,16 @@ public class RenderOreRadar {
 								int currZ = initialPosZ + z;
 								if (!w.isAirBlock(currX, currY, currZ)) {
 									int blockId = w.getBlockId(currX, currY,
-											currZ);
+									        currZ);
 									int meta = w.getBlockMetadata(currX, currY,
-											currZ);
+									        currZ);
 									Block bl = Block.blocksList[blockId];
 									if (OreDictHelper.getOreName(
-											new ItemStack(bl))
-											.startsWith("ore")) {
+									        new ItemStack(bl))
+									        .startsWith("ore")) {
 										oreLoc.add(new BlockLocation(
-												w.provider.dimensionId, currX,
-												currY, currZ));
+										        w.provider.dimensionId, currX,
+										        currY, currZ));
 									}
 								}
 							} catch (Exception e) {
@@ -71,7 +71,7 @@ public class RenderOreRadar {
 
 			for (BlockLocation bl : oreLoc) {
 				int blockId = event.player.worldObj.getBlockId(bl.getX(),
-						bl.getY(), bl.getZ());
+				        bl.getY(), bl.getZ());
 				if (!ores.containsKey(blockId)) {
 					ores.put(blockId, 1);
 				} else {
@@ -80,11 +80,9 @@ public class RenderOreRadar {
 					ores.put(blockId, prevAmount + 1);
 				}
 			}
-			
-			
-			
+
 			for (Entry<Integer, Integer> entry : ores.entrySet()) {
-				
+
 			}
 		}
 

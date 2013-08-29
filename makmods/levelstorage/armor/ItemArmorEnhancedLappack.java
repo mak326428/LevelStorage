@@ -42,7 +42,7 @@ public class ItemArmorEnhancedLappack extends ItemArmor implements
 	public ItemArmorEnhancedLappack(int id) {
 		super(id, EnumArmorMaterial.DIAMOND,
 		        ClientProxy.ARMOR_ENHANCED_LAPPACK_RENDER_INDEX, 1);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {

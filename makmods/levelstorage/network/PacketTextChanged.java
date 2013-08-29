@@ -54,7 +54,7 @@ public class PacketTextChanged extends PacketLV {
 			if (world != null) {
 				if (!world.isRemote) {
 					TileEntity te = world.getBlockTileEntity(this.x, this.y,
-							this.z);
+					        this.z);
 					if (te != null) {
 						if (te instanceof IHasTextBoxes) {
 							IHasTextBoxes ihb = (IHasTextBoxes) te;
@@ -65,7 +65,7 @@ public class PacketTextChanged extends PacketLV {
 			}
 		} catch (Exception e) {
 			FMLLog.log(Level.SEVERE,
-					"LevelStorage: PacketPressButton - exception:");
+			        "LevelStorage: PacketPressButton - exception:");
 			e.printStackTrace();
 		}
 	}

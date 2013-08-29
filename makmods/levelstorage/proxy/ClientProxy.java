@@ -43,7 +43,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String DESTRUCTOR_TEXTURE = getTexturePathFor("itemDestructor");
 	public static final String ENHANCED_LAPPACK_TEXTURE = getTexturePathFor("itemEnhLappack");
 	public static final String REMOTE_ACESSOR_TEXTURE = getTexturePathFor("itemRemoteAccessor");
-	
+
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
 	public static final String XP_CHARGER_TEXTURE = getTexturePathFor("blockXpCharger");
@@ -64,15 +64,15 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
 	public static final ResourceLocation GUI_MASS_INFUSER = getResourceLocation("gui/massInfuser.png");
 	public static final ResourceLocation GUI_MOLECULAR_HEATER = getResourceLocation("gui/molecularHeater.png");
-	public static final ResourceLocation GUI_MINER = new ResourceLocation("ic2", "textures/gui/GUIMiner.png");
-
+	public static final ResourceLocation GUI_MINER = new ResourceLocation(
+	        "ic2", "textures/gui/GUIMiner.png");
 
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
 	public static final ResourceLocation MASS_INFUSER_MODEL = getResourceLocation("model/MassInfuserModel.png");
 	public static final ResourceLocation INV_PROVIDER_MODEL = getResourceLocation("model/ModelProviderTexture.png");
-	
+
 	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_layer_2.png";
 	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/textures/models/armor/supersonic_layer_1.png";
 	public static int ARMOR_SUPERSONIC_RENDER_INDEX;
@@ -82,7 +82,7 @@ public class ClientProxy extends CommonProxy {
 	public static final int CABLE_RENDER_ID = RenderingRegistry
 	        .getNextAvailableRenderId();
 	public static final String TESLA_RAY_1 = "misc/tesla.png";
-	
+
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
 		for (CreativeTabs t : CreativeTabs.creativeTabArray) {
@@ -106,9 +106,11 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init() {
 		RenderingRegistry.registerBlockHandler(new RenderSuperconductorCable());
-		ARMOR_SUPERSONIC_RENDER_INDEX = RenderingRegistry.addNewArmourRendererPrefix("supersonic");
-		ARMOR_ENHANCED_LAPPACK_RENDER_INDEX = RenderingRegistry.addNewArmourRendererPrefix("enhlappack");
-		
+		ARMOR_SUPERSONIC_RENDER_INDEX = RenderingRegistry
+		        .addNewArmourRendererPrefix("supersonic");
+		ARMOR_ENHANCED_LAPPACK_RENDER_INDEX = RenderingRegistry
+		        .addNewArmourRendererPrefix("enhlappack");
+
 		super.init();
 		ClientRegistry.bindTileEntitySpecialRenderer(
 		        TileEntityWirelessConductor.class,
@@ -116,9 +118,9 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(
 		        TileEntityMassInfuser.class, new MassInfuserRender());
 		MinecraftForgeClient.registerItemRenderer(
-				LSBlockItemList.blockWlessConductor.blockID,
-				new ItemWirelessConductorRender());
-		
+		        LSBlockItemList.blockWlessConductor.blockID,
+		        new ItemWirelessConductorRender());
+
 		// MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}
 

@@ -33,15 +33,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockMolecularHeater extends BlockContainer {
 
-	public static final String UNLOCALIZED_NAME = "blockMolHeater";
-	public static final String NAME = "Molecular Heater";
-
 	public BlockMolecularHeater(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 	}
@@ -84,7 +80,8 @@ public class BlockMolecularHeater extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int par2) {
 		return side == ForgeDirection.SOUTH.ordinal() ? facing
-		        : BlockTextureRegistry.instance.getIcon(side, UNLOCALIZED_NAME);
+		        : BlockTextureRegistry.instance.getIcon(side,
+		                getUnlocalizedName());
 	}
 
 	// TODO: DO NOT FORGET ABOUT DESCRIPTION PACKETS IN BASE SINK.
@@ -127,7 +124,7 @@ public class BlockMolecularHeater extends BlockContainer {
 	public Icon getBlockTexture(IBlockAccess access, int x, int y, int z,
 	        int side) {
 		if (!LevelStorage.isSimulating()) {
-			//Minecraft.getMinecraft().theWorld.markBlockForUpdate(x, y, z);
+			// Minecraft.getMinecraft().theWorld.markBlockForUpdate(x, y, z);
 			TileEntity te = access.getBlockTileEntity(x, y, z);
 			if (te != null && te instanceof TileEntityBasicMachine) {
 				if (side == ((TileEntityBasicMachine) te).getFacing()) {
@@ -135,7 +132,7 @@ public class BlockMolecularHeater extends BlockContainer {
 				}
 			}
 			SimpleBlockTexture txt = BlockTextureRegistry.instance
-			        .getTextureFor(UNLOCALIZED_NAME);
+			        .getTextureFor(getUnlocalizedName());
 			ForgeDirection dir = ForgeDirection.VALID_DIRECTIONS[side];
 			switch (dir) {
 				case UP:
@@ -153,7 +150,7 @@ public class BlockMolecularHeater extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		BlockTextureRegistry.instance.registerIcons(iconRegister,
-		        UNLOCALIZED_NAME);
+		        getUnlocalizedName());
 		facing = iconRegister.registerIcon(ClientProxy.MOLECULAR_HEATER_FACING);
 	}
 

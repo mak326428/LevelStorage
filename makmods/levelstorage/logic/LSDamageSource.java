@@ -8,25 +8,30 @@ import net.minecraft.util.DamageSource;
 public class LSDamageSource extends DamageSource {
 
 	public static LSDamageSource energyField = (new LSDamageSource(
-			"energyFieldKill", "was in radius of high energy field."));
+	        "energyFieldKill", "was in radius of high energy field."));
 	public static LSDamageSource forcefieldArmor = (new LSDamageSource(
-			"energyFieldKill", "was zapped by a huge impulse of energy."));
-	public static DamageSource forcefieldArmorInstaKill = (DamageSource)((new LSDamageSource(
-			"energyFieldKill", "was zapped by a huge impulse of energy."))).setDamageBypassesArmor();
-	public static DamageSource teslaRay = (DamageSource)((new LSDamageSource(
-			"energyFieldKill", "was zapped by a huge impulse of energy caused by a tesla ray."))).setDamageBypassesArmor();
-	public static DamageSource disassembled = (DamageSource)((new LSDamageSource(
-			"disassemble", "was accidentally disassembled into basic elementary atoms."))).setDamageBypassesArmor();
-	
+	        "energyFieldKill", "was zapped by a huge impulse of energy."));
+	public static DamageSource forcefieldArmorInstaKill = (DamageSource) ((new LSDamageSource(
+	        "energyFieldKill", "was zapped by a huge impulse of energy.")))
+	        .setDamageBypassesArmor();
+	public static DamageSource teslaRay = (DamageSource) ((new LSDamageSource(
+	        "energyFieldKill",
+	        "was zapped by a huge impulse of energy caused by a tesla ray.")))
+	        .setDamageBypassesArmor();
+	public static DamageSource disassembled = (DamageSource) ((new LSDamageSource(
+	        "disassemble",
+	        "was accidentally disassembled into basic elementary atoms.")))
+	        .setDamageBypassesArmor();
+
 	private String killMessage;
 
 	@Override
 	public ChatMessageComponent getDeathMessage(
-			EntityLivingBase par1EntityLivingBase) {
+	        EntityLivingBase par1EntityLivingBase) {
 		if (par1EntityLivingBase instanceof EntityPlayer)
 			return ChatMessageComponent
-					.func_111066_d(((EntityPlayer) par1EntityLivingBase).username
-							+ " " + this.killMessage);
+			        .func_111066_d(((EntityPlayer) par1EntityLivingBase).username
+			                + " " + this.killMessage);
 		return ChatMessageComponent.func_111066_d(this.killMessage);
 	}
 

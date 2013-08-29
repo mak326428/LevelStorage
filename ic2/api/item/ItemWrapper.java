@@ -14,9 +14,9 @@ import com.google.common.collect.Multimap;
  */
 public class ItemWrapper {
 	private static final Multimap<Item, IBoxable> boxableItems = ArrayListMultimap
-			.create();
+	        .create();
 	private static final Multimap<Item, IMetalArmor> metalArmorItems = ArrayListMultimap
-			.create();
+	        .create();
 
 	public static void registerBoxable(Item item, IBoxable boxable) {
 		boxableItems.put(item, boxable);
@@ -31,7 +31,7 @@ public class ItemWrapper {
 		}
 
 		if (item instanceof IBoxable
-				&& ((IBoxable) item).canBeStoredInToolbox(stack))
+		        && ((IBoxable) item).canBeStoredInToolbox(stack))
 			return true;
 
 		return false;
@@ -50,7 +50,7 @@ public class ItemWrapper {
 		}
 
 		if (item instanceof IMetalArmor
-				&& ((IMetalArmor) item).isMetalArmor(stack, player))
+		        && ((IMetalArmor) item).isMetalArmor(stack, player))
 			return true;
 
 		return false;

@@ -82,9 +82,9 @@ public class NBTInventory implements IInventory {
 				if (((EntityPlayer) ep).username == this.playerName) {
 					if (((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex] != null) {
 						if (((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex]
-								.getItem() instanceof IHasNBTInventory) {
+						        .getItem() instanceof IHasNBTInventory) {
 							((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex].stackTagCompound
-									.setTag("Inventory", itemList);
+							        .setTag("Inventory", itemList);
 						}
 					}
 				}
@@ -110,9 +110,9 @@ public class NBTInventory implements IInventory {
 				if (((EntityPlayer) ep).username == this.playerName) {
 					if (((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex] != null) {
 						if (((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex]
-								.getItem() instanceof IHasNBTInventory) {
+						        .getItem() instanceof IHasNBTInventory) {
 							tagList = ((EntityPlayer) ep).inventory.mainInventory[this.itemStackIndex].stackTagCompound
-									.getTagList("Inventory");
+							        .getTagList("Inventory");
 						}
 					}
 				}

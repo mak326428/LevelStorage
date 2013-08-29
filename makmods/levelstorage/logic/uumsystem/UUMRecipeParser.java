@@ -15,7 +15,8 @@ import cpw.mods.fml.common.FMLLog;
 /**
  * Simple UUM recipe parser. Don't call {@link UUMRecipeParser.init}, it's
  * called during mod's postInit phase. You can access parsed recipes via
- * {@linkplain UUMRecipeParser.recipes} (from {@link UUMRecipeParser.instance} singleton instance)
+ * {@linkplain UUMRecipeParser.recipes} (from {@link UUMRecipeParser.instance}
+ * singleton instance)
  * 
  * @author mak326428
  * 

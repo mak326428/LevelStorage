@@ -70,8 +70,10 @@ public class XpRegistryAPI {
 	 * Adds multiple items to registry. All OreDict's ones matching "name" <br />
 	 * parameter, to be exact
 	 * 
-	 * @param name Name of the ore you want to add to XpRegistry.
-	 * @param value Wished value of the ore.
+	 * @param name
+	 *            Name of the ore you want to add to XpRegistry.
+	 * @param value
+	 *            Wished value of the ore.
 	 */
 	public static void pushOreToRegistry(String name, int value) {
 		try {

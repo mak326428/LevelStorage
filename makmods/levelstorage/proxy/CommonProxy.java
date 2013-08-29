@@ -3,6 +3,7 @@ package makmods.levelstorage.proxy;
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.LocalizationInitializer;
 import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.ModTileEntities;
 import makmods.levelstorage.ModUniversalInitializer;
@@ -41,9 +42,8 @@ public class CommonProxy {
 		Recipes.compressor.addRecipe(rec1,
 		        SimpleItems.instance.getIngredient(3));
 		// 4 tiny osmium dusts -> 1 dust
-		GameRegistry.addRecipe(
-		        SimpleItems.instance.getIngredient(1), "SS", "SS",
-		        Character.valueOf('S'),
+		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(1), "SS",
+		        "SS", Character.valueOf('S'),
 		        SimpleItems.instance.getIngredient(0));
 
 		// Osmium dust -> osmium ingot
@@ -53,13 +53,11 @@ public class CommonProxy {
 		        osmDust.getItemDamage(), osmIngot, 20.0F);
 
 		// Osmium Ingots + Iridium Ingots = Osmiridium Alloy
-		Recipes.advRecipes.addRecipe(
-		        SimpleItems.instance.getIngredient(2), "OOO",
-		        "III", "   ", Character.valueOf('O'), "ingotOsmium",
+		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(2),
+		        "OOO", "III", "   ", Character.valueOf('O'), "ingotOsmium",
 		        Character.valueOf('I'), "ingotIridium");
-		Recipes.advRecipes.addRecipe(
-		        SimpleItems.instance.getIngredient(2), "   ",
-		        "OOO", "III", Character.valueOf('O'), "ingotOsmium",
+		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(2),
+		        "   ", "OOO", "III", Character.valueOf('O'), "ingotOsmium",
 		        Character.valueOf('I'), "ingotIridium");
 
 		// Iridium Ore -> Iridium Ingot
@@ -70,8 +68,7 @@ public class CommonProxy {
 		}
 
 		// UUM -> Osmium pile
-		GameRegistry.addRecipe(
-		        SimpleItems.instance.getIngredient(0), "U U",
+		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(0), "U U",
 		        "UUU", "U U", Character.valueOf('U'), Items.getItem("matter"));
 	}
 
@@ -80,15 +77,16 @@ public class CommonProxy {
 		        new GuiHandler());
 		// TODO: mess around with this neat thingy
 		MinecraftForge.EVENT_BUS.register(new LevelStorageEventHandler());
+		LocalizationInitializer.instance.init();
 		SimpleItems.instance = new SimpleItems();
 		addSimpleCraftingRecipes();
-		//LSBlockItemList.init();
-		//LSBlockItemList.init();
+		// LSBlockItemList.init();
+		// LSBlockItemList.init();
 		ModUniversalInitializer.instance.init();
 		ModTileEntities.instance.init();
 		ModFluids.instance.init();
 		// TODO: reenable when ready
-		//ModAchievements.instance.init();
+		// ModAchievements.instance.init();
 		FlightRegistry.instance = new FlightRegistry();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
 	}

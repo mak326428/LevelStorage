@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemEnergeticEnrichedMatterOrb extends Item implements
-		IElectricItem {
+        IElectricItem {
 
 	public static final String UNLOCALIZED_NAME = "energeticEnrichedMatterOrb";
 	public static final String NAME = "Energetic Enriched Matter Orb";
@@ -31,7 +31,7 @@ public class ItemEnergeticEnrichedMatterOrb extends Item implements
 
 	public ItemEnergeticEnrichedMatterOrb(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -42,11 +42,11 @@ public class ItemEnergeticEnrichedMatterOrb extends Item implements
 
 	public static void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
-				LSBlockItemList.itemStorageFourMillion), "lsl", "sis", "lsl",
-				Character.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL, Character
-						.valueOf('s'), new ItemStack(
-						LSBlockItemList.itemSuperconductor).copy(), Character
-						.valueOf('i'), IC2Items.IRIDIUM_PLATE);
+		        LSBlockItemList.itemStorageFourMillion), "lsl", "sis", "lsl",
+		        Character.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL, Character
+		                .valueOf('s'), new ItemStack(
+		                LSBlockItemList.itemSuperconductor).copy(), Character
+		                .valueOf('i'), IC2Items.IRIDIUM_PLATE);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class ItemEnergeticEnrichedMatterOrb extends Item implements
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
-				.registerIcon(ClientProxy.ENERGETIC_ENRICHED_MATTER_ORB_TEXTURE);
+		        .registerIcon(ClientProxy.ENERGETIC_ENRICHED_MATTER_ORB_TEXTURE);
 	}
 
 	@Override
@@ -94,10 +94,10 @@ public class ItemEnergeticEnrichedMatterOrb extends Item implements
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
-			List par3List) {
+	        List par3List) {
 		ItemStack var4 = new ItemStack(this, 1);
 		ElectricItem.manager.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE,
-				true, false);
+		        true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
 

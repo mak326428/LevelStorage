@@ -48,7 +48,7 @@ public class LevelStorage {
 	public static final String BALANCE_CATEGORY = "balance";
 	public static final String RECIPES_CATEGORY = "recipes";
 	public static final String IDS_CATEGORY = "ids";
-	
+
 	public static boolean detectedGT = false;
 
 	public static int getAndIncrementCurrId() {
@@ -71,22 +71,17 @@ public class LevelStorage {
 		        Configuration.CATEGORY_GENERAL, "bookCapacity",
 		        2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2) // 16384
 		        .getInt();
-		Property p = config.get(Configuration.CATEGORY_GENERAL,
+		Property p = config.get(LevelStorage.BALANCE_CATEGORY,
 		        "chargerOnlyUsesUUM", true);
 		p.comment = "If set to true, chargers will consume UUM and only UUM (they will refuse to receive any energy), if set to false, chargers will receive energy and only energy (no UUM)";
 		LevelStorage.chargerOnlyUUM = p.getBoolean(true);
 
-		Property p2 = config.get(Configuration.CATEGORY_GENERAL,
+		Property p2 = config.get(LevelStorage.BALANCE_CATEGORY,
 		        "experienceRecipesEnabled", true);
 		p2.comment = "Whether or not experience recipes are enabled";
 		LevelStorage.experienceRecipesOn = p2.getBoolean(true);
 
-		Property p3 = config.get(Configuration.CATEGORY_GENERAL,
-		        "fancyGraphics", false);
-		p3.comment = "Whether or not fancy graphics for various energy rays are enabled";
-		LevelStorage.fancyGraphics = p3.getBoolean(true);
-
-		Property p4 = config.get(Configuration.CATEGORY_GENERAL, "hardRecipes",
+		Property p4 = config.get(LevelStorage.BALANCE_CATEGORY, "hardRecipes",
 		        false);
 		p4.comment = "If set to true, armors (and other) will require hard-to-get materials (f.e. full set of armor will require 72 stacks of UUM)";
 		LevelStorage.recipesHardmode = p4.getBoolean(false);

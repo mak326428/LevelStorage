@@ -21,7 +21,7 @@ public class GuiMassInfuser extends GuiContainer {
 	public TileEntityMassInfuser tileEntity;
 
 	public GuiMassInfuser(InventoryPlayer inventoryPlayer,
-			TileEntityMassInfuser tileEntity) {
+	        TileEntityMassInfuser tileEntity) {
 		super(new ContainerMassInfuser(inventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
 		xSize = 200;
@@ -43,7 +43,7 @@ public class GuiMassInfuser extends GuiContainer {
 				packet.z = this.tileEntity.zCoord;
 				packet.newSlotId = slot;
 				PacketDispatcher.sendPacketToServer(PacketTypeHandler
-						.populatePacket(packet));
+				        .populatePacket(packet));
 			}
 		}
 	}
@@ -54,9 +54,9 @@ public class GuiMassInfuser extends GuiContainer {
 		int xGuiPos = (this.width - this.xSize) / 2; // j
 		int yGuiPos = (this.height - this.ySize) / 2;
 		this.buttonList.add(new GuiButton(1, xGuiPos + 9, yGuiPos + 18, 6, 18,
-				"<"));
+		        "<"));
 		this.buttonList.add(new GuiButton(2, xGuiPos + 182, yGuiPos + 18, 6,
-				18, ">"));
+		        18, ">"));
 	}
 
 	@Override
@@ -66,11 +66,11 @@ public class GuiMassInfuser extends GuiContainer {
 		this.fontRenderer.drawString("Mass Infuser", 8, 6, 4210752);
 		// draws "Inventory" or your regional equivalent
 		this.fontRenderer.drawString(
-				StatCollector.translateToLocal("container.inventory"), 8,
-				this.ySize - 96 + 2, 4210752);
+		        StatCollector.translateToLocal("container.inventory"), 8,
+		        this.ySize - 96 + 2, 4210752);
 		this.fontRenderer.drawString("Page " + (tileEntity.page + 1)
-				+ " out of " + (TileEntityMassInfuser.MAX_PAGE + 1), 60, 40,
-				4210752);
+		        + " out of " + (TileEntityMassInfuser.MAX_PAGE + 1), 60, 40,
+		        4210752);
 		// GuiSlider
 	}
 
@@ -83,7 +83,7 @@ public class GuiMassInfuser extends GuiContainer {
 		packet.z = this.tileEntity.zCoord;
 		packet.dimId = this.tileEntity.worldObj.provider.dimensionId;
 		PacketDispatcher.sendPacketToServer(PacketTypeHandler
-				.populatePacket(packet));
+		        .populatePacket(packet));
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class GuiMassInfuser extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
-			int par3) {
+	        int par3) {
 		// GuiSlider
 		// draw your Gui here, only thing you need to change is the path
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

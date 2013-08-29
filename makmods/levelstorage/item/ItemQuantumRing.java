@@ -39,11 +39,11 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 	public static final int TIER = 3;
 	public static final int STORAGE = 8 * 1000 * 1000;
 	// Energy per 1 damage
-	public static final int ENERGY_PER_DAMAGE = 100;
+	public static final int ENERGY_PER_DAMAGE = 400;
 
 	public ItemQuantumRing(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -140,7 +140,8 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 			return false;
 		int chargeSt = ElectricItem.manager.charge(stack,
 		        item.getTransferLimit(stack), 4, false, false);
-		int dischSt = ElectricItem.manager.discharge(ring, chargeSt, 4, true, false);
+		int dischSt = ElectricItem.manager.discharge(ring, chargeSt, 4, true,
+		        false);
 		return chargeSt > 0 && dischSt > 0;
 	}
 

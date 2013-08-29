@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiXpGenerator extends GuiContainer {
 	public GuiXpGenerator(InventoryPlayer inventoryPlayer,
-			TileEntityXpGenerator tileEntity) {
+	        TileEntityXpGenerator tileEntity) {
 		super(new ContainerXpGenerator(inventoryPlayer, tileEntity));
 	}
 
@@ -21,13 +21,13 @@ public class GuiXpGenerator extends GuiContainer {
 		this.fontRenderer.drawString("XP Generator", 8, 6, 4210752);
 		// draws "Inventory" or your regional equivalent
 		this.fontRenderer.drawString(
-				StatCollector.translateToLocal("container.inventory"), 8,
-				this.ySize - 96 + 2, 4210752);
+		        StatCollector.translateToLocal("container.inventory"), 8,
+		        this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
-			int par3) {
+	        int par3) {
 		// draw your Gui here, only thing you need to change is the path
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.func_110434_K().func_110577_a(ClientProxy.GUI_SINGLE_SLOT);

@@ -70,7 +70,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 
 	public ItemEnhancedDiamondDrill(int id) {
 		super(id, EnumToolMaterial.EMERALD);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {

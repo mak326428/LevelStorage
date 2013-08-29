@@ -28,16 +28,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockXpCharger extends BlockContainer {
-
-	public static final String UNLOCALIZED_NAME = "blockXpCharger";
-	public static final String NAME = "XP Charger";
-
 	public BlockXpCharger(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 	}

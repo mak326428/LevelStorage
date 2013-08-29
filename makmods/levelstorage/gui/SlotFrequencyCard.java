@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 public class SlotFrequencyCard extends SlotBook {
 	public SlotFrequencyCard(IInventory par1IInventory, int par2, int par3,
-			int par4) {
+	        int par4) {
 		super(par1IInventory, par2, par3, par4);
 	}
 
@@ -18,7 +18,7 @@ public class SlotFrequencyCard extends SlotBook {
 	public static boolean checkItemValidity(ItemStack stack) {
 		boolean validForSlot = true;
 		validForSlot = validForSlot
-				&& stack.getItem() instanceof ItemFrequencyCard;
+		        && stack.getItem() instanceof ItemFrequencyCard;
 		validForSlot = validForSlot && ItemFrequencyCard.isValid(stack);
 		return validForSlot;
 	}

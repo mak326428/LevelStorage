@@ -48,7 +48,7 @@ public class PacketParticles extends PacketLV {
 	public void execute(INetworkManager network, Player player) {
 		EntityPlayer p = (EntityPlayer) player;
 		p.worldObj.spawnParticle(this.name, this.x, this.y, this.z, this.velX,
-				this.velY, this.velZ);
+		        this.velY, this.velZ);
 	}
 
 }

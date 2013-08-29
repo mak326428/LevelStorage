@@ -8,8 +8,8 @@ import net.minecraft.inventory.Slot;
 public class GUIHelper extends Container {
 
 	@Override
-    public boolean canInteractWith(EntityPlayer entityplayer) {
-	    return false;
-    }
+	public boolean canInteractWith(EntityPlayer entityplayer) {
+		return false;
+	}
 
 }

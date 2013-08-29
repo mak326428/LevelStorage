@@ -44,9 +44,9 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 	public static final int ENERGY_PER_DAMAGE = 900;
 
 	public ItemArmorSupersonicLeggings(int id) {
-		super(id,
-		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 2);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+		super(id, EnumArmorMaterial.DIAMOND,
+		        ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 2);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -54,9 +54,6 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 		}
 		this.setMaxStackSize(1);
 	}
-
-	
-
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
@@ -80,30 +77,21 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 		if (p.getBoolean(true)) {
 			if (LevelStorage.recipesHardmode) {
 				Recipes.advRecipes.addRecipe(new ItemStack(
-						LSBlockItemList.itemSupersonicLeggings), "ggg",
-				        "iqi", "lil", Character.valueOf('g'), new ItemStack(
+				        LSBlockItemList.itemSupersonicLeggings), "ggg", "iqi",
+				        "lil", Character.valueOf('g'), new ItemStack(
 				                Block.glowStone), Character.valueOf('i'),
-				        SimpleItems.instance.getIngredient(3),
-				        Character.valueOf('q'), IC2Items.QUANTUM_LEGGINGS,
+				        SimpleItems.instance.getIngredient(3), Character
+				                .valueOf('q'), IC2Items.QUANTUM_LEGGINGS,
 				        Character.valueOf('l'), new ItemStack(
-				        		LSBlockItemList.itemStorageFourMillion));
+				                LSBlockItemList.itemStorageFourMillion));
 			} else {
-				Recipes.advRecipes
-				        .addRecipe(
-				                new ItemStack(
-				                		LSBlockItemList.itemSupersonicLeggings),
-				                "ggg",
-				                "iqi",
-				                "lil",
-				                Character.valueOf('g'),
-				                new ItemStack(Block.glowStone),
-				                Character.valueOf('i'),
-				                IC2Items.IRIDIUM_PLATE,
-				                Character.valueOf('q'),
-				                IC2Items.QUANTUM_LEGGINGS,
-				                Character.valueOf('l'),
-				                new ItemStack(
-				                		LSBlockItemList.itemStorageFourMillion));
+				Recipes.advRecipes.addRecipe(new ItemStack(
+				        LSBlockItemList.itemSupersonicLeggings), "ggg", "iqi",
+				        "lil", Character.valueOf('g'), new ItemStack(
+				                Block.glowStone), Character.valueOf('i'),
+				        IC2Items.IRIDIUM_PLATE, Character.valueOf('q'),
+				        IC2Items.QUANTUM_LEGGINGS, Character.valueOf('l'),
+				        new ItemStack(LSBlockItemList.itemStorageFourMillion));
 			}
 		}
 	}

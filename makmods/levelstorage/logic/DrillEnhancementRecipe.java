@@ -29,13 +29,13 @@ public class DrillEnhancementRecipe implements IRecipe {
 					if (foundBook)
 						return null;
 					NBTTagList nbttaglist = currentStack.stackTagCompound
-							.getTagList("StoredEnchantments");
+					        .getTagList("StoredEnchantments");
 					if (nbttaglist != null) {
 						for (int j = 0; j < nbttaglist.tagCount(); ++j) {
 							enchantmentId = ((NBTTagCompound) nbttaglist
-									.tagAt(j)).getShort("id");
+							        .tagAt(j)).getShort("id");
 							enchantmentLvl = ((NBTTagCompound) nbttaglist
-									.tagAt(j)).getShort("lvl");
+							        .tagAt(j)).getShort("lvl");
 						}
 					}
 					foundBook = true;
@@ -51,7 +51,7 @@ public class DrillEnhancementRecipe implements IRecipe {
 		}
 
 		if (foundDrill && foundBook && drill != null && enchantmentId > 0
-				&& enchantmentLvl > 0) {
+		        && enchantmentLvl > 0) {
 			if (drill.getTagCompound() == null)
 				drill.stackTagCompound = new NBTTagCompound();
 			// if (drill.getTagCompound().getCompoundTag(
@@ -62,12 +62,12 @@ public class DrillEnhancementRecipe implements IRecipe {
 			if (ench == Enchantment.fortune || ench == Enchantment.silkTouch) {
 				NBTTagCompound enhNBT = new NBTTagCompound();
 				enhNBT.setInteger(ItemEnhancedDiamondDrill.ENHANCEMENT_ID_NBT,
-						enchantmentId);
+				        enchantmentId);
 				enhNBT.setInteger(ItemEnhancedDiamondDrill.ENHANCEMENT_LVL_NBT,
-						enchantmentLvl);
+				        enchantmentLvl);
 				ItemStack newStack = drill.copy();
 				newStack.stackTagCompound.setCompoundTag(
-						ItemEnhancedDiamondDrill.ENHANCEMENT_NBT, enhNBT);
+				        ItemEnhancedDiamondDrill.ENHANCEMENT_NBT, enhNBT);
 				return newStack;
 			}
 		}

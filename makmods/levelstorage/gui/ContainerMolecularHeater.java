@@ -31,7 +31,7 @@ public class ContainerMolecularHeater extends Container {
 		this.addSlotToContainer(new SlotTakeOnly(te, 7, 161, 35));
 		// Discharge slot
 		this.addSlotToContainer(new SlotChecked(te, 8, 56, 53));
-		
+
 		this.bindPlayerInventory(inventoryPlayer);
 	}
 
@@ -50,7 +50,7 @@ public class ContainerMolecularHeater extends Container {
 			        this.tileEntity.getStored());
 			icrafting.sendProgressBarUpdate(this, 5,
 			        this.tileEntity.getProgress());
-			
+
 		}
 	}
 

@@ -46,9 +46,9 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	public static final int ENERGY_PER_TICK_ENTITIES = 100;
 
 	public ItemArmorForcefieldChestplate(int id) {
-		super(id,
-		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 1);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+		super(id, EnumArmorMaterial.DIAMOND,
+		        ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 1);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -96,30 +96,21 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 		if (p.getBoolean(true)) {
 			if (LevelStorage.recipesHardmode) {
 				Recipes.advRecipes.addRecipe(new ItemStack(
-						LSBlockItemList.itemArmorForcefieldChestplate),
-				        "ttt", "iqi", "lil", Character.valueOf('t'),
+				        LSBlockItemList.itemArmorForcefieldChestplate), "ttt",
+				        "iqi", "lil", Character.valueOf('t'),
 				        IC2Items.TESLA_COIL, Character.valueOf('i'),
-				        SimpleItems.instance.getIngredient(3),
-				        Character.valueOf('q'), IC2Items.QUANTUM_CHESTPLATE,
+				        SimpleItems.instance.getIngredient(3), Character
+				                .valueOf('q'), IC2Items.QUANTUM_CHESTPLATE,
 				        Character.valueOf('l'), new ItemStack(
-				        		LSBlockItemList.itemStorageFourMillion));
+				                LSBlockItemList.itemStorageFourMillion));
 			} else {
-				Recipes.advRecipes
-				        .addRecipe(
-				                new ItemStack(
-				                		LSBlockItemList.itemArmorForcefieldChestplate),
-				                "ttt",
-				                "iqi",
-				                "lil",
-				                Character.valueOf('t'),
-				                IC2Items.TESLA_COIL,
-				                Character.valueOf('i'),
-				                IC2Items.IRIDIUM_PLATE,
-				                Character.valueOf('q'),
-				                IC2Items.QUANTUM_CHESTPLATE,
-				                Character.valueOf('l'),
-				                new ItemStack(
-				                		LSBlockItemList.itemStorageFourMillion));
+				Recipes.advRecipes.addRecipe(new ItemStack(
+				        LSBlockItemList.itemArmorForcefieldChestplate), "ttt",
+				        "iqi", "lil", Character.valueOf('t'),
+				        IC2Items.TESLA_COIL, Character.valueOf('i'),
+				        IC2Items.IRIDIUM_PLATE, Character.valueOf('q'),
+				        IC2Items.QUANTUM_CHESTPLATE, Character.valueOf('l'),
+				        new ItemStack(LSBlockItemList.itemStorageFourMillion));
 			}
 		}
 	}
@@ -221,13 +212,13 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	}
 
 	@Override
-    public int energyPerTick() {
-	    return ENERGY_PER_TICK_ENTITIES;
-    }
+	public int energyPerTick() {
+		return ENERGY_PER_TICK_ENTITIES;
+	}
 
 	@Override
-    public WearType getWearType() {
-	    return WearType.ARMOR;
-    }
+	public WearType getWearType() {
+		return WearType.ARMOR;
+	}
 
 }

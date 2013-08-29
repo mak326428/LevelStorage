@@ -31,7 +31,7 @@ public class ContainerXpCharger extends Container {
 	protected TileEntityXpCharger tileEntity;
 
 	public ContainerXpCharger(InventoryPlayer inventoryPlayer,
-			TileEntityXpCharger te) {
+	        TileEntityXpCharger te) {
 		this.tileEntity = te;
 		this.addSlotToContainer(new SlotBookCharger(this.tileEntity, 0, 80, 35));
 		if (LevelStorage.chargerOnlyUUM) {
@@ -48,7 +48,7 @@ public class ContainerXpCharger extends Container {
 			for (int i = 0; i < this.crafters.size(); i++) {
 				ICrafting icrafting = (ICrafting) this.crafters.get(i);
 				icrafting.sendProgressBarUpdate(this, 0,
-						this.tileEntity.getProgress());
+				        this.tileEntity.getProgress());
 			}
 		}
 	}
@@ -57,10 +57,10 @@ public class ContainerXpCharger extends Container {
 	public void updateProgressBar(int i, int j) {
 		if (LevelStorage.chargerOnlyUUM) {
 			switch (i) {
-			case 0:
-				this.tileEntity.setProgress(j);
-				;
-				break;
+				case 0:
+					this.tileEntity.setProgress(j);
+					;
+					break;
 			}
 		}
 	}
@@ -74,19 +74,19 @@ public class ContainerXpCharger extends Container {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(inventoryPlayer,
-						j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				        j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18,
-					142));
+			        142));
 		}
 	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,
-			int slotIndex) {
+	        int slotIndex) {
 
 		ItemStack itemStack = null;
 		Slot slot = (Slot) this.inventorySlots.get(slotIndex);
@@ -98,8 +98,8 @@ public class ContainerXpCharger extends Container {
 
 			if (slotIndex < TileEntityXpCharger.INVENTORY_SIZE) {
 				if (!this.mergeItemStack(slotItemStack,
-						TileEntityXpCharger.INVENTORY_SIZE,
-						this.inventorySlots.size(), false))
+				        TileEntityXpCharger.INVENTORY_SIZE,
+				        this.inventorySlots.size(), false))
 					return null;
 			} else {
 				// WARNING: the following code is for this current case only.
@@ -108,11 +108,11 @@ public class ContainerXpCharger extends Container {
 				// ItemLevelStorageBook))
 				// return null;
 				if (!SlotBookCharger.checkItemValidity(slotItemStack)
-						|| !SlotUUM.checkItemValidity(slotItemStack))
+				        || !SlotUUM.checkItemValidity(slotItemStack))
 					return null;
 				// End of warning
 				if (!this.mergeItemStack(slotItemStack, 0,
-						TileEntityXpCharger.INVENTORY_SIZE, false))
+				        TileEntityXpCharger.INVENTORY_SIZE, false))
 					return null;
 			}
 

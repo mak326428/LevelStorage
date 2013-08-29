@@ -42,8 +42,7 @@ public class TileEntityAdvancedMiner extends TileEntityInventorySink implements
 	public int progress = 0;
 
 	static {
-		slotMapping
-		        .put(0, new ItemStack(LSBlockItemList.itemEnhDiamondDrill));
+		slotMapping.put(0, new ItemStack(LSBlockItemList.itemEnhDiamondDrill));
 		slotMapping.put(1, MINING_PIPE);
 		slotMapping.put(2, new ItemStack(LSBlockItemList.itemAdvScanner));
 	}

@@ -39,7 +39,7 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 
 	public ItemWirelessCharger(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {

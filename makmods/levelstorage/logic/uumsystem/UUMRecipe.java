@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 // Not a IRecipe.
 /**
  * Simple class for wrapping uum recipes
+ * 
  * @author mak326428
  */
 public class UUMRecipe {
@@ -24,6 +25,7 @@ public class UUMRecipe {
 	public void setOutput(ItemStack output) {
 		this.output = output;
 	}
+
 	// END OF GETTERS AND SETTERS ZONE
 	private int uumCost;
 	private ItemStack output;

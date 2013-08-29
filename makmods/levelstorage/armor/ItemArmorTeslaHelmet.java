@@ -63,9 +63,9 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 	public static final int RAY_COST = 100;
 
 	public ItemArmorTeslaHelmet(int id) {
-		super(id,
-		        EnumArmorMaterial.DIAMOND, ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 0);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+		super(id, EnumArmorMaterial.DIAMOND,
+		        ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 0);
+
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -92,7 +92,8 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
 	        ItemStack itemStack) {
-		ArmorFunctions.helmetFunctions(world, player, itemStack, RAY_COST, ENTITY_HIT_COST, FOOD_COST);
+		ArmorFunctions.helmetFunctions(world, player, itemStack, RAY_COST,
+		        ENTITY_HIT_COST, FOOD_COST);
 	}
 
 	/*
@@ -111,21 +112,20 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		if (p.getBoolean(true)) {
 			if (LevelStorage.recipesHardmode) {
 				Recipes.advRecipes.addRecipe(new ItemStack(
-						LSBlockItemList.itemArmorTeslaHelmet), "tit", "iqi",
+				        LSBlockItemList.itemArmorTeslaHelmet), "tit", "iqi",
 				        "lil", Character.valueOf('t'), IC2Items.TESLA_COIL,
-				        Character.valueOf('i'),
-				        SimpleItems.instance.getIngredient(3),
-				        Character.valueOf('q'), IC2Items.QUANTUM_HELMET,
-				        Character.valueOf('l'), new ItemStack(
-				        		LSBlockItemList.itemStorageFourMillion));
+				        Character.valueOf('i'), SimpleItems.instance
+				                .getIngredient(3), Character.valueOf('q'),
+				        IC2Items.QUANTUM_HELMET, Character.valueOf('l'),
+				        new ItemStack(LSBlockItemList.itemStorageFourMillion));
 			} else {
 				Recipes.advRecipes.addRecipe(new ItemStack(
-						LSBlockItemList.itemArmorTeslaHelmet), "tit", "iqi",
+				        LSBlockItemList.itemArmorTeslaHelmet), "tit", "iqi",
 				        "lil", Character.valueOf('t'), IC2Items.TESLA_COIL,
 				        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE,
 				        Character.valueOf('q'), IC2Items.QUANTUM_HELMET,
 				        Character.valueOf('l'), new ItemStack(
-				        		LSBlockItemList.itemStorageFourMillion));
+				                LSBlockItemList.itemStorageFourMillion));
 			}
 		}
 	}

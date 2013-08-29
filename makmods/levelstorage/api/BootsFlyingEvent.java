@@ -16,8 +16,11 @@ public class BootsFlyingEvent extends PlayerEvent {
 
 	/**
 	 * Initialize new instance of this class
-	 * @param player Player
-	 * @param boots Boots' ItemStack
+	 * 
+	 * @param player
+	 *            Player
+	 * @param boots
+	 *            Boots' ItemStack
 	 */
 	public BootsFlyingEvent(EntityPlayer player, ItemStack boots) {
 		super(player);

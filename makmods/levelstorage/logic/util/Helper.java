@@ -2,10 +2,8 @@ package makmods.levelstorage.logic.util;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.registry.SyncType;
-import makmods.levelstorage.tileentity.TileEntityAdvancedMiner;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class Helper {
 	public static SyncType invertType(SyncType type) {
@@ -209,9 +209,13 @@ public class Helper {
 		sb.append(stack.stackSize);
 		sb.append(" of ");
 		String name = stack.getDisplayName();
-		if (name.endsWith(".name"))
-			sb.append(LanguageRegistry.instance().getStringLocalization(name));
-		else
+		if (name.endsWith(".name")) {
+			if (FMLCommonHandler.instance().getSide().isClient())
+				sb.append(LanguageRegistry.instance().getStringLocalization(
+				        name));
+			else
+				sb.append(name);
+		} else
 			sb.append(stack.getDisplayName());
 		return sb.toString();
 	}

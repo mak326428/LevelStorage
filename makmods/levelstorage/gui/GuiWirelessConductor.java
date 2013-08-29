@@ -19,7 +19,7 @@ public class GuiWirelessConductor extends GuiContainer {
 	public TileEntityWirelessConductor tileEntity;
 
 	public GuiWirelessConductor(InventoryPlayer inventoryPlayer,
-			TileEntityWirelessConductor tileEntity) {
+	        TileEntityWirelessConductor tileEntity) {
 		super(new ContainerWirelessConductor(inventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
 	}
@@ -30,7 +30,7 @@ public class GuiWirelessConductor extends GuiContainer {
 		int xGuiPos = (this.width - this.xSize) / 2; // j
 		int yGuiPos = (this.height - this.ySize) / 2;
 		this.buttonList.add(new GuiButton(1, xGuiPos + 50, yGuiPos + 15, 75,
-				15, "Change mode"));
+		        15, "Change mode"));
 	}
 
 	@Override
@@ -42,11 +42,11 @@ public class GuiWirelessConductor extends GuiContainer {
 		int xGuiPos = (this.width - this.xSize) / 2; // j
 		int yGuiPos = (this.height - this.ySize) / 2;
 		this.fontRenderer.drawString(
-				StatCollector.translateToLocal("container.inventory"), 8,
-				this.ySize - 96 + 2, 4210752);
+		        StatCollector.translateToLocal("container.inventory"), 8,
+		        this.ySize - 96 + 2, 4210752);
 		String mode = "Mode: "
-				+ (this.tileEntity.type == ConductorType.SOURCE ? "Energy transmitter"
-						: "Energy receiver");
+		        + (this.tileEntity.type == ConductorType.SOURCE ? "Energy transmitter"
+		                : "Energy receiver");
 		this.fontRenderer.drawString(mode, 8, 55, 4210752);
 	}
 
@@ -61,12 +61,12 @@ public class GuiWirelessConductor extends GuiContainer {
 		packet.z = this.tileEntity.zCoord;
 		packet.dimId = this.tileEntity.worldObj.provider.dimensionId;
 		PacketDispatcher.sendPacketToServer(PacketTypeHandler
-				.populatePacket(packet));
+		        .populatePacket(packet));
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
-			int par3) {
+	        int par3) {
 		// draw your Gui here, only thing you need to change is the path
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		// this.mc.renderEngine.bindTexture(ClientProxy.GUI_SINGLE_SLOT);

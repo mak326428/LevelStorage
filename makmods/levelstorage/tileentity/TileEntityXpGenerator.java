@@ -26,7 +26,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
-		IEnergySource, IEnergyStorage, IInventory, IWrenchable, ISidedInventory {
+        IEnergySource, IEnergyStorage, IInventory, IWrenchable, ISidedInventory {
 	public static final int INTERNAL_CAPACITOR = 65536;
 	public static final int INVENTORY_SIZE = 1;
 	public static final String INVENTORY_NAME = "XP Generator";
@@ -155,9 +155,9 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
-				this.zCoord) == this
-				&& player.getDistanceSq(this.xCoord + 0.5, this.yCoord + 0.5,
-						this.zCoord + 0.5) < 64;
+		        this.zCoord) == this
+		        && player.getDistanceSq(this.xCoord + 0.5, this.yCoord + 0.5,
+		                this.zCoord + 0.5) < 64;
 	}
 
 	@Override
@@ -255,41 +255,41 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 				this.addedToENet = true;
 			}
 			this.isWorking = (!this.worldObj.isBlockIndirectlyGettingPowered(
-					this.xCoord, this.yCoord, this.zCoord) && this.worldObj
-					.getBlockPowerInput(this.xCoord, this.yCoord, this.zCoord) < 1);
+			        this.xCoord, this.yCoord, this.zCoord) && this.worldObj
+			        .getBlockPowerInput(this.xCoord, this.yCoord, this.zCoord) < 1);
 			if (this.isWorking) {
 
 				if (this.inv[0] != null) {
 					if (this.inv[0].getItem() instanceof ItemLevelStorageBook) {
 						if (ItemLevelStorageBook.getStoredXP(this.inv[0]) > XpStackRegistry.XP_EU_CONVERSION
-								.getKey()) {
+						        .getKey()) {
 							if ((this.getCapacity() - this.getStored()) > XpStackRegistry.XP_EU_CONVERSION
-									.getValue()) {
+							        .getValue()) {
 								this.addEnergy(XpStackRegistry.XP_EU_CONVERSION
-										.getValue());
+								        .getValue());
 								ItemLevelStorageBook.increaseStoredXP(
-										this.inv[0],
-										-XpStackRegistry.XP_EU_CONVERSION
-												.getKey());
+								        this.inv[0],
+								        -XpStackRegistry.XP_EU_CONVERSION
+								                .getKey());
 							}
 						}
 						this.inv[0].setItemDamage(ItemLevelStorageBook
-								.calculateDurability(this.inv[0]));
+						        .calculateDurability(this.inv[0]));
 					} else {
 						int xp = 0;
 						for (XpStack s : XpStackRegistry.instance.ITEM_XP_CONVERSIONS) {
 							if (this.inv[0].itemID == s.stack.itemID
-									&& this.inv[0].getItemDamage() == s.stack
-											.getItemDamage()) {
+							        && this.inv[0].getItemDamage() == s.stack
+							                .getItemDamage()) {
 								xp = s.value;
 								break;
 							}
 						}
 						if (xp > 0) {
 							int eu = xp
-									/ XpStackRegistry.XP_EU_CONVERSION.getKey()
-									* XpStackRegistry.XP_EU_CONVERSION
-											.getValue();
+							        / XpStackRegistry.XP_EU_CONVERSION.getKey()
+							        * XpStackRegistry.XP_EU_CONVERSION
+							                .getValue();
 							if ((this.getCapacity() - this.getStored()) > eu) {
 								this.addEnergy(eu);
 								this.decrStackSize(0, 1);
@@ -302,7 +302,7 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 				// Just send our buffer to the energy net
 				if (this.storedEnergy >= PACKET_SIZE) {
 					EnergyTileSourceEvent sendEvent = new EnergyTileSourceEvent(
-							this, PACKET_SIZE);
+					        this, PACKET_SIZE);
 					MinecraftForge.EVENT_BUS.post(sendEvent);
 					int usedEnergy = PACKET_SIZE - sendEvent.amount;
 					this.storedEnergy -= usedEnergy;
@@ -316,7 +316,7 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		this.writeToNBT(nbtTag);
 		return new Packet132TileEntityData(this.xCoord, this.yCoord,
-				this.zCoord, 1, nbtTag);
+		        this.zCoord, 1, nbtTag);
 	}
 
 	@Override

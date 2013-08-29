@@ -28,7 +28,7 @@ public class ItemSuperconductor extends Item {
 
 	public ItemSuperconductor(int id) {
 		super(id);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setNoRepair();
 		this.setMaxStackSize(16);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
@@ -49,8 +49,8 @@ public class ItemSuperconductor extends Item {
 		pOutput.comment = "Determines how much superconductors you get from one recipe";
 
 		Recipes.advRecipes.addRecipe(new ItemStack(
-		        LSBlockItemList.itemSuperconductor, pOutput.getInt(6)),
-		        "ccc", "iai", "ccc", Character.valueOf('c'), Items
+		        LSBlockItemList.itemSuperconductor, pOutput.getInt(6)), "ccc",
+		        "iai", "ccc", Character.valueOf('c'), Items
 		                .getItem("glassFiberCableItem"),
 		        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
 		                .valueOf('a'), Items.getItem("advancedMachine"));

@@ -16,13 +16,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderSuperconductorCable implements ISimpleBlockRenderingHandler {
 	public void renderInventoryBlock(Block block, int metadata, int modelID,
-			RenderBlocks renderer) {
+	        RenderBlocks renderer) {
 	}
 
 	public boolean renderWorldBlock(IBlockAccess blockAccess, int x, int y,
-			int z, Block block, int modelId, RenderBlocks renderblocks) {
-		//super.renderWorldBlock(blockAccess, x, y, z, block, modelId,
-		//		renderblocks);
+	        int z, Block block, int modelId, RenderBlocks renderblocks) {
+		// super.renderWorldBlock(blockAccess, x, y, z, block, modelId,
+		// renderblocks);
 
 		TileEntity te = blockAccess.getBlockTileEntity(x, y, z);
 		if (!(te instanceof TileEntitySuperconductorCable))
@@ -54,7 +54,7 @@ public class RenderSuperconductorCable implements ISimpleBlockRenderingHandler {
 		double zD = z;
 
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(blockAccess,
-				x, y, z));
+		        x, y, z));
 
 		if (connectivity == 0) {
 			block.setBlockBounds(sp, sp, sp, sp + th, sp + th, sp + th);

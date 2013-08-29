@@ -12,7 +12,7 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntitySuperconductorCable extends TileEntity implements
-		IEnergyConductor {
+        IEnergyConductor {
 
 	public int connectivity;
 
@@ -30,7 +30,7 @@ public class TileEntitySuperconductorCable extends TileEntity implements
 	public int renderSide;
 
 	public boolean retexture(int side, int referencedBlockId,
-			int referencedMeta, int referencedSide) {
+	        int referencedMeta, int referencedSide) {
 		boolean ret = false;
 		boolean updateAll = false;
 
@@ -61,42 +61,42 @@ public class TileEntitySuperconductorCable extends TileEntity implements
 
 	public Direction fromForgeToIC2(ForgeDirection dir) {
 		switch (dir) {
-		case DOWN:
-			return Direction.YN;
-		case UP:
-			return Direction.YP;
-		case SOUTH:
-			return Direction.ZP;
-		case NORTH:
-			return Direction.ZN;
-		case WEST:
-			return Direction.XN;
-		case EAST:
-			return Direction.XP;
-		case UNKNOWN:
-			return null;
+			case DOWN:
+				return Direction.YN;
+			case UP:
+				return Direction.YP;
+			case SOUTH:
+				return Direction.ZP;
+			case NORTH:
+				return Direction.ZN;
+			case WEST:
+				return Direction.XN;
+			case EAST:
+				return Direction.XP;
+			case UNKNOWN:
+				return null;
 		}
 		return null;
 	}
 
 	public ForgeDirection toForgeFromIC2(Direction dir) {
 		switch (dir) {
-		case YN:
-			return ForgeDirection.DOWN;
-		case YP:
-			return ForgeDirection.UP;
-		case ZP:
-			return ForgeDirection.SOUTH;
-		case ZN:
-			return ForgeDirection.NORTH;
-		case XN:
-			return ForgeDirection.WEST;
-		case XP:
-			return ForgeDirection.EAST;
+			case YN:
+				return ForgeDirection.DOWN;
+			case YP:
+				return ForgeDirection.UP;
+			case ZP:
+				return ForgeDirection.SOUTH;
+			case ZN:
+				return ForgeDirection.NORTH;
+			case XN:
+				return ForgeDirection.WEST;
+			case XP:
+				return ForgeDirection.EAST;
 		}
 		return null;
 	}
-	
+
 	public boolean needsUpdate = true;
 
 	@Override
@@ -136,21 +136,25 @@ public class TileEntitySuperconductorCable extends TileEntity implements
 		int mask = 1;
 
 		for (Direction direction : Direction.values()) {
-			//TileEntity neighbor = EnergyNet.getForWorld(this.worldObj)
-			//		.getNeighbor(this, direction);
-			BlockLocation currLocation = new BlockLocation(this.worldObj.provider.dimensionId, this.xCoord, this.yCoord, this.zCoord);
-			BlockLocation nextLoc = currLocation.move(direction.toForgeDirection(), 1);
-			TileEntity neighbor = worldObj.getBlockTileEntity(nextLoc.getX(), nextLoc.getY(), nextLoc.getZ());
+			// TileEntity neighbor = EnergyNet.getForWorld(this.worldObj)
+			// .getNeighbor(this, direction);
+			BlockLocation currLocation = new BlockLocation(
+			        this.worldObj.provider.dimensionId, this.xCoord,
+			        this.yCoord, this.zCoord);
+			BlockLocation nextLoc = currLocation.move(
+			        direction.toForgeDirection(), 1);
+			TileEntity neighbor = worldObj.getBlockTileEntity(nextLoc.getX(),
+			        nextLoc.getY(), nextLoc.getZ());
 
 			if ((((neighbor instanceof IEnergyAcceptor)) && (((IEnergyAcceptor) neighbor)
-					.acceptsEnergyFrom(this, direction.getInverse())))
-					|| (((neighbor instanceof IEnergyEmitter)) && (((IEnergyEmitter) neighbor)
-							.emitsEnergyTo(this, direction.getInverse())))) {
+			        .acceptsEnergyFrom(this, direction.getInverse())))
+			        || (((neighbor instanceof IEnergyEmitter)) && (((IEnergyEmitter) neighbor)
+			                .emitsEnergyTo(this, direction.getInverse())))) {
 				newConnectivity = (byte) (newConnectivity | mask);
 
 				if (((neighbor instanceof TileEntitySuperconductorCable))
-						&& (((TileEntitySuperconductorCable) neighbor)
-								.getCableThickness() < getCableThickness())) {
+				        && (((TileEntitySuperconductorCable) neighbor)
+				                .getCableThickness() < getCableThickness())) {
 					newRenderSide = (byte) (newRenderSide | mask);
 				}
 			}

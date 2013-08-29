@@ -9,8 +9,8 @@ public class IC2Reactor {
 		try {
 			if (energyGeneratorNuclear == null) {
 				energyGeneratorNuclear = Class.forName(
-						getPackage() + ".core.IC2").getDeclaredField(
-						"energyGeneratorNuclear");
+				        getPackage() + ".core.IC2").getDeclaredField(
+				        "energyGeneratorNuclear");
 			}
 
 			return energyGeneratorNuclear.getInt(null);
@@ -31,7 +31,7 @@ public class IC2Reactor {
 			String packageName = pkg.getName();
 
 			return packageName.substring(0, packageName.length()
-					- ".api.reactor".length());
+			        - ".api.reactor".length());
 		}
 
 		return "ic2";

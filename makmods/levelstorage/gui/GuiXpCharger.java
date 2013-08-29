@@ -13,7 +13,7 @@ public class GuiXpCharger extends GuiContainer {
 	public TileEntityXpCharger tileEntity;
 
 	public GuiXpCharger(InventoryPlayer inventoryPlayer,
-			TileEntityXpCharger tileEntity) {
+	        TileEntityXpCharger tileEntity) {
 		super(new ContainerXpCharger(inventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
 	}
@@ -25,8 +25,8 @@ public class GuiXpCharger extends GuiContainer {
 		this.fontRenderer.drawString("XP Charger", 8, 6, 4210752);
 		// draws "Inventory" or your regional equivalent
 		this.fontRenderer.drawString(
-				StatCollector.translateToLocal("container.inventory"), 8,
-				this.ySize - 96 + 2, 4210752);
+		        StatCollector.translateToLocal("container.inventory"), 8,
+		        this.ySize - 96 + 2, 4210752);
 	}
 
 	// p max = ~36
@@ -34,7 +34,7 @@ public class GuiXpCharger extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
-			int par3) {
+	        int par3) {
 		// draw your Gui here, only thing you need to change is the path
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		// this.mc.renderEngine.bindTexture(ClientProxy.GUI_SINGLE_SLOT);
@@ -42,14 +42,14 @@ public class GuiXpCharger extends GuiContainer {
 			this.mc.func_110434_K().func_110577_a(ClientProxy.GUI_CHARGER);
 		} else {
 			this.mc.func_110434_K().func_110577_a(
-					ClientProxy.GUI_CHARGER_NO_UUM);
+			        ClientProxy.GUI_CHARGER_NO_UUM);
 		}
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
 		if (LevelStorage.chargerOnlyUUM) {
 			this.drawTexturedModalRect(x + 69, y + 55, 176, 3,
-					this.tileEntity.getProgress() + 1, 5);
+			        this.tileEntity.getProgress() + 1, 5);
 		}
 	}
 }

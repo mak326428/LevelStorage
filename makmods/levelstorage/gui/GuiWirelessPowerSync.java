@@ -22,7 +22,7 @@ public class GuiWirelessPowerSync extends GuiContainer {
 	protected TileEntityWirelessPowerSynchronizer tileEntity;
 
 	public GuiWirelessPowerSync(InventoryPlayer inventoryPlayer,
-			TileEntityWirelessPowerSynchronizer te) {
+	        TileEntityWirelessPowerSynchronizer te) {
 		super(new ContainerPowerSync(inventoryPlayer, te));
 		this.tileEntity = te;
 	}
@@ -37,9 +37,9 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		int xGuiPos = (this.width - this.xSize) / 2; // j
 		int yGuiPos = (this.height - this.ySize) / 2;
 		this.buttonList.add(new GuiButton(1, xGuiPos + 50, yGuiPos + 35, 75,
-				15, "Change mode"));
+		        15, "Change mode"));
 		this.freqTextBox = new GuiTextField(this.fontRenderer, xGuiPos + 50,
-				yGuiPos + 15, 75, 15);
+		        yGuiPos + 15, 75, 15);
 		Keyboard.enableRepeatEvents(true);
 		this.freqTextBox.setMaxStringLength(4);
 		this.freqTextBox.setEnableBackgroundDrawing(false);
@@ -63,7 +63,7 @@ public class GuiWirelessPowerSync extends GuiContainer {
 
 	public boolean isCharNumber(char ch) {
 		return (ch == '0' || ch == '1' || ch == '2' || ch == '3' || ch == '4'
-				|| ch == '5' || ch == '6' || ch == '7' || ch == '8' || ch == '9');
+		        || ch == '5' || ch == '6' || ch == '7' || ch == '8' || ch == '9');
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class GuiWirelessPowerSync extends GuiContainer {
 				packetTC.textBoxId = 0;
 				packetTC.newText = this.freqTextBox.getText();
 				PacketDispatcher.sendPacketToServer(PacketTypeHandler
-						.populatePacket(packetTC));
+				        .populatePacket(packetTC));
 			}
 		}
 		super.keyTyped(par1, par2);
@@ -115,7 +115,7 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		packet.z = this.tileEntity.zCoord;
 		packet.dimId = this.tileEntity.worldObj.provider.dimensionId;
 		PacketDispatcher.sendPacketToServer(PacketTypeHandler
-				.populatePacket(packet));
+		        .populatePacket(packet));
 	}
 
 	@Override
@@ -127,14 +127,14 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		int xGuiPos = (this.width - this.xSize) / 2; // j
 		int yGuiPos = (this.height - this.ySize) / 2;
 		this.fontRenderer.drawString(
-				StatCollector.translateToLocal("container.inventory"), 8,
-				this.ySize - 96 + 2, 4210752);
+		        StatCollector.translateToLocal("container.inventory"), 8,
+		        this.ySize - 96 + 2, 4210752);
 		this.fontRenderer.drawString("Frequency: "
-				+ this.tileEntity.frequency
-				+ "; "
-				+ "Mode: "
-				+ (this.tileEntity.type == SyncType.RECEIVER ? "receiver"
-						: "sender"), 8, 55, 4210752);
+		        + this.tileEntity.frequency
+		        + "; "
+		        + "Mode: "
+		        + (this.tileEntity.type == SyncType.RECEIVER ? "receiver"
+		                : "sender"), 8, 55, 4210752);
 		// String mode = "Mode: " + (tileEntity.type == ConductorType.SOURCE ?
 		// "Energy transmitter" : "Energy receiver");
 		// this.fontRenderer.drawString(mode, 8, 55, 4210752);
@@ -142,7 +142,7 @@ public class GuiWirelessPowerSync extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
-			int par3) {
+	        int par3) {
 		// draw your Gui here, only thing you need to change is the path
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		// this.mc.renderEngine.bindTexture(ClientProxy.GUI_SINGLE_SLOT);

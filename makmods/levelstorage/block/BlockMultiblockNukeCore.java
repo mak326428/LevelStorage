@@ -22,19 +22,19 @@ public class BlockMultiblockNukeCore extends BlockContainer {
 
 	public BlockMultiblockNukeCore() {
 		super(LevelStorage.configuration.getBlock(UNLOCALIZED_NAME,
-				LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
+		        LevelStorage.getAndIncrementCurrId()).getInt(), Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
+
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 	}
-	
+
 	public static void addCraftingRecipe() {
-		
+
 	}
-	
+
 	private Icon down;
 	private Icon up;
 	private Icon side;
@@ -43,7 +43,7 @@ public class BlockMultiblockNukeCore extends BlockContainer {
 	public TileEntity createNewTileEntity(World worldObj) {
 		return new TileEntityXpCharger();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int side, int par2) {
@@ -53,22 +53,21 @@ public class BlockMultiblockNukeCore extends BlockContainer {
 		if (orientation == ForgeDirection.UP)
 			return this.up;
 		if (orientation == ForgeDirection.NORTH
-				|| orientation == ForgeDirection.WEST
-				|| orientation == ForgeDirection.SOUTH
-				|| orientation == ForgeDirection.EAST)
+		        || orientation == ForgeDirection.WEST
+		        || orientation == ForgeDirection.SOUTH
+		        || orientation == ForgeDirection.EAST)
 			return this.side;
 		return null;
 	}
 
-	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		this.side = iconRegister
-				.registerIcon(ClientProxy.MULTINUKE_CORE_TEXTURE+ "Side");
-		this.up = iconRegister
-				.registerIcon(ClientProxy.MULTINUKE_CORE_TEXTURE + "Up");
+		        .registerIcon(ClientProxy.MULTINUKE_CORE_TEXTURE + "Side");
+		this.up = iconRegister.registerIcon(ClientProxy.MULTINUKE_CORE_TEXTURE
+		        + "Up");
 		this.down = iconRegister
-				.registerIcon(ClientProxy.MULTINUKE_CORE_TEXTURE + "Down");
+		        .registerIcon(ClientProxy.MULTINUKE_CORE_TEXTURE + "Down");
 	}
 }

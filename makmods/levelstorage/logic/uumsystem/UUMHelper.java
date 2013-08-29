@@ -74,7 +74,7 @@ public class UUMHelper {
 		if (rec.getClass().getName() == UUMRecipeParser.ADV_RECIPE_CLASS) {
 			try {
 				Field inputs_field = rec.getClass().getField(
-						UUMRecipeParser.INPUT_FIELD);
+				        UUMRecipeParser.INPUT_FIELD);
 				Object[] input_recipe = (Object[]) inputs_field.get(rec);
 				ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
 				for (Object obj : input_recipe) {
@@ -82,7 +82,7 @@ public class UUMHelper {
 						stacks.add((ItemStack) obj);
 				}
 				inputs = (ItemStack[]) stacks.toArray(new ItemStack[stacks
-						.size()]);
+				        .size()]);
 			} catch (Exception e) {
 			}
 		}
@@ -99,14 +99,14 @@ public class UUMHelper {
 			ItemStack outp = ((IRecipe) rec).getRecipeOutput();
 			if (forWhat != null && outp != null) {
 				if (forWhat.itemID == outp.itemID
-						&& rec.getClass().getName() == UUMRecipeParser.ADV_RECIPE_CLASS) {
+				        && rec.getClass().getName() == UUMRecipeParser.ADV_RECIPE_CLASS) {
 					rec2 = (IRecipe) rec;
 				}
 			}
 		}
 		try {
 			Field inputs_field = rec2.getClass().getField(
-					UUMRecipeParser.INPUT_FIELD);
+			        UUMRecipeParser.INPUT_FIELD);
 			Object[] input_recipe = (Object[]) inputs_field.get(rec2);
 			ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
 			for (Object obj : input_recipe) {

@@ -254,8 +254,7 @@ public class ArmorFunctions {
 			if (player.getFoodStats().getFoodLevel() < 18) {
 				if (ElectricItem.manager.canUse(itemStack, FOOD_COST)) {
 					ElectricItem.manager.use(itemStack, FOOD_COST, player);
-					player.getFoodStats().setFoodLevel(20);
-					player.getFoodStats().setFoodSaturationLevel(40F);
+					player.getFoodStats().addStats(20, 20);
 				}
 			}
 			if (player.getAir() < 100) {

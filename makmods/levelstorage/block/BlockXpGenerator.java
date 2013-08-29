@@ -29,18 +29,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockXpGenerator extends BlockContainer {
 
-	public static final String UNLOCALIZED_NAME = "blockXpGenerator";
-	public static final String NAME = "XP Generator";
-
 	public BlockXpGenerator(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
-
 	}
 
 	private Icon down;
@@ -55,10 +50,10 @@ public class BlockXpGenerator extends BlockContainer {
 		ItemStack goldIngot = new ItemStack(Item.ingotGold);
 		ItemStack advMachine = Items.getItem("advancedMachine");
 		GameRegistry.addRecipe(blockXpGenStack, "iai", "geg", "imi",
-				Character.valueOf('i'), refIron, Character.valueOf('g'),
-				goldIngot, Character.valueOf('a'), advMachine,
-				Character.valueOf('m'), machine, Character.valueOf('e'),
-				generator);
+		        Character.valueOf('i'), refIron, Character.valueOf('g'),
+		        goldIngot, Character.valueOf('a'), advMachine,
+		        Character.valueOf('m'), machine, Character.valueOf('e'),
+		        generator);
 	}
 
 	@Override
@@ -80,14 +75,14 @@ public class BlockXpGenerator extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
+	        EntityPlayer player, int par6, float par7, float par8, float par9) {
 
 		if (player.isSneaking())
 			return false;
 		else {
 			if (!world.isRemote) {
 				TileEntityXpGenerator tileXpGen = (TileEntityXpGenerator) world
-						.getBlockTileEntity(x, y, z);
+				        .getBlockTileEntity(x, y, z);
 				if (tileXpGen != null) {
 					player.openGui(LevelStorage.instance, 50, world, x, y, z);
 				}
@@ -121,12 +116,12 @@ public class BlockXpGenerator extends BlockContainer {
 				float rz = rand.nextFloat() * 0.8F + 0.1F;
 
 				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
-						+ rz, new ItemStack(item.itemID, item.stackSize,
-						item.getItemDamage()));
+				        + rz, new ItemStack(item.itemID, item.stackSize,
+				        item.getItemDamage()));
 
 				if (item.hasTagCompound()) {
 					entityItem.getEntityItem().setTagCompound(
-							(NBTTagCompound) item.getTagCompound().copy());
+					        (NBTTagCompound) item.getTagCompound().copy());
 				}
 
 				float factor = 0.05F;
@@ -167,9 +162,9 @@ public class BlockXpGenerator extends BlockContainer {
 		if (orientation == ForgeDirection.UP)
 			return this.up;
 		if (orientation == ForgeDirection.NORTH
-				|| orientation == ForgeDirection.WEST
-				|| orientation == ForgeDirection.SOUTH
-				|| orientation == ForgeDirection.EAST)
+		        || orientation == ForgeDirection.WEST
+		        || orientation == ForgeDirection.SOUTH
+		        || orientation == ForgeDirection.EAST)
 			return this.side;
 		return null;
 	}
@@ -178,9 +173,9 @@ public class BlockXpGenerator extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		this.side = iconRegister.registerIcon(ClientProxy.XP_GEN_TEXTURE
-				+ "Side");
+		        + "Side");
 		this.up = iconRegister.registerIcon(ClientProxy.XP_GEN_TEXTURE + "Up");
 		this.down = iconRegister.registerIcon(ClientProxy.XP_GEN_TEXTURE
-				+ "Down");
+		        + "Down");
 	}
 }

@@ -50,7 +50,7 @@ public class PacketPressButton extends PacketLV {
 
 			if (world != null) {
 				TileEntity te = world
-						.getBlockTileEntity(this.x, this.y, this.z);
+				        .getBlockTileEntity(this.x, this.y, this.z);
 				if (te != null) {
 					if (te instanceof IHasButtons) {
 						IHasButtons ihb = (IHasButtons) te;
@@ -60,7 +60,7 @@ public class PacketPressButton extends PacketLV {
 			}
 		} catch (Exception e) {
 			FMLLog.log(Level.SEVERE,
-					"LevelStorage: PacketPressButton - exception:");
+			        "LevelStorage: PacketPressButton - exception:");
 			e.printStackTrace();
 		}
 	}

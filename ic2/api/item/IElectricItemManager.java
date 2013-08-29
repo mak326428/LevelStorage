@@ -38,7 +38,7 @@ public interface IElectricItemManager {
 	 * @return Energy transferred into the electric item
 	 */
 	int charge(ItemStack itemStack, int amount, int tier,
-			boolean ignoreTransferLimit, boolean simulate);
+	        boolean ignoreTransferLimit, boolean simulate);
 
 	/**
 	 * Discharge an item by a specified amount of energy
@@ -58,7 +58,7 @@ public interface IElectricItemManager {
 	 * @return Energy retrieved from the electric item
 	 */
 	int discharge(ItemStack itemStack, int amount, int tier,
-			boolean ignoreTransferLimit, boolean simulate);
+	        boolean ignoreTransferLimit, boolean simulate);
 
 	/**
 	 * Determine the charge level for the specified item

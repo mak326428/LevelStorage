@@ -23,8 +23,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemFrequencyCard extends Item {
-	public static final String UNLOCALIZED_NAME = "freqCard";
-	public static final String NAME = "Frequency Card";
 
 	public ItemFrequencyCard(int id) {
 		super(id);
@@ -33,7 +31,6 @@ public class ItemFrequencyCard extends Item {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
 		this.setMaxStackSize(1);
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 	}
 
 	public static void addCraftingRecipe() {
@@ -52,7 +49,8 @@ public class ItemFrequencyCard extends Item {
 	public void addInformation(ItemStack par1ItemStack,
 	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		NBTHelper.checkNBT(par1ItemStack);
-		if (par1ItemStack.getTagCompound().hasKey(BlockLocation.BLOCK_LOCATION_NBT)) {
+		if (par1ItemStack.getTagCompound().hasKey(
+		        BlockLocation.BLOCK_LOCATION_NBT)) {
 			boolean isValid = isValid(par1ItemStack);
 			BlockLocation location = BlockLocation.readFromNBT(par1ItemStack
 			        .getTagCompound());
@@ -63,7 +61,8 @@ public class ItemFrequencyCard extends Item {
 
 	public static boolean isValid(ItemStack stack) {
 		if (hasCardData(stack)) {
-			BlockLocation loc = BlockLocation.readFromNBT(stack.getTagCompound());
+			BlockLocation loc = BlockLocation.readFromNBT(stack
+			        .getTagCompound());
 			if (BlockLocation.isDimIdValid(loc.getDimId())) {
 				WorldServer w = DimensionManager.getWorld(loc.getDimId());
 
@@ -102,7 +101,8 @@ public class ItemFrequencyCard extends Item {
 		if (!world.isRemote) {
 			if (world.getBlockId(x, y, z) == LSBlockItemList.blockWlessConductor.blockID) {
 				NBTHelper.checkNBT(stack);
-				BlockLocation loc = new BlockLocation(world.provider.dimensionId, x, y, z);
+				BlockLocation loc = new BlockLocation(
+				        world.provider.dimensionId, x, y, z);
 				BlockLocation.writeToNBT(stack.stackTagCompound, loc);
 			}
 		}
@@ -113,7 +113,7 @@ public class ItemFrequencyCard extends Item {
 		NBTTagCompound cardNBT = stack.stackTagCompound;
 		return cardNBT.hasKey(BlockLocation.BLOCK_LOCATION_NBT);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {

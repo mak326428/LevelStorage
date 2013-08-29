@@ -401,7 +401,7 @@ public final class Items {
 			String packageName = pkg.getName();
 
 			return packageName.substring(0,
-					packageName.length() - ".api.item".length());
+			        packageName.length() - ".api.item".length());
 		}
 
 		return "ic2";

@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityMassInfuser extends TileEntity implements IInventory,
-		IHasButtons, ISidedInventory {
+        IHasButtons, ISidedInventory {
 	// Phantom Slots + Crafting grid + Slot for UUM + Slot for crafting output
 	public static final int INVENTORY_SIZE = 9 + 9 + 1 + 1;
 	public static final String INVENTORY_NAME = "Mass Infuser";
@@ -23,7 +23,7 @@ public class TileEntityMassInfuser extends TileEntity implements IInventory,
 	public int page = 0;
 	public static final int RECIPES_PER_PAGE = 9;
 	public static final int MAX_PAGE = UUMRecipeParser.instance.recipes.size()
-			/ RECIPES_PER_PAGE - 1;
+	        / RECIPES_PER_PAGE - 1;
 
 	@Override
 	public void updateEntity() {
@@ -34,10 +34,10 @@ public class TileEntityMassInfuser extends TileEntity implements IInventory,
 				page = 0;
 			int slot = 0;
 			for (int i = RECIPES_PER_PAGE * page; i < RECIPES_PER_PAGE
-					* (page + 1); i++) {
+			        * (page + 1); i++) {
 				this.setInventorySlotContents(slot,
-						UUMRecipeParser.instance.recipes.get(i).getOutput()
-								.copy());
+				        UUMRecipeParser.instance.recipes.get(i).getOutput()
+				                .copy());
 				slot++;
 			}
 		}
@@ -69,12 +69,12 @@ public class TileEntityMassInfuser extends TileEntity implements IInventory,
 	@Override
 	public void handleButtonClick(int buttonId) {
 		switch (buttonId) {
-		case 1:
-			handlePageUpdate(-1);
-			break;
-		case 2:
-			handlePageUpdate(1);
-			break;
+			case 1:
+				handlePageUpdate(-1);
+				break;
+			case 2:
+				handlePageUpdate(1);
+				break;
 		}
 
 	}

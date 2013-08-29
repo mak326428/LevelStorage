@@ -96,7 +96,7 @@ public abstract class TileEntityBasicMachine extends TileEntityInventorySink {
 	public boolean explodes() {
 		return true;
 	}
-	
+
 	public void updateEntity() {
 		super.updateEntity();
 		rerenderInterval++;

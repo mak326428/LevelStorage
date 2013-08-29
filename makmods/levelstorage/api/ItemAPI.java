@@ -47,11 +47,11 @@ public class ItemAPI {
 	}
 
 	public static class SimpleItemAPI {
-		
+
 		private static Class c_SimpleItems;
 		private static Object o_SimpleItemsInstance;
 		private static final String SIMPLE_ITEMS_CLASSNAME = "item.SimpleItems";
-		
+
 		static {
 			c_SimpleItems = APIHelper.getClassByName(SIMPLE_ITEMS_CLASSNAME);
 			o_SimpleItemsInstance = APIHelper
@@ -60,9 +60,10 @@ public class ItemAPI {
 
 		public static ItemStack getSimpleItem(String name) {
 			try {
-				int sItemsId = ((Item)o_SimpleItemsInstance).itemID;
+				int sItemsId = ((Item) o_SimpleItemsInstance).itemID;
 				Field itemNamesField = c_SimpleItems.getField("itemNames");
-				List<String> names = (List<String>)itemNamesField.get(o_SimpleItemsInstance);
+				List<String> names = (List<String>) itemNamesField
+				        .get(o_SimpleItemsInstance);
 				if (!names.contains(name)) {
 					throw new Exception("SimpleItem not found!");
 				}

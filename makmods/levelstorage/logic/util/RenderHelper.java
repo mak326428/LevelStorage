@@ -6,6 +6,6 @@ import makmods.levelstorage.proxy.ClientProxy;
 public class RenderHelper {
 	public static void bindTexture(String path) {
 		FMLClientHandler.instance().getClient().renderEngine
-		.func_110577_a(ClientProxy.getResourceLocation(path));
+		        .func_110577_a(ClientProxy.getResourceLocation(path));
 	}
 }

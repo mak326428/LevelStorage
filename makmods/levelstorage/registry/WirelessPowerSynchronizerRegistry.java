@@ -189,7 +189,8 @@ public class WirelessPowerSynchronizerRegistry {
 	        TileEntityWirelessPowerSynchronizer te) {
 		int energyNotUsed = 0;
 		boolean usedAny = false;
-		// TODO: if it doesn't work, try !world.isRemote on injectEnergy in psyncs
+		// TODO: if it doesn't work, try !world.isRemote on injectEnergy in
+		// psyncs
 		if (te.pairs.length > 0 || hasChargersOnFreq(te.frequency)) {
 
 			ArrayList<Object> pairs = new ArrayList<Object>();
@@ -199,15 +200,15 @@ public class WirelessPowerSynchronizerRegistry {
 			}
 
 			for (WChargerEntry entry : registryChargers) {
-				//System.out.println("Entry freq: " + entry.frequency);
-				//System.out.println("TE freq: " + te.frequency);
-				
-				//System.out.println("TE X:" + te.xCoord);
-				//System.out.println("TE Y:" + te.yCoord);
-				//System.out.println("TE Z:" + te.zCoord);
-				
+				// System.out.println("Entry freq: " + entry.frequency);
+				// System.out.println("TE freq: " + te.frequency);
+
+				// System.out.println("TE X:" + te.xCoord);
+				// System.out.println("TE Y:" + te.yCoord);
+				// System.out.println("TE Z:" + te.zCoord);
+
 				if (entry.frequency == te.frequency) {
-					//System.out.println("adding to the list charger");
+					// System.out.println("adding to the list charger");
 					pairs.add(entry);
 				}
 			}
@@ -218,7 +219,7 @@ public class WirelessPowerSynchronizerRegistry {
 			}
 
 			for (Object s : pairs) {
-				//System.out.println(s.getClass().getName());
+				// System.out.println(s.getClass().getName());
 				if (s instanceof IWirelessPowerSync) {
 					IWirelessPowerSync entry = (IWirelessPowerSync) s;
 					BlockLocation thisTe = new BlockLocation(

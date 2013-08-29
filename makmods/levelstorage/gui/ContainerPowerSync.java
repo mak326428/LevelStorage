@@ -14,7 +14,7 @@ public class ContainerPowerSync extends Container {
 	protected TileEntityWirelessPowerSynchronizer tileEntity;
 
 	public ContainerPowerSync(InventoryPlayer inventoryPlayer,
-			TileEntityWirelessPowerSynchronizer te) {
+	        TileEntityWirelessPowerSynchronizer te) {
 		this.tileEntity = te;
 
 		this.bindPlayerInventory(inventoryPlayer);
@@ -24,13 +24,13 @@ public class ContainerPowerSync extends Container {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(inventoryPlayer,
-						j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				        j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18,
-					142));
+			        142));
 		}
 	}
 
@@ -42,26 +42,26 @@ public class ContainerPowerSync extends Container {
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
 			icrafting.sendProgressBarUpdate(this, 0, this.tileEntity.frequency);
 			icrafting.sendProgressBarUpdate(this, 1,
-					this.tileEntity.type.ordinal());
+			        this.tileEntity.type.ordinal());
 		}
 	}
 
 	@Override
 	public void updateProgressBar(int i, int j) {
 		switch (i) {
-		case 0:
-			this.tileEntity.frequency = j;
-			break;
-		case 1:
-			this.tileEntity.type = SyncType.values()[j];
-			break;
+			case 0:
+				this.tileEntity.frequency = j;
+				break;
+			case 1:
+				this.tileEntity.type = SyncType.values()[j];
+				break;
 		}
 	}
 
 	// We have no slots, so.. just to prevent Ex...
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,
-			int slotIndex) {
+	        int slotIndex) {
 		return null;
 	}
 

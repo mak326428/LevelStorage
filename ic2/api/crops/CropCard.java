@@ -117,7 +117,7 @@ public abstract class CropCard {
 
 		for (int i = 1; i <= this.textures.length; i++) {
 			this.textures[i - 1] = iconRegister
-					.registerIcon("ic2:crop/blockCrop." + this.name() + "." + i);
+			        .registerIcon("ic2:crop/blockCrop." + this.name() + "." + i);
 		}
 	}
 
@@ -190,7 +190,7 @@ public abstract class CropCard {
 	 * @return 0-30
 	 */
 	public int weightInfluences(ICropTile crop, float humidity,
-			float nutrients, float air) {
+	        float nutrients, float air) {
 		return (int) (humidity + nutrients + air);
 	}
 
@@ -309,7 +309,7 @@ public abstract class CropCard {
 	 */
 	public ItemStack getSeeds(ICropTile crop) {
 		return crop.generateSeeds(crop.getID(), crop.getGrowth(),
-				crop.getGain(), crop.getResistance(), crop.getScanLevel());
+		        crop.getGain(), crop.getResistance(), crop.getScanLevel());
 	}
 
 	/**
@@ -388,7 +388,7 @@ public abstract class CropCard {
 	 */
 	public boolean isWeed(ICropTile crop) {
 		return crop.getSize() >= 2
-				&& (crop.getID() == 0 || crop.getGrowth() >= 24);
+		        && (crop.getID() == 0 || crop.getGrowth() >= 24);
 	}
 
 	/**

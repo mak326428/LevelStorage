@@ -23,9 +23,9 @@ public class XpStackRegistry {
 	public ArrayList<XpStack> ITEM_XP_CONVERSIONS = new ArrayList<XpStack>();
 
 	public static final AbstractMap.SimpleEntry<Integer, Integer> XP_EU_CONVERSION = new AbstractMap.SimpleEntry<Integer, Integer>(
-			1, 64); // 1 XP = 64 EU
+	        1, 64); // 1 XP = 64 EU
 	public static final AbstractMap.SimpleEntry<Integer, Integer> UUM_XP_CONVERSION = new AbstractMap.SimpleEntry<Integer, Integer>(
-			1, 130); // 1 UUM = 130 XP
+	        1, 130); // 1 UUM = 130 XP
 
 	public static final int ORE_DICT_NOT_FOUND = -1;
 
@@ -55,17 +55,17 @@ public class XpStackRegistry {
 		FMLLog.log(Level.INFO, "Starting printing the xp registry contents");
 		for (XpStack s : this.ITEM_XP_CONVERSIONS) {
 			FMLLog.log(Level.INFO,
-					"\t#" + s.stack.itemID + ":" + s.stack.getItemDamage()
-							+ " - " + s.stack.getDisplayName() + " - "
-							+ s.value + " (1 " + s.stack.getDisplayName()
-							+ " = " + s.value + " XP)");
+			        "\t#" + s.stack.itemID + ":" + s.stack.getItemDamage()
+			                + " - " + s.stack.getDisplayName() + " - "
+			                + s.value + " (1 " + s.stack.getDisplayName()
+			                + " = " + s.value + " XP)");
 		}
 	}
 
 	public void pushToRegistry(XpStack stack) {
 		FMLLog.log(Level.INFO, "Adding #" + stack.stack.itemID + ":"
-				+ stack.stack.getItemDamage() + " to the Xp Registry, value: "
-				+ stack.value);
+		        + stack.stack.getItemDamage() + " to the Xp Registry, value: "
+		        + stack.value);
 		this.ITEM_XP_CONVERSIONS.add(stack);
 	}
 
@@ -77,7 +77,7 @@ public class XpStackRegistry {
 		}
 		if (!exists) {
 			FMLLog.warning(Reference.MOD_NAME
-					+ ": failed to add ore to XP Registry - " + name);
+			        + ": failed to add ore to XP Registry - " + name);
 		}
 	}
 }

@@ -67,12 +67,12 @@ public class NBTHelper {
 		}
 		return stack.stackTagCompound.getString(name);
 	}
-	
+
 	public static void setBoolean(ItemStack stack, String name, boolean value) {
 		checkNBT(stack);
 		stack.stackTagCompound.setBoolean(name, value);
 	}
-	
+
 	public static boolean getBoolean(ItemStack stack, String name) {
 		checkNBT(stack);
 		if (!verifyKey(stack, name)) {

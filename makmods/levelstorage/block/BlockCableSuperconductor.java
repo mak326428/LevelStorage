@@ -31,15 +31,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCableSuperconductor extends BlockContainer {
 
-	public static final String UNLOCALIZED_NAME = "blockSuperconductor";
-	public static final String NAME = "Superconductor";
-
 	public BlockCableSuperconductor(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(null);
 		}
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setStepSound(Block.soundClothFootstep);
 		this.setHardness(0.2F);
 		MinecraftForge.EVENT_BUS.register(this);
@@ -58,14 +54,14 @@ public class BlockCableSuperconductor extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		this.texture = iconRegister
-				.registerIcon(ClientProxy.BLOCK_SUPERCONDUCTOR_TEXTURE);
+		        .registerIcon(ClientProxy.BLOCK_SUPERCONDUCTOR_TEXTURE);
 	}
 
 	public Icon texture;
 
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockTexture(IBlockAccess iBlockAccess, int x, int y, int z,
-			int side) {
+	        int side) {
 		TileEntity te = iBlockAccess.getBlockTileEntity(x, y, z);
 
 		if ((te instanceof TileEntitySuperconductorCable)) {
@@ -81,17 +77,17 @@ public class BlockCableSuperconductor extends BlockContainer {
 	@ForgeSubscribe
 	public void onRetexture(RetextureEvent event) {
 		TileEntity te = event.world.getBlockTileEntity(event.x, event.y,
-				event.z);
+		        event.z);
 
 		if (((te instanceof TileEntitySuperconductorCable))
-				&& (((TileEntitySuperconductorCable) te).retexture(event.side,
-						event.referencedBlockId, event.referencedMeta,
-						event.referencedSide)))
+		        && (((TileEntitySuperconductorCable) te).retexture(event.side,
+		                event.referencedBlockId, event.referencedMeta,
+		                event.referencedSide)))
 			event.applied = true;
 	}
 
 	public void onNeighborBlockChange(World world, int x, int y, int z,
-			int srcBlockId) {
+	        int srcBlockId) {
 		super.onNeighborBlockChange(world, x, y, z, srcBlockId);
 
 		if (!world.isRemote) {
@@ -103,7 +99,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 	}
 
 	public boolean removeBlockByPlayer(World world, EntityPlayer entityPlayer,
-			int x, int y, int z) {
+	        int x, int y, int z) {
 		TileEntity te = world.getBlockTileEntity(x, y, z);
 
 		if ((te instanceof TileEntitySuperconductorCable)) {
@@ -116,7 +112,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 	}
 
 	public MovingObjectPosition collisionRayTrace(World world, int x, int y,
-			int z, Vec3 origin, Vec3 absDirection) {
+	        int z, Vec3 origin, Vec3 absDirection) {
 		TileEntity te = world.getBlockTileEntity(x, y, z);
 		if (!(te instanceof TileEntitySuperconductorCable))
 			return null;
@@ -124,8 +120,8 @@ public class BlockCableSuperconductor extends BlockContainer {
 		TileEntitySuperconductorCable tileEntityCable = (TileEntitySuperconductorCable) te;
 
 		Vec3 direction = Vec3.createVectorHelper(absDirection.xCoord
-				- origin.xCoord, absDirection.yCoord - origin.yCoord,
-				absDirection.zCoord - origin.zCoord);
+		        - origin.xCoord, absDirection.yCoord - origin.yCoord,
+		        absDirection.zCoord - origin.zCoord);
 
 		double maxLength = direction.lengthVector();
 		double halfThickness = tileEntityCable.getCableThickness() / 2.0D;
@@ -133,15 +129,15 @@ public class BlockCableSuperconductor extends BlockContainer {
 
 		Vec3 intersection = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
 		Direction intersectingDirection = getIntersection(
-				origin,
-				direction,
-				AxisAlignedBB.getAABBPool().getAABB(x + 0.5D - halfThickness,
-						y + 0.5D - halfThickness, z + 0.5D - halfThickness,
-						x + 0.5D + halfThickness, y + 0.5D + halfThickness,
-						z + 0.5D + halfThickness), intersection);
+		        origin,
+		        direction,
+		        AxisAlignedBB.getAABBPool().getAABB(x + 0.5D - halfThickness,
+		                y + 0.5D - halfThickness, z + 0.5D - halfThickness,
+		                x + 0.5D + halfThickness, y + 0.5D + halfThickness,
+		                z + 0.5D + halfThickness), intersection);
 
 		if ((intersectingDirection != null)
-				&& (intersection.distanceTo(origin) <= maxLength)) {
+		        && (intersection.distanceTo(origin) <= maxLength)) {
 			hit = true;
 		} else if (halfThickness < 0.5D) {
 			int mask = 1;
@@ -155,59 +151,60 @@ public class BlockCableSuperconductor extends BlockContainer {
 					AxisAlignedBB bbox = null;
 					// dir
 					switch (UUMHelper.convertArrayIntoArrList(
-							Direction.values()).indexOf(dir) + 1) {
-					case 1:
-						bbox = AxisAlignedBB.getAABBPool().getAABB(x,
-								y + 0.5D - halfThickness,
-								z + 0.5D - halfThickness, x + 0.5D,
-								y + 0.5D + halfThickness,
-								z + 0.5D + halfThickness);
+					        Direction.values()).indexOf(dir) + 1) {
+						case 1:
+							bbox = AxisAlignedBB.getAABBPool().getAABB(x,
+							        y + 0.5D - halfThickness,
+							        z + 0.5D - halfThickness, x + 0.5D,
+							        y + 0.5D + halfThickness,
+							        z + 0.5D + halfThickness);
 
-						break;
-					case 2:
-						bbox = AxisAlignedBB.getAABBPool().getAABB(x + 0.5D,
-								y + 0.5D - halfThickness,
-								z + 0.5D - halfThickness, x + 1.0D,
-								y + 0.5D + halfThickness,
-								z + 0.5D + halfThickness);
+							break;
+						case 2:
+							bbox = AxisAlignedBB.getAABBPool().getAABB(
+							        x + 0.5D, y + 0.5D - halfThickness,
+							        z + 0.5D - halfThickness, x + 1.0D,
+							        y + 0.5D + halfThickness,
+							        z + 0.5D + halfThickness);
 
-						break;
-					case 3:
-						bbox = AxisAlignedBB.getAABBPool().getAABB(
-								x + 0.5D - halfThickness, y,
-								z + 0.5D - halfThickness,
-								x + 0.5D + halfThickness, y + 0.5D,
-								z + 0.5D + halfThickness);
+							break;
+						case 3:
+							bbox = AxisAlignedBB.getAABBPool().getAABB(
+							        x + 0.5D - halfThickness, y,
+							        z + 0.5D - halfThickness,
+							        x + 0.5D + halfThickness, y + 0.5D,
+							        z + 0.5D + halfThickness);
 
-						break;
-					case 4:
-						bbox = AxisAlignedBB.getAABBPool().getAABB(
-								x + 0.5D - halfThickness, y + 0.5D,
-								z + 0.5D - halfThickness,
-								x + 0.5D + halfThickness, y + 1.0D,
-								z + 0.5D + halfThickness);
+							break;
+						case 4:
+							bbox = AxisAlignedBB.getAABBPool().getAABB(
+							        x + 0.5D - halfThickness, y + 0.5D,
+							        z + 0.5D - halfThickness,
+							        x + 0.5D + halfThickness, y + 1.0D,
+							        z + 0.5D + halfThickness);
 
-						break;
-					case 5:
-						bbox = AxisAlignedBB.getAABBPool().getAABB(
-								x + 0.5D - halfThickness,
-								y + 0.5D - halfThickness, z,
-								x + 0.5D + halfThickness, y + 0.5D, z + 0.5D);
+							break;
+						case 5:
+							bbox = AxisAlignedBB.getAABBPool().getAABB(
+							        x + 0.5D - halfThickness,
+							        y + 0.5D - halfThickness, z,
+							        x + 0.5D + halfThickness, y + 0.5D,
+							        z + 0.5D);
 
-						break;
-					case 6:
-						bbox = AxisAlignedBB.getAABBPool().getAABB(
-								x + 0.5D - halfThickness,
-								y + 0.5D - halfThickness, z + 0.5D,
-								x + 0.5D + halfThickness,
-								y + 0.5D + halfThickness, z + 1.0D);
+							break;
+						case 6:
+							bbox = AxisAlignedBB.getAABBPool().getAABB(
+							        x + 0.5D - halfThickness,
+							        y + 0.5D - halfThickness, z + 0.5D,
+							        x + 0.5D + halfThickness,
+							        y + 0.5D + halfThickness, z + 1.0D);
 					}
 
 					intersectingDirection = getIntersection(origin, direction,
-							bbox, intersection);
+					        bbox, intersection);
 
 					if ((intersectingDirection != null)
-							&& (intersection.distanceTo(origin) <= maxLength)) {
+					        && (intersection.distanceTo(origin) <= maxLength)) {
 						hit = true;
 						break;
 					}
@@ -216,7 +213,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 		}
 		if (hit) {
 			return new MovingObjectPosition(x, y, z,
-					intersectingDirection.toSideValue(), intersection);
+			        intersectingDirection.toSideValue(), intersection);
 		}
 		return null;
 	}
@@ -239,12 +236,12 @@ public class BlockCableSuperconductor extends BlockContainer {
 		double[] ret = new double[6];
 
 		ret[0] = (origin.xCoord * direction.yCoord - direction.xCoord
-				* origin.yCoord);
+		        * origin.yCoord);
 		ret[1] = (origin.xCoord * direction.zCoord - direction.xCoord
-				* origin.zCoord);
+		        * origin.zCoord);
 		ret[2] = (-direction.xCoord);
 		ret[3] = (origin.yCoord * direction.zCoord - direction.yCoord
-				* origin.zCoord);
+		        * origin.zCoord);
 		ret[4] = (-direction.zCoord);
 		ret[5] = direction.yCoord;
 
@@ -252,11 +249,11 @@ public class BlockCableSuperconductor extends BlockContainer {
 	}
 
 	public static Direction intersects(Vec3 origin, Vec3 direction,
-			AxisAlignedBB bbox) {
+	        AxisAlignedBB bbox) {
 		double[] ray = getRay(origin, direction);
 
 		if ((direction.xCoord < 0.0D) && (direction.yCoord < 0.0D)
-				&& (direction.zCoord < 0.0D)) {
+		        && (direction.zCoord < 0.0D)) {
 			if (origin.xCoord < bbox.minX)
 				return null;
 			if (origin.yCoord < bbox.minY)
@@ -277,7 +274,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 				return null;
 
 			if ((side(ray, getEdgeRay(Edge.HG, bbox)) > 0.0D)
-					&& (side(ray, getEdgeRay(Edge.FG, bbox)) < 0.0D))
+			        && (side(ray, getEdgeRay(Edge.FG, bbox)) < 0.0D))
 				return Direction.ZP;
 			if (side(ray, getEdgeRay(Edge.CG, bbox)) < 0.0D) {
 				return Direction.YP;
@@ -285,7 +282,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 			return Direction.XP;
 		}
 		if ((direction.xCoord < 0.0D) && (direction.yCoord < 0.0D)
-				&& (direction.zCoord >= 0.0D)) {
+		        && (direction.zCoord >= 0.0D)) {
 			if (origin.xCoord < bbox.minX)
 				return null;
 			if (origin.yCoord < bbox.minY)
@@ -306,7 +303,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 				return null;
 
 			if ((side(ray, getEdgeRay(Edge.DC, bbox)) > 0.0D)
-					&& (side(ray, getEdgeRay(Edge.CG, bbox)) > 0.0D))
+			        && (side(ray, getEdgeRay(Edge.CG, bbox)) > 0.0D))
 				return Direction.XP;
 			if (side(ray, getEdgeRay(Edge.BC, bbox)) < 0.0D) {
 				return Direction.YP;
@@ -314,7 +311,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 			return Direction.ZN;
 		}
 		if ((direction.xCoord < 0.0D) && (direction.yCoord >= 0.0D)
-				&& (direction.zCoord < 0.0D)) {
+		        && (direction.zCoord < 0.0D)) {
 			if (origin.xCoord < bbox.minX)
 				return null;
 			if (origin.yCoord > bbox.maxY)
@@ -335,7 +332,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 				return null;
 
 			if ((side(ray, getEdgeRay(Edge.EH, bbox)) > 0.0D)
-					&& (side(ray, getEdgeRay(Edge.HG, bbox)) > 0.0D))
+			        && (side(ray, getEdgeRay(Edge.HG, bbox)) > 0.0D))
 				return Direction.ZP;
 			if (side(ray, getEdgeRay(Edge.DH, bbox)) < 0.0D) {
 				return Direction.XP;
@@ -343,7 +340,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 			return Direction.YN;
 		}
 		if ((direction.xCoord < 0.0D) && (direction.yCoord >= 0.0D)
-				&& (direction.zCoord >= 0.0D)) {
+		        && (direction.zCoord >= 0.0D)) {
 			if (origin.xCoord < bbox.minX)
 				return null;
 			if (origin.yCoord > bbox.maxY)
@@ -364,7 +361,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 				return null;
 
 			if ((side(ray, getEdgeRay(Edge.AD, bbox)) > 0.0D)
-					&& (side(ray, getEdgeRay(Edge.DH, bbox)) > 0.0D))
+			        && (side(ray, getEdgeRay(Edge.DH, bbox)) > 0.0D))
 				return Direction.YN;
 			if (side(ray, getEdgeRay(Edge.DC, bbox)) < 0.0D) {
 				return Direction.ZN;
@@ -372,7 +369,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 			return Direction.XP;
 		}
 		if ((direction.xCoord >= 0.0D) && (direction.yCoord < 0.0D)
-				&& (direction.zCoord < 0.0D)) {
+		        && (direction.zCoord < 0.0D)) {
 			if (origin.xCoord > bbox.maxX)
 				return null;
 			if (origin.yCoord < bbox.minY)
@@ -393,7 +390,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 				return null;
 
 			if ((side(ray, getEdgeRay(Edge.EF, bbox)) > 0.0D)
-					&& (side(ray, getEdgeRay(Edge.BF, bbox)) < 0.0D))
+			        && (side(ray, getEdgeRay(Edge.BF, bbox)) < 0.0D))
 				return Direction.XN;
 			if (side(ray, getEdgeRay(Edge.FG, bbox)) < 0.0D) {
 				return Direction.ZP;
@@ -401,7 +398,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 			return Direction.YP;
 		}
 		if ((direction.xCoord >= 0.0D) && (direction.yCoord < 0.0D)
-				&& (direction.zCoord >= 0.0D)) {
+		        && (direction.zCoord >= 0.0D)) {
 			if (origin.xCoord > bbox.maxX)
 				return null;
 			if (origin.yCoord < bbox.minY)
@@ -422,7 +419,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 				return null;
 
 			if ((side(ray, getEdgeRay(Edge.AB, bbox)) > 0.0D)
-					&& (side(ray, getEdgeRay(Edge.BC, bbox)) > 0.0D))
+			        && (side(ray, getEdgeRay(Edge.BC, bbox)) > 0.0D))
 				return Direction.ZN;
 			if (side(ray, getEdgeRay(Edge.BF, bbox)) < 0.0D) {
 				return Direction.XN;
@@ -430,7 +427,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 			return Direction.YP;
 		}
 		if ((direction.xCoord >= 0.0D) && (direction.yCoord >= 0.0D)
-				&& (direction.zCoord < 0.0D)) {
+		        && (direction.zCoord < 0.0D)) {
 			if (origin.xCoord > bbox.maxX)
 				return null;
 			if (origin.yCoord > bbox.maxY)
@@ -451,7 +448,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 				return null;
 
 			if ((side(ray, getEdgeRay(Edge.AE, bbox)) > 0.0D)
-					&& (side(ray, getEdgeRay(Edge.EF, bbox)) > 0.0D))
+			        && (side(ray, getEdgeRay(Edge.EF, bbox)) > 0.0D))
 				return Direction.XN;
 			if (side(ray, getEdgeRay(Edge.EH, bbox)) < 0.0D) {
 				return Direction.YN;
@@ -479,7 +476,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 			return null;
 
 		if ((side(ray, getEdgeRay(Edge.AB, bbox)) < 0.0D)
-				&& (side(ray, getEdgeRay(Edge.AE, bbox)) > 0.0D))
+		        && (side(ray, getEdgeRay(Edge.AE, bbox)) > 0.0D))
 			return Direction.XN;
 		if (side(ray, getEdgeRay(Edge.AD, bbox)) < 0.0D) {
 			return Direction.ZN;
@@ -489,7 +486,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 
 	private static double side(double[] ray1, double[] ray2) {
 		return ray1[2] * ray2[3] + ray1[5] * ray2[1] + ray1[4] * ray2[0]
-				+ ray1[1] * ray2[5] + ray1[0] * ray2[4] + ray1[3] * ray2[2];
+		        + ray1[1] * ray2[5] + ray1[0] * ray2[4] + ray1[3] * ray2[2];
 	}
 
 	public static <T> ArrayList<T> convertArrayIntoArrList(T[] arr) {
@@ -502,34 +499,42 @@ public class BlockCableSuperconductor extends BlockContainer {
 
 	private static double[] getEdgeRay(Edge edge, AxisAlignedBB bbox) {
 		switch (convertArrayIntoArrList(edge.values()).indexOf(edge) + 1) {
-		case 1:
-			return new double[] { -bbox.minY, -bbox.minZ, -1.0D, 0.0D, 0.0D,
-					0.0D };
-		case 2:
-			return new double[] { bbox.minX, 0.0D, 0.0D, -bbox.minZ, 0.0D, 1.0D };
-		case 3:
-			return new double[] { 0.0D, bbox.minX, 0.0D, bbox.minY, -1.0D, 0.0D };
-		case 4:
-			return new double[] { bbox.maxX, 0.0D, 0.0D, -bbox.minZ, 0.0D, 1.0D };
-		case 5:
-			return new double[] { 0.0D, bbox.maxX, 0.0D, bbox.minY, -1.0D, 0.0D };
-		case 6:
-			return new double[] { -bbox.maxY, -bbox.minZ, -1.0D, 0.0D, 0.0D,
-					0.0D };
-		case 7:
-			return new double[] { 0.0D, bbox.minX, 0.0D, bbox.maxY, -1.0D, 0.0D };
-		case 8:
-			return new double[] { -bbox.minY, -bbox.maxZ, -1.0D, 0.0D, 0.0D,
-					0.0D };
-		case 9:
-			return new double[] { bbox.minX, 0.0D, 0.0D, -bbox.maxZ, 0.0D, 1.0D };
-		case 10:
-			return new double[] { 0.0D, bbox.maxX, 0.0D, bbox.maxY, -1.0D, 0.0D };
-		case 11:
-			return new double[] { -bbox.maxY, -bbox.maxZ, -1.0D, 0.0D, 0.0D,
-					0.0D };
-		case 12:
-			return new double[] { bbox.maxX, 0.0D, 0.0D, -bbox.maxZ, 0.0D, 1.0D };
+			case 1:
+				return new double[] { -bbox.minY, -bbox.minZ, -1.0D, 0.0D,
+				        0.0D, 0.0D };
+			case 2:
+				return new double[] { bbox.minX, 0.0D, 0.0D, -bbox.minZ, 0.0D,
+				        1.0D };
+			case 3:
+				return new double[] { 0.0D, bbox.minX, 0.0D, bbox.minY, -1.0D,
+				        0.0D };
+			case 4:
+				return new double[] { bbox.maxX, 0.0D, 0.0D, -bbox.minZ, 0.0D,
+				        1.0D };
+			case 5:
+				return new double[] { 0.0D, bbox.maxX, 0.0D, bbox.minY, -1.0D,
+				        0.0D };
+			case 6:
+				return new double[] { -bbox.maxY, -bbox.minZ, -1.0D, 0.0D,
+				        0.0D, 0.0D };
+			case 7:
+				return new double[] { 0.0D, bbox.minX, 0.0D, bbox.maxY, -1.0D,
+				        0.0D };
+			case 8:
+				return new double[] { -bbox.minY, -bbox.maxZ, -1.0D, 0.0D,
+				        0.0D, 0.0D };
+			case 9:
+				return new double[] { bbox.minX, 0.0D, 0.0D, -bbox.maxZ, 0.0D,
+				        1.0D };
+			case 10:
+				return new double[] { 0.0D, bbox.maxX, 0.0D, bbox.maxY, -1.0D,
+				        0.0D };
+			case 11:
+				return new double[] { -bbox.maxY, -bbox.maxZ, -1.0D, 0.0D,
+				        0.0D, 0.0D };
+			case 12:
+				return new double[] { bbox.maxX, 0.0D, 0.0D, -bbox.maxZ, 0.0D,
+				        1.0D };
 		}
 		return new double[0];
 	}
@@ -539,68 +544,68 @@ public class BlockCableSuperconductor extends BlockContainer {
 	}
 
 	public static Direction getIntersection(Vec3 origin, Vec3 direction,
-			AxisAlignedBB bbox, Vec3 intersection) {
+	        AxisAlignedBB bbox, Vec3 intersection) {
 		double length = direction.lengthVector();
 
 		Vec3 normalizedDirection = Vec3.createVectorHelper(direction.xCoord
-				/ length, direction.yCoord / length, direction.zCoord / length);
+		        / length, direction.yCoord / length, direction.zCoord / length);
 
 		Direction intersectingDirection = intersects(origin,
-				normalizedDirection, bbox);
+		        normalizedDirection, bbox);
 		if (intersectingDirection == null)
 			return null;
 		Vec3 planeOrigin;
 		// Vec3 planeOrigin;
 		if ((normalizedDirection.xCoord < 0.0D)
-				&& (normalizedDirection.yCoord < 0.0D)
-				&& (normalizedDirection.zCoord < 0.0D)) {
+		        && (normalizedDirection.yCoord < 0.0D)
+		        && (normalizedDirection.zCoord < 0.0D)) {
 			planeOrigin = Vec3.createVectorHelper(bbox.maxX, bbox.maxY,
-					bbox.maxZ);
+			        bbox.maxZ);
 		} else {
 			// Vec3 planeOrigin;
 			if ((normalizedDirection.xCoord < 0.0D)
-					&& (normalizedDirection.yCoord < 0.0D)
-					&& (normalizedDirection.zCoord >= 0.0D)) {
+			        && (normalizedDirection.yCoord < 0.0D)
+			        && (normalizedDirection.zCoord >= 0.0D)) {
 				planeOrigin = Vec3.createVectorHelper(bbox.maxX, bbox.maxY,
-						bbox.minZ);
+				        bbox.minZ);
 			} else {
 				// Vec3 planeOrigin;
 				if ((normalizedDirection.xCoord < 0.0D)
-						&& (normalizedDirection.yCoord >= 0.0D)
-						&& (normalizedDirection.zCoord < 0.0D)) {
+				        && (normalizedDirection.yCoord >= 0.0D)
+				        && (normalizedDirection.zCoord < 0.0D)) {
 					planeOrigin = Vec3.createVectorHelper(bbox.maxX, bbox.minY,
-							bbox.maxZ);
+					        bbox.maxZ);
 				} else {
 					// Vec3 planeOrigin;
 					if ((normalizedDirection.xCoord < 0.0D)
-							&& (normalizedDirection.yCoord >= 0.0D)
-							&& (normalizedDirection.zCoord >= 0.0D)) {
+					        && (normalizedDirection.yCoord >= 0.0D)
+					        && (normalizedDirection.zCoord >= 0.0D)) {
 						planeOrigin = Vec3.createVectorHelper(bbox.maxX,
-								bbox.minY, bbox.minZ);
+						        bbox.minY, bbox.minZ);
 					} else {
 						// Vec3 planeOrigin;
 						if ((normalizedDirection.xCoord >= 0.0D)
-								&& (normalizedDirection.yCoord < 0.0D)
-								&& (normalizedDirection.zCoord < 0.0D)) {
+						        && (normalizedDirection.yCoord < 0.0D)
+						        && (normalizedDirection.zCoord < 0.0D)) {
 							planeOrigin = Vec3.createVectorHelper(bbox.minX,
-									bbox.maxY, bbox.maxZ);
+							        bbox.maxY, bbox.maxZ);
 						} else {
 							// Vec3 planeOrigin;
 							if ((normalizedDirection.xCoord >= 0.0D)
-									&& (normalizedDirection.yCoord < 0.0D)
-									&& (normalizedDirection.zCoord >= 0.0D)) {
+							        && (normalizedDirection.yCoord < 0.0D)
+							        && (normalizedDirection.zCoord >= 0.0D)) {
 								planeOrigin = Vec3.createVectorHelper(
-										bbox.minX, bbox.maxY, bbox.minZ);
+								        bbox.minX, bbox.maxY, bbox.minZ);
 							} else {
 								// Vec3 planeOrigin;
 								if ((normalizedDirection.xCoord >= 0.0D)
-										&& (normalizedDirection.yCoord >= 0.0D)
-										&& (normalizedDirection.zCoord < 0.0D))
+								        && (normalizedDirection.yCoord >= 0.0D)
+								        && (normalizedDirection.zCoord < 0.0D))
 									planeOrigin = Vec3.createVectorHelper(
-											bbox.minX, bbox.minY, bbox.maxZ);
+									        bbox.minX, bbox.minY, bbox.maxZ);
 								else
 									planeOrigin = Vec3.createVectorHelper(
-											bbox.minX, bbox.minY, bbox.minZ);
+									        bbox.minX, bbox.minY, bbox.minZ);
 							}
 						}
 					}
@@ -610,22 +615,22 @@ public class BlockCableSuperconductor extends BlockContainer {
 		Vec3 planeNormalVector = null;
 		// intersectingDirection
 		switch (convertArrayIntoArrList(Direction.values()).indexOf(
-				intersectingDirection) + 1) {
-		case 1:
-		case 2:
-			planeNormalVector = Vec3.createVectorHelper(1.0D, 0.0D, 0.0D);
-			break;
-		case 3:
-		case 4:
-			planeNormalVector = Vec3.createVectorHelper(0.0D, 1.0D, 0.0D);
-			break;
-		case 5:
-		case 6:
-			planeNormalVector = Vec3.createVectorHelper(0.0D, 0.0D, 1.0D);
+		        intersectingDirection) + 1) {
+			case 1:
+			case 2:
+				planeNormalVector = Vec3.createVectorHelper(1.0D, 0.0D, 0.0D);
+				break;
+			case 3:
+			case 4:
+				planeNormalVector = Vec3.createVectorHelper(0.0D, 1.0D, 0.0D);
+				break;
+			case 5:
+			case 6:
+				planeNormalVector = Vec3.createVectorHelper(0.0D, 0.0D, 1.0D);
 		}
 
 		Vec3 newIntersection = getIntersectionWithPlane(origin,
-				normalizedDirection, planeOrigin, planeNormalVector);
+		        normalizedDirection, planeOrigin, planeNormalVector);
 
 		intersection.xCoord = newIntersection.xCoord;
 		intersection.yCoord = newIntersection.yCoord;
@@ -635,28 +640,28 @@ public class BlockCableSuperconductor extends BlockContainer {
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x,
-			int y, int z, int meta) {
+	        int y, int z, int meta) {
 		double halfThickness = TileEntitySuperconductorCable
-				.getCableThickness(0);
+		        .getCableThickness(0);
 
 		return AxisAlignedBB.getAABBPool().getAABB(x + 0.5D - halfThickness,
-				y + 0.5D - halfThickness, z + 0.5D - halfThickness,
-				x + 0.5D + halfThickness, y + 0.5D + halfThickness,
-				z + 0.5D + halfThickness);
+		        y + 0.5D - halfThickness, z + 0.5D - halfThickness,
+		        x + 0.5D + halfThickness, y + 0.5D + halfThickness,
+		        z + 0.5D + halfThickness);
 	}
 
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x,
-			int y, int z) {
+	        int y, int z) {
 		return getCommonBoundingBoxFromPool(world, x, y, z, false);
 	}
 
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x,
-			int y, int z) {
+	        int y, int z) {
 		return getCommonBoundingBoxFromPool(world, x, y, z, true);
 	}
 
 	public AxisAlignedBB getCommonBoundingBoxFromPool(World world, int x,
-			int y, int z, boolean selectionBoundingBox) {
+	        int y, int z, boolean selectionBoundingBox) {
 		TileEntity te = world.getBlockTileEntity(x, y, z);
 		if (!(te instanceof TileEntitySuperconductorCable))
 			return getCollisionBoundingBoxFromPool(world, x, y, z, 3);
@@ -686,7 +691,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 			maxZ = z + 1;
 
 		return AxisAlignedBB.getAABBPool().getAABB(minX, minY, minZ, maxX,
-				maxY, maxZ);
+		        maxY, maxZ);
 	}
 
 	public boolean isBlockNormalCube(World world, int x, int y, int z) {
@@ -694,23 +699,23 @@ public class BlockCableSuperconductor extends BlockContainer {
 	}
 
 	private static Vec3 getIntersectionWithPlane(Vec3 origin, Vec3 direction,
-			Vec3 planeOrigin, Vec3 planeNormalVector) {
+	        Vec3 planeOrigin, Vec3 planeNormalVector) {
 		double distance = getDistanceToPlane(origin, direction, planeOrigin,
-				planeNormalVector);
+		        planeNormalVector);
 
 		return Vec3.createVectorHelper(origin.xCoord + direction.xCoord
-				* distance, origin.yCoord + direction.yCoord * distance,
-				origin.zCoord + direction.zCoord * distance);
+		        * distance, origin.yCoord + direction.yCoord * distance,
+		        origin.zCoord + direction.zCoord * distance);
 	}
 
 	private static double getDistanceToPlane(Vec3 origin, Vec3 direction,
-			Vec3 planeOrigin, Vec3 planeNormalVector) {
+	        Vec3 planeOrigin, Vec3 planeNormalVector) {
 		Vec3 base = Vec3.createVectorHelper(planeOrigin.xCoord - origin.xCoord,
-				planeOrigin.yCoord - origin.yCoord, planeOrigin.zCoord
-						- origin.zCoord);
+		        planeOrigin.yCoord - origin.yCoord, planeOrigin.zCoord
+		                - origin.zCoord);
 
 		return dotProduct(base, planeNormalVector)
-				/ dotProduct(direction, planeNormalVector);
+		        / dotProduct(direction, planeNormalVector);
 	}
 
 	private static double dotProduct(Vec3 a, Vec3 b) {

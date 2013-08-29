@@ -25,7 +25,7 @@ public abstract class Crops {
 	 *            Nutrient stat bonus
 	 */
 	public abstract void addBiomeBonus(BiomeGenBase biome, int humidityBonus,
-			int nutrientsBonus);
+	        int nutrientsBonus);
 
 	/**
 	 * Gets the humidity bonus for a biome.
@@ -93,7 +93,7 @@ public abstract class Crops {
 	 * @return True if successful
 	 */
 	public abstract boolean registerBaseSeed(ItemStack stack, int id, int size,
-			int growth, int gain, int resistance);
+	        int growth, int gain, int resistance);
 
 	/**
 	 * Finds a base seed from the given item.

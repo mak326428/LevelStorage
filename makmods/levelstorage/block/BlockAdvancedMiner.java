@@ -29,15 +29,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockAdvancedMiner extends BlockContainer {
 
-	public static final String UNLOCALIZED_NAME = "blockAdvMiner";
-	public static final String NAME = "Advanced Miner";
-
 	public BlockAdvancedMiner(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
-		this.setUnlocalizedName(UNLOCALIZED_NAME);
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 	}
@@ -50,11 +46,10 @@ public class BlockAdvancedMiner extends BlockContainer {
 
 	public static void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
-				LSBlockItemList.blockAdvMiner), "aba", "imi", "aba",
-		        Character.valueOf('a'), IC2Items.ADV_CIRCUIT, Character
-		                .valueOf('i'), "ingotIridium", Character.valueOf('m'),
-		        Items.getItem("miner"), Character.valueOf('b'),
-		        IC2Items.ADV_MACHINE);
+		        LSBlockItemList.blockAdvMiner), "aba", "imi", "aba", Character
+		        .valueOf('a'), IC2Items.ADV_CIRCUIT, Character.valueOf('i'),
+		        "ingotIridium", Character.valueOf('m'), Items.getItem("miner"),
+		        Character.valueOf('b'), IC2Items.ADV_MACHINE);
 
 	}
 
