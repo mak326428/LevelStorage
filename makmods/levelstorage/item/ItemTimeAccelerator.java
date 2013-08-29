@@ -27,9 +27,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemTimeAccelerator extends Item implements IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "itemTimeAccelerator";
-	public static final String NAME = "Time Accelerator";
-
 	public static final int STORAGE = 4000000;
 	public static final int ENERGY_PER_USE = 5000;
 	public static final String NBT_ON = "on";

@@ -28,9 +28,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemWirelessCharger extends Item implements IElectricItem {
-
-	public static final String UNLOCALIZED_NAME = "itemWirelessCharger";
-	public static final String NAME = "Wireless Charger";
+	
 	public static final String FREQUENCY_NBT = "frequency";
 
 	public static final int STORAGE = 100000;

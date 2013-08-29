@@ -23,9 +23,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSuperconductor extends Item {
 
-	public static final String UNLOCALIZED_NAME = "itemSuperconductor";
-	public static final String NAME = "Superconductor Cable";
-
 	public ItemSuperconductor(int id) {
 		super(id);
 

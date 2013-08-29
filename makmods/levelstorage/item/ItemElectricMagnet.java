@@ -31,9 +31,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemElectricMagnet extends Item implements IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "itemElectricMagnet";
-	public static final String NAME = "Electric Magnet";
-
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
 	public static final int ENERGY_PER_TICK = 10;

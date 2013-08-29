@@ -33,9 +33,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemQuantumRing extends Item implements IElectricItem,
         IForcefieldChestplate {
 
-	public static final String UNLOCALIZED_NAME = "itemQuantumRing";
-	public static final String NAME = "Quantum Ring";
-
 	public static final int TIER = 3;
 	public static final int STORAGE = 8 * 1000 * 1000;
 	// Energy per 1 damage

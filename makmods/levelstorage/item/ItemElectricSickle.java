@@ -30,9 +30,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemElectricSickle extends ItemTool implements IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "itemElectricSickle";
-	public static final String NAME = "Electric Sickle";
-
 	public static final int TIER = 1;
 	public static final int STORAGE = 10000;
 	public static final int ENERGY_PER_BLOCK = 50;

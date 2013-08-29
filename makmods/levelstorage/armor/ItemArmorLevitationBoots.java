@@ -49,10 +49,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorLevitationBoots extends ItemArmor implements
         ISpecialArmor, IMetalArmor, IElectricItem, IFlyArmor {
-
-	public static final String UNLOCALIZED_NAME = "armorLevitationBoots";
-	public static final String NAME = "Levitation Boots";
-
+	
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;

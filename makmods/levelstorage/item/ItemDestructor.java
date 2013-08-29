@@ -39,9 +39,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 
-	public static final String UNLOCALIZED_NAME = "atomicDisassembler";
-	public static final String NAME = "Atomic Disassembler";
-
 	public static final int TIER = 2;
 	public static final int STORAGE = 200000;
 	public static final int COOLDOWN_USE = 20;

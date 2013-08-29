@@ -31,10 +31,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorEnhancedLappack extends ItemArmor implements
         ISpecialArmor, IMetalArmor, IElectricItem {
-
-	public static final String UNLOCALIZED_NAME = "armorEnhancedLappack";
-	public static final String NAME = "Enhanced Lappack";
-
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ENH_LAPPACK_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;

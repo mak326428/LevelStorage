@@ -53,9 +53,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
         IMetalArmor, IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "armorTeslaHelmet";
-	public static final String NAME = "Tesla Helmet";
-
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;

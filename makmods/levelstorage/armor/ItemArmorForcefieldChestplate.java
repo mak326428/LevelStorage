@@ -36,9 +36,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemArmorForcefieldChestplate extends ItemArmor implements
         ISpecialArmor, IMetalArmor, IElectricItem, IForcefieldChestplate {
 
-	public static final String UNLOCALIZED_NAME = "armorForcefieldChestplate";
-	public static final String NAME = "Forcefield Chestplate";
-
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;

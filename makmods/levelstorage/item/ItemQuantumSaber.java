@@ -25,9 +25,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemQuantumSaber extends Item implements IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "itemQuantumSaber";
-	public static final String NAME = "Quantum Saber";
-
 	public static final int TIER = 3;
 	public static final int DAMAGE = 30;
 	public static final int STORAGE = 1000000;

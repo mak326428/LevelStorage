@@ -50,9 +50,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
         IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "enhancedDDrill";
-	public static final String NAME = "Enhanced Diamond Drill";
-
 	public static float SPEED = 32.0F;
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;

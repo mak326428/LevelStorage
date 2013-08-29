@@ -22,9 +22,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemEnergeticEnrichedMatterOrb extends Item implements
         IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "energeticEnrichedMatterOrb";
-	public static final String NAME = "Energetic Enriched Matter Orb";
-
 	// I WANT 4!
 	public static final int TIER = 3;
 	public static final int STORAGE = 4 * 1000 * 1000;

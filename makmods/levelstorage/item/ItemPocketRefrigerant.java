@@ -24,9 +24,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemPocketRefrigerant extends Item implements IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "itemPocketRefrigerant";
-	public static final String NAME = "Pocket Refrigerant";
-
 	public static final int STORAGE = 10000;
 	public static final int ENERGY_PER_USE = 500;
 

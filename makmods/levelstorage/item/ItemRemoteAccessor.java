@@ -31,9 +31,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemRemoteAccessor extends Item implements IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "remoteAccessor";
-	public static final String NAME = "Remote Accessor";
-
 	public static final int TIER = 3;
 	public static final int STORAGE = 10000000;
 	public static final int COOLDOWN_PERIOD = 20;

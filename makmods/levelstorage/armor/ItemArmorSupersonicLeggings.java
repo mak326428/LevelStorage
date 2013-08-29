@@ -36,9 +36,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemArmorSupersonicLeggings extends ItemArmor implements
         ISpecialArmor, IMetalArmor, IElectricItem {
 
-	public static final String UNLOCALIZED_NAME = "armorSupersonicLeggings";
-	public static final String NAME = "Supersonic Leggings";
-
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;
