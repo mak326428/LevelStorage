@@ -128,16 +128,18 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 		return EnumRarity.epic;
 	}
 
-	public void chargeItem(ItemStack stack, ItemStack ring) {
+	public boolean chargeItem(ItemStack stack, ItemStack ring) {
 		if (stack == null)
-			return;
+			return false;
 		if (!(stack.getItem() instanceof IElectricItem))
-			return;
+			return false;
 		IElectricItem item = (IElectricItem) stack.getItem();
 		if (!ElectricItem.manager.canUse(ring, item.getTransferLimit(stack)))
-			return;
-		ElectricItem.manager.discharge(ring, ElectricItem.manager.charge(stack,
-		        item.getTransferLimit(stack), 4, false, false), 4, true, false);
+			return false;
+		int chargeSt = ElectricItem.manager.charge(stack,
+		        item.getTransferLimit(stack), 4, false, false);
+		int dischSt = ElectricItem.manager.discharge(ring, chargeSt, 4, true, false);
+		return chargeSt > 0 && dischSt > 0;
 	}
 
 	public void onUpdate(ItemStack itemStack, World world, Entity par3Entity,
@@ -145,6 +147,16 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 		if (!(par3Entity instanceof EntityPlayer))
 			return;
 		EntityPlayer player = (EntityPlayer) par3Entity;
+		InventoryPlayer inv = player.inventory;
+		boolean didSomething = false;
+		for (ItemStack device : inv.armorInventory)
+			if (chargeItem(device, itemStack))
+				didSomething = true;
+		if (!didSomething) {
+			for (ItemStack device : inv.mainInventory)
+				if (chargeItem(device, itemStack))
+					didSomething = true;
+		}
 		ArmorFunctions.extinguish(player, world);
 		ArmorFunctions.fly(ItemArmorLevitationBoots.FLYING_ENERGY_PER_TICK,
 		        player, itemStack, world);
