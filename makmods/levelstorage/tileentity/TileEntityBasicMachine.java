@@ -68,6 +68,8 @@ public abstract class TileEntityBasicMachine extends TileEntityInventorySink {
 	public short getFacing() {
 		return (short) this.facing;
 	}
+	
+	public abstract int getMaxProgress();
 
 	/**
 	 * Used in GUI
@@ -81,6 +83,17 @@ public abstract class TileEntityBasicMachine extends TileEntityInventorySink {
 			return 0;
 		}
 		int r = getStored() * i / getCapacity();
+		if (r > i) {
+			r = i;
+		}
+		return r;
+	}
+	
+	public int gaugeProgressScaled(int i) {
+		if (getProgress() <= 0) {
+			return 0;
+		}
+		int r = getProgress() * i / getMaxProgress();
 		if (r > i) {
 			r = i;
 		}

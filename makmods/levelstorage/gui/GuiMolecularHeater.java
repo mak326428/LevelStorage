@@ -51,8 +51,7 @@ public class GuiMolecularHeater extends GuiContainer {
 			int l = container.tileEntity.gaugeEnergyScaled(14);
 			drawTexturedModalRect(x + 56, y + 36 + 14 - l, 191, 14 - l, 14, l);
 		}
-		// if (container.progress > 0) {
-		drawTexturedModalRect(x + 76, y + 36, 191, 14, 17, 24);
-		// }
+		int l = container.tileEntity.gaugeProgressScaled(24);
+		drawTexturedModalRect(x + 76, y + 36, 191, 14, l, 24);
 	}
 }

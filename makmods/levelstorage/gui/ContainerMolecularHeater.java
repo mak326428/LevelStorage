@@ -1,5 +1,9 @@
 package makmods.levelstorage.gui;
 
+import java.util.ListIterator;
+
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.logic.util.GUIHelper;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -64,6 +68,7 @@ public class ContainerMolecularHeater extends Container {
 			}
 			case 5: {
 				progress = value;
+				tileEntity.setProgress(value);
 				break;
 			}
 		}
@@ -83,9 +88,8 @@ public class ContainerMolecularHeater extends Container {
 		}
 	}
 
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,
-	        int slotIndex) {
-		return null;
+	public  ItemStack transferStackInSlot(EntityPlayer ep, int slotIndex) {
+		return GUIHelper.shiftClickSlot(this, ep, slotIndex);
 	}
+
 }

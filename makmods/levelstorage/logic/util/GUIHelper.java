@@ -1,13 +1,172 @@
 package makmods.levelstorage.logic.util;
 
+import java.util.ListIterator;
+
+import makmods.levelstorage.LevelStorage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
-public class GUIHelper extends Container {
+public class GUIHelper {
+	// I should've done it via AccessTransformers, but i just don't feel like
+	// it.
+	protected static boolean mergeItemStack(Container c, ItemStack par1ItemStack, int par2,
+	        int par3, boolean par4) {
+		boolean flag1 = false;
+		int k = par2;
 
-	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return false;
+		if (par4) {
+			k = par3 - 1;
+		}
+
+		Slot slot;
+		ItemStack itemstack1;
+
+		if (par1ItemStack.isStackable()) {
+			while (par1ItemStack.stackSize > 0
+			        && (!par4 && k < par3 || par4 && k >= par2)) {
+				slot = (Slot) c.inventorySlots.get(k);
+				itemstack1 = slot.getStack();
+
+				if (itemstack1 != null
+				        && itemstack1.itemID == par1ItemStack.itemID
+				        && (!par1ItemStack.getHasSubtypes() || par1ItemStack
+				                .getItemDamage() == itemstack1.getItemDamage())
+				        && ItemStack.areItemStackTagsEqual(par1ItemStack,
+				                itemstack1)) {
+					int l = itemstack1.stackSize + par1ItemStack.stackSize;
+
+					if (l <= par1ItemStack.getMaxStackSize()) {
+						par1ItemStack.stackSize = 0;
+						itemstack1.stackSize = l;
+						slot.onSlotChanged();
+						flag1 = true;
+					} else if (itemstack1.stackSize < par1ItemStack
+					        .getMaxStackSize()) {
+						par1ItemStack.stackSize -= par1ItemStack
+						        .getMaxStackSize() - itemstack1.stackSize;
+						itemstack1.stackSize = par1ItemStack.getMaxStackSize();
+						slot.onSlotChanged();
+						flag1 = true;
+					}
+				}
+
+				if (par4) {
+					--k;
+				} else {
+					++k;
+				}
+			}
+		}
+
+		if (par1ItemStack.stackSize > 0) {
+			if (par4) {
+				k = par3 - 1;
+			} else {
+				k = par2;
+			}
+
+			while (!par4 && k < par3 || par4 && k >= par2) {
+				slot = (Slot) c.inventorySlots.get(k);
+				itemstack1 = slot.getStack();
+
+				if (itemstack1 == null) {
+					slot.putStack(par1ItemStack.copy());
+					slot.onSlotChanged();
+					par1ItemStack.stackSize = 0;
+					flag1 = true;
+					break;
+				}
+
+				if (par4) {
+					--k;
+				} else {
+					++k;
+				}
+			}
+		}
+
+		return flag1;
 	}
 
+	public static ItemStack shiftClickSlot(Container c, EntityPlayer player,
+	        int sourceSlotIndex) {
+		Slot sourceSlot = (Slot) c.inventorySlots.get(sourceSlotIndex);
+
+		if ((sourceSlot != null) && (sourceSlot.getHasStack())) {
+			ItemStack sourceItemStack = sourceSlot.getStack();
+			int oldSourceItemStackSize = sourceItemStack.stackSize;
+
+			if (sourceSlot.inventory == player.inventory) {
+				for (int run = 0; (run < 4) && (sourceItemStack.stackSize > 0); run++)
+					if (run < 2)
+						for (Object obj5 : c.inventorySlots) {
+							Slot targetSlot = (Slot) obj5;
+							if (((targetSlot instanceof Slot))
+							        && targetSlot.isItemValid(sourceItemStack)
+							        && (targetSlot.isItemValid(sourceItemStack))) {
+								if ((targetSlot.getStack() != null)
+								        || (run == 1)) {
+									mergeItemStack(c, sourceItemStack,
+									        targetSlot.slotNumber,
+									        targetSlot.slotNumber + 1, false);
+
+									if (sourceItemStack.stackSize == 0)
+										break;
+								}
+							}
+						}
+					else
+						for (Object obj : c.inventorySlots) {
+							Slot targetSlot = (Slot) obj;
+							if ((targetSlot.inventory != player.inventory)
+							        && (targetSlot.isItemValid(sourceItemStack))) {
+								if ((targetSlot.getStack() != null)
+								        || (run == 3)) {
+									mergeItemStack(c, sourceItemStack,
+									        targetSlot.slotNumber,
+									        targetSlot.slotNumber + 1, false);
+
+									if (sourceItemStack.stackSize == 0)
+										break;
+								}
+							}
+						}
+			} else {
+				ListIterator it;
+				for (int run = 0; (run < 2) && (sourceItemStack.stackSize > 0); run++) {
+					for (it = c.inventorySlots.listIterator(c.inventorySlots
+					        .size()); it.hasPrevious();) {
+						Slot targetSlot = (Slot) it.previous();
+
+						if ((targetSlot.inventory == player.inventory)
+						        && (targetSlot.isItemValid(sourceItemStack))) {
+							if ((targetSlot.getStack() != null) || (run == 1)) {
+								mergeItemStack(c, sourceItemStack,
+								        targetSlot.slotNumber,
+								        targetSlot.slotNumber + 1, false);
+
+								if (sourceItemStack.stackSize == 0)
+									break;
+							}
+						}
+					}
+				}
+			}
+			if (sourceItemStack.stackSize != oldSourceItemStackSize) {
+				if (sourceItemStack.stackSize == 0)
+					sourceSlot.putStack(null);
+				else {
+					sourceSlot.onPickupFromSlot(player, sourceItemStack);
+				}
+
+				if (LevelStorage.isSimulating()) {
+					c.detectAndSendChanges();
+				}
+			}
+		}
+
+		return null;
+	}
 }

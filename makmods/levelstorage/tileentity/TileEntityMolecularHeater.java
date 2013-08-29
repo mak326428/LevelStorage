@@ -91,7 +91,6 @@ public class TileEntityMolecularHeater extends TileEntityBasicMachine implements
 			addEnergy(discharge(Integer.MAX_VALUE, false));
 	}
 
-	// TODO: complete
 	public List<ItemStack> getInputStacks() {
 		ItemStack i0 = this.getStackInSlot(0);
 		ItemStack i1 = this.getStackInSlot(1);
@@ -109,28 +108,26 @@ public class TileEntityMolecularHeater extends TileEntityBasicMachine implements
 		return stacks;
 	}
 
-	public boolean canSmelt(int slot) {
-		int inp = slot;
-		int outp = slot + 4;
-		if (this.getStackInSlot(inp) == null
-		        || this.getStackInSlot(outp) == null)
+	public boolean hasWork(int sId) {
+		ItemStack inpStack = getStackInSlot(sId);
+		if (inpStack == null)
 			return false;
 		ItemStack outputFor = FurnaceRecipes.smelting().getSmeltingResult(
-		        this.getStackInSlot(inp));
+		        inpStack);
 		if (outputFor == null)
 			return false;
-		if (this.getStackInSlot(outp).stackSize < 64 - outputFor.stackSize)
-			return false;
-		return true;
-	}
-
-	public boolean canSmelt() {
-		boolean canSmelt = true;
-		canSmelt = canSmelt && canSmelt(0);
-		canSmelt = canSmelt && canSmelt(1);
-		canSmelt = canSmelt && canSmelt(2);
-		canSmelt = canSmelt && canSmelt(3);
-		return canSmelt;
+		ItemStack outpStack = getStackInSlot(sId + 4);
+		if (outpStack == null)
+			return true;
+		else {
+			if (outpStack.itemID == outputFor.itemID
+			        && outpStack.getItemDamage() == outputFor.getItemDamage()
+			        && (64 - outputFor.stackSize) >= 0)
+				return true;
+			else
+				return false;
+		}
+		// return true;
 	}
 
 	@Override
@@ -148,17 +145,20 @@ public class TileEntityMolecularHeater extends TileEntityBasicMachine implements
 				}
 			}
 		}
-		if (this.getStored() > ENERGY_PER_SMELT * 4 / 4) {
-			this.addProgress(1);
-			if (getInputStacks().size() > 0) {
-				if (getProgress() >= 4) {
-					if (canSmelt())
-						this.addEnergy(-(ENERGY_PER_SMELT * 4 / 4));
-					process(0);
-					process(1);
-					process(2);
-					process(3);
-					setProgress(0);
+		List<ItemStack> inpStacks = getInputStacks();
+		if (inpStacks.size() == 0)
+			return;
+		if (hasWork(0) || hasWork(1) || hasWork(2) || hasWork(3)) {
+			if (this.getStored() > ENERGY_PER_SMELT * 4) {
+				if (getInputStacks().size() > 0) {
+					this.addProgress(1);
+					if (getProgress() >= getMaxProgress()) {
+						process(0);
+						process(1);
+						process(2);
+						process(3);
+						setProgress(0);
+					}
 				}
 			}
 		}
@@ -182,6 +182,7 @@ public class TileEntityMolecularHeater extends TileEntityBasicMachine implements
 				return;
 			}
 			this.setInventorySlotContents(inputSlot, inpStack.copy());
+			this.addEnergy(-ENERGY_PER_SMELT);
 		} else {
 			if (outputAlreadyExists.itemID != outputFor.itemID
 			        || outputAlreadyExists.getItemDamage() != outputFor
@@ -201,6 +202,7 @@ public class TileEntityMolecularHeater extends TileEntityBasicMachine implements
 				return;
 			}
 			this.setInventorySlotContents(inputSlot, itemToBeInput.copy());
+			this.addEnergy(-ENERGY_PER_SMELT);
 		}
 	}
 
@@ -265,6 +267,11 @@ public class TileEntityMolecularHeater extends TileEntityBasicMachine implements
 			default:
 				return false;
 		}
+	}
+
+	@Override
+	public int getMaxProgress() {
+		return 4;
 	}
 
 }
