@@ -23,6 +23,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -49,6 +50,7 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 			this.setCreativeTab(ClientProxy.getCreativeTab("IC2"));
 		}
 		this.setMaxStackSize(1);
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	@ForgeSubscribe
@@ -150,12 +152,16 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 		InventoryPlayer inv = player.inventory;
 		boolean didSomething = false;
 		for (ItemStack device : inv.armorInventory)
-			if (chargeItem(device, itemStack))
+			if (chargeItem(device, itemStack)) {
 				didSomething = true;
+				break;
+			}
 		if (!didSomething) {
 			for (ItemStack device : inv.mainInventory)
-				if (chargeItem(device, itemStack))
+				if (chargeItem(device, itemStack)) {
 					didSomething = true;
+					break;
+				}
 		}
 		ArmorFunctions.extinguish(player, world);
 		ArmorFunctions.fly(ItemArmorLevitationBoots.FLYING_ENERGY_PER_TICK,
