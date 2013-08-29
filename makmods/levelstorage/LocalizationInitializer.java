@@ -28,6 +28,7 @@ public class LocalizationInitializer {
 
 	static {
 		localizationList.add("en_US");
+		localizationList.add("de_DE");
 	}
 
 	public void init() {
