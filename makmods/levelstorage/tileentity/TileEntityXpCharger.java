@@ -23,6 +23,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
@@ -40,11 +41,16 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	public int uumPoints = 0;
 
 	@Override
-	public int demandsEnergy() {
+	public double demandedEnergyUnits() {
 		if (!LevelStorage.chargerOnlyUUM)
 			return this.getCapacity() - this.getStored();
 		else
 			return 0;
+	}
+	
+	@Override
+	public double getOutputEnergyUnitsPerTick() {
+	    return 0;
 	}
 
 	public int getProgress() {
@@ -62,7 +68,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	}
 
 	@Override
-	public int injectEnergy(Direction directionFrom, int amount) {
+	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
 		if (!LevelStorage.chargerOnlyUUM) {
 			if (amount > MAX_PACKET_SIZE) {
 				this.invalidate();
@@ -72,10 +78,10 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 				        this.zCoord, 2F, false);
 			}
 			if ((this.getCapacity() - this.getStored()) > amount) {
-				this.addEnergy(amount);
+				this.addEnergy((int)amount);
 				return 0;
 			} else {
-				int leftover = amount - (this.getCapacity() - this.getStored());
+				int leftover = (int)amount - (this.getCapacity() - this.getStored());
 				this.setStored(INTERNAL_CAPACITOR);
 				return leftover;
 			}
@@ -108,7 +114,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	}
 
 	@Override
-	public boolean acceptsEnergyFrom(TileEntity te, Direction d) {
+	public boolean acceptsEnergyFrom(TileEntity te, ForgeDirection d) {
 		return true;
 	}
 
@@ -262,7 +268,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	}
 
 	@Override
-	public boolean isTeleporterCompatible(Direction d) {
+	public boolean isTeleporterCompatible(ForgeDirection d) {
 		return false;
 	}
 
@@ -290,11 +296,6 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	public int addEnergy(int amount) {
 		this.storedEnergy += amount;
 		return this.getStored();
-	}
-
-	@Override
-	public boolean isAddedToEnergyNet() {
-		return this.addedToENet;
 	}
 
 	@Override

@@ -93,15 +93,18 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		super.invalidate();
 	}
 
+	public int toEmit = 0;
+	public static final int MAX_TO_EMIT = 2048;
+
 	@Override
 	public int receiveEnergy(int amount) {
 		if (this.type == SyncType.TRANSMITTER)
 			return amount;
 		else {
-			EnergyTileSourceEvent sourceEvent = new EnergyTileSourceEvent(this,
-			        amount);
-			MinecraftForge.EVENT_BUS.post(sourceEvent);
-			return sourceEvent.amount;
+			if (toEmit + amount > MAX_TO_EMIT)
+				return MAX_TO_EMIT - toEmit;
+			toEmit += amount;
+			return MAX_TO_EMIT - toEmit;
 		}
 	}
 
@@ -110,6 +113,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		super.readFromNBT(par1NBTTagCompound);
 		this.frequency = par1NBTTagCompound.getInteger(NBT_FREQUENCY);
 		this.type = SyncType.values()[par1NBTTagCompound.getInteger(NBT_MODE)];
+		this.toEmit = par1NBTTagCompound.getInteger("toEmit");
 	}
 
 	@Override
@@ -117,7 +121,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger(NBT_FREQUENCY, this.frequency);
 		par1NBTTagCompound.setInteger(NBT_MODE, this.type.ordinal());
-
+		par1NBTTagCompound.setInteger("toEmit", toEmit);
 	}
 
 	@Override
@@ -147,7 +151,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	}
 
 	@Override
-	public boolean emitsEnergyTo(TileEntity te, Direction dir) {
+	public boolean emitsEnergyTo(TileEntity te, ForgeDirection dir) {
 		return true;
 	}
 
@@ -172,7 +176,7 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	}
 
 	@Override
-	public int demandsEnergy() {
+	public double demandedEnergyUnits() {
 		/*
 		 * if (this.type == SyncType.TRANSMITTER) { if (this.pairs != null ||
 		 * WirelessPowerSynchronizerRegistry .hasChargersOnFreq(this.frequency))
@@ -183,8 +187,8 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		 * return MAX_PACKET_SIZE; } } } }
 		 */
 		// TODO: more sensitive version, for IC2 not to yell at the user that
-		// BlaBlaBla tile entity BlaBlaBla didn't implement demands energy
-		// properly
+		// TODO: BlaBlaBla tile entity BlaBlaBla didn't implement demands energy
+		// TODO: properly
 		if (this.type == SyncType.TRANSMITTER) {
 			return MAX_PACKET_SIZE;
 		}
@@ -222,13 +226,11 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 
 		}
 	}
-
-	@Override
-	public int injectEnergy(Direction directionFrom, int amount) {
-
+	
+	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
 		if (this.type == SyncType.TRANSMITTER)
 			return WirelessPowerSynchronizerRegistry.instance.onInjectEnergy(
-			        amount, this);
+			        (int)amount, this);
 		return amount;
 	}
 
@@ -252,5 +254,21 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 			}
 		}
 	}
+	
+	@Override
+	public double getOfferedEnergy() {
+	    return toEmit;
+	}
+	
+	@Override
+	public void drawEnergy(double amount) {
+	    toEmit -= amount;
+	}
+
+	@Override
+    public boolean acceptsEnergyFrom(TileEntity emitter,
+            ForgeDirection direction) {
+	    return true;
+    }
 
 }

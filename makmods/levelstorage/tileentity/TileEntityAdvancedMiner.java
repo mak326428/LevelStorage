@@ -148,42 +148,6 @@ public class TileEntityAdvancedMiner extends TileEntityInventorySink implements
 
 	}
 
-	/*
-	 * public boolean canMine(int x, int y, int z) { int id =
-	 * this.worldObj.getBlockId(x, y, z); int meta =
-	 * this.worldObj.getBlockMetadata(x, y, z); if (id == 0) { return true; } if
-	 * ((id == MINING_PIPE.itemID) || (id == MINING_PIPE_TIP.itemID) || (id ==
-	 * Block.chest.blockID)) return false; if (((id ==
-	 * Block.waterMoving.blockID) || (id == Block.waterStill.blockID) || (id ==
-	 * Block.lavaMoving.blockID) || (id == Block.lavaStill.blockID))) { return
-	 * true; } Block block = Block.blocksList[id]; if
-	 * (block.getBlockHardness(this.worldObj, x, y, z) < 0.0F) return false; if
-	 * ((block.canCollideCheck(meta, false)) &&
-	 * (block.blockMaterial.isToolNotRequired())) return true; if (id ==
-	 * Block.web.blockID) return true;
-	 * 
-	 * if (this.getDrillStack() != null) { try { HashMap toolClasses = (HashMap)
-	 * ReflectionHelper .getPrivateValue(ForgeHooks.class, null, new String[] {
-	 * "toolClasses" }); List tc = (List) toolClasses.get(Integer.valueOf(this
-	 * .getDrillStack().itemID)); if (tc == null) return
-	 * this.getDrillStack().getItem() .canHarvestBlock(block); Object[] ta =
-	 * tc.toArray(); String cls = (String) ta[0]; int hvl = ((Integer)
-	 * ta[1]).intValue();
-	 * 
-	 * HashMap toolHarvestLevels = (HashMap) ReflectionHelper
-	 * .getPrivateValue(ForgeHooks.class, null, new String[] {
-	 * "toolHarvestLevels" }); Integer bhl = (Integer)
-	 * toolHarvestLevels.get(Arrays .asList(new Serializable[] {
-	 * Integer.valueOf(block.blockID), Integer.valueOf(meta), cls }));
-	 * 
-	 * if (bhl == null) return this.getDrillStack().getItem()
-	 * .canHarvestBlock(block); if (bhl.intValue() > hvl) return false; return
-	 * this.getDrillStack().getItem().canHarvestBlock(block); } catch (Throwable
-	 * e) { return false; } }
-	 * 
-	 * return false; }
-	 */
-
 	private boolean harvestBlock(int x, int y, int z, int blockId) {
 		if (this.getDrillStack().itemID == LSBlockItemList.itemEnhDiamondDrill.itemID) {
 			if (!ElectricItem.manager.use(this.getDrillStack(), 80, null))

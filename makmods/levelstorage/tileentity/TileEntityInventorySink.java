@@ -114,4 +114,10 @@ public abstract class TileEntityInventorySink extends TileEntityBasicSink
 			}
 		}
 	}
+	
+	@Override
+	public boolean acceptsEnergyFrom(TileEntity emitter,
+	        ForgeDirection direction) {
+	    return true;
+	}
 }

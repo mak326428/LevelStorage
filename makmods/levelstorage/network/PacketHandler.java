@@ -16,7 +16,6 @@ public class PacketHandler implements IPacketHandler {
 	@Override
 	public void onPacketData(INetworkManager manager,
 	        Packet250CustomPayload packet, Player player) {
-		System.out.println(packet.channel);
 		if (packet.channel.equals(LSKeyboard.PACKET_KEYBOARD_CHANNEL)) {
 			ByteArrayInputStream bis = new ByteArrayInputStream(packet.data);
 			DataInputStream dis = new DataInputStream(bis);
@@ -25,7 +24,7 @@ public class PacketHandler implements IPacketHandler {
 				boolean active = dis.readBoolean();
 				LevelStorage.keyboard.handleKeyChangeServer(
 				        (EntityPlayerMP) player, keyName, active);
-				LevelStorage.keyboard.printKeys();
+				//LevelStorage.keyboard.printKeys();
 			} catch (Exception e) {
 				EntityPlayerMP playerMP = (EntityPlayerMP) player;
 				playerMP.playerNetServerHandler.kickPlayerFromServer("Hacker!");

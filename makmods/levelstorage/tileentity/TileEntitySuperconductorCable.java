@@ -135,21 +135,21 @@ public class TileEntitySuperconductorCable extends TileEntity implements
 
 		int mask = 1;
 
-		for (Direction direction : Direction.values()) {
+		for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
 			// TileEntity neighbor = EnergyNet.getForWorld(this.worldObj)
 			// .getNeighbor(this, direction);
 			BlockLocation currLocation = new BlockLocation(
 			        this.worldObj.provider.dimensionId, this.xCoord,
 			        this.yCoord, this.zCoord);
 			BlockLocation nextLoc = currLocation.move(
-			        direction.toForgeDirection(), 1);
+			        direction, 1);
 			TileEntity neighbor = worldObj.getBlockTileEntity(nextLoc.getX(),
 			        nextLoc.getY(), nextLoc.getZ());
 
 			if ((((neighbor instanceof IEnergyAcceptor)) && (((IEnergyAcceptor) neighbor)
-			        .acceptsEnergyFrom(this, direction.getInverse())))
+			        .acceptsEnergyFrom(this, direction.getOpposite())))
 			        || (((neighbor instanceof IEnergyEmitter)) && (((IEnergyEmitter) neighbor)
-			                .emitsEnergyTo(this, direction.getInverse())))) {
+			                .emitsEnergyTo(this, direction.getOpposite())))) {
 				newConnectivity = (byte) (newConnectivity | mask);
 
 				if (((neighbor instanceof TileEntitySuperconductorCable))
@@ -172,21 +172,6 @@ public class TileEntitySuperconductorCable extends TileEntity implements
 	}
 
 	public boolean addedToENet = false;
-
-	@Override
-	public boolean acceptsEnergyFrom(TileEntity emitter, Direction direction) {
-		return true;
-	}
-
-	@Override
-	public boolean isAddedToEnergyNet() {
-		return addedToENet;
-	}
-
-	@Override
-	public boolean emitsEnergyTo(TileEntity receiver, Direction direction) {
-		return true;
-	}
 
 	@Override
 	public double getConductionLoss() {

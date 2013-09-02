@@ -350,17 +350,13 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 									        player.posX, player.posY + 1.6f,
 									        player.posZ, drop);
 								}
-								if (Items.getItem("uraniumDrop").itemID == drop.itemID) {
-									par2World.createExplosion(null,
-									        blockLoc.getX(), blockLoc.getY(),
-									        blockLoc.getZ(), 6F, true);
-								}
+								//if (Items.getItem("uraniumDrop").itemID == drop.itemID) {
+								//	par2World.createExplosion(null,
+								//	        blockLoc.getX(), blockLoc.getY(),
+								//	        blockLoc.getZ(), 6F, true);
+								//}
 
 							}
-							// b.dropBlockAsItem(par2World, blockLoc.getX(),
-							// blockLoc.getY(), blockLoc.getZ(),
-							// aimBlockMeta, 0);
-							// That should make explosions semi-rare ocurrance
 						}
 					}
 					if (ElectricItem.manager.canUse(device, ENERGY_USE_BASE)) {

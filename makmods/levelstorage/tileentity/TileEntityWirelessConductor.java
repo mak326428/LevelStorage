@@ -76,11 +76,6 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	}
 
 	@Override
-	public int getMaxEnergyOutput() {
-		return MAX_PACKET_SIZE;
-	}
-
-	@Override
 	public void setFacing(short f) {
 
 	}
@@ -91,7 +86,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	}
 
 	@Override
-	public boolean emitsEnergyTo(TileEntity te, Direction dir) {
+	public boolean emitsEnergyTo(TileEntity te, ForgeDirection dir) {
 		return true;
 	}
 
@@ -101,18 +96,13 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	}
 
 	@Override
-	public boolean acceptsEnergyFrom(TileEntity te, Direction dir) {
+	public boolean acceptsEnergyFrom(TileEntity te, ForgeDirection dir) {
 		return true;
 	}
 
 	@Override
 	public int getMaxSafeInput() {
 		return MAX_PACKET_SIZE;
-	}
-
-	@Override
-	public boolean isAddedToEnergyNet() {
-		return this.addedToENet;
 	}
 
 	@Override
@@ -126,7 +116,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	}
 
 	@Override
-	public int demandsEnergy() {
+	public double demandedEnergyUnits() {
 		if (this.type == ConductorType.SOURCE) {
 			if (this.safePair != null)
 				return MAX_PACKET_SIZE;
@@ -135,7 +125,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	}
 
 	@Override
-	public int injectEnergy(Direction directionFrom, int amount) {
+	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
 		if (this.type == ConductorType.SOURCE) {
 			if (this.safePair != null) {
 				BlockLocation thisTe = new BlockLocation(this.getDimId(),
@@ -143,8 +133,8 @@ public class TileEntityWirelessConductor extends TileEntity implements
 				BlockLocation pairTe = new BlockLocation(
 				        this.safePair.getDimId(), this.safePair.getX(),
 				        this.safePair.getY(), this.safePair.getZ());
-				int amtWithDisc = amount
-				        - BlockLocation.getEnergyDiscount(amount,
+				int amtWithDisc = (int)amount
+				        - BlockLocation.getEnergyDiscount((int)amount,
 				                thisTe.getDistance(pairTe));
 				return this.safePair.receiveEnergy(amtWithDisc, this);
 			}
@@ -153,6 +143,8 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	}
 
 	public int elapsedReceives = 0;
+	int energyToSend = 0;
+	public static final int MAX_ENERGY_INTERNAL = 2048;
 
 	@Override
 	public int receiveEnergy(int amount, IWirelessConductor transmitter) {
@@ -174,11 +166,19 @@ public class TileEntityWirelessConductor extends TileEntity implements
 			if (ep != null) {
 				ep.attackEntityFrom(LSDamageSource.energyField, 2);
 			}
-			EnergyTileSourceEvent sourceEvent = new EnergyTileSourceEvent(this,
-			        amount);
-			MinecraftForge.EVENT_BUS.post(sourceEvent);
-			return sourceEvent.amount;
+			if (energyToSend + amount > MAX_ENERGY_INTERNAL)
+				return MAX_ENERGY_INTERNAL - energyToSend;
+			energyToSend += amount;
+			return MAX_ENERGY_INTERNAL - energyToSend;
 		}
+	}
+	
+	public double getOfferedEnergy() {
+		return energyToSend;
+	}
+	
+	public void drawEnergy(double amount) {
+		energyToSend -= amount;
 	}
 
 	@Override
@@ -302,6 +302,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 		super.readFromNBT(par1NBTTagCompound);
 		this.type = par1NBTTagCompound.getInteger(NBT_TYPE) == 0 ? ConductorType.SINK
 		        : ConductorType.SOURCE;
+		this.energyToSend = par1NBTTagCompound.getInteger("toSend");
 		NBTTagList tagList = par1NBTTagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -316,6 +317,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		par1NBTTagCompound.setInteger(NBT_TYPE,
 		        (this.type == ConductorType.SINK ? 0 : 1));
+		par1NBTTagCompound.setInteger("toSend", energyToSend);
 		super.writeToNBT(par1NBTTagCompound);
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < this.inv.length; i++) {
