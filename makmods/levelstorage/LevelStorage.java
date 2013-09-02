@@ -1,6 +1,7 @@
 package makmods.levelstorage;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import makmods.levelstorage.api.ItemAPI.SimpleItemAPI;
 import makmods.levelstorage.armor.ArmorFunctions;
@@ -56,6 +57,7 @@ public class LevelStorage {
 	public static final String BALANCE_CATEGORY = "balance";
 	public static final String RECIPES_CATEGORY = "recipes";
 	public static final String IDS_CATEGORY = "ids";
+	public static Logger logger;
 
 	public static boolean detectedGT = false;
 
@@ -71,6 +73,7 @@ public class LevelStorage {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		FMLLog.info(Reference.MOD_NAME + ": Pre-Initialization...");
+		logger = event.getModLog();
 		Configuration config = new Configuration(
 		        event.getSuggestedConfigurationFile());
 		configuration = config;

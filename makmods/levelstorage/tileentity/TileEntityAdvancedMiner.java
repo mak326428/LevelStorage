@@ -258,12 +258,12 @@ public class TileEntityAdvancedMiner extends TileEntityInventorySink implements
 	private void chargeTools() {
 		if (this.getDrillStack() != null) {
 			this.addEnergy(-ElectricItem.manager.charge(this.getDrillStack(),
-			        this.getStored(), 2, false, false));
+			        this.getStored(), 3, false, false));
 		}
 
 		if (this.getScannerStack() != null) {
 			this.addEnergy(-ElectricItem.manager.charge(this.getScannerStack(),
-			        this.getStored(), 2, false, false));
+			        this.getStored(), 3, false, false));
 		}
 	}
 

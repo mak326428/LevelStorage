@@ -52,9 +52,9 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
         IElectricItem {
 
 	public static float SPEED = 32.0F;
-	public static final int TIER = 2;
-	public static final int STORAGE = 100000;
-	public static final int ENERGY_PER_USE = 200;
+	public static final int TIER = 3;
+	public static final int STORAGE = 1000000;
+	public static final int ENERGY_PER_USE = 500;
 	// Prank..
 	public static final String ENHANCEMENT_NBT = "enhancement";
 	public static final String ENHANCEMENT_ID_NBT = "id";
