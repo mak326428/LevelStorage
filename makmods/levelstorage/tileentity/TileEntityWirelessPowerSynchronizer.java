@@ -2,7 +2,6 @@ package makmods.levelstorage.tileentity;
 
 import ic2.api.Direction;
 import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileSourceEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
@@ -138,11 +137,6 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	}
 
 	@Override
-	public int getMaxEnergyOutput() {
-		return MAX_PACKET_SIZE;
-	}
-
-	@Override
 	public void setFacing(short f) {
 
 	}
@@ -163,18 +157,8 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	}
 
 	@Override
-	public boolean acceptsEnergyFrom(TileEntity te, Direction dir) {
-		return true;
-	}
-
-	@Override
 	public int getMaxSafeInput() {
 		return MAX_PACKET_SIZE;
-	}
-
-	@Override
-	public boolean isAddedToEnergyNet() {
-		return this.addedToENet;
 	}
 
 	@Override

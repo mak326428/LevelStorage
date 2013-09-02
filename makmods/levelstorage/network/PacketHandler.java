@@ -1,5 +1,11 @@
 package makmods.levelstorage.network;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.proxy.LSKeyboard;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import cpw.mods.fml.common.network.IPacketHandler;
@@ -10,8 +16,25 @@ public class PacketHandler implements IPacketHandler {
 	@Override
 	public void onPacketData(INetworkManager manager,
 	        Packet250CustomPayload packet, Player player) {
-		PacketLV packetEE = PacketTypeHandler.buildPacket(packet.data);
-		packetEE.execute(manager, player);
+		System.out.println(packet.channel);
+		if (packet.channel.equals(LSKeyboard.PACKET_KEYBOARD_CHANNEL)) {
+			ByteArrayInputStream bis = new ByteArrayInputStream(packet.data);
+			DataInputStream dis = new DataInputStream(bis);
+			try {
+				String keyName = dis.readUTF();
+				boolean active = dis.readBoolean();
+				LevelStorage.keyboard.handleKeyChangeServer(
+				        (EntityPlayerMP) player, keyName, active);
+				LevelStorage.keyboard.printKeys();
+			} catch (Exception e) {
+				EntityPlayerMP playerMP = (EntityPlayerMP) player;
+				playerMP.playerNetServerHandler.kickPlayerFromServer("Hacker!");
+			}
+			return;
+		} else {
+			PacketLV packetEE = PacketTypeHandler.buildPacket(packet.data);
+			packetEE.execute(manager, player);
+		}
 	}
 
 }

@@ -46,6 +46,14 @@ public class ItemAPI {
 		}
 	}
 
+	/**
+	 * Provides straight access to SimpleItems <br />
+	 * Keep in mind that every single SimpleItem <br />
+	 * is accessible via OreDictionary too
+	 * 
+	 * @author mak326428
+	 * 
+	 */
 	public static class SimpleItemAPI {
 
 		private static Class c_SimpleItems;

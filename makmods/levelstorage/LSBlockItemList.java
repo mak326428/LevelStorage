@@ -7,12 +7,12 @@ import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.block.BlockAdvancedMiner;
 import makmods.levelstorage.block.BlockCableSuperconductor;
-import makmods.levelstorage.block.BlockMassInfuser;
 import makmods.levelstorage.block.BlockMolecularHeater;
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
 import makmods.levelstorage.block.BlockXpCharger;
 import makmods.levelstorage.block.BlockXpGenerator;
+import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemDestructor;
 import makmods.levelstorage.item.ItemElectricMagnet;
@@ -27,6 +27,7 @@ import makmods.levelstorage.item.ItemQuantumRing;
 import makmods.levelstorage.item.ItemQuantumSaber;
 import makmods.levelstorage.item.ItemRemoteAccessor;
 import makmods.levelstorage.item.ItemSuperconductor;
+import makmods.levelstorage.item.ItemTest;
 import makmods.levelstorage.item.ItemTimeAccelerator;
 import makmods.levelstorage.item.ItemWirelessCharger;
 
@@ -48,7 +49,7 @@ public class LSBlockItemList {
 	// public static BlockMassInfuser blockMassInfuser;
 	public static BlockAdvancedMiner blockAdvMiner;
 	public static BlockMolecularHeater blockMolHeater;
-
+	
 	// Items
 	public static ItemLevelStorageBook itemLevelStorageBook;
 	public static ItemAdvancedScanner itemAdvScanner;
@@ -71,4 +72,5 @@ public class LSBlockItemList {
 	public static ItemDestructor itemDestructor;
 	public static ItemArmorEnhancedLappack itemEnhLappack;
 	public static ItemRemoteAccessor itemRemoteAccessor;
+	public static ItemTest itemTest;
 }

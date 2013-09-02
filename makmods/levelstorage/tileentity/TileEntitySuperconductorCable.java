@@ -217,4 +217,15 @@ public class TileEntitySuperconductorCable extends TileEntity implements
 	public void removeConductor() {
 
 	}
+
+	@Override
+    public boolean acceptsEnergyFrom(TileEntity emitter,
+            ForgeDirection direction) {
+	    return true;
+    }
+
+	@Override
+    public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
+	    return true;
+    }
 }

@@ -1,4 +1,4 @@
-package makmods.levelstorage;
+package makmods.levelstorage.init;
 
 import java.util.List;
 

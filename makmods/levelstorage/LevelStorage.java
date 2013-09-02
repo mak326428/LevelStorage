@@ -1,11 +1,16 @@
 package makmods.levelstorage;
 
+import java.util.List;
+
 import makmods.levelstorage.api.ItemAPI.SimpleItemAPI;
 import makmods.levelstorage.armor.ArmorFunctions;
+import makmods.levelstorage.init.LSIMCHandler;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
+import makmods.levelstorage.proxy.LSKeyboard;
 import makmods.levelstorage.registry.FlightRegistry;
 import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
 import net.minecraft.item.ItemStack;
@@ -18,6 +23,8 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -27,7 +34,7 @@ import cpw.mods.fml.relauncher.Side;
 
 //@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "Forge@[9.10.0.804,);required-after:IC2")
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "required-after:IC2@[1.118.401-lf,)")
-@NetworkMod(channels = { Reference.MOD_ID }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
+@NetworkMod(channels = { Reference.MOD_ID, LSKeyboard.PACKET_KEYBOARD_CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class LevelStorage {
 
 	@Instance(Reference.MOD_ID)
@@ -35,6 +42,9 @@ public class LevelStorage {
 
 	@SidedProxy(clientSide = "makmods.levelstorage.proxy.ClientProxy", serverSide = "makmods.levelstorage.proxy.CommonProxy")
 	public static CommonProxy proxy;
+
+	@SidedProxy(clientSide = "makmods.levelstorage.proxy.LSKeyboardClient", serverSide = "makmods.levelstorage.proxy.LSKeyboard")
+	public static LSKeyboard keyboard;
 
 	public static int itemLevelStorageBookSpace;
 	public static Configuration configuration;
@@ -107,6 +117,23 @@ public class LevelStorage {
 		ArmorFunctions.speedTickerMap.clear();
 		ArmorFunctions.onGroundMap.clear();
 		FlightRegistry.instance.modEnabledFlights.clear();
+	}
+
+	@EventHandler
+	public void onInterModComms(IMCEvent event) {
+		List<IMCMessage> messages = event.getMessages();
+		for (IMCMessage message : messages) {
+			if (message.isStringMessage()) {
+				String value = message.getStringValue();
+				String key = message.key;
+				LSIMCHandler.instance.handle(key, value);
+			} else {
+				LogHelper
+				        .warning("Mod "
+				                + message.getSender()
+				                + " sent an invalid FMLInterModComms: value must be string");
+			}
+		}
 	}
 
 	@EventHandler

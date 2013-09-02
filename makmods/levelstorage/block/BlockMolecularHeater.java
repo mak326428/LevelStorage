@@ -1,16 +1,19 @@
 package makmods.levelstorage.block;
 
+import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
 import ic2.api.tile.IWrenchable;
 
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.BlockTextureRegistry;
-import makmods.levelstorage.logic.BlockTextureRegistry.SimpleBlockTexture;
 import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.registry.BlockTextureRegistry;
+import makmods.levelstorage.registry.BlockTextureRegistry.SimpleBlockTexture;
 import makmods.levelstorage.tileentity.TileEntityBasicMachine;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import net.minecraft.block.Block;
@@ -25,9 +28,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,19 +43,16 @@ public class BlockMolecularHeater extends BlockContainer {
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);
 	}
-	
-	private String ICON = "blockMolHeater";
 
 	public Icon facing;
 
 	public static void addCraftingRecipe() {
-		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableMolecularHeaterCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-
-		}
+		// TODO: temporary recipe
+		Recipes.advRecipes.addRecipe(new ItemStack(
+		        LSBlockItemList.blockMolHeater), "iai", "apa", "iai", Character
+		        .valueOf('i'), Items.getItem("inductionFurnace"), Character
+		        .valueOf('a'), IC2Items.ADV_MACHINE, Character.valueOf('p'),
+		        IC2Items.IRIDIUM_PLATE);
 	}
 
 	@Override
@@ -84,7 +82,7 @@ public class BlockMolecularHeater extends BlockContainer {
 	public Icon getIcon(int side, int par2) {
 		return side == ForgeDirection.SOUTH.ordinal() ? facing
 		        : BlockTextureRegistry.instance.getIcon(side,
-		                ICON);
+		                ClientProxy.MOLECULAR_HEATER_TEXTURE);
 	}
 
 	// TODO: DO NOT FORGET ABOUT DESCRIPTION PACKETS IN BASE SINK.
@@ -135,7 +133,7 @@ public class BlockMolecularHeater extends BlockContainer {
 				}
 			}
 			SimpleBlockTexture txt = BlockTextureRegistry.instance
-			        .getTextureFor(ICON);
+			        .getTextureFor(ClientProxy.MOLECULAR_HEATER_TEXTURE);
 			ForgeDirection dir = ForgeDirection.VALID_DIRECTIONS[side];
 			switch (dir) {
 				case UP:
@@ -153,7 +151,7 @@ public class BlockMolecularHeater extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		BlockTextureRegistry.instance.registerIcons(iconRegister,
-		        ICON);
+		        ClientProxy.MOLECULAR_HEATER_TEXTURE);
 		facing = iconRegister.registerIcon(ClientProxy.MOLECULAR_HEATER_FACING);
 	}
 

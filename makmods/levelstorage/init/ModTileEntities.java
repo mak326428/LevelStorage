@@ -1,4 +1,4 @@
-package makmods.levelstorage;
+package makmods.levelstorage.init;
 
 import java.util.Map;
 import java.util.Map.Entry;

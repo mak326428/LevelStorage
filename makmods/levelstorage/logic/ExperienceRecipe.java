@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.api.XpStack;
+import makmods.levelstorage.api.XPStack;
 import makmods.levelstorage.item.ItemLevelStorageBook;
-import makmods.levelstorage.registry.XpStackRegistry;
+import makmods.levelstorage.registry.XPStackRegistry;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -48,7 +48,7 @@ public class ExperienceRecipe implements IRecipe {
 				}
 			}
 
-			for (XpStack entry : XpStackRegistry.instance.ITEM_XP_CONVERSIONS) {
+			for (XPStack entry : XPStackRegistry.instance.entries) {
 				ItemStack stack = entry.stack;
 				int value = entry.value;
 				if (stack != null && currentStack != null) {

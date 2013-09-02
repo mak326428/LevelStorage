@@ -26,7 +26,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
-public class GuiHandler implements IGuiHandler {
+public class GUIHandler implements IGuiHandler {
 
 	// returns an instance of the Container you made earlier
 	@Override
@@ -84,7 +84,6 @@ public class GuiHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityMolecularHeater)
 			return new GuiMolecularHeater(player.inventory,
 			        (TileEntityMolecularHeater) tileEntity);
-
 		return null;
 
 	}

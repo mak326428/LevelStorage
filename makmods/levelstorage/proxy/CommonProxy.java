@@ -1,16 +1,19 @@
 package makmods.levelstorage.proxy;
 
 import ic2.api.item.Items;
+import ic2.api.recipe.RecipeInputItemStack;
+import ic2.api.recipe.RecipeInputOreDict;
 import ic2.api.recipe.Recipes;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LocalizationInitializer;
 import makmods.levelstorage.ModFluids;
-import makmods.levelstorage.ModTileEntities;
-import makmods.levelstorage.ModUniversalInitializer;
+import makmods.levelstorage.init.CompatibilityInitializer;
+import makmods.levelstorage.init.LocalizationInitializer;
+import makmods.levelstorage.init.ModTileEntities;
+import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
 import makmods.levelstorage.registry.FlightRegistry;
-import makmods.levelstorage.registry.XpStackRegistry;
+import makmods.levelstorage.registry.XPStackRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -31,6 +34,11 @@ public class CommonProxy {
 
 	public static final int ARMOR_STORAGE = 8 * 1000 * 1000;
 	public static final int ENH_LAPPACK_STORAGE = 2000000;
+	public static int ARMOR_SUPERSONIC_RENDER_INDEX;
+	public static int ARMOR_ENHANCED_LAPPACK_RENDER_INDEX;
+	// Sorry for the dirty code, server didn't start without this
+	public static final String SUPERSONIC_DUMMY = "supersonic";
+	public static final String ENH_LAPPACK_DUMMY = "enhlapp";
 
 	// Special exceptional items (like cross-mod compatiblity) will land here
 	// public static ItemUltimateWirelessAccessTerminal accessTerminal;
@@ -39,8 +47,9 @@ public class CommonProxy {
 		// Osmiridium alloy -> osmiridium plate
 		ItemStack rec1 = SimpleItems.instance.getIngredient(2);
 		rec1.stackSize = 4;
-		Recipes.compressor.addRecipe(rec1,
-		        SimpleItems.instance.getIngredient(3));
+		Recipes.compressor.addRecipe(new RecipeInputOreDict(
+		        "itemOsmiridiumAlloy"), null, SimpleItems.instance
+		        .getIngredient(3));
 		// 4 tiny osmium dusts -> 1 dust
 		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(1), "SS",
 		        "SS", Character.valueOf('S'),
@@ -63,8 +72,9 @@ public class CommonProxy {
 		// Iridium Ore -> Iridium Ingot
 		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
 		        "addIridiumOreToIngotCompressorRecipe", true).getBoolean(true)) {
-			Recipes.compressor.addRecipe(Items.getItem("iridiumOre"),
-			        SimpleItems.instance.getIngredient(5));
+			Recipes.compressor.addRecipe(
+			        new RecipeInputItemStack(Items.getItem("iridiumOre")),
+			        null, SimpleItems.instance.getIngredient(5));
 		}
 
 		// UUM -> Osmium pile
@@ -72,9 +82,13 @@ public class CommonProxy {
 		        "UUU", "U U", Character.valueOf('U'), Items.getItem("matter"));
 	}
 
+	public int getArmorIndexFor(String forWhat) {
+		return 0;
+	}
+
 	public void init() {
 		NetworkRegistry.instance().registerGuiHandler(LevelStorage.instance,
-		        new GuiHandler());
+		        new GUIHandler());
 		// TODO: mess around with this neat thingy
 		MinecraftForge.EVENT_BUS.register(new LevelStorageEventHandler());
 		LocalizationInitializer.instance.init();
@@ -92,15 +106,16 @@ public class CommonProxy {
 	}
 
 	public void postInit() {
-		XpStackRegistry.instance.initCriticalNodes();
-		XpStackRegistry.instance.printRegistry();
+		XPStackRegistry.instance.initCriticalNodes();
+		XPStackRegistry.instance.printRegistry();
 
 		LevelStorage.configuration.save();
-
+		CompatibilityInitializer.instance.init();
+		// TODO: move this to an external compat class
 		if (Loader.isModLoaded("gregtech_addon")) {
 			FMLLog.info("GregTech detected. Performing needed changes. (mostly nerfs.. you know the drill)");
 			LevelStorage.detectedGT = true;
-			XpStackRegistry.UUM_XP_CONVERSION.setValue(1300);
+			XPStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
 	}
 

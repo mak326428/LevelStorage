@@ -1,5 +1,6 @@
 package makmods.levelstorage.logic.util;
 
+import java.util.Iterator;
 import java.util.ListIterator;
 
 import makmods.levelstorage.LevelStorage;
@@ -11,8 +12,8 @@ import net.minecraft.item.ItemStack;
 public class GUIHelper {
 	// I should've done it via AccessTransformers, but i just don't feel like
 	// it.
-	protected static boolean mergeItemStack(Container c, ItemStack par1ItemStack, int par2,
-	        int par3, boolean par4) {
+	protected static boolean mergeItemStack(Container c,
+	        ItemStack par1ItemStack, int par2, int par3, boolean par4) {
 		boolean flag1 = false;
 		int k = par2;
 
@@ -93,71 +94,72 @@ public class GUIHelper {
 	public static ItemStack shiftClickSlot(Container c, EntityPlayer player,
 	        int sourceSlotIndex) {
 		Slot sourceSlot = (Slot) c.inventorySlots.get(sourceSlotIndex);
-
-		if ((sourceSlot != null) && (sourceSlot.getHasStack())) {
+		if (sourceSlot != null && sourceSlot.getHasStack()) {
 			ItemStack sourceItemStack = sourceSlot.getStack();
 			int oldSourceItemStackSize = sourceItemStack.stackSize;
-
+			int run;
+			Slot targetSlot;
 			if (sourceSlot.inventory == player.inventory) {
-				for (int run = 0; (run < 4) && (sourceItemStack.stackSize > 0); run++)
-					if (run < 2)
-						for (Object obj5 : c.inventorySlots) {
-							Slot targetSlot = (Slot) obj5;
-							if (((targetSlot instanceof Slot))
-							        && targetSlot.isItemValid(sourceItemStack)
-							        && (targetSlot.isItemValid(sourceItemStack))) {
-								if ((targetSlot.getStack() != null)
-								        || (run == 1)) {
-									mergeItemStack(c, sourceItemStack,
-									        targetSlot.slotNumber,
-									        targetSlot.slotNumber + 1, false);
+				for (run = 0; run < 4 && sourceItemStack.stackSize > 0; ++run) {
+					Iterator it;
+					if (run < 2) {
+						it = c.inventorySlots.iterator();
 
-									if (sourceItemStack.stackSize == 0)
-										break;
-								}
-							}
-						}
-					else
-						for (Object obj : c.inventorySlots) {
-							Slot targetSlot = (Slot) obj;
-							if ((targetSlot.inventory != player.inventory)
-							        && (targetSlot.isItemValid(sourceItemStack))) {
-								if ((targetSlot.getStack() != null)
-								        || (run == 3)) {
-									mergeItemStack(c, sourceItemStack,
-									        targetSlot.slotNumber,
-									        targetSlot.slotNumber + 1, false);
-
-									if (sourceItemStack.stackSize == 0)
-										break;
-								}
-							}
-						}
-			} else {
-				ListIterator it;
-				for (int run = 0; (run < 2) && (sourceItemStack.stackSize > 0); run++) {
-					for (it = c.inventorySlots.listIterator(c.inventorySlots
-					        .size()); it.hasPrevious();) {
-						Slot targetSlot = (Slot) it.previous();
-
-						if ((targetSlot.inventory == player.inventory)
-						        && (targetSlot.isItemValid(sourceItemStack))) {
-							if ((targetSlot.getStack() != null) || (run == 1)) {
+						while (it.hasNext()) {
+							targetSlot = (Slot) it.next();
+							if (targetSlot.isItemValid(sourceItemStack)
+							        && (targetSlot.getStack() != null || run == 1)) {
 								mergeItemStack(c, sourceItemStack,
 								        targetSlot.slotNumber,
 								        targetSlot.slotNumber + 1, false);
-
-								if (sourceItemStack.stackSize == 0)
+								if (sourceItemStack.stackSize == 0) {
 									break;
+								}
+							}
+						}
+					} else {
+						it = c.inventorySlots.iterator();
+
+						while (it.hasNext()) {
+							targetSlot = (Slot) it.next();
+							if (targetSlot.inventory != player.inventory
+							        && targetSlot.isItemValid(sourceItemStack)
+							        && (targetSlot.getStack() != null || run == 3)) {
+								mergeItemStack(c, sourceItemStack,
+								        targetSlot.slotNumber,
+								        targetSlot.slotNumber + 1, false);
+								if (sourceItemStack.stackSize == 0) {
+									break;
+								}
+							}
+						}
+					}
+				}
+			} else {
+				for (run = 0; run < 2 && sourceItemStack.stackSize > 0; ++run) {
+					ListIterator var9 = c.inventorySlots
+					        .listIterator(c.inventorySlots.size());
+
+					while (var9.hasPrevious()) {
+						targetSlot = (Slot) var9.previous();
+						if (targetSlot.inventory == player.inventory
+						        && targetSlot.isItemValid(sourceItemStack)
+						        && (targetSlot.getStack() != null || run == 1)) {
+							mergeItemStack(c, sourceItemStack,
+							        targetSlot.slotNumber,
+							        targetSlot.slotNumber + 1, false);
+							if (sourceItemStack.stackSize == 0) {
+								break;
 							}
 						}
 					}
 				}
 			}
+
 			if (sourceItemStack.stackSize != oldSourceItemStackSize) {
-				if (sourceItemStack.stackSize == 0)
-					sourceSlot.putStack(null);
-				else {
+				if (sourceItemStack.stackSize == 0) {
+					sourceSlot.putStack((ItemStack) null);
+				} else {
 					sourceSlot.onPickupFromSlot(player, sourceItemStack);
 				}
 

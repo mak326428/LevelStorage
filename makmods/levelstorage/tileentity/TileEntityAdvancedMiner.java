@@ -23,6 +23,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ForgeHooks;
 
 import com.google.common.collect.Lists;
@@ -614,4 +616,15 @@ public class TileEntityAdvancedMiner extends TileEntityInventorySink implements
 	static enum Mode {
 		None, Withdraw, MineAir, MineDrill,
 	}
+
+	@Override
+    public boolean acceptsEnergyFrom(TileEntity emitter,
+            ForgeDirection direction) {
+	    return true;
+    }
+
+	@Override
+    public int getOutput() {
+	    return getMaxSafeInput();
+    }
 }

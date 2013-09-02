@@ -12,19 +12,20 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.api.IChargeable;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
 import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.proxy.LSKeyboard;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -42,7 +43,7 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 
 	public static final int TIER = 2;
 	public static final int STORAGE = 200000;
-	public static final int COOLDOWN_USE = 20;
+	public static final int COOLDOWN_USE = 10;
 	public static final int ENERGY_USE_BASE = 80;
 
 	public ItemDestructor(int id) {
@@ -129,6 +130,12 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 
 	public void changeCharge(ItemStack itemStack, World world,
 	        EntityPlayer player) {
+		//if (player.inventory.getCurrentItem() == null)
+		//	return;
+		//if (!(player.inventory.getCurrentItem().getItem() instanceof ItemDestructor))
+		//	return;
+		if (player.inventory.getCurrentItem() != itemStack)
+			return;
 		int initialCharge = getChargeFor(itemStack);
 		if (player.isSneaking()) {
 			if (Cooldownable.use(itemStack, COOLDOWN_USE)) {
@@ -150,26 +157,11 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world,
-	        EntityPlayer player) {
-		if (LevelStorage.isSimulating()) {
-			if (IC2Access.instance.isKeyDown("ModeSwitch", player)) {
-				changeCharge(itemStack, world, player);
-			}
-		}
-		return itemStack;
-	}
-
-	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
 	        int x, int y, int z, int side, float par8, float par9, float par10) {
 		// TODO: check this, if everything goes the way it should,
 		// leave it as is, if not then fallback to !world.isRemote
 		if (LevelStorage.isSimulating()) {
-			if (IC2Access.instance.isKeyDown("ModeSwitch", player)) {
-				changeCharge(stack, world, player);
-				return true;
-			}
 			ForgeDirection hitFrom = ForgeDirection.VALID_DIRECTIONS[side];
 			int length = (int) Math.pow(2, getChargeFor(stack));
 			int maxDamage = (int) (length / 4 * 1.5);
@@ -386,9 +378,15 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 	        Entity par3Entity, int par4, boolean par5) {
 		if (!par2World.isRemote) {
+			if (!(par3Entity instanceof EntityPlayerMP))
+				return;
+			EntityPlayerMP player = (EntityPlayerMP)par3Entity;
 			if (!NBTHelper.verifyKey(par1ItemStack, IChargeable.CHARGE_NBT))
 				NBTHelper.setInteger(par1ItemStack, IChargeable.CHARGE_NBT, 0);
 			Cooldownable.onUpdate(par1ItemStack, COOLDOWN_USE);
+			if (LSKeyboard.getInstance().isKeyDown(player, LSKeyboard.RANGE_KEY_NAME)) {
+				changeCharge(par1ItemStack, par2World, player);
+			}
 		}
 	}
 
@@ -406,13 +404,11 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 	}
 
 	public static void addCraftingRecipe() {
-
 		Recipes.advRecipes.addRecipe(new ItemStack(
 		        LSBlockItemList.itemDestructor), "cee", "ccd", "ccc", Character
 		        .valueOf('c'), IC2Items.CARBON_PLATE, Character.valueOf('e'),
 		        IC2Items.ENERGY_CRYSTAL, Character.valueOf('d'), new ItemStack(
 		                LSBlockItemList.itemEnhDiamondDrill));
-
 	}
 
 	@Override
@@ -444,8 +440,8 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 	}
 
 	@Override
+	// might be too much...
 	public int getMaxCharge() {
-		// 2 to the power of 6
-		return 6;
+		return 7;
 	}
 }

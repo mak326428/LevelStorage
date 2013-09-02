@@ -41,7 +41,7 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 
 	public ItemArmorSupersonicLeggings(int id) {
 		super(id, EnumArmorMaterial.DIAMOND,
-		        ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 2);
+				LevelStorage.proxy.getArmorIndexFor(CommonProxy.SUPERSONIC_DUMMY), 2);
 
 		this.setMaxDamage(27);
 		this.setNoRepair();

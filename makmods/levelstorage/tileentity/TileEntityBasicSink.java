@@ -139,6 +139,7 @@ public abstract class TileEntityBasicSink extends TileEntity implements
 		return getMaxInput();
 	}
 
+	@Override
 	public int addEnergy(int amount) {
 
 		this.stored += amount;
@@ -156,16 +157,17 @@ public abstract class TileEntityBasicSink extends TileEntity implements
 		return this.stored;
 	}
 
-	public int getOutput() {
-		return 0;
-	}
-
 	public boolean isTeleporterCompatible(Direction side) {
 		return false;
 	}
 
 	@Override
-	public int injectEnergy(Direction directionFrom, int amount) {
+	public double demandedEnergyUnits() {
+		return getCapacity() - getStored();
+	}
+
+	@Override
+	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
 		if (amount > getMaxInput() && explodes()) {
 			this.invalidate();
 			this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
@@ -173,16 +175,28 @@ public abstract class TileEntityBasicSink extends TileEntity implements
 			        this.zCoord, 2F, false);
 		}
 		if ((this.getCapacity() - this.getStored()) > amount) {
-			this.addEnergy(amount);
+			this.addEnergy((int) amount);
 			return 0;
 		} else {
-			int leftover = amount - (this.getCapacity() - this.getStored());
+			int leftover = (int) amount
+			        - (this.getCapacity() - this.getStored());
 			this.setStored(getCapacity());
 			return leftover;
 		}
 	}
 
-	public int demandsEnergy() {
-		return getCapacity() - getStored();
+	@Override
+	public double getOutputEnergyUnitsPerTick() {
+		return 0;
+	}
+
+	@Override
+	public boolean isTeleporterCompatible(ForgeDirection side) {
+		return false;
+	}
+
+	@Override
+	public int getOutput() {
+		return 0;
 	}
 }

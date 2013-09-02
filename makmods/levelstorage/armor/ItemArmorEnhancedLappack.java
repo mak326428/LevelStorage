@@ -37,8 +37,14 @@ public class ItemArmorEnhancedLappack extends ItemArmor implements
 	public static final int ENERGY_PER_DAMAGE = 900;
 
 	public ItemArmorEnhancedLappack(int id) {
+		/*
+		 * Possible fix:
+		 * add a dummy in commonproxy
+		 * and if a side is not client
+		 * return 0
+		 */
 		super(id, EnumArmorMaterial.DIAMOND,
-		        ClientProxy.ARMOR_ENHANCED_LAPPACK_RENDER_INDEX, 1);
+		        LevelStorage.proxy.getArmorIndexFor(CommonProxy.ENH_LAPPACK_DUMMY), 1);
 
 		this.setMaxDamage(27);
 		this.setNoRepair();

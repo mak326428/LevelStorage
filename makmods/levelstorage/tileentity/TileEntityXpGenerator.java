@@ -2,17 +2,16 @@ package makmods.levelstorage.tileentity;
 
 import ic2.api.Direction;
 import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileSourceEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.api.XpStack;
+import makmods.levelstorage.api.XPStack;
 import makmods.levelstorage.gui.SlotBook;
 import makmods.levelstorage.item.ItemLevelStorageBook;
-import makmods.levelstorage.registry.XpStackRegistry;
+import makmods.levelstorage.registry.XPStackRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -23,6 +22,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
@@ -169,11 +169,6 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	}
 
 	@Override
-	public boolean isTeleporterCompatible(Direction d) {
-		return false;
-	}
-
-	@Override
 	public void setStored(int newStValue) {
 		this.storedEnergy = newStValue;
 	}
@@ -197,21 +192,6 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	public int addEnergy(int amount) {
 		this.storedEnergy += amount;
 		return this.getStored();
-	}
-
-	@Override
-	public boolean isAddedToEnergyNet() {
-		return this.addedToENet;
-	}
-
-	@Override
-	public int getMaxEnergyOutput() {
-		return PACKET_SIZE;
-	}
-
-	@Override
-	public boolean emitsEnergyTo(TileEntity te, Direction d) {
-		return true;
 	}
 
 	@Override
@@ -261,15 +241,15 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 
 				if (this.inv[0] != null) {
 					if (this.inv[0].getItem() instanceof ItemLevelStorageBook) {
-						if (ItemLevelStorageBook.getStoredXP(this.inv[0]) > XpStackRegistry.XP_EU_CONVERSION
+						if (ItemLevelStorageBook.getStoredXP(this.inv[0]) > XPStackRegistry.XP_EU_CONVERSION
 						        .getKey()) {
-							if ((this.getCapacity() - this.getStored()) > XpStackRegistry.XP_EU_CONVERSION
+							if ((this.getCapacity() - this.getStored()) > XPStackRegistry.XP_EU_CONVERSION
 							        .getValue()) {
-								this.addEnergy(XpStackRegistry.XP_EU_CONVERSION
+								this.addEnergy(XPStackRegistry.XP_EU_CONVERSION
 								        .getValue());
 								ItemLevelStorageBook.increaseStoredXP(
 								        this.inv[0],
-								        -XpStackRegistry.XP_EU_CONVERSION
+								        -XPStackRegistry.XP_EU_CONVERSION
 								                .getKey());
 							}
 						}
@@ -277,7 +257,7 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 						        .calculateDurability(this.inv[0]));
 					} else {
 						int xp = 0;
-						for (XpStack s : XpStackRegistry.instance.ITEM_XP_CONVERSIONS) {
+						for (XPStack s : XPStackRegistry.instance.entries) {
 							if (this.inv[0].itemID == s.stack.itemID
 							        && this.inv[0].getItemDamage() == s.stack
 							                .getItemDamage()) {
@@ -287,8 +267,8 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 						}
 						if (xp > 0) {
 							int eu = xp
-							        / XpStackRegistry.XP_EU_CONVERSION.getKey()
-							        * XpStackRegistry.XP_EU_CONVERSION
+							        / XPStackRegistry.XP_EU_CONVERSION.getKey()
+							        * XPStackRegistry.XP_EU_CONVERSION
 							                .getValue();
 							if ((this.getCapacity() - this.getStored()) > eu) {
 								this.addEnergy(eu);
@@ -297,15 +277,6 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 
 						}
 					}
-				}
-
-				// Just send our buffer to the energy net
-				if (this.storedEnergy >= PACKET_SIZE) {
-					EnergyTileSourceEvent sendEvent = new EnergyTileSourceEvent(
-					        this, PACKET_SIZE);
-					MinecraftForge.EVENT_BUS.post(sendEvent);
-					int usedEnergy = PACKET_SIZE - sendEvent.amount;
-					this.storedEnergy -= usedEnergy;
 				}
 			}
 		}
@@ -343,4 +314,29 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 		}
 		super.invalidate();
 	}
+
+	@Override
+    public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
+	    return true;
+    }
+
+	@Override
+    public double getOutputEnergyUnitsPerTick() {
+	    return 0;
+    }
+
+	@Override
+    public boolean isTeleporterCompatible(ForgeDirection side) {
+	    return false;
+    }
+
+	@Override
+    public double getOfferedEnergy() {
+	    return Math.min(this.storedEnergy, PACKET_SIZE);
+    }
+
+	@Override
+    public void drawEnergy(double amount) {
+	    this.storedEnergy -= amount;
+    }
 }

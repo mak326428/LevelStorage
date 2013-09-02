@@ -6,6 +6,7 @@ import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
 import makmods.levelstorage.render.MassInfuserRender;
 import makmods.levelstorage.render.RenderSuperconductorCable;
+import makmods.levelstorage.render.TestItemRenderer;
 import makmods.levelstorage.render.WirelessConductorRender;
 import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -53,7 +54,10 @@ public class ClientProxy extends CommonProxy {
 	public static final String MULTINUKE_CORE_TEXTURE = getTexturePathFor("blockMultinukeCore");
 	public static final String MULTINUKE_CHAMBER_TEXTURE = getTexturePathFor("blockMultinukeChamber");
 	public static final String ADV_MINER_TEXTURE = getTexturePathFor("blockAdvMiner");
+	public static final String MOLECULAR_HEATER_TEXTURE = "blockMolHeater";
 	public static final String MOLECULAR_HEATER_FACING = getTexturePathFor("blockMolHeaterFacing");
+	public static final String ATOMIC_REPLICATOR_TEXTURE = "blockAtomicReplicator";
+	public static final String ATOMIC_REPLICATOR_FACING = getTexturePathFor("blockAtomicReplicatorFacing");
 
 	// Fluids
 	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
@@ -65,6 +69,7 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_NO_SLOTS = getResourceLocation("gui/noSlots.png");
 	public static final ResourceLocation GUI_MASS_INFUSER = getResourceLocation("gui/massInfuser.png");
 	public static final ResourceLocation GUI_MOLECULAR_HEATER = getResourceLocation("gui/molecularHeater.png");
+	public static final ResourceLocation GUI_ATOMIC_REPLICATOR = getResourceLocation("gui/atomicReplicator.png");
 	public static final ResourceLocation GUI_MINER = new ResourceLocation(
 	        "ic2", "textures/gui/GUIMiner.png");
 
@@ -76,8 +81,6 @@ public class ClientProxy extends CommonProxy {
 
 	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_layer_2.png";
 	public static final String ARMOR_LEVITATION_BOOTS_TEXTURE = "/textures/models/armor/supersonic_layer_1.png";
-	public static int ARMOR_SUPERSONIC_RENDER_INDEX;
-	public static int ARMOR_ENHANCED_LAPPACK_RENDER_INDEX;
 
 	// Custom renders
 	public static final int CABLE_RENDER_ID = RenderingRegistry
@@ -91,6 +94,14 @@ public class ClientProxy extends CommonProxy {
 				return t;
 		}
 		return null;
+	}
+	
+	public int getArmorIndexFor(String forWhat) {
+		if (forWhat == SUPERSONIC_DUMMY)
+			return ARMOR_SUPERSONIC_RENDER_INDEX;
+		else if (forWhat == ENH_LAPPACK_DUMMY)
+			return ARMOR_ENHANCED_LAPPACK_RENDER_INDEX;
+		return 0;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -121,6 +132,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(
 		        LSBlockItemList.blockWlessConductor.blockID,
 		        new ItemWirelessConductorRender());
+		MinecraftForgeClient.registerItemRenderer(LSBlockItemList.itemTest.itemID, new TestItemRenderer());
 
 		// MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}

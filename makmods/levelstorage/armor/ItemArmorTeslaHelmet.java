@@ -45,7 +45,7 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 
 	public ItemArmorTeslaHelmet(int id) {
 		super(id, EnumArmorMaterial.DIAMOND,
-		        ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 0);
+				LevelStorage.proxy.getArmorIndexFor(CommonProxy.SUPERSONIC_DUMMY), 0);
 
 		this.setMaxDamage(27);
 		this.setNoRepair();

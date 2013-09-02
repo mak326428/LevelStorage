@@ -20,8 +20,7 @@ public class RetextureEvent extends WorldEvent {
 	// set to true to confirm the operation
 	public boolean applied = false;
 
-	public RetextureEvent(World world, int x, int y, int z, int side,
-	        int referencedBlockId, int referencedMeta, int referencedSide) {
+	public RetextureEvent(World world, int x, int y, int z, int side, int referencedBlockId, int referencedMeta, int referencedSide) {
 		super(world);
 
 		this.x = x;

@@ -1,3 +1,4 @@
+# blocks
 tile.blockXpGen.name=XP Generator
 tile.blockXpCharger.name=XP Charger
 tile.blockWlessConductor.name=Wireless Conductor
@@ -6,6 +7,8 @@ tile.blockSuperconductor.name=Superconductor
 tile.blockMassInfuser.name=Mass Infuser
 tile.blockAdvMiner.name=Advanced Miner
 tile.blockMolHeater.name=Molecular Heater
+tile.blockAtomicReplicator.name=Atomic Replicator
+# items
 item.itemLevelStorageBook.name=XP Tome
 item.itemAdvScanner.name=Advanced OV-Scanner
 item.itemFreqCard.name=Frequency Card
@@ -27,4 +30,17 @@ item.itemElectricMagnet.name=Electric Magnet
 item.itemDestructor.name=Atomic Disassembler
 item.itemEnhLappack.name=Enhanced Lappack
 item.itemRemoteAccessor.name=Remote Accessor
+# creative tab(s)
 itemGroup.levelstorage=LevelStorage
+# death messages
+# %s will be replaced by player's name
+death.energyFieldKill=%s was in radius of high energy field.
+death.forcefieldArmor=%s was zapped by a huge impulse of energy.
+death.forcefieldArmorInstantKill=%s was zapped by a huge impulse of energy.
+death.teslaHelmetKill=%s was zapped by a huge impulse of energy caused by a tesla ray.
+death.disassemble=%s was accidentally disassembled into basic elementary atoms.
+# key bindings
+key.range=Range Switch Key
+key.shoot=Energy Ray Shoot Key
+# tooltips
+tooltip.xp=XP Value:

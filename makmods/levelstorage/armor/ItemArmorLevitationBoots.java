@@ -52,7 +52,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 	public ItemArmorLevitationBoots(int id) {
 		super(id, EnumArmorMaterial.DIAMOND,
-		        ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 3);
+				LevelStorage.proxy.getArmorIndexFor(CommonProxy.SUPERSONIC_DUMMY), 3);
 
 		this.setMaxDamage(27);
 		this.setNoRepair();

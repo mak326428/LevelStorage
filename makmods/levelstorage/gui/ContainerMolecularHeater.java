@@ -1,8 +1,5 @@
 package makmods.levelstorage.gui;
 
-import java.util.ListIterator;
-
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.logic.util.GUIHelper;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import net.minecraft.entity.player.EntityPlayer;

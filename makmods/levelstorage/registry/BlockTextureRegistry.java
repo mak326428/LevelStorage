@@ -1,4 +1,4 @@
-package makmods.levelstorage.logic;
+package makmods.levelstorage.registry;
 
 import java.util.Map;
 

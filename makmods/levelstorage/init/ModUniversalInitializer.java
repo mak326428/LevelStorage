@@ -1,10 +1,12 @@
-package makmods.levelstorage;
+package makmods.levelstorage.init;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.logging.Level;
 
+import makmods.levelstorage.LSBlockItemList;
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.block.Block;

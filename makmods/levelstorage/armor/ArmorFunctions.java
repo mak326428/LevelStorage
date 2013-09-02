@@ -15,6 +15,7 @@ import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.network.PacketTeslaRay;
 import makmods.levelstorage.network.PacketTypeHandler;
+import makmods.levelstorage.proxy.LSKeyboard;
 import makmods.levelstorage.registry.FlightRegistry;
 import makmods.levelstorage.registry.FlightRegistry.Flight;
 import net.minecraft.entity.Entity;
@@ -181,8 +182,8 @@ public class ArmorFunctions {
 	public static void helmetFunctions(World world, EntityPlayer player,
 	        ItemStack itemStack, int RAY_COST, int ENTITY_HIT_COST,
 	        int FOOD_COST) {
-		if (player.isSneaking()
-		        && IC2Access.instance.isKeyDown("Boost", player)) {
+		if (LSKeyboard.getInstance().isKeyDown(player,
+		        LSKeyboard.RAY_SHOOT_KEY_NAME)) {
 			if (ElectricItem.manager.canUse(itemStack, RAY_COST)) {
 				if (!world.isRemote)
 					ElectricItem.manager.use(itemStack, RAY_COST, player);

@@ -78,16 +78,16 @@ public class FlightRegistry implements ITickHandler {
 			if (flight.getKey() == Reference.MOD_ID) {
 				if (p != null)
 					ItemArmorLevitationBoots.checkPlayer(p);
-			}
-			if (flight.getValue().active == false) {
-				if (p.capabilities.allowFlying || p.capabilities.isFlying) {
-					PacketFlightUpdate flUpd = new PacketFlightUpdate();
-					flUpd.allowFlying = false;
-					flUpd.isFlying = false;
-					PacketDispatcher
-					        .sendPacketToPlayer(
-					                PacketTypeHandler.populatePacket(flUpd),
-					                (Player) p);
+				if (flight.getValue().active == false) {
+					if (p.capabilities.allowFlying || p.capabilities.isFlying) {
+						PacketFlightUpdate flUpd = new PacketFlightUpdate();
+						flUpd.allowFlying = false;
+						flUpd.isFlying = false;
+						PacketDispatcher
+						        .sendPacketToPlayer(
+						                PacketTypeHandler.populatePacket(flUpd),
+						                (Player) p);
+					}
 				}
 			}
 		}

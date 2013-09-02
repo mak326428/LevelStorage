@@ -12,7 +12,7 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.gui.SlotBook;
 import makmods.levelstorage.item.ItemLevelStorageBook;
-import makmods.levelstorage.registry.XpStackRegistry;
+import makmods.levelstorage.registry.XPStackRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -56,7 +56,7 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 	}
 
 	public void syncUUMProgress() {
-		float percent = ((this.uumPoints * 100.0f) / XpStackRegistry.UUM_XP_CONVERSION
+		float percent = ((this.uumPoints * 100.0f) / XPStackRegistry.UUM_XP_CONVERSION
 		        .getValue()) / 100;
 		this.progress = (int) (36 * percent);
 	}
@@ -352,16 +352,16 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 				if (!LevelStorage.chargerOnlyUUM) {
 					if (this.inv[0] != null) {
 						if (this.inv[0].getItem() instanceof ItemLevelStorageBook) {
-							if (this.getStored() > XpStackRegistry.XP_EU_CONVERSION
+							if (this.getStored() > XPStackRegistry.XP_EU_CONVERSION
 							        .getValue() * ENERGY_COST_MULTIPLIER) {
 								if ((LevelStorage.itemLevelStorageBookSpace - ItemLevelStorageBook
-								        .getStoredXP(this.inv[0])) > XpStackRegistry.XP_EU_CONVERSION
+								        .getStoredXP(this.inv[0])) > XPStackRegistry.XP_EU_CONVERSION
 								        .getKey()) {
-									this.addEnergy(-(XpStackRegistry.XP_EU_CONVERSION
+									this.addEnergy(-(XPStackRegistry.XP_EU_CONVERSION
 									        .getValue() * ENERGY_COST_MULTIPLIER));
 									ItemLevelStorageBook.increaseStoredXP(
 									        this.inv[0],
-									        XpStackRegistry.XP_EU_CONVERSION
+									        XPStackRegistry.XP_EU_CONVERSION
 									                .getKey());
 								}
 							}
@@ -375,14 +375,14 @@ public class TileEntityXpCharger extends TileEntity implements IEnergyTile,
 				if (LevelStorage.chargerOnlyUUM == true) {
 					if (this.uumPoints <= 0) {
 						if (this.inv[1] != null) {
-							if (this.inv[1].stackSize >= XpStackRegistry.UUM_XP_CONVERSION
+							if (this.inv[1].stackSize >= XPStackRegistry.UUM_XP_CONVERSION
 							        .getKey()) {
 								if (this.inv[1].getItem() == Items.getItem(
 								        "matter").getItem()) {
 									this.decrStackSize(1,
-									        XpStackRegistry.UUM_XP_CONVERSION
+									        XPStackRegistry.UUM_XP_CONVERSION
 									                .getKey());
-									this.uumPoints += XpStackRegistry.UUM_XP_CONVERSION
+									this.uumPoints += XPStackRegistry.UUM_XP_CONVERSION
 									        .getValue();
 								}
 							}

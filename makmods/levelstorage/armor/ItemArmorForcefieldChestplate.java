@@ -45,7 +45,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 
 	public ItemArmorForcefieldChestplate(int id) {
 		super(id, EnumArmorMaterial.DIAMOND,
-		        ClientProxy.ARMOR_SUPERSONIC_RENDER_INDEX, 1);
+				LevelStorage.proxy.getArmorIndexFor(CommonProxy.SUPERSONIC_DUMMY), 1);
 
 		this.setMaxDamage(27);
 		this.setNoRepair();
