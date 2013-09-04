@@ -59,6 +59,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String MOLECULAR_HEATER_FACING = getTexturePathFor("blockMolHeaterFacing");
 	public static final String ATOMIC_REPLICATOR_TEXTURE = "blockAtomicReplicator";
 	public static final String ATOMIC_REPLICATOR_FACING = getTexturePathFor("blockAtomicReplicatorFacing");
+	public static final String MULTICORE_SOLAR_PANEL_TEXTURE = "blockMulticoreSolarPanel";
 
 	// Fluids
 	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");

@@ -152,7 +152,6 @@ public class BlockMolecularHeater extends BlockContainer {
 	public void registerIcons(IconRegister iconRegister) {
 		BlockTextureRegistry.instance.registerIcons(iconRegister,
 		        ClientProxy.MOLECULAR_HEATER_TEXTURE);
-		facing = iconRegister.registerIcon(ClientProxy.MOLECULAR_HEATER_FACING);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ tile.blockMassInfuser.name=Mass Infuser
 tile.blockAdvMiner.name=Advanced Miner
 tile.blockMolHeater.name=Molecular Heater
 tile.blockAtomicReplicator.name=Atomic Replicator
+tile.blockMulticoreSolarPanel.name=Multicore Solar Panel
 # items
 item.itemLevelStorageBook.name=XP Tome
 item.itemAdvScanner.name=Advanced OV-Scanner

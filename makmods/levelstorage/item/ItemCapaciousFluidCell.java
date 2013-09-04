@@ -58,21 +58,30 @@ public class ItemCapaciousFluidCell extends Item {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Icon getIconFromDamageForRenderPass(int par1, int par2) {
-		System.out.println(String.format("getIconFromDamageForRenderPass %d %d", par1, par2));
-		System.out.println(fluids.get(par1).getIcon());
-		switch (par2) {
-			case 0:
-				return fluids.get(par1).getIcon();
-			case 1:
-				return icon_pass_2;
-			default:
-				return null;
+		try {
+
+			switch (par2) {
+				case 0: {
+					Icon ic = fluids.get(par1).getIcon();
+					if (ic != null)
+						return ic;
+					else
+						return icon_pass_2;
+				}
+				case 1:
+					return icon_pass_2;
+				default:
+					return icon_pass_2;
+			}
+		} catch (Exception e) {
+			return icon_pass_2;
 		}
 	}
-	
+
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
 	        List par3List) {
 		for (int i = 0; i < fluids.size(); i++) {
+			System.out.println(fluids.get(i).getName());
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}

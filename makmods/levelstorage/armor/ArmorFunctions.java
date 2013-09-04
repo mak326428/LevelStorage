@@ -339,8 +339,8 @@ public class ArmorFunctions {
 				if ((IC2Access.instance.isKeyDown("Jump", player) && (IC2Access.instance
 				        .isKeyDown("Boost", player)))) {
 					if (jumpCharge == 2.0F) {
-						player.motionX *= 3.5D;
-						player.motionZ *= 3.5D;
+						player.motionX *= 5.0D;
+						player.motionZ *= 5.0D;
 					}
 
 					player.motionY += jumpCharge * 0.3F;

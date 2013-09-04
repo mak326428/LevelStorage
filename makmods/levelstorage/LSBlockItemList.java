@@ -8,6 +8,7 @@ import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.block.BlockAdvancedMiner;
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockMolecularHeater;
+import makmods.levelstorage.block.BlockMulticoreSolarPanel;
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
 import makmods.levelstorage.block.BlockXpCharger;
@@ -49,6 +50,7 @@ public class LSBlockItemList {
 	// public static BlockMassInfuser blockMassInfuser;
 	public static BlockAdvancedMiner blockAdvMiner;
 	public static BlockMolecularHeater blockMolHeater;
+	public static BlockMulticoreSolarPanel blockMulticoreSolarPanel;
 
 	// Items
 	public static ItemLevelStorageBook itemLevelStorageBook;
