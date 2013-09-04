@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
@@ -54,8 +55,15 @@ public class ItemFrequencyCard extends Item {
 			boolean isValid = isValid(par1ItemStack);
 			BlockLocation location = BlockLocation.readFromNBT(par1ItemStack
 			        .getTagCompound());
-			par3List.add("Location: " + location);
-			par3List.add("Is valid: " + (isValid ? "yes" : "no"));
+			par3List.add(StatCollector
+			        .translateToLocal("tooltip.freqCard.location")
+			        + " "
+			        + location);
+			par3List.add(StatCollector
+			        .translateToLocal("tooltip.freqCard.isValid")
+			        + " "
+			        + (isValid ? StatCollector.translateToLocal("other.true")
+			                : StatCollector.translateToLocal("other.false")));
 		}
 	}
 

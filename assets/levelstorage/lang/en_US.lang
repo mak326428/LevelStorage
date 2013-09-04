@@ -41,6 +41,10 @@ item.itemDestructor.name=Atomic Disassembler
 item.itemEnhLappack.name=Enhanced Lappack
 item.itemRemoteAccessor.name=Remote Accessor
 item.itemCapFluidCell.name=Capacious Fluid Cell
+#others
+other.frequency=Frequency
+other.true=yes
+other.false=no
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
 # death messages
@@ -61,3 +65,5 @@ tooltip.atomicDisassembler=It hurts.\nDon't say you weren't warned before!
 tooltip.electricMagnet=This item makes loot fly towards you, when activated
 tooltip.drillEnhancement=Enhancement: 
 tooltip.drillEnhancement.none=None.
+tooltip.freqCard.location=Location:
+tooltip.freqCard.isValid=Is valid:
