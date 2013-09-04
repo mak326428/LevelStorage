@@ -106,8 +106,8 @@ public class LevelStorage {
 	public void serverStarting(FMLServerStartingEvent event) {
 		// Clearing all the stuff, so we don't occasionally do bad things
 		// like wasting energy for nothing.
-		WirelessPowerSynchronizerRegistry.instance.registry.clear();
-		WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
+		//WirelessPowerSynchronizerRegistry.instance.registry.clear();
+		//WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
 		ArmorFunctions.speedTickerMap.clear();
 		ArmorFunctions.onGroundMap.clear();
 		FlightRegistry.instance.modEnabledFlights.clear();
@@ -115,8 +115,8 @@ public class LevelStorage {
 
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event) {
-		WirelessPowerSynchronizerRegistry.instance.registry.clear();
-		WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
+		//WirelessPowerSynchronizerRegistry.instance.registry.clear();
+		//WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
 		ArmorFunctions.speedTickerMap.clear();
 		ArmorFunctions.onGroundMap.clear();
 		FlightRegistry.instance.modEnabledFlights.clear();
@@ -149,8 +149,6 @@ public class LevelStorage {
 	public void postInit(FMLPostInitializationEvent event) {
 		FMLLog.info(Reference.MOD_NAME + ": Post-Initialization...");
 		proxy.postInit();
-		ItemStack stack = SimpleItemAPI.getSimpleItem("ingotIridium");
-		System.out.println(Helper.getNiceStackName(stack));
 	}
 
 	public static Side getSide() {

@@ -4,6 +4,7 @@ import ic2.api.item.Items;
 import ic2.api.recipe.RecipeInputItemStack;
 import ic2.api.recipe.RecipeInputOreDict;
 import ic2.api.recipe.Recipes;
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.init.CompatibilityInitializer;
@@ -117,6 +118,7 @@ public class CommonProxy {
 			LevelStorage.detectedGT = true;
 			XPStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
+		//LSBlockItemList.itemCapFluidCell.fillMetaListWithFluids();
 	}
 
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {

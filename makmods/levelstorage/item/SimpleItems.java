@@ -88,7 +88,11 @@ public class SimpleItems extends Item {
 	}
 
 	public String getUnlocalizedName(ItemStack stack) {
-		return (String) itemNames.get(stack.getItemDamage());
+		try {
+			return (String) itemNames.get(stack.getItemDamage());
+		} catch (Throwable t) {
+			return null;
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -100,7 +104,11 @@ public class SimpleItems extends Item {
 	}
 
 	public Icon getIconFromDamage(int par1) {
-		return (Icon) itemIcons.get(par1);
+		try {
+			return (Icon) itemIcons.get(par1);
+		} catch (Throwable t) {
+			return null;
+		}
 	}
 
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,

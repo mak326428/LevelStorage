@@ -14,8 +14,6 @@ import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
 import makmods.levelstorage.proxy.ClientProxy;
-import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
-import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry.WChargerEntry;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -173,10 +171,11 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 				NBTHelper.setInteger(par1ItemStack, FREQUENCY_NBT, 0);
 			if (par3Entity instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) par3Entity;
-				WChargerEntry entry = new WChargerEntry(player, par1ItemStack,
-				        NBTHelper.getInteger(par1ItemStack, FREQUENCY_NBT));
-				WirelessPowerSynchronizerRegistry.instance.registryChargers
-				        .add(entry);
+				//trtgfgdgf
+				//WChargerEntry entry = new WChargerEntry(player, par1ItemStack,
+				//        NBTHelper.getInteger(par1ItemStack, FREQUENCY_NBT));
+				//WirelessPowerSynchronizerRegistry.instance.registryChargers
+				 //       .add(entry);
 			}
 		}
 	}

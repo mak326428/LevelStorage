@@ -30,6 +30,7 @@ item.itemElectricMagnet.name=Electric Magnet
 item.itemDestructor.name=Atomic Disassembler
 item.itemEnhLappack.name=Enhanced Lappack
 item.itemRemoteAccessor.name=Remote Accessor
+item.itemCapFluidCell.name=Capacious Fluid Cell
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
 # death messages

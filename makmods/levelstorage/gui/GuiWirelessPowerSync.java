@@ -133,7 +133,7 @@ public class GuiWirelessPowerSync extends GuiContainer {
 		        + this.tileEntity.frequency
 		        + "; "
 		        + "Mode: "
-		        + (this.tileEntity.type == SyncType.RECEIVER ? "receiver"
+		        + (this.tileEntity.deviceType == SyncType.RECEIVER ? "receiver"
 		                : "sender"), 8, 55, 4210752);
 		// String mode = "Mode: " + (tileEntity.type == ConductorType.SOURCE ?
 		// "Energy transmitter" : "Energy receiver");

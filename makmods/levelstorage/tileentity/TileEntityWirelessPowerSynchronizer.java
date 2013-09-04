@@ -1,148 +1,86 @@
 package makmods.levelstorage.tileentity;
 
-import ic2.api.Direction;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
+import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.logic.util.Helper;
-import makmods.levelstorage.registry.IWirelessPowerSync;
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.registry.SyncType;
-import makmods.levelstorage.registry.WirelessPowerSynchronizerRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
         IHasTextBoxes, IHasButtons, IEnergyTile, IEnergySink, IWrenchable,
-        IEnergySource, IWirelessPowerSync {
+        IEnergySource, IEnergyStorage {
 
+	public SyncType deviceType = SyncType.RECEIVER;
 	public int frequency;
-	public SyncType type;
-	public static final int MAX_PACKET_SIZE = 2048;
-	public boolean addedToENet = false;
-	public static final String NBT_FREQUENCY = "freq";
-	public static final String NBT_MODE = "mode";
 
-	public int timeForUpdate = 0;
+	public int internalBuffer;
 
 	@Override
-	public int getX() {
-		return this.xCoord;
-	}
-
-	@Override
-	public int getY() {
-		return this.yCoord;
+	public boolean acceptsEnergyFrom(TileEntity emitter,
+	        ForgeDirection direction) {
+		if (this.deviceType == SyncType.RECEIVER)
+			return true;
+		else
+			return false;
 	}
 
 	@Override
-	public int getZ() {
-		return this.zCoord;
+	public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
+		if (this.deviceType == SyncType.RECEIVER)
+			return false;
+		else
+			return true;
 	}
 
 	@Override
-	public World getWorld() {
-		return this.worldObj;
+	public double getOfferedEnergy() {
+		if (this.deviceType == SyncType.RECEIVER)
+			return Math.min(512, internalBuffer);
+		else
+			return 0;
 	}
 
 	@Override
-	public int getFreq() {
-		return this.frequency;
+	public void drawEnergy(double amount) {
+		internalBuffer -= amount;
 	}
 
 	@Override
-	public SyncType getType() {
-		return this.type;
+	public boolean wrenchCanSetFacing(EntityPlayer entityPlayer, int side) {
+		return false;
+	}
+
+	public void updateEntity() {
+		super.updateEntity();
+		if (!LevelStorage.isSimulating())
+			return;
+		System.out.println(this.internalBuffer);
 	}
 
 	@Override
-	public void onChunkUnload() {
-		this.unloadEverything();
-		super.onChunkUnload();
-	}
-
-	public void loadEverything() {
-		if (!WirelessPowerSynchronizerRegistry.instance.isDeviceAdded(this)) {
-			WirelessPowerSynchronizerRegistry.instance.addDevice(this);
-		}
-		if (!this.addedToENet) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
-			this.addedToENet = true;
-		}
-	}
-
-	public void unloadEverything() {
-		WirelessPowerSynchronizerRegistry.instance.removeDevice(this);
-		if (this.addedToENet) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-			this.addedToENet = false;
-		}
+	public short getFacing() {
+		return 0;
 	}
 
 	@Override
-	public void invalidate() {
-		this.unloadEverything();
-		super.invalidate();
-	}
+	public void setFacing(short facing) {
 
-	public int toEmit = 0;
-	public static final int MAX_TO_EMIT = 2048;
-
-	@Override
-	public int receiveEnergy(int amount) {
-		if (this.type == SyncType.TRANSMITTER)
-			return amount;
-		else {
-			if (toEmit + amount > MAX_TO_EMIT)
-				return MAX_TO_EMIT - toEmit;
-			toEmit += amount;
-			return MAX_TO_EMIT - toEmit;
-		}
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
-		super.readFromNBT(par1NBTTagCompound);
-		this.frequency = par1NBTTagCompound.getInteger(NBT_FREQUENCY);
-		this.type = SyncType.values()[par1NBTTagCompound.getInteger(NBT_MODE)];
-		this.toEmit = par1NBTTagCompound.getInteger("toEmit");
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
-		super.writeToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger(NBT_FREQUENCY, this.frequency);
-		par1NBTTagCompound.setInteger(NBT_MODE, this.type.ordinal());
-		par1NBTTagCompound.setInteger("toEmit", toEmit);
-	}
-
-	@Override
-	public boolean doesNeedEnergy() {
-		return this.getType() == SyncType.RECEIVER;
-	}
-
-	public IWirelessPowerSync[] pairs;
-
-	public TileEntityWirelessPowerSynchronizer() {
-		this.type = SyncType.RECEIVER;
-	}
-
-	@Override
-	public ItemStack getWrenchDrop(EntityPlayer p) {
-		return new ItemStack(LSBlockItemList.blockWlessPowerSync);
-	}
-
-	@Override
-	public void setFacing(short f) {
-
+	public boolean wrenchCanRemove(EntityPlayer entityPlayer) {
+		return true;
 	}
 
 	@Override
@@ -151,124 +89,136 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 	}
 
 	@Override
-	public boolean emitsEnergyTo(TileEntity te, ForgeDirection dir) {
-		return true;
-	}
-
-	@Override
-	public boolean wrenchCanRemove(EntityPlayer p) {
-		return true;
-	}
-
-	@Override
-	public int getMaxSafeInput() {
-		return MAX_PACKET_SIZE;
-	}
-
-	@Override
-	public short getFacing() {
-		return (short) ForgeDirection.NORTH.ordinal();
-	}
-
-	@Override
-	public boolean wrenchCanSetFacing(EntityPlayer p, int s) {
-		return false;
+	public ItemStack getWrenchDrop(EntityPlayer entityPlayer) {
+		return new ItemStack(LSBlockItemList.blockWlessPowerSync);
 	}
 
 	@Override
 	public double demandedEnergyUnits() {
-		/*
-		 * if (this.type == SyncType.TRANSMITTER) { if (this.pairs != null ||
-		 * WirelessPowerSynchronizerRegistry .hasChargersOnFreq(this.frequency))
-		 * { if (this.pairs.length > 0 || WirelessPowerSynchronizerRegistry
-		 * .hasChargersOnFreq(this.frequency)) { for (IWirelessPowerSync ent :
-		 * this.pairs) { if (ent.doesNeedEnergy() ||
-		 * WirelessPowerSynchronizerRegistry .hasChargersOnFreq(this.frequency))
-		 * return MAX_PACKET_SIZE; } } } }
-		 */
-		// TODO: more sensitive version, for IC2 not to yell at the user that
-		// TODO: BlaBlaBla tile entity BlaBlaBla didn't implement demands energy
-		// TODO: properly
-		if (this.type == SyncType.TRANSMITTER) {
-			return MAX_PACKET_SIZE;
+		if (this.deviceType == SyncType.RECEIVER)
+			return 0;
+		else {
+			if (this.internalBuffer > getCapacity())
+				return 0;
+			return Math.min(2048, getCapacity() - this.internalBuffer);
 		}
-		return 0;
 	}
 
 	@Override
-	public void updateState() {
-		this.pairs = WirelessPowerSynchronizerRegistry.instance
-		        .getDevicesForFreqAndType(this.frequency,
-		                Helper.invertType(this.type));
-	}
-
-	public int lastX;
-	public int lastY;
-	public int lastZ;
-
-	@Override
-	public void updateEntity() {
-		if (!this.worldObj.isRemote) {
-			// WirelessPowerSynchronizerRegistry.instance.registry.clear();
-			if (this.lastX != this.xCoord || this.lastY != this.yCoord
-			        || this.lastZ != this.zCoord) {
-				this.unloadEverything();
-				this.loadEverything();
-			}
-			this.loadEverything();
-			// timeForUpdate++;
-			// if (timeForUpdate > 40) {
-			this.updateState();
-			// }
-			this.lastX = this.xCoord;
-			this.lastY = this.yCoord;
-			this.lastZ = this.zCoord;
-
-		}
-	}
-	
 	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
-		if (this.type == SyncType.TRANSMITTER)
-			return WirelessPowerSynchronizerRegistry.instance.onInjectEnergy(
-			        (int)amount, this);
-		return amount;
+		if (this.deviceType == SyncType.RECEIVER)
+			return amount;
+		if ((this.getCapacity() - this.getStored()) > amount) {
+			this.addEnergy((int) amount);
+			return 0;
+		} else {
+			int leftover = (int) amount
+			        - (this.getCapacity() - this.getStored());
+			this.setStored(getCapacity());
+			return leftover;
+		}
+	}
+
+	@Override
+	public int getMaxSafeInput() {
+		return Integer.MAX_VALUE;
+	}
+
+	@Override
+	public void handleButtonClick(int buttonId) {
+		this.deviceType = deviceType.getInverse();
 	}
 
 	@Override
 	public void handleTextChange(String newText) {
 		try {
-			this.frequency = Integer.parseInt(newText);
-			for (IWirelessPowerSync entry : WirelessPowerSynchronizerRegistry.instance.registry) {
-				entry.updateState();
-			}
-		} catch (NumberFormatException e) {
+			frequency = Integer.parseInt(newText);
+		} catch (Exception e) {
 		}
 	}
 
 	@Override
-	public void handleButtonClick(int buttonId) {
-		if (buttonId == 1) {
-			this.type = Helper.invertType(this.type);
-			for (IWirelessPowerSync entry : WirelessPowerSynchronizerRegistry.instance.registry) {
-				entry.updateState();
-			}
-		}
-	}
-	
-	@Override
-	public double getOfferedEnergy() {
-	    return toEmit;
-	}
-	
-	@Override
-	public void drawEnergy(double amount) {
-	    toEmit -= amount;
+	public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
+		super.readFromNBT(par1nbtTagCompound);
+		this.deviceType = par1nbtTagCompound.getBoolean("isTransmitter") ? SyncType.TRANSMITTER
+		        : SyncType.RECEIVER;
+		this.frequency = par1nbtTagCompound.getInteger("frequency");
+		this.internalBuffer = par1nbtTagCompound.getInteger("stored");
 	}
 
 	@Override
-    public boolean acceptsEnergyFrom(TileEntity emitter,
-            ForgeDirection direction) {
-	    return true;
-    }
+	public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
+		super.writeToNBT(par1nbtTagCompound);
+		par1nbtTagCompound.setBoolean("isTransmitter",
+		        this.deviceType == SyncType.TRANSMITTER);
+		par1nbtTagCompound.setInteger("frequency", frequency);
+		par1nbtTagCompound.setInteger("stored", internalBuffer);
+	}
+
+	@Override
+	public int getStored() {
+		return internalBuffer;
+	}
+
+	@Override
+	public void setStored(int energy) {
+		internalBuffer = energy;
+	}
+
+	@Override
+	public int addEnergy(int amount) {
+		internalBuffer += amount;
+		return internalBuffer;
+	}
+
+	@Override
+	public int getCapacity() {
+		// max packet size + 1
+		return 2049;
+	}
+
+	@Override
+	public int getOutput() {
+		return 0;
+	}
+
+	@Override
+	public double getOutputEnergyUnitsPerTick() {
+		return 0;
+	}
+
+	@Override
+	public boolean isTeleporterCompatible(ForgeDirection side) {
+		return false;
+	}
+
+	public void load() {
+		if (!LevelStorage.isSimulating())
+			return;
+		MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+	}
+
+	public void unload() {
+		if (!LevelStorage.isSimulating())
+			return;
+		MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+	}
+
+	@Override
+	public void invalidate() {
+		unload();
+		super.invalidate();
+	}
+
+	@Override
+	public void onChunkUnload() {
+		unload();
+		super.invalidate();
+	}
+
+	public void validate() {
+		super.validate();
+		load();
+	}
 
 }

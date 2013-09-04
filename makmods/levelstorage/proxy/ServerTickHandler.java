@@ -18,7 +18,8 @@ public class ServerTickHandler implements ITickHandler {
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
-		WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
+		//TODO: readd
+		//WirelessPowerSynchronizerRegistry.instance.registryChargers.clear();
 	}
 
 	@Override

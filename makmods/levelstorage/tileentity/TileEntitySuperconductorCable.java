@@ -1,6 +1,7 @@
 package makmods.levelstorage.tileentity;
 
 import ic2.api.Direction;
+import ic2.api.energy.EnergyNet;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyAcceptor;
@@ -204,13 +205,13 @@ public class TileEntitySuperconductorCable extends TileEntity implements
 	}
 
 	@Override
-    public boolean acceptsEnergyFrom(TileEntity emitter,
-            ForgeDirection direction) {
-	    return true;
-    }
+	public boolean acceptsEnergyFrom(TileEntity emitter,
+	        ForgeDirection direction) {
+		return true;
+	}
 
 	@Override
-    public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
-	    return true;
-    }
+	public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
+		return true;
+	}
 }

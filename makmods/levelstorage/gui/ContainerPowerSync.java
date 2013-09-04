@@ -16,7 +16,6 @@ public class ContainerPowerSync extends Container {
 	public ContainerPowerSync(InventoryPlayer inventoryPlayer,
 	        TileEntityWirelessPowerSynchronizer te) {
 		this.tileEntity = te;
-
 		this.bindPlayerInventory(inventoryPlayer);
 	}
 
@@ -42,7 +41,7 @@ public class ContainerPowerSync extends Container {
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
 			icrafting.sendProgressBarUpdate(this, 0, this.tileEntity.frequency);
 			icrafting.sendProgressBarUpdate(this, 1,
-			        this.tileEntity.type.ordinal());
+			        this.tileEntity.deviceType.ordinal());
 		}
 	}
 
@@ -53,7 +52,7 @@ public class ContainerPowerSync extends Container {
 				this.tileEntity.frequency = j;
 				break;
 			case 1:
-				this.tileEntity.type = SyncType.values()[j];
+				this.tileEntity.deviceType = SyncType.values()[j];
 				break;
 		}
 	}

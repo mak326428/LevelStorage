@@ -6,7 +6,6 @@ import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
 import makmods.levelstorage.render.MassInfuserRender;
 import makmods.levelstorage.render.RenderSuperconductorCable;
-import makmods.levelstorage.render.TestItemRenderer;
 import makmods.levelstorage.render.WirelessConductorRender;
 import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -45,6 +44,8 @@ public class ClientProxy extends CommonProxy {
 	public static final String DESTRUCTOR_TEXTURE = getTexturePathFor("itemDestructor");
 	public static final String ENHANCED_LAPPACK_TEXTURE = getTexturePathFor("itemEnhLappack");
 	public static final String REMOTE_ACESSOR_TEXTURE = getTexturePathFor("itemRemoteAccessor");
+	public static final String CAPACIOUS_FLUID_CELL_TEXTURE = getTexturePathFor("itemCapaciousFluidCell");
+	
 
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
@@ -132,8 +133,6 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(
 		        LSBlockItemList.blockWlessConductor.blockID,
 		        new ItemWirelessConductorRender());
-		MinecraftForgeClient.registerItemRenderer(LSBlockItemList.itemTest.itemID, new TestItemRenderer());
-
 		// MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}
 

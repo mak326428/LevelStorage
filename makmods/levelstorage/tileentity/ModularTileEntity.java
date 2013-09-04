@@ -12,7 +12,7 @@ import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
-public class LSTileEntity extends TileEntity implements IEnergySink, IEnergyStorage, IEnergySource {
+public class ModularTileEntity extends TileEntity implements IEnergySink, IEnergyStorage, IEnergySource {
 
 	/**
 	 * Module type
@@ -24,6 +24,8 @@ public class LSTileEntity extends TileEntity implements IEnergySink, IEnergyStor
 		/**
 		 * Handle a method with the given name and parameters
 		 * 
+		 * For integration with other modules, use {@link ModularTileEntity.#modules}, using {@link #te}
+		 * 
 		 * @param methodName
 		 *            Name of the method (e.g. acceptsEnergyFrom)
 		 * @param arguments
@@ -31,16 +33,16 @@ public class LSTileEntity extends TileEntity implements IEnergySink, IEnergyStor
 		 * @return Null if module doesn't have anything to do with the method,
 		 *         otherwise return type for the method
 		 */
-		public Object handleMethod(String methodName, LSTileEntity te, Object... arguments);
+		public Object handleMethod(String methodName, ModularTileEntity te, Object... arguments);
 	}
 
 	public List<ITileEntityModule> modules;
 
-	public LSTileEntity(List<ITileEntityModule> modules) {
+	public ModularTileEntity(List<ITileEntityModule> modules) {
 		this.modules = modules;
 	}
 	
-	public LSTileEntity() {
+	public ModularTileEntity() {
 		this.modules = Lists.newArrayList();
 	}
 
@@ -131,44 +133,131 @@ public class LSTileEntity extends TileEntity implements IEnergySink, IEnergyStor
 
 	@Override
 	public void drawEnergy(double amount) {
-		// TODO Auto-generated method stub
-
+		for (ITileEntityModule module : modules) {
+			module.handleMethod("drawEnergy", this, amount);
+		}
 	}
 
 	@Override
 	public int getStored() {
-		// TODO Auto-generated method stub
-		return 0;
+		int gotStored = 0;
+		for (ITileEntityModule module : modules) {
+			Object retParam = module.handleMethod("getStored", this);
+			if (retParam == null) {
+				// Module has nothing to do with this method, go on
+				continue;
+			}
+			if (!(retParam instanceof Integer)) {
+				LogHelper
+				        .severe("LSTileEntity: "
+				                + module
+				                + ": wrong return type, expected Integer, got: "
+				                + retParam.getClass().getSimpleName()
+				                + ", in method getStored()");
+			} else {
+				gotStored += (Integer)retParam;
+			}
+		}
+		return gotStored;
 	}
 
 	@Override
 	public void setStored(int energy) {
-		// TODO Auto-generated method stub
-
+		for (ITileEntityModule module : modules) {
+			module.handleMethod("setStored", this, energy);
+		}
 	}
 
 	@Override
 	public int addEnergy(int amount) {
-		// TODO Auto-generated method stub
-		return 0;
+		int storedAfter = 0;
+		for (ITileEntityModule module : modules) {
+			Object retParam = module.handleMethod("addEnergy", this, amount);
+			if (retParam == null) {
+				// Module has nothing to do with this method, go on
+				continue;
+			}
+			if (!(retParam instanceof Integer)) {
+				LogHelper
+				        .severe("LSTileEntity: "
+				                + module
+				                + ": wrong return type, expected Integer, got: "
+				                + retParam.getClass().getSimpleName()
+				                + ", in method addEnergy()");
+			} else {
+				storedAfter += (Integer)retParam;
+			}
+		}
+		return storedAfter;
 	}
 
 	@Override
 	public int getCapacity() {
-		// TODO Auto-generated method stub
-		return 0;
+		int capacity = 0;
+		for (ITileEntityModule module : modules) {
+			Object retParam = module.handleMethod("getCapacity", this);
+			if (retParam == null) {
+				// Module has nothing to do with this method, go on
+				continue;
+			}
+			if (!(retParam instanceof Integer)) {
+				LogHelper
+				        .severe("LSTileEntity: "
+				                + module
+				                + ": wrong return type, expected Integer, got: "
+				                + retParam.getClass().getSimpleName()
+				                + ", in method getCapacity()");
+			} else {
+				capacity += (Integer)retParam;
+			}
+		}
+		return capacity;
 	}
 
 	@Override
 	public int getOutput() {
-		// TODO Auto-generated method stub
-		return 0;
+		int output = 0;
+		for (ITileEntityModule module : modules) {
+			Object retParam = module.handleMethod("getOutput", this);
+			if (retParam == null) {
+				// Module has nothing to do with this method, go on
+				continue;
+			}
+			if (!(retParam instanceof Integer)) {
+				LogHelper
+				        .severe("LSTileEntity: "
+				                + module
+				                + ": wrong return type, expected Integer, got: "
+				                + retParam.getClass().getSimpleName()
+				                + ", in method getOutput()");
+			} else {
+				output += (Integer)retParam;
+			}
+		}
+		return output;
 	}
 
 	@Override
 	public double getOutputEnergyUnitsPerTick() {
-		// TODO Auto-generated method stub
-		return 0;
+		int output = 0;
+		for (ITileEntityModule module : modules) {
+			Object retParam = module.handleMethod("getOutputEnergyUnitsPerTick", this);
+			if (retParam == null) {
+				// Module has nothing to do with this method, go on
+				continue;
+			}
+			if (!(retParam instanceof Integer)) {
+				LogHelper
+				        .severe("LSTileEntity: "
+				                + module
+				                + ": wrong return type, expected Integer, got: "
+				                + retParam.getClass().getSimpleName()
+				                + ", in method getOutputEnergyUnitsPerTick()");
+			} else {
+				output += (Integer)retParam;
+			}
+		}
+		return output;
 	}
 
 	@Override
