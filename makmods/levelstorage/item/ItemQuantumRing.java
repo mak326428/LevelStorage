@@ -23,6 +23,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -119,7 +120,8 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
 	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		par3List.add("\247bThe most endgame item. Probably.");
+		par3List.add("\247b"
+		        + StatCollector.translateToLocal("tooltip.quantumring"));
 	}
 
 	@Override

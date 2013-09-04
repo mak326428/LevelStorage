@@ -67,3 +67,9 @@ tooltip.drillEnhancement=Enhancement:
 tooltip.drillEnhancement.none=None.
 tooltip.freqCard.location=Location:
 tooltip.freqCard.isValid=Is valid:
+tooltip.xptome.stored=Stored:
+# I'm not sure, maybe i want to name this just "XP"
+tooltip.xptome.xppoints=XP points
+tooltip.porteleporter.linkedto=Linked to:
+tooltip.porteleporter.dimension=Dimension:
+tooltip.quantumring=The most endgame item. Probably.

@@ -20,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -142,8 +143,12 @@ public class ItemPortableTeleporter extends Item implements IElectricItem {
 		if (hasDest(par1ItemStack)) {
 			BlockLocation loc = BlockLocation
 			        .readFromNBT(par1ItemStack.stackTagCompound);
-			par3List.add("Linked to: ");
-			par3List.add("    Dimension: "
+			par3List.add(StatCollector
+			        .translateToLocal("tooltip.porteleporter.linkedto"));
+			par3List.add("    "
+			        + StatCollector
+			                .translateToLocal("tooltip.porteleporter.dimension")
+			        + " "
 			        + DimensionManager.getProvider(loc.getDimId())
 			                .getDimensionName());
 			par3List.add("    X: " + loc.getX());

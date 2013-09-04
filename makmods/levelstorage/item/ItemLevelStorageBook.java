@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -126,8 +127,9 @@ public class ItemLevelStorageBook extends Item {
 		// Here we add our nice little tooltip
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 		NBTHelper.checkNBT(par1ItemStack);
-		par3List.add("Stored: " + String.valueOf(getStoredXP(par1ItemStack))
-		        + " XP points");
+		par3List.add(StatCollector.translateToLocal("tooltip.xptome.stored")
+		        + " " + String.valueOf(getStoredXP(par1ItemStack)) + " "
+		        + StatCollector.translateToLocal("tooltip.xptome.xppoints"));
 	}
 
 	public static int calculateDurability(ItemStack stack) {
