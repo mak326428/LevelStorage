@@ -9,6 +9,15 @@ tile.blockAdvMiner.name=Advanced Miner
 tile.blockMolHeater.name=Molecular Heater
 tile.blockAtomicReplicator.name=Atomic Replicator
 tile.blockMulticoreSolarPanel.name=Multicore Solar Panel
+# simple items (crafting ingredients)
+dustTinyOsmium.name=Tiny pile of Osmium Dust
+dustOsmium.name=Osmium Dust
+itemOsmiridiumAlloy.name=Osmiridium Mixed Metal Ingot
+itemOsmiridiumPlate.name=Osmiridium Plate
+ingotOsmium.name=Osmium Ingot
+ingotIridium.name=Iridium Ingot
+itemUltimateCircuit.name=Ultimate Circuit
+itemEnergizedStar.name=Energized Nether Star
 # items
 item.itemLevelStorageBook.name=XP Tome
 item.itemAdvScanner.name=Advanced OV-Scanner

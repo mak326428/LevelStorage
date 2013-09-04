@@ -53,14 +53,14 @@ public class SimpleItems extends Item {
 	}
 
 	public void initItems() {
-		addItem("dustTinyOsmium", "Tiny pile of Osmium Dust", EnumRarity.uncommon); // 0
-		addItem("dustOsmium", "Osmium Dust", EnumRarity.rare); // 1
-		addItem("itemOsmiridiumAlloy", "Osmiridium Mixed Metal Ingot", EnumRarity.rare); // 2
-		addItem("itemOsmiridiumPlate", "Osmiridium Plate", EnumRarity.epic); // 3
-		addItem("ingotOsmium", "Osmium Ingot", EnumRarity.rare); // 4
-		addItem("ingotIridium", "Iridium Ingot", EnumRarity.uncommon); // 5
-		addItem("itemUltimateCircuit", "Ultimate Circuit", EnumRarity.rare); // 6
-		addItem("itemEnergizedStar", "Energized Nether Star", EnumRarity.epic); // 7
+		addItem("dustTinyOsmium", EnumRarity.uncommon); // 0
+		addItem("dustOsmium", EnumRarity.rare); // 1
+		addItem("itemOsmiridiumAlloy", EnumRarity.rare); // 2
+		addItem("itemOsmiridiumPlate", EnumRarity.epic); // 3
+		addItem("ingotOsmium", EnumRarity.rare); // 4
+		addItem("ingotIridium", EnumRarity.uncommon); // 5
+		addItem("itemUltimateCircuit", EnumRarity.rare); // 6
+		addItem("itemEnergizedStar", EnumRarity.epic); // 7
 	}
 
 	/**
@@ -82,24 +82,23 @@ public class SimpleItems extends Item {
 	public List<String> itemNames = Lists.newArrayList();
 	private List<EnumRarity> itemRarities = Lists.newArrayList();
 
-	public void addItem(String name, String localizedName, EnumRarity rarity) {
+	public void addItem(String name, EnumRarity rarity) {
 		itemNames.add(name);
 		itemRarities.add(rarity);
 		ItemStack currStack = new ItemStack(this.itemID, 1,
 		        itemNames.size() - 1);
-		LanguageRegistry.instance().addStringLocalization(name + ".name",
-		        localizedName);
+		// LanguageRegistry.instance().addStringLocalization(name + ".name",
+		// localizedName);
 		OreDictionary.registerOre(name, currStack);
 	}
-	
-    public EnumRarity getRarity(ItemStack par1ItemStack)
-    {
-        try {
-        	return itemRarities.get(par1ItemStack.getItemDamage());
-        } catch (Throwable t) {
-        	return EnumRarity.common;
-        }
-    }
+
+	public EnumRarity getRarity(ItemStack par1ItemStack) {
+		try {
+			return itemRarities.get(par1ItemStack.getItemDamage());
+		} catch (Throwable t) {
+			return EnumRarity.common;
+		}
+	}
 
 	public String getUnlocalizedName(ItemStack stack) {
 		try {
