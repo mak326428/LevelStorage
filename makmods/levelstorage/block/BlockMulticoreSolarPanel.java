@@ -2,6 +2,7 @@ package makmods.levelstorage.block;
 
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.Helper;
@@ -39,12 +40,7 @@ public class BlockMulticoreSolarPanel extends BlockContainer {
 
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3) {
-		return IC2Items.ADV_MACHINE.itemID;
-	}
-
-	@Override
-	public int damageDropped(int par1) {
-		return IC2Items.ADV_MACHINE.getItemDamage();
+		return LSBlockItemList.blockMulticoreSolarPanel.blockID;
 	}
 
 	@Override
