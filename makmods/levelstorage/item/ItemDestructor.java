@@ -29,6 +29,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
@@ -389,8 +390,10 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
 	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		par3List.add("\247cIt hurts.");
-		par3List.add("\247cDon't say you weren't warned before!");
+		String[] lines = StatCollector.translateToLocal("tooltip.atomicDisassembler").split("\n");
+		for (String line : lines) {
+			par3List.add("\247c" + line);
+		}
 	}
 
 	@Override

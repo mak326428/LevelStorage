@@ -38,6 +38,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
@@ -234,15 +235,13 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 
 	public void addInformation(ItemStack par1ItemStack,
 	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		par3List.add("\2472Mines a whole ore vein");
-		par3List.add("\2472if you break one block of it");
-		par3List.add("Enhancement: ");
+		par3List.add(StatCollector.translateToLocal("tooltip.drillEnhancement"));
 		if (par1ItemStack.stackTagCompound == null)
 			par1ItemStack.stackTagCompound = new NBTTagCompound();
 		NBTTagCompound enh = par1ItemStack.stackTagCompound
 		        .getCompoundTag(ENHANCEMENT_NBT);
 		if (!enh.hasKey(ENHANCEMENT_ID_NBT))
-			par3List.add("\247cNone.");
+			par3List.add("\247c" + StatCollector.translateToLocal("tooltip.drillEnhancement.none"));
 		else {
 			int id = enh.getInteger(ENHANCEMENT_ID_NBT);
 			int lvl = enh.getInteger(ENHANCEMENT_LVL_NBT);

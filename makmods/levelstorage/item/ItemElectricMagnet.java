@@ -25,6 +25,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -89,7 +90,7 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
 	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		par3List.add("\2472This item makes loot fly towards you, when activated");
+		par3List.add("\2472" + StatCollector.translateToLocal("tooltip.electricMagnet"));
 	}
 
 	@Override

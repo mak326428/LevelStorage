@@ -54,4 +54,10 @@ death.disassemble=%s was accidentally disassembled into basic elementary atoms.
 key.range=Range Switch Key
 key.shoot=Energy Ray Shoot Key
 # tooltips
+# \n will be replaced with a new line (this is not OS-dependant)
 tooltip.xp=XP Value:
+tooltip.advScanner=This item will tell you\nexactly how much ore there is in\nyour surroundings
+tooltip.atomicDisassembler=It hurts.\nDon't say you weren't warned before!
+tooltip.electricMagnet=This item makes loot fly towards you, when activated
+tooltip.drillEnhancement=Enhancement: 
+tooltip.drillEnhancement.none=None.

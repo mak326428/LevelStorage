@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -91,9 +92,10 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
 	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		par3List.add("\2472This item will tell you");
-		par3List.add("\2472exactly how much ore there is in");
-		par3List.add("\2472your surroundings");
+		String[] lines = StatCollector.translateToLocal("tooltip.advScanner").split("\n");
+		for (String line : lines) {
+			par3List.add("\2472" + line);
+		}
 	}
 
 	@Override
