@@ -1,3 +1,4 @@
+# blocks
 tile.blockXpGen.name=XP-Generator
 tile.blockXpCharger.name=XP-Lader
 tile.blockWlessConductor.name=Kabelloser Konduktor
@@ -5,7 +6,9 @@ tile.blockWlessPowerSync.name=Kabelloser Energiesynchronisierer
 tile.blockSuperconductor.name=Supraleiter
 tile.blockMassInfuser.name=Massen-Infundierer
 tile.blockAdvMiner.name=Fortgeschrittene Bergbaumaschine
-tile.blockMolHeater.name=Molekularer Heizer
+tile.blockMolHeater.name=Molekularheizgerät
+tile.blockAtomicReplicator.name=Atomarer Replikator
+# items
 item.itemLevelStorageBook.name=XP-Buch
 item.itemAdvScanner.name=Fortgeschrittener OV-Scanner
 item.itemFreqCard.name=Frequenzkarte
@@ -20,11 +23,24 @@ item.itemSuperconductor.name=Supraleitkabel
 item.itemStorageFourMillion.name=Energetisch angereicherter Materieorb
 item.itemWirelessCharger.name=Kabelloses Ladegerät
 item.itemElectricSickle.name=Elektrische Sichel
-item.itemQuantumSaber.name=Quantumsäbel
+item.itemQuantumSaber.name=Quantensäbel
 item.itemTimeAccelerator.name=Zeitbeschleuniger
-item.itemQuantumRing.name=Quantumring
+item.itemQuantumRing.name=Quantenring
 item.itemElectricMagnet.name=Elektromagnet
 item.itemDestructor.name=Atomarer Disassembler
 item.itemEnhLappack.name=Verbessertes Lappack
 item.itemRemoteAccessor.name=Fernzugriffsgerät
+# creative tab(s)
 itemGroup.levelstorage=LevelStorage
+# death messages
+# %s will be replaced by player's name
+death.energyFieldKill=%s war im Radius eines Hochspannungsfeldes.
+death.forcefieldArmor=%s wurde von einem gewaltigen Energieimpuls erledigt.
+death.forcefieldArmorInstantKill=%s wurde von einem gewaltigen Energieimpuls erledigt.
+death.teslaHelmetKill=%s wurde vom gewaltigen Energieimpuls eines Teslastrahls erledigt.
+death.disassemble=%s wurde versehentlich in Elementarteilchen zerlegt.
+# key bindings
+key.range=Reichweiten-Wechseltaste
+key.shoot=Energiestrahl-Schusstaste
+# tooltips
+tooltip.xp=XP-Wert:
