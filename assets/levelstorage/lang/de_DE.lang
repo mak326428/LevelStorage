@@ -8,6 +8,16 @@ tile.blockMassInfuser.name=Massen-Infundierer
 tile.blockAdvMiner.name=Fortgeschrittene Bergbaumaschine
 tile.blockMolHeater.name=Molekularheizgerät
 tile.blockAtomicReplicator.name=Atomarer Replikator
+tile.blockMulticoreSolarPanel.name=Multicore-Solarmodul
+# simple items (crafting ingredients)
+dustTinyOsmium.name=Kleines Häufchen Osmiumstaub
+dustOsmium.name=Osmiumstaub
+itemOsmiridiumAlloy.name=Osmiridium-Mischmetallbarren
+itemOsmiridiumPlate.name=Osmiridium-Platte
+ingotOsmium.name=Osmiumbarren
+ingotIridium.name=Iridiumbarren
+itemUltimateCircuit.name=Ultimativer Schaltkreis
+itemEnergizedStar.name=Aufgeladener Netherstern
 # items
 item.itemLevelStorageBook.name=XP-Buch
 item.itemAdvScanner.name=Fortgeschrittener OV-Scanner
@@ -31,6 +41,10 @@ item.itemDestructor.name=Atomarer Disassembler
 item.itemEnhLappack.name=Verbessertes Lappack
 item.itemRemoteAccessor.name=Fernzugriffsgerät
 item.itemCapFluidCell.name=Geräumige Flüssigkeitszelle
+#others
+other.frequency=Frequenz
+other.true=Ja
+other.false=Nein
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
 # death messages
@@ -44,4 +58,18 @@ death.disassemble=%s wurde versehentlich in Elementarteilchen zerlegt.
 key.range=Reichweiten-Wechseltaste
 key.shoot=Energiestrahl-Schusstaste
 # tooltips
+# \n will be replaced with a new line (this is not OS-dependant)
 tooltip.xp=XP-Wert:
+tooltip.advScanner=Dieses Item wid dir\ngenau sagen, wie viel Erz in\nin deiner Umgebung ist
+tooltip.atomicDisassembler=Er schmerzt.\nSag nicht, du wärest nicht gewarnt worden!
+tooltip.electricMagnet=Dies lässt Beute zu dir fliegen, wenn aktiviert
+tooltip.drillEnhancement=Verbesserung: 
+tooltip.drillEnhancement.none=Nichts.
+tooltip.freqCard.location=Ort:
+tooltip.freqCard.isValid=Ist gültig:
+tooltip.xptome.stored=Gespeichert:
+# I'm not sure, maybe i want to name this just "XP"
+tooltip.xptome.xppoints=XP-Punkte
+tooltip.porteleporter.linkedto=Verbunden mit:
+tooltip.porteleporter.dimension=Dimension:
+tooltip.quantumring=Das endgame-igste Item. Wahrscheinlich.
