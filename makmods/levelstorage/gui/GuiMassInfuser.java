@@ -1,5 +1,6 @@
 package makmods.levelstorage.gui;
 
+import makmods.levelstorage.logic.util.RenderHelper;
 import makmods.levelstorage.network.PacketPressButton;
 import makmods.levelstorage.network.PacketRecipeSelection;
 import makmods.levelstorage.network.PacketTypeHandler;
@@ -98,7 +99,7 @@ public class GuiMassInfuser extends GuiContainer {
 		// GuiSlider
 		// draw your Gui here, only thing you need to change is the path
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.func_110434_K().func_110577_a(ClientProxy.GUI_MASS_INFUSER);
+		RenderHelper.bindTexture(ClientProxy.GUI_MASS_INFUSER);
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);

@@ -1,13 +1,12 @@
 package makmods.levelstorage.render;
 
+import makmods.levelstorage.logic.util.RenderHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 public class ItemWirelessConductorRender implements IItemRenderer {
 
@@ -75,8 +74,7 @@ public class ItemWirelessConductorRender implements IItemRenderer {
 		GL11.glRotatef(-90F, 1F, 0, 0);
 
 		// Bind texture
-		FMLClientHandler.instance().getClient().renderEngine
-		        .func_110577_a(ClientProxy.CONDUCTOR_MODEL);
+		RenderHelper.bindTexture(ClientProxy.CONDUCTOR_MODEL);
 
 		// Render
 		this.model

@@ -87,7 +87,7 @@ public class ClientProxy extends CommonProxy {
 	// Custom renders
 	public static final int CABLE_RENDER_ID = RenderingRegistry
 	        .getNextAvailableRenderId();
-	public static final String TESLA_RAY_1 = "misc/tesla.png";
+	public static final ResourceLocation TESLA_RAY_1 = getResourceLocation("misc/tesla.png");
 
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {

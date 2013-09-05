@@ -7,11 +7,13 @@ package makmods.levelstorage.api;
  * 
  * @author mak326428
  */
+@Deprecated
 public interface IFlyArmor {
 	/**
 	 * Should return true
 	 * 
 	 * @return <b>true</b>
 	 */
+	@Deprecated
 	public boolean isFlyArmor();
 }

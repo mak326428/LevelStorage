@@ -56,7 +56,7 @@ public abstract class TileEntityBasicSink extends TileEntity implements
 
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
-		this.readFromNBT(pkt.customParam1);
+		this.readFromNBT(pkt.data);
 	}
 
 	@Override

@@ -45,6 +45,7 @@ item.itemCapFluidCell.name=Capacious Fluid Cell
 other.frequency=Frequency
 other.true=yes
 other.false=no
+other.wip=[WIP]
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
 # death messages

@@ -292,7 +292,7 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-		this.readFromNBT(packet.customParam1);
+		this.readFromNBT(packet.data);
 	}
 
 	@Override

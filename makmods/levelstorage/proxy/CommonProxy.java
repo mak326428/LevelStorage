@@ -49,38 +49,38 @@ public class CommonProxy {
 		ItemStack rec1 = SimpleItems.instance.getIngredient(2);
 		rec1.stackSize = 4;
 		Recipes.compressor.addRecipe(new RecipeInputOreDict(
-		        "itemOsmiridiumAlloy"), null, SimpleItems.instance
-		        .getIngredient(3));
+				"itemOsmiridiumAlloy"), null, SimpleItems.instance
+				.getIngredient(3));
 		// 4 tiny osmium dusts -> 1 dust
 		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(1), "SS",
-		        "SS", Character.valueOf('S'),
-		        SimpleItems.instance.getIngredient(0));
+				"SS", Character.valueOf('S'),
+				SimpleItems.instance.getIngredient(0));
 
 		// Osmium dust -> osmium ingot
 		ItemStack osmIngot = SimpleItems.instance.getIngredient(4);
 		ItemStack osmDust = SimpleItems.instance.getIngredient(1);
 		FurnaceRecipes.smelting().addSmelting(osmDust.itemID,
-		        osmDust.getItemDamage(), osmIngot, 20.0F);
+				osmDust.getItemDamage(), osmIngot, 20.0F);
 
 		// Osmium Ingots + Iridium Ingots = Osmiridium Alloy
 		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(2),
-		        "OOO", "III", "   ", Character.valueOf('O'), "ingotOsmium",
-		        Character.valueOf('I'), "ingotIridium");
+				"OOO", "III", "   ", Character.valueOf('O'), "ingotOsmium",
+				Character.valueOf('I'), "ingotIridium");
 		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(2),
-		        "   ", "OOO", "III", Character.valueOf('O'), "ingotOsmium",
-		        Character.valueOf('I'), "ingotIridium");
+				"   ", "OOO", "III", Character.valueOf('O'), "ingotOsmium",
+				Character.valueOf('I'), "ingotIridium");
 
 		// Iridium Ore -> Iridium Ingot
 		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
-		        "addIridiumOreToIngotCompressorRecipe", true).getBoolean(true)) {
+				"addIridiumOreToIngotCompressorRecipe", true).getBoolean(true)) {
 			Recipes.compressor.addRecipe(
-			        new RecipeInputItemStack(Items.getItem("iridiumOre")),
-			        null, SimpleItems.instance.getIngredient(5));
+					new RecipeInputItemStack(Items.getItem("iridiumOre")),
+					null, SimpleItems.instance.getIngredient(5));
 		}
 
 		// UUM -> Osmium pile
 		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(0), "U U",
-		        "UUU", "U U", Character.valueOf('U'), Items.getItem("matter"));
+				"UUU", "U U", Character.valueOf('U'), Items.getItem("matter"));
 	}
 
 	public int getArmorIndexFor(String forWhat) {
@@ -89,7 +89,7 @@ public class CommonProxy {
 
 	public void init() {
 		NetworkRegistry.instance().registerGuiHandler(LevelStorage.instance,
-		        new GUIHandler());
+				new GUIHandler());
 		// TODO: mess around with this neat thingy
 		MinecraftForge.EVENT_BUS.register(new LevelStorageEventHandler());
 		LocalizationInitializer.instance.init();
@@ -118,17 +118,13 @@ public class CommonProxy {
 			LevelStorage.detectedGT = true;
 			XPStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
-		//LSBlockItemList.itemCapFluidCell.fillMetaListWithFluids();
+		// LSBlockItemList.itemCapFluidCell.fillMetaListWithFluids();
 	}
 
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {
 		if ((player instanceof EntityPlayerMP)) {
-			ChatMessageComponent msg;
-			if (args.length > 0) {
-				msg = ChatMessageComponent.func_111082_b(message, args);
-			} else {
-				msg = ChatMessageComponent.func_111077_e(message);
-			}
+			ChatMessageComponent msg = ChatMessageComponent
+					.createFromText(message);
 
 			((EntityPlayerMP) player).sendChatToPlayer(msg);
 		}

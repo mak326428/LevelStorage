@@ -26,10 +26,10 @@ public class LSDamageSource extends DamageSource {
 	public ChatMessageComponent getDeathMessage(
 	        EntityLivingBase par1EntityLivingBase) {
 		if (par1EntityLivingBase instanceof EntityPlayer)
-			return ChatMessageComponent.func_111066_d(String.format(
+			return ChatMessageComponent.createFromText(String.format(
 			        StatCollector.translateToLocal(this.killMessage),
 			        ((EntityPlayer) par1EntityLivingBase).username));
-		return ChatMessageComponent.func_111066_d(this.killMessage);
+		return ChatMessageComponent.createFromText(this.killMessage);
 	}
 
 	protected LSDamageSource(String par1Str) {

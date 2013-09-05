@@ -1,6 +1,7 @@
 package makmods.levelstorage.render;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.logic.util.RenderHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -11,7 +12,6 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -35,8 +35,7 @@ public class WirelessConductorRender extends TileEntitySpecialRenderer {
 		// This is the texture of your block. It's pathed to be the same place
 		// as your other blocks here.
 		// BIND TEXTURE HERE
-		FMLClientHandler.instance().getClient().renderEngine
-		        .func_110577_a(ClientProxy.CONDUCTOR_MODEL);
+		RenderHelper.bindTexture(ClientProxy.CONDUCTOR_MODEL);
 		// This rotation part is very important! Without it, your model will
 		// render upside-down! And for some reason you DO need PushMatrix again!
 		GL11.glPushMatrix();
