@@ -4,10 +4,8 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
-import makmods.levelstorage.render.MassInfuserRender;
 import makmods.levelstorage.render.RenderSuperconductorCable;
 import makmods.levelstorage.render.WirelessConductorRender;
-import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -45,7 +43,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String ENHANCED_LAPPACK_TEXTURE = getTexturePathFor("itemEnhLappack");
 	public static final String REMOTE_ACESSOR_TEXTURE = getTexturePathFor("itemRemoteAccessor");
 	public static final String CAPACIOUS_FLUID_CELL_TEXTURE = getTexturePathFor("itemCapaciousFluidCell");
-	
+	public static final String ELECTRIC_LIGHTER_TEXTURE = getTexturePathFor("itemElectricLighter");
 
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
@@ -60,6 +58,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String ATOMIC_REPLICATOR_TEXTURE = "blockAtomicReplicator";
 	public static final String ATOMIC_REPLICATOR_FACING = getTexturePathFor("blockAtomicReplicatorFacing");
 	public static final String MULTICORE_SOLAR_PANEL_TEXTURE = "blockMulticoreSolarPanel";
+	public static final String ANTIMATTER_STONE_TEXTURE = getTexturePathFor("blockAntimatterStone");
 
 	// Fluids
 	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
@@ -73,7 +72,7 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_MOLECULAR_HEATER = getResourceLocation("gui/molecularHeater.png");
 	public static final ResourceLocation GUI_ATOMIC_REPLICATOR = getResourceLocation("gui/atomicReplicator.png");
 	public static final ResourceLocation GUI_MINER = new ResourceLocation(
-	        "ic2", "textures/gui/GUIMiner.png");
+			"ic2", "textures/gui/GUIMiner.png");
 
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
@@ -86,7 +85,7 @@ public class ClientProxy extends CommonProxy {
 
 	// Custom renders
 	public static final int CABLE_RENDER_ID = RenderingRegistry
-	        .getNextAvailableRenderId();
+			.getNextAvailableRenderId();
 	public static final ResourceLocation TESLA_RAY_1 = getResourceLocation("misc/tesla.png");
 
 	@SideOnly(Side.CLIENT)
@@ -97,7 +96,7 @@ public class ClientProxy extends CommonProxy {
 		}
 		return null;
 	}
-	
+
 	public int getArmorIndexFor(String forWhat) {
 		if (forWhat == SUPERSONIC_DUMMY)
 			return ARMOR_SUPERSONIC_RENDER_INDEX;
@@ -121,25 +120,23 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		RenderingRegistry.registerBlockHandler(new RenderSuperconductorCable());
 		ARMOR_SUPERSONIC_RENDER_INDEX = RenderingRegistry
-		        .addNewArmourRendererPrefix("supersonic");
+				.addNewArmourRendererPrefix("supersonic");
 		ARMOR_ENHANCED_LAPPACK_RENDER_INDEX = RenderingRegistry
-		        .addNewArmourRendererPrefix("enhlappack");
+				.addNewArmourRendererPrefix("enhlappack");
 		LevelStorageCreativeTab.instance = new LevelStorageCreativeTab();
 		super.init();
 		ClientRegistry.bindTileEntitySpecialRenderer(
-		        TileEntityWirelessConductor.class,
-		        new WirelessConductorRender());
-		ClientRegistry.bindTileEntitySpecialRenderer(
-		        TileEntityMassInfuser.class, new MassInfuserRender());
+				TileEntityWirelessConductor.class,
+				new WirelessConductorRender());
 		MinecraftForgeClient.registerItemRenderer(
-		        LSBlockItemList.blockWlessConductor.blockID,
-		        new ItemWirelessConductorRender());
+				LSBlockItemList.blockWlessConductor.blockID,
+				new ItemWirelessConductorRender());
 		// MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}
 
 	@Override
 	public void messagePlayer(EntityPlayer player, String message, Object[] args) {
 		Minecraft.getMinecraft().ingameGUI.getChatGUI().addTranslatedMessage(
-		        message, args);
+				message, args);
 	}
 }

@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 
+import makmods.levelstorage.logic.util.LogHelper;
 import cpw.mods.fml.common.FMLLog;
 
 /**
@@ -16,11 +17,10 @@ public class APIHelper {
 	 * <b>DO NOT USE IN YOUR OWN IMPLEMENTATION!</b>
 	 */
 	public static void logFailure() {
-		FMLLog.log(Level.SEVERE,
-		        "LevelStorage API: failure. It may be caused by either");
-		FMLLog.log(Level.SEVERE,
-		        "LevelStorage not being installed on your minecraft instance");
-		FMLLog.log(Level.SEVERE, "or mod incorrectly using API.");
+		LogHelper.severe("failure. It may be caused by either");
+		LogHelper
+				.severe("LevelStorage not being installed on your minecraft instance");
+		LogHelper.severe("or mod incorrectly using API.");
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class APIHelper {
 	 * @return Requested method.
 	 */
 	public static Method getMethodFor(Class cls, String name,
-	        Class... parameterTypes) {
+			Class... parameterTypes) {
 		try {
 			return cls.getMethod(name, parameterTypes);
 		} catch (Exception e) {

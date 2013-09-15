@@ -33,7 +33,8 @@ public class AdvBlockFinder {
 	 * ANY OTHER MATERIAL LIKE STONE (IT USES RECURSION, IF YOU USE THIS ON <br />
 	 * MATERIAL THAT THERE ARE MILLIONS OF IN THE WORLD, YOU MIGHT HAVE A LOT OF
 	 * TROBLES <br />
-	 * IF YOU USE THIS ON THAT MATERIAL (TESTED ON STONE), GAME WILL FREEZE!</b>
+	 * IF YOU USE THIS ON THAT MATERIAL (TESTED ON STONE), GAME WILL CRASH WITH
+	 * STACK OVERFLOW!</b>
 	 * 
 	 * @param w
 	 *            World to find blocks in
@@ -68,8 +69,8 @@ public class AdvBlockFinder {
 
 	private boolean isBlockOreDict(Block bl) {
 		return bl != null && targetName != null ? OreDictionary.getOreName(
-		        OreDictionary.getOreID(new ItemStack(bl))).equals(targetName)
-		        : false;
+				OreDictionary.getOreID(new ItemStack(bl))).equals(targetName)
+				: false;
 	}
 
 	private void findContinuation(BlockLocation loc) {
@@ -90,7 +91,7 @@ public class AdvBlockFinder {
 				int currZ = newTh.getZ();
 
 				Block currBlock = Block.blocksList[this.world.getBlockId(currX,
-				        currY, currZ)];
+						currY, currZ)];
 				if (currBlock != null) {
 					if (isBlockOreDict(currBlock)) {
 						// Recursion, very dangerous, but i hope nobody
@@ -98,8 +99,8 @@ public class AdvBlockFinder {
 						// use
 						// this on stone...
 						findContinuation(new BlockLocation(
-						        this.world.provider.dimensionId, currX, currY,
-						        currZ));
+								this.world.provider.dimensionId, currX, currY,
+								currZ));
 					}
 				}
 			}

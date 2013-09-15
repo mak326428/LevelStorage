@@ -47,4 +47,6 @@ public interface IWirelessConductor {
 	 * @return linked pair
 	 */
 	public IWirelessConductor getPair();
+	
+	public boolean canReceive(int amount);
 }

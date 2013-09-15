@@ -3,14 +3,13 @@ package makmods.levelstorage.network;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
 
+import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.tileentity.IHasButtons;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.Player;
 
 public class PacketPressButton extends PacketLV {
@@ -59,8 +58,7 @@ public class PacketPressButton extends PacketLV {
 				}
 			}
 		} catch (Exception e) {
-			FMLLog.log(Level.SEVERE,
-			        "LevelStorage: PacketPressButton - exception:");
+			LogHelper.severe("PacketPressButton - exception:");
 			e.printStackTrace();
 		}
 	}

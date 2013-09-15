@@ -37,12 +37,6 @@ public class ItemArmorEnhancedLappack extends ItemArmor implements
 	public static final int ENERGY_PER_DAMAGE = 900;
 
 	public ItemArmorEnhancedLappack(int id) {
-		/*
-		 * Possible fix:
-		 * add a dummy in commonproxy
-		 * and if a side is not client
-		 * return 0
-		 */
 		super(id, EnumArmorMaterial.DIAMOND,
 		        LevelStorage.proxy.getArmorIndexFor(CommonProxy.ENH_LAPPACK_DUMMY), 1);
 
@@ -62,7 +56,7 @@ public class ItemArmorEnhancedLappack extends ItemArmor implements
 		if (p.getBoolean(true)) {
 			Recipes.advRecipes.addRecipe(new ItemStack(
 			        LSBlockItemList.itemEnhLappack), "ccc", "lal", "apa",
-			        Character.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL,
+			        Character.valueOf('l'), IC2Items.ENERGY_CRYSTAL,
 			        Character.valueOf('a'), IC2Items.ADV_CIRCUIT, Character
 			                .valueOf('p'), Items.getItem("lapPack"), Character
 			                .valueOf('c'), IC2Items.CARBON_PLATE);

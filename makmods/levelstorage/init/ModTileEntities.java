@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import makmods.levelstorage.tileentity.TileEntityAdvancedMiner;
-import makmods.levelstorage.tileentity.TileEntityMassInfuser;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import makmods.levelstorage.tileentity.TileEntityMulticoreSolarPanel;
 import makmods.levelstorage.tileentity.TileEntitySuperconductorCable;
@@ -40,7 +39,6 @@ public class ModTileEntities {
 		        "tileWirelessConductor");
 		tileEntities.put(TileEntitySuperconductorCable.class,
 		        "tileSuperconductor");
-		tileEntities.put(TileEntityMassInfuser.class, "tileMassInfuser");
 		tileEntities.put(TileEntityAdvancedMiner.class, "tileAdvMiner");
 		tileEntities.put(TileEntityMolecularHeater.class, "tileMolHeater");
 		tileEntities.put(TileEntityMulticoreSolarPanel.class, "tileMulticoreSolarPanel");

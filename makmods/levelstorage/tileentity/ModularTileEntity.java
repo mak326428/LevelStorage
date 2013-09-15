@@ -6,11 +6,11 @@ import ic2.api.tile.IEnergyStorage;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+
+import com.google.common.collect.Lists;
 
 public class ModularTileEntity extends TileEntity implements IEnergySink, IEnergyStorage, IEnergySource {
 

@@ -4,25 +4,31 @@ import ic2.api.item.Items;
 import ic2.api.recipe.RecipeInputItemStack;
 import ic2.api.recipe.RecipeInputOreDict;
 import ic2.api.recipe.Recipes;
-import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.ModAchievements;
 import makmods.levelstorage.ModFluids;
+import makmods.levelstorage.dimension.BiomeAntimatterField;
+import makmods.levelstorage.dimension.LSDimensions;
 import makmods.levelstorage.init.CompatibilityInitializer;
 import makmods.levelstorage.init.LocalizationInitializer;
 import makmods.levelstorage.init.ModTileEntities;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
+import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.registry.FlightRegistry;
 import makmods.levelstorage.registry.XPStackRegistry;
+import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer.PowerSyncRegistry;
+import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer.WChargerRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLLog;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -33,13 +39,15 @@ public class CommonProxy {
 
 	// public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
 
-	public static final int ARMOR_STORAGE = 8 * 1000 * 1000;
+	public static final int ARMOR_STORAGE = 40 * 1000 * 1000;
 	public static final int ENH_LAPPACK_STORAGE = 2000000;
 	public static int ARMOR_SUPERSONIC_RENDER_INDEX;
 	public static int ARMOR_ENHANCED_LAPPACK_RENDER_INDEX;
 	// Sorry for the dirty code, server didn't start without this
 	public static final String SUPERSONIC_DUMMY = "supersonic";
 	public static final String ENH_LAPPACK_DUMMY = "enhlapp";
+
+	public static BiomeAntimatterField biomeAntimatterField;
 
 	// Special exceptional items (like cross-mod compatiblity) will land here
 	// public static ItemUltimateWirelessAccessTerminal accessTerminal;
@@ -81,6 +89,18 @@ public class CommonProxy {
 		// UUM -> Osmium pile
 		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(0), "U U",
 				"UUU", "U U", Character.valueOf('U'), Items.getItem("matter"));
+
+		Recipes.advRecipes.addRecipe(
+				OreDictionary.getOres("itemAntimatterTinyPile").get(0), "ppp",
+				"ppp", "ppp", Character.valueOf('p'), "itemAntimatterMolecule");
+		Recipes.advRecipes.addRecipe(OreDictionary
+				.getOres("itemAntimatterGlob").get(0), "ppp", "ppp", "ppp",
+				Character.valueOf('p'), "itemAntimatterTinyPile");
+		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(7)
+				.copy(), " a ", "ana", " a ", Character.valueOf('a'),
+				SimpleItems.instance.getIngredient(10).copy(), Character
+						.valueOf('n'), new ItemStack(Item.netherStar).copy());
+
 	}
 
 	public int getArmorIndexFor(String forWhat) {
@@ -100,8 +120,14 @@ public class CommonProxy {
 		ModUniversalInitializer.instance.init();
 		ModTileEntities.instance.init();
 		ModFluids.instance.init();
+		LSDimensions.init();
+		biomeAntimatterField = new BiomeAntimatterField(
+				LevelStorage.configuration.get("dimension",
+						"biomeAntimatterFieldId", 40).getInt());
+		PowerSyncRegistry.instance = new PowerSyncRegistry();
+		WChargerRegistry.instance = new WChargerRegistry();
 		// TODO: reenable when ready
-		// ModAchievements.instance.init();
+		// 
 		FlightRegistry.instance = new FlightRegistry();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
 	}
@@ -109,12 +135,12 @@ public class CommonProxy {
 	public void postInit() {
 		XPStackRegistry.instance.initCriticalNodes();
 		XPStackRegistry.instance.printRegistry();
-
+		ModAchievements.instance.init();
 		LevelStorage.configuration.save();
 		CompatibilityInitializer.instance.init();
 		// TODO: move this to an external compat class
 		if (Loader.isModLoaded("gregtech_addon")) {
-			FMLLog.info("GregTech detected. Performing needed changes. (mostly nerfs.. you know the drill)");
+			LogHelper.severe("GregTech detected. Performing needed changes. (mostly nerfs.. you know the drill)");
 			LevelStorage.detectedGT = true;
 			XPStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}

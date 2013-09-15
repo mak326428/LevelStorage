@@ -4,6 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
+import ic2.api.util.Keys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,6 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.DrillEnhancementRecipe;
-import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.logic.util.AdvBlockFinder;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.NBTHelper;
@@ -151,7 +151,7 @@ public class ItemEnhancedDiamondDrill extends ItemPickaxe implements
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 	        EntityPlayer par3EntityPlayer) {
 		if (!par2World.isRemote) {
-			if (IC2Access.instance.isKeyDown("ModeSwitch", par3EntityPlayer)) {
+			if (Keys.instance.isModeSwitchKeyDown(par3EntityPlayer)) {
 				if (!Cooldownable.use(par1ItemStack, COOLDOWN))
 					return par1ItemStack;
 				// Unneeded really, but i'll keep it here

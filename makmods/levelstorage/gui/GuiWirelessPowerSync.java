@@ -4,7 +4,6 @@ import makmods.levelstorage.logic.util.RenderHelper;
 import makmods.levelstorage.network.PacketPressButton;
 import makmods.levelstorage.network.PacketTextChanged;
 import makmods.levelstorage.network.PacketTypeHandler;
-import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import net.minecraft.client.gui.GuiButton;

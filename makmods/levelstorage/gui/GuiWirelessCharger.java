@@ -1,7 +1,6 @@
 package makmods.levelstorage.gui;
 
 import makmods.levelstorage.logic.util.RenderHelper;
-import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 

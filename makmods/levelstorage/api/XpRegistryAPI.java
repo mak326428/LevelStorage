@@ -47,8 +47,8 @@ public class XpRegistryAPI {
 			return (ArrayList<XPStack>) f_XpStackRegistry_conversions
 			        .get(c_XpStackRegistry_instance);
 		} catch (Exception e) {
-			e.printStackTrace();
 			APIHelper.logFailure();
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -60,8 +60,8 @@ public class XpRegistryAPI {
 		try {
 			m_pushToRegistry.invoke(c_XpStackRegistry_instance, stack);
 		} catch (Exception e) {
-			e.printStackTrace();
 			APIHelper.logFailure();
+			e.printStackTrace();
 			return;
 		}
 	}
@@ -79,8 +79,8 @@ public class XpRegistryAPI {
 		try {
 			m_pushOreToRegistry.invoke(c_XpStackRegistry_instance, name, value);
 		} catch (Exception e) {
-			e.printStackTrace();
 			APIHelper.logFailure();
+			e.printStackTrace();
 			return;
 		}
 	}

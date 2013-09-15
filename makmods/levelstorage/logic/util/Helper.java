@@ -1,8 +1,11 @@
 package makmods.levelstorage.logic.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.dimension.LSDimensions;
 import makmods.levelstorage.registry.SyncType;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
@@ -12,6 +15,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
+import com.google.common.collect.Lists;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -66,6 +72,13 @@ public class Helper {
 	public static void messagePlayer(EntityPlayer player, String message) {
 		LevelStorage.proxy.messagePlayer(player, message, new Object[0]);
 	}
+	
+	public static <T> List<T> convertToList(T[] elements) {
+		ArrayList<T> list = Lists.newArrayList();
+		for (T element : elements)
+			list.add(element);
+		return list;
+	}
 
 	/**
 	 * Creates a EntityItem in the world with the given arguments
@@ -97,6 +110,8 @@ public class Helper {
 			return false;
 		else {
 			if (!world.isRemote) {
+				//WARNING
+				//player.travelToDimension(LSDimensions.ANTIMATTER_UNIVERSE_DIMENSION_ID);
 				TileEntity tile = world.getBlockTileEntity(x, y, z);
 				if (tile != null) {
 					player.openGui(LevelStorage.instance, 16384, world, x, y, z);

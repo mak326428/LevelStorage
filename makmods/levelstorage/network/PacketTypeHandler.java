@@ -11,14 +11,10 @@ import net.minecraft.network.packet.Packet250CustomPayload;
  * @author pahimar
  * 
  */
-// I just simply wanted to make it work, so i just simply copypasted everything
-// from ee3
-// also it's a very neat packet system, license permits it (if it does)
 public enum PacketTypeHandler {
 	PACKET_PRESS_BUTTON(PacketPressButton.class), PACKET_TEXT_CHANGED(
-	        PacketTextChanged.class), PACKET_PARTICLES(PacketParticles.class), PACKET_RECIPE_SELECTION(
-	        PacketRecipeSelection.class), PACKET_FLIGHT_UPDATE(
-	        PacketFlightUpdate.class), PACKET_TESLA_RAY(PacketTeslaRay.class);
+			PacketTextChanged.class), PACKET_PARTICLES(PacketParticles.class), PACKET_FLIGHT_UPDATE(
+			PacketFlightUpdate.class), PACKET_TESLA_RAY(PacketTeslaRay.class);
 
 	private Class<? extends PacketLV> clazz;
 

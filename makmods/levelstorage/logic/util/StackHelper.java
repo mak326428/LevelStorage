@@ -20,7 +20,7 @@ public final class StackHelper {
 			m_distrDrop = utilClass.getMethod("distributeDrop",
 			        TileEntity.class, List.class);
 		} catch (Exception e) {
-			FMLLog.severe("Something went wrong when tried to access IC2 Utils");
+			LogHelper.severe("Something went wrong when tried to access IC2 Utils");
 			e.printStackTrace();
 		}
 	}
@@ -29,7 +29,7 @@ public final class StackHelper {
 		try {
 			m_distrDrop.invoke(null, source, drops);
 		} catch (Exception e) {
-			FMLLog.severe("Something went wrong when tried to call distributeDrop()");
+			LogHelper.severe("Something went wrong when tried to call distributeDrop()");
 			e.printStackTrace();
 		}
 	}

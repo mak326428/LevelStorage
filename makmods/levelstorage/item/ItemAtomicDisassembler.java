@@ -2,7 +2,6 @@ package makmods.levelstorage.item;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
-import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
 import java.util.List;
@@ -40,14 +39,14 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemDestructor extends Item implements IElectricItem, IChargeable {
+public class ItemAtomicDisassembler extends Item implements IElectricItem, IChargeable {
 
 	public static final int TIER = 2;
 	public static final int STORAGE = 200000;
 	public static final int COOLDOWN_USE = 10;
 	public static final int ENERGY_USE_BASE = 80;
 
-	public ItemDestructor(int id) {
+	public ItemAtomicDisassembler(int id) {
 		super(id);
 
 		this.setMaxDamage(27);
@@ -93,7 +92,7 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 	        EntityLivingBase par3EntityLivingBase) {
 		// if (!LevelStorage.isSimulating()) {
 		if (DEAL_DAMAGE_TO_OTHERS) {
-			int energy = ENERGY_USE_BASE * 200; // ~16 thousand Eu
+			int energy = ENERGY_USE_BASE * 200; // ~16 thousand EU
 			if (ElectricItem.manager.canUse(par1ItemStack, energy)) {
 				ElectricItem.manager.use(par1ItemStack, energy,
 				        par3EntityLivingBase);
@@ -131,10 +130,6 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 
 	public void changeCharge(ItemStack itemStack, World world,
 	        EntityPlayer player) {
-		//if (player.inventory.getCurrentItem() == null)
-		//	return;
-		//if (!(player.inventory.getCurrentItem().getItem() instanceof ItemDestructor))
-		//	return;
 		if (player.inventory.getCurrentItem() != itemStack)
 			return;
 		int initialCharge = getChargeFor(itemStack);
@@ -404,7 +399,7 @@ public class ItemDestructor extends Item implements IElectricItem, IChargeable {
 
 	public static void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
-		        LSBlockItemList.itemDestructor), "cee", "ccd", "ccc", Character
+		        LSBlockItemList.itemAtomicDisassembler), "cee", "ccd", "ccc", Character
 		        .valueOf('c'), IC2Items.CARBON_PLATE, Character.valueOf('e'),
 		        IC2Items.ENERGY_CRYSTAL, Character.valueOf('d'), new ItemStack(
 		                LSBlockItemList.itemEnhDiamondDrill));

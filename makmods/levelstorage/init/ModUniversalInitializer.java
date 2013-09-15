@@ -3,17 +3,14 @@ package makmods.levelstorage.init;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.logging.Level;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
@@ -43,13 +40,13 @@ public class ModUniversalInitializer {
 			int id = 0;
 			if (c.getSimpleName().startsWith(BLOCK_PREFIX))
 				id = LevelStorage.configuration.getBlock(f.getName(),
-				        LevelStorage.getAndIncrementCurrId()).getInt();
+						LevelStorage.getAndIncrementCurrId()).getInt();
 			else if (c.getSimpleName().startsWith(ITEM_PREFIX))
 				id = LevelStorage.configuration.getItem(f.getName(),
-				        LevelStorage.getAndIncrementCurrId()).getInt();
+						LevelStorage.getAndIncrementCurrId()).getInt();
 			else
 				LogHelper
-				        .severe("object is neither item nor block. This is a bug!");
+						.severe("object is neither item nor block. This is a bug!");
 			Constructor con = c.getConstructor(int.class);
 			f.set(null, con.newInstance(id));
 			Object obj = f.get(null);
@@ -59,8 +56,7 @@ public class ModUniversalInitializer {
 				((Item) obj).setUnlocalizedName(f.getName());
 		} catch (ClassCastException e) {
 		} catch (Exception e) {
-			FMLLog.log(Level.SEVERE, Reference.MOD_NAME
-			        + ": failed to initialize block/item");
+			LogHelper.severe("failed to initialize block/item");
 			e.printStackTrace();
 		}
 	}
@@ -70,7 +66,7 @@ public class ModUniversalInitializer {
 			Object obj = f.get(null);
 			if (obj instanceof Block) {
 				LogHelper.info("Registering block " + f.getName()
-				        + " in GameRegistry");
+						+ " in GameRegistry");
 				Block currBlock = (Block) obj;
 				String name = f.getName();
 				GameRegistry.registerBlock(currBlock, name);
@@ -87,7 +83,7 @@ public class ModUniversalInitializer {
 	private void addRecipe(Field f) {
 		if (!Modifier.isPrivate(f.getModifiers())) {
 			Property p4 = LevelStorage.configuration.get(
-			        LevelStorage.RECIPES_CATEGORY, f.getName(), true);
+					LevelStorage.RECIPES_CATEGORY, f.getName(), true);
 			p4.comment = "Determines whether or not item's recipe is enabled";
 			boolean enable = p4.getBoolean(true);
 			if (enable) {
@@ -101,7 +97,7 @@ public class ModUniversalInitializer {
 				}
 			} else {
 				LogHelper.info(String.format(
-				        "Recipe disabled for: %s (config)", f.getName()));
+						"Recipe disabled for: %s (config)", f.getName()));
 			}
 
 		}
@@ -112,7 +108,7 @@ public class ModUniversalInitializer {
 			Object obj = f.get(null);
 			if (obj instanceof Block) {
 				LogHelper.info("Setting harvest level for block: "
-				        + f.getName());
+						+ f.getName());
 				MinecraftForge.setBlockHarvestLevel((Block) obj, "pickaxe", 1);
 			}
 		} catch (ClassCastException e) {

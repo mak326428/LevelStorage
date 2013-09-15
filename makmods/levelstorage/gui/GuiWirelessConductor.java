@@ -3,7 +3,6 @@ package makmods.levelstorage.gui;
 import makmods.levelstorage.logic.util.RenderHelper;
 import makmods.levelstorage.network.PacketPressButton;
 import makmods.levelstorage.network.PacketTypeHandler;
-import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.gui.GuiButton;

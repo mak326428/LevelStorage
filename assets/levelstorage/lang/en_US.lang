@@ -9,6 +9,8 @@ tile.blockAdvMiner.name=Advanced Miner
 tile.blockMolHeater.name=Molecular Heater
 tile.blockAtomicReplicator.name=Atomic Replicator
 tile.blockMulticoreSolarPanel.name=Multicore Solar Panel
+tile.blockAntimatterStone.name=Antimatter Stone
+tile.blockAntimatterBomb.name=Antimatter Bomb
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Tiny pile of Osmium Dust
 dustOsmium.name=Osmium Dust
@@ -18,6 +20,11 @@ ingotOsmium.name=Osmium Ingot
 ingotIridium.name=Iridium Ingot
 itemUltimateCircuit.name=Ultimate Circuit
 itemEnergizedStar.name=Energized Nether Star
+itemAntimatterMolecule.name=Antimatter Molecule
+itemAntimatterTinyPile.name=Tiny Pile of Antimatter
+itemAntimatterGlob.name=Antimatter Glob
+# dimension
+dimension.antimatterUniverse.name=Antimatter Universe
 # items
 item.itemLevelStorageBook.name=XP Tome
 item.itemAdvScanner.name=Advanced OV-Scanner
@@ -41,6 +48,7 @@ item.itemDestructor.name=Atomic Disassembler
 item.itemEnhLappack.name=Enhanced Lappack
 item.itemRemoteAccessor.name=Remote Accessor
 item.itemCapFluidCell.name=Capacious Fluid Cell
+item.itemElectricLighter.name=Electric Lighter
 #others
 other.frequency=Frequency
 other.true=yes

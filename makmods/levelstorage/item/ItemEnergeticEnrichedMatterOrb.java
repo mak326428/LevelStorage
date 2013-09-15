@@ -23,8 +23,8 @@ public class ItemEnergeticEnrichedMatterOrb extends Item implements
         IElectricItem {
 
 	// I WANT 4!
-	public static final int TIER = 3;
-	public static final int STORAGE = 4 * 1000 * 1000;
+	public static final int TIER = 4;
+	public static final int STORAGE = 80 * 1000 * 1000;
 
 	public ItemEnergeticEnrichedMatterOrb(int id) {
 		super(id);

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import makmods.levelstorage.api.XPStack;
-import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.logic.util.LogHelper;
-import makmods.levelstorage.logic.uumsystem.UUMRecipeParser;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -49,8 +47,8 @@ public class CraftingRecipesParser implements ISimpleRecipeParser {
 					continue;
 				for (XPStack stack : XPStackRegistry.instance.entries) {
 					if (stack.stack.itemID == inputStack.itemID
-					        && stack.stack.getItemDamage() == inputStack
-					                .getItemDamage()) {
+							&& stack.stack.getItemDamage() == inputStack
+									.getItemDamage()) {
 						valueHere += stack.value;
 					}
 				}
@@ -64,7 +62,7 @@ public class CraftingRecipesParser implements ISimpleRecipeParser {
 				boolean foundAlready = false;
 				for (XPStack stack : XPStackRegistry.instance.entries) {
 					if (stack.stack.itemID == output.itemID
-					        && stack.stack.itemID == output.itemID) {
+							&& stack.stack.itemID == output.itemID) {
 						foundAlready = true;
 					}
 				}
@@ -72,11 +70,9 @@ public class CraftingRecipesParser implements ISimpleRecipeParser {
 					ItemStack toReg = output.copy();
 					toReg.stackSize = 1;
 					int v = (int) Math.floor(currValue / output.stackSize);
-					System.out
-					        .println(Helper.getNiceStackName(toReg) + " " + v);
 					if (v > 0) {
 						XPStackRegistry.instance.pushToRegistry(new XPStack(
-						        toReg, v));
+								toReg, v));
 						parsed += 1;
 					}
 				}
@@ -87,11 +83,11 @@ public class CraftingRecipesParser implements ISimpleRecipeParser {
 
 	private List<IRecipe> getRecipes() {
 		IRecipe[] recipes = (IRecipe[]) CraftingManager
-		        .getInstance()
-		        .getRecipeList()
-		        .toArray(
-		                new IRecipe[CraftingManager.getInstance()
-		                        .getRecipeList().size()]);
+				.getInstance()
+				.getRecipeList()
+				.toArray(
+						new IRecipe[CraftingManager.getInstance()
+								.getRecipeList().size()]);
 		List<IRecipe> retRecipes = Lists.newArrayList();
 		for (IRecipe recipe : recipes)
 			retRecipes.add(recipe);
@@ -114,12 +110,10 @@ public class CraftingRecipesParser implements ISimpleRecipeParser {
 					list.add(((ItemStack) stack).copy());
 				}
 			}
-		} else if (recipe.getClass().getName()
-		        .equals(UUMRecipeParser.ADV_RECIPE_CLASS)) {
+		} else if (recipe.getClass().getName().equals(ADV_RECIPE_CLASS)) {
 			try {
 				Class advRecipeClass = recipe.getClass();
-				Field fIn = advRecipeClass
-				        .getField(UUMRecipeParser.INPUT_FIELD);
+				Field fIn = advRecipeClass.getField(INPUT_FIELD);
 				Object[] inputs = (Object[]) fIn.get(recipe);
 				for (Object obj : inputs)
 					if (obj instanceof ItemStack) {
@@ -127,17 +121,21 @@ public class CraftingRecipesParser implements ISimpleRecipeParser {
 						list.add((ItemStack) obj);
 					} else if (obj instanceof String) {
 						// OREDICT
-						List<ItemStack> ores = OreDictionary.getOres(
-						        (String) obj);
+						List<ItemStack> ores = OreDictionary
+								.getOres((String) obj);
 						if (ores.size() > 0)
 							list.add(ores.get(0));
 					}
 			} catch (Exception e) {
-				LogHelper.severe("Failure on trying to parse AdvRecipe");
+				LogHelper.severe("Failed to parse AdvRecipe");
 				e.printStackTrace();
 			}
 		}
 		return list;
 	}
+
+	public static final String ADV_RECIPE_CLASS = "ic2.core.AdvRecipe";
+	public static final String OUTPUT_FIELD = "output";
+	public static final String INPUT_FIELD = "input";
 
 }

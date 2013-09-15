@@ -1,6 +1,7 @@
 package makmods.levelstorage.armor;
 
 import ic2.api.item.ElectricItem;
+import ic2.api.util.Keys;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +11,6 @@ import java.util.Random;
 import makmods.levelstorage.api.BootsFlyingEvent;
 import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate.WearType;
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.logic.IC2Access;
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.network.PacketTeslaRay;
@@ -72,7 +72,7 @@ public class ArmorFunctions {
 				if (stack != null) {
 					if (stack.getItem() instanceof IForcefieldChestplate) {
 						if (((IForcefieldChestplate) stack.getItem())
-						        .getWearType() == WearType.INVENTORY)
+								.getWearType() == WearType.INVENTORY)
 							return stack;
 					}
 				}
@@ -81,7 +81,7 @@ public class ArmorFunctions {
 				if (stack != null) {
 					if (stack.getItem() instanceof IForcefieldChestplate) {
 						if (((IForcefieldChestplate) stack.getItem())
-						        .getWearType() == WearType.ARMOR)
+								.getWearType() == WearType.ARMOR)
 							return stack;
 					}
 				}
@@ -100,32 +100,32 @@ public class ArmorFunctions {
 					ItemStack armor = playerGetItem(p);
 					if (armor != null) {
 						double newPosX = event.entityLiving.posX
-						        + event.entityLiving.motionX;
+								+ event.entityLiving.motionX;
 						double newPosY = event.entityLiving.posY
-						        + event.entityLiving.motionY;
+								+ event.entityLiving.motionY;
 						double newPosZ = event.entityLiving.posZ
-						        + event.entityLiving.motionZ;
+								+ event.entityLiving.motionZ;
 
 						double distanceX = Math.abs(p.posX - newPosX);
 						double distanceY = Math.abs(p.posY - newPosY);
 						double distanceZ = Math.abs(p.posZ - newPosZ);
 						double totalDistance = distanceX + distanceY
-						        + distanceZ;
-						// if (totalDistance > ENTITY_MAX_DISTANCE) {
-						if (totalDistance < ENTITY_MAX_DISTANCE) {
-							if (ElectricItem.manager.canUse(armor,
-							        ((IForcefieldChestplate) armor.getItem())
-							                .energyPerTick())) {
-								if (event.entityLiving instanceof EntityMob) {
-									event.entityLiving
-									        .attackEntityFrom(
-									                LSDamageSource.forcefieldArmorInstaKill,
-									                40);
-									ElectricItem.manager
-									        .use(armor,
-									                ((IForcefieldChestplate) armor
-									                        .getItem())
-									                        .energyPerTick(), p);
+								+ distanceZ;
+						if (totalDistance > ENTITY_MAX_DISTANCE) {
+							if (totalDistance < ENTITY_MAX_DISTANCE) {
+								if (ElectricItem.manager.canUse(armor,
+										((IForcefieldChestplate) armor
+												.getItem()).energyPerTick())) {
+									if (event.entityLiving instanceof EntityMob) {
+										event.entityLiving
+												.attackEntityFrom(
+														LSDamageSource.forcefieldArmorInstaKill,
+														40);
+										ElectricItem.manager.use(armor,
+												((IForcefieldChestplate) armor
+														.getItem())
+														.energyPerTick(), p);
+									}
 								}
 							}
 						}
@@ -136,28 +136,29 @@ public class ArmorFunctions {
 	}
 
 	public static void extinguish(EntityPlayer ep, World w) {
-		if (!w.isRemote)
-			ep.extinguish();
+		if (!w.isRemote) {
+		}
+		ep.extinguish();
 	}
 
 	public static MovingObjectPosition getMovingObjectPositionFromPlayer(
-	        World par1World, EntityPlayer par2EntityPlayer, boolean par3) {
+			World par1World, EntityPlayer par2EntityPlayer, boolean par3) {
 		float var4 = 1.0F;
 		float var5 = par2EntityPlayer.prevRotationPitch
-		        + (par2EntityPlayer.rotationPitch - par2EntityPlayer.prevRotationPitch)
-		        * var4;
+				+ (par2EntityPlayer.rotationPitch - par2EntityPlayer.prevRotationPitch)
+				* var4;
 		float var6 = par2EntityPlayer.prevRotationYaw
-		        + (par2EntityPlayer.rotationYaw - par2EntityPlayer.prevRotationYaw)
-		        * var4;
+				+ (par2EntityPlayer.rotationYaw - par2EntityPlayer.prevRotationYaw)
+				* var4;
 		double var7 = par2EntityPlayer.prevPosX
-		        + (par2EntityPlayer.posX - par2EntityPlayer.prevPosX) * var4;
+				+ (par2EntityPlayer.posX - par2EntityPlayer.prevPosX) * var4;
 		double var9 = par2EntityPlayer.prevPosY
-		        + (par2EntityPlayer.posY - par2EntityPlayer.prevPosY) * var4
-		        + 1.62D - par2EntityPlayer.yOffset;
+				+ (par2EntityPlayer.posY - par2EntityPlayer.prevPosY) * var4
+				+ 1.62D - par2EntityPlayer.yOffset;
 		double var11 = par2EntityPlayer.prevPosZ
-		        + (par2EntityPlayer.posZ - par2EntityPlayer.prevPosZ) * var4;
+				+ (par2EntityPlayer.posZ - par2EntityPlayer.prevPosZ) * var4;
 		Vec3 var13 = par1World.getWorldVec3Pool().getVecFromPool(var7, var9,
-		        var11);
+				var11);
 		float var14 = MathHelper.cos(-var6 * 0.017453292F - (float) Math.PI);
 		float var15 = MathHelper.sin(-var6 * 0.017453292F - (float) Math.PI);
 		float var16 = -MathHelper.cos(-var5 * 0.017453292F);
@@ -166,7 +167,7 @@ public class ArmorFunctions {
 		float var20 = var14 * var16;
 		double var21 = 128.0D;
 		Vec3 var23 = var13.addVector(var18 * var21, var17 * var21, var20
-		        * var21);
+				* var21);
 		return par1World.rayTraceBlocks_do_do(var13, var23, par3, !par3);
 	}
 
@@ -174,22 +175,22 @@ public class ArmorFunctions {
 
 	static {
 		potionRemovalCost.put(Integer.valueOf(Potion.poison.id),
-		        Integer.valueOf(10000));
+				Integer.valueOf(10000));
 		potionRemovalCost.put(Integer.valueOf(Potion.wither.id),
-		        Integer.valueOf(25000));
+				Integer.valueOf(25000));
 	}
 
 	public static void helmetFunctions(World world, EntityPlayer player,
-	        ItemStack itemStack, int RAY_COST, int ENTITY_HIT_COST,
-	        int FOOD_COST) {
+			ItemStack itemStack, int RAY_COST, int ENTITY_HIT_COST,
+			int FOOD_COST) {
 		if (LSKeyboard.getInstance().isKeyDown(player,
-		        LSKeyboard.RAY_SHOOT_KEY_NAME)) {
+				LSKeyboard.RAY_SHOOT_KEY_NAME)) {
 			if (ElectricItem.manager.canUse(itemStack, RAY_COST)) {
 				if (!world.isRemote)
 					ElectricItem.manager.use(itemStack, RAY_COST, player);
 				int x = 0, y = 0, z = 0;
 				MovingObjectPosition mop = getMovingObjectPositionFromPlayer(
-				        world, player, true);
+						world, player, true);
 				if (mop != null && mop.typeOfHit == EnumMovingObjectType.TILE) {
 					float xOff = (float) (mop.blockX - player.posX);
 					float yOff = (float) (mop.blockY - player.posY);
@@ -209,18 +210,18 @@ public class ArmorFunctions {
 						packet.tY = y;
 						packet.tZ = z;
 						PacketDispatcher.sendPacketToAllAround(player.posX,
-						        player.posY, player.posZ, 128.0F,
-						        world.provider.dimensionId,
-						        PacketTypeHandler.populatePacket(packet));
+								player.posY, player.posZ, 128.0F,
+								world.provider.dimensionId,
+								PacketTypeHandler.populatePacket(packet));
 						ArrayList<Object> entities = new ArrayList<Object>();
 						for (Object e : world.loadedEntityList) {
 							if (!(e instanceof EntityPlayer)) {
 								double distanceX = Math.abs(((Entity) e).posX
-								        - x);
+										- x);
 								double distanceY = Math.abs(((Entity) e).posY
-								        - y);
+										- y);
 								double distanceZ = Math.abs(((Entity) e).posZ
-								        - z);
+										- z);
 								if ((distanceX + distanceY + distanceZ) < 4.0F) {
 									entities.add(e);
 								}
@@ -229,21 +230,21 @@ public class ArmorFunctions {
 						if (entities.size() == 0) {
 							if (new Random().nextBoolean()) {
 								if (ElectricItem.manager.canUse(itemStack,
-								        ENTITY_HIT_COST)) {
+										ENTITY_HIT_COST)) {
 									ElectricItem.manager.use(itemStack,
-									        ENTITY_HIT_COST, player);
+											ENTITY_HIT_COST, player);
 									Helper.spawnLightning(world, x, y, z, false);
 								}
 							}
 						}
 						for (Object obj : entities) {
 							if (ElectricItem.manager.canUse(itemStack,
-							        ENTITY_HIT_COST)) {
+									ENTITY_HIT_COST)) {
 								ElectricItem.manager.use(itemStack,
-								        ENTITY_HIT_COST, player);
+										ENTITY_HIT_COST, player);
 								((Entity) obj).attackEntityFrom(
-								        LSDamageSource.teslaRay,
-								        20 + new Random().nextInt(15));
+										LSDamageSource.teslaRay,
+										20 + new Random().nextInt(15));
 							}
 
 						}
@@ -262,20 +263,20 @@ public class ArmorFunctions {
 				player.setAir(200);
 			}
 			LinkedList<PotionEffect> lk = new LinkedList(
-			        player.getActivePotionEffects());
+					player.getActivePotionEffects());
 			for (PotionEffect effect : lk) {
 				int id = effect.getPotionID();
 
 				Integer cost = (Integer) potionRemovalCost.get(Integer
-				        .valueOf(id));
+						.valueOf(id));
 
 				if (cost != null) {
 					cost = Integer.valueOf(cost.intValue()
-					        * (effect.getAmplifier() + 1));
+							* (effect.getAmplifier() + 1));
 
 					if (ElectricItem.manager.canUse(itemStack, cost.intValue())) {
 						ElectricItem.manager.use(itemStack, cost.intValue(),
-						        null);
+								null);
 						player.removePotionEffect(id);
 					}
 				}
@@ -288,10 +289,10 @@ public class ArmorFunctions {
 			speedTickerMap.put(player, 0);
 		float speed = 0.66F;
 		if ((ElectricItem.manager.canUse(itemStack, 1000))
-		        && ((player.onGround) || (player.isInWater()))
-		        && (player.isSprinting())) {
+				&& ((player.onGround) || (player.isInWater()))
+				&& (player.isSprinting())) {
 			int speedTicker = speedTickerMap.containsKey(player) ? ((Integer) speedTickerMap
-			        .get(player)).intValue() : 0;
+					.get(player)).intValue() : 0;
 			speedTicker++;
 
 			if (speedTicker >= 10) {
@@ -303,7 +304,7 @@ public class ArmorFunctions {
 
 			if (player.isInWater()) {
 				speed = 0.1F;
-				if (IC2Access.instance.isKeyDown("Jump", player))
+				if (Keys.instance.isJumpKeyDown(player))
 					player.motionY += 0.1000000014901161D;
 			}
 
@@ -313,31 +314,31 @@ public class ArmorFunctions {
 	}
 
 	public static void jumpBooster(World world, EntityPlayer player,
-	        ItemStack itemStack) {
-		boolean boostKey = IC2Access.instance.isKeyDown("Boost", player);
+			ItemStack itemStack) {
+		boolean boostKey = Keys.instance.isBoostKeyDown(player);
 
 		if (!onGroundMap.containsKey(player))
 			onGroundMap.put(player, true);
 		if (!world.isRemote) {
 			boolean wasOnGround = onGroundMap.containsKey(player) ? ((Boolean) onGroundMap
-			        .get(player)).booleanValue() : true;
+					.get(player)).booleanValue() : true;
 
 			if ((wasOnGround) && (!player.onGround)
-			        && (IC2Access.instance.isKeyDown("Jump", player))
-			        && (IC2Access.instance.isKeyDown("Boost", player))) {
+					&& (Keys.instance.isJumpKeyDown(player))
+					&& (Keys.instance.isBoostKeyDown(player))) {
 				ElectricItem.manager.use(itemStack, 4000, null);
 			}
 			onGroundMap.remove(player);
 			onGroundMap.put(player, Boolean.valueOf(player.onGround));
 		} else {
 			if ((ElectricItem.manager.canUse(itemStack, 4000))
-			        && (player.onGround))
+					&& (player.onGround))
 				jumpCharge = 2.0F;
 
 			if ((player.motionY >= 0.0D) && (jumpCharge > 0.0F)
-			        && (!player.isInWater())) {
-				if ((IC2Access.instance.isKeyDown("Jump", player) && (IC2Access.instance
-				        .isKeyDown("Boost", player)))) {
+					&& (!player.isInWater())) {
+				if ((Keys.instance.isJumpKeyDown(player) && (Keys.instance
+						.isBoostKeyDown(player)))) {
 					if (jumpCharge == 2.0F) {
 						player.motionX *= 5.0D;
 						player.motionZ *= 5.0D;
@@ -355,14 +356,14 @@ public class ArmorFunctions {
 	}
 
 	public static void fly(int energy, EntityPlayer player,
-	        ItemStack itemStack, World world) {
+			ItemStack itemStack, World world) {
 		if (ElectricItem.manager.canUse(itemStack, energy)) {
 			FlightRegistry.instance.modEnabledFlights.clear();
 			FlightRegistry.instance.modEnabledFlights.put(Reference.MOD_ID,
-			        new Flight(player, true));
+					new Flight(player, true));
 			player.capabilities.allowFlying = true;
 			if (player.capabilities.isFlying) {
-				if (IC2Access.instance.isKeyDown("Boost", player)) {
+				if (Keys.instance.isBoostKeyDown(player)) {
 					float boost = 0.44f;
 					player.moveFlying(0.0F, 1.0F, boost);
 					if (!world.isRemote) {
@@ -374,14 +375,14 @@ public class ArmorFunctions {
 						ElectricItem.manager.use(itemStack, energy, player);
 
 						MinecraftForge.EVENT_BUS.post(new BootsFlyingEvent(
-						        player, itemStack));
+								player, itemStack));
 					}
 				}
 			}
 		} else {
 			FlightRegistry.instance.modEnabledFlights.clear();
 			FlightRegistry.instance.modEnabledFlights.put(Reference.MOD_ID,
-			        new Flight(player, false));
+					new Flight(player, false));
 		}
 	}
 

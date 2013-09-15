@@ -29,6 +29,4 @@ public class XPRegistryHandler implements IContainerTooltipHandler {
 		}
 	    return tip;
     }
-
-
 }

@@ -36,7 +36,7 @@ public class ItemQuantumRing extends Item implements IElectricItem,
         IForcefieldChestplate {
 
 	public static final int TIER = 3;
-	public static final int STORAGE = 8 * 1000 * 1000;
+	public static final int STORAGE = 320 * 1000 * 1000;
 	// Energy per 1 damage
 	public static final int ENERGY_PER_DAMAGE = 400;
 

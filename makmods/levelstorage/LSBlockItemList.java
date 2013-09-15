@@ -6,6 +6,7 @@ import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.block.BlockAdvancedMiner;
+import makmods.levelstorage.block.BlockAntimatterStone;
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockMolecularHeater;
 import makmods.levelstorage.block.BlockMulticoreSolarPanel;
@@ -15,8 +16,8 @@ import makmods.levelstorage.block.BlockXpCharger;
 import makmods.levelstorage.block.BlockXpGenerator;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.ItemAdvancedScanner;
-import makmods.levelstorage.item.ItemCapaciousFluidCell;
-import makmods.levelstorage.item.ItemDestructor;
+import makmods.levelstorage.item.ItemAtomicDisassembler;
+import makmods.levelstorage.item.ItemElectricLighter;
 import makmods.levelstorage.item.ItemElectricMagnet;
 import makmods.levelstorage.item.ItemElectricSickle;
 import makmods.levelstorage.item.ItemEnergeticEnrichedMatterOrb;
@@ -47,10 +48,10 @@ public class LSBlockItemList {
 	public static BlockWirelessConductor blockWlessConductor;
 	public static BlockWirelessPowerSynchronizer blockWlessPowerSync;
 	public static BlockCableSuperconductor blockSuperconductor;
-	// public static BlockMassInfuser blockMassInfuser;
 	public static BlockAdvancedMiner blockAdvMiner;
 	public static BlockMolecularHeater blockMolHeater;
 	public static BlockMulticoreSolarPanel blockMulticoreSolarPanel;
+	public static BlockAntimatterStone blockAntimatterStone;
 
 	// Items
 	public static ItemLevelStorageBook itemLevelStorageBook;
@@ -71,8 +72,8 @@ public class LSBlockItemList {
 	public static ItemTimeAccelerator itemTimeAccelerator;
 	public static ItemQuantumRing itemQuantumRing;
 	public static ItemElectricMagnet itemElectricMagnet;
-	public static ItemDestructor itemDestructor;
+	public static ItemAtomicDisassembler itemAtomicDisassembler;
 	public static ItemArmorEnhancedLappack itemEnhLappack;
 	public static ItemRemoteAccessor itemRemoteAccessor;
-	public static ItemCapaciousFluidCell itemCapFluidCell;
+	public static ItemElectricLighter itemElectricLighter;
 }

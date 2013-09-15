@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 
+import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.tileentity.IHasTextBoxes;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
@@ -64,8 +65,7 @@ public class PacketTextChanged extends PacketLV {
 				}
 			}
 		} catch (Exception e) {
-			FMLLog.log(Level.SEVERE,
-			        "LevelStorage: PacketPressButton - exception:");
+			LogHelper.severe("LevelStorage: PacketPressButton - exception:");
 			e.printStackTrace();
 		}
 	}

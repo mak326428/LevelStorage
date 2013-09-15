@@ -39,8 +39,7 @@ public class ModAchievements {
 		        "Rays, rays everywhere!");
 		LanguageRegistry.instance().addStringLocalization(
 		        "achievement.tesla.desc", "Craft a tesla helmet.");
-		LEVEL_STORAGE_ACHIEVEMENT_PAGE = new AchievementPage("LevelStorage",
-		        craftHelmet);
+		LEVEL_STORAGE_ACHIEVEMENT_PAGE = new AchievementPage("LevelStorage");
 		AchievementPage.registerAchievementPage(LEVEL_STORAGE_ACHIEVEMENT_PAGE);
 	}
 }
