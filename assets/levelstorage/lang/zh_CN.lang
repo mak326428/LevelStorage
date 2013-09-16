@@ -11,6 +11,8 @@ tile.blockAdvMiner.name=高级采矿机
 tile.blockMolHeater.name=分子加热器
 tile.blockAtomicReplicator.name=原子复制机
 tile.blockMulticoreSolarPanel.name=多核太阳能板
+tile.blockAntimatterStone.name=反物质石头
+tile.blockAntimatterBomb.name=反物质炸弹
 # simple items (crafting ingredients)
 dustTinyOsmium.name=小撮锇粉
 dustOsmium.name=锇粉
@@ -20,6 +22,11 @@ ingotOsmium.name=锇锭
 ingotIridium.name=铱锭
 itemUltimateCircuit.name=终极电路板
 itemEnergizedStar.name=充能下界之星
+itemAntimatterMolecule.name=反物质分子
+itemAntimatterTinyPile.name=小撮反物质
+itemAntimatterGlob.name=反物质液滴
+# dimension
+dimension.antimatterUniverse.name=反物质宇宙
 # items
 item.itemLevelStorageBook.name=XP书
 item.itemAdvScanner.name=高级矿物扫描仪
@@ -43,6 +50,7 @@ item.itemDestructor.name=原子分解机
 item.itemEnhLappack.name=强化兰波顿背包
 item.itemRemoteAccessor.name=远程访问器
 item.itemCapFluidCell.name=高容流体单元
+item.itemElectricLighter.name=手电筒
 #others
 other.frequency=频率
 other.true=是
