@@ -9,6 +9,8 @@ tile.blockAdvMiner.name=Fortgeschrittene Bergbaumaschine
 tile.blockMolHeater.name=Molekularheizgerät
 tile.blockAtomicReplicator.name=Atomarer Replikator
 tile.blockMulticoreSolarPanel.name=Multicore-Solarmodul
+tile.blockAntimatterStone.name=Antimaterien-Stein
+tile.blockAntimatterBomb.name=Antimaterien-Bombe
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Kleines Häufchen Osmiumstaub
 dustOsmium.name=Osmiumstaub
@@ -18,6 +20,11 @@ ingotOsmium.name=Osmiumbarren
 ingotIridium.name=Iridiumbarren
 itemUltimateCircuit.name=Ultimativer Schaltkreis
 itemEnergizedStar.name=Aufgeladener Netherstern
+itemAntimatterMolecule.name=Antimaterien-Molekül
+itemAntimatterTinyPile.name=Kleines Häufchen Antimaterie
+itemAntimatterGlob.name=Antimaterien-Klumpen
+# dimension
+dimension.antimatterUniverse.name=Antimaterien-Universum
 # items
 item.itemLevelStorageBook.name=XP-Buch
 item.itemAdvScanner.name=Fortgeschrittener OV-Scanner
@@ -41,10 +48,12 @@ item.itemDestructor.name=Atomarer Disassembler
 item.itemEnhLappack.name=Verbessertes Lappack
 item.itemRemoteAccessor.name=Fernzugriffsgerät
 item.itemCapFluidCell.name=Geräumige Flüssigkeitszelle
+item.itemElectricLighter.name=Elektrisches Feuerzeug
 #others
 other.frequency=Frequenz
 other.true=Ja
 other.false=Nein
+other.wip=[WIP]
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
 # death messages
