@@ -10,7 +10,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
@@ -43,7 +43,7 @@ public class ItemArmorEnhancedLappack extends ItemArmor implements
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 	}

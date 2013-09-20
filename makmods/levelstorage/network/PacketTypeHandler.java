@@ -13,23 +13,24 @@ import net.minecraft.network.packet.Packet250CustomPayload;
  */
 public enum PacketTypeHandler {
 	PACKET_PRESS_BUTTON(PacketPressButton.class), PACKET_TEXT_CHANGED(
-			PacketTextChanged.class), PACKET_PARTICLES(PacketParticles.class), PACKET_FLIGHT_UPDATE(
-			PacketFlightUpdate.class), PACKET_TESLA_RAY(PacketTeslaRay.class);
+			PacketTextChanged.class), PACKET_PARTICLE(PacketParticle.class), PACKET_FLIGHT_UPDATE(
+			PacketFlightUpdate.class), PACKET_TESLA_RAY(PacketTeslaRay.class), PACKET_PARTICLES(
+			PacketParticles.class);
 
-	private Class<? extends PacketLV> clazz;
+	private Class<? extends PacketLS> clazz;
 
-	PacketTypeHandler(Class<? extends PacketLV> clazz) {
+	PacketTypeHandler(Class<? extends PacketLS> clazz) {
 
 		this.clazz = clazz;
 	}
 
-	public static PacketLV buildPacket(byte[] data) {
+	public static PacketLS buildPacket(byte[] data) {
 
 		ByteArrayInputStream bis = new ByteArrayInputStream(data);
 		int selector = bis.read();
 		DataInputStream dis = new DataInputStream(bis);
 
-		PacketLV packet = null;
+		PacketLS packet = null;
 
 		try {
 			packet = values()[selector].clazz.newInstance();
@@ -42,9 +43,9 @@ public enum PacketTypeHandler {
 		return packet;
 	}
 
-	public static PacketLV buildPacket(PacketTypeHandler type) {
+	public static PacketLS buildPacket(PacketTypeHandler type) {
 
-		PacketLV packet = null;
+		PacketLS packet = null;
 
 		try {
 			packet = values()[type.ordinal()].clazz.newInstance();
@@ -55,7 +56,7 @@ public enum PacketTypeHandler {
 		return packet;
 	}
 
-	public static Packet populatePacket(PacketLV packetLV) {
+	public static Packet populatePacket(PacketLS packetLV) {
 
 		byte[] data = packetLV.populate();
 

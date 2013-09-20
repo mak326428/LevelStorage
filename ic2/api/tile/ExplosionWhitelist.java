@@ -1,7 +1,6 @@
 package ic2.api.tile;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import net.minecraft.block.Block;
 

@@ -8,7 +8,7 @@ import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -38,7 +38,7 @@ public class BlockMolecularHeater extends BlockContainer {
 	public BlockMolecularHeater(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);

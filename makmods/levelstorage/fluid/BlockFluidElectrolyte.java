@@ -1,7 +1,7 @@
 package makmods.levelstorage.fluid;
 
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModFluids;
+import makmods.levelstorage.init.ModFluids;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;

@@ -81,7 +81,6 @@ public class TileEntityMolecularHeater extends TileEntityBasicMachine implements
 		itemStack.stackSize -= 1;
 		if (itemStack.stackSize <= 0)
 			this.setInventorySlotContents(8, null);
-
 		return energyValue;
 	}
 

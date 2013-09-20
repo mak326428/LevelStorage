@@ -6,7 +6,7 @@ import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.block.Block;
@@ -32,7 +32,7 @@ public class BlockXpCharger extends BlockContainer {
 	public BlockXpCharger(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		this.setStepSound(Block.soundMetalFootstep);
 		this.setHardness(3.0F);

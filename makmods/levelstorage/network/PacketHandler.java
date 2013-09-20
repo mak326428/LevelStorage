@@ -32,9 +32,9 @@ public class PacketHandler implements IPacketHandler {
 			}
 			return;
 		} else if (packet.channel.equals(Reference.CUSTOM_PACKET_CHANNEL)) {
-			// TODO: add custom packet handling
+			
 		} else {
-			PacketLV packetEE = PacketTypeHandler.buildPacket(packet.data);
+			PacketLS packetEE = PacketTypeHandler.buildPacket(packet.data);
 			packetEE.execute(manager, player);
 		}
 	}

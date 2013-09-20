@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import cpw.mods.fml.common.network.Player;
 
-public class PacketFlightUpdate extends PacketLV {
+public class PacketFlightUpdate extends PacketLS {
 
 	public boolean allowFlying;
 	public boolean isFlying;

@@ -12,12 +12,12 @@ import cpw.mods.fml.common.network.Player;
  * @author pahimar
  * 
  */
-public class PacketLV {
+public class PacketLS {
 
 	public PacketTypeHandler packetType;
 	public boolean isChunkDataPacket;
 
-	public PacketLV(PacketTypeHandler packetType, boolean isChunkDataPacket) {
+	public PacketLS(PacketTypeHandler packetType, boolean isChunkDataPacket) {
 
 		this.packetType = packetType;
 		this.isChunkDataPacket = isChunkDataPacket;

@@ -10,6 +10,7 @@ import makmods.levelstorage.block.BlockAntimatterStone;
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockMolecularHeater;
 import makmods.levelstorage.block.BlockMulticoreSolarPanel;
+import makmods.levelstorage.block.BlockParticleAccelerator;
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
 import makmods.levelstorage.block.BlockXpCharger;
@@ -42,7 +43,6 @@ import makmods.levelstorage.item.ItemWirelessCharger;
  * 
  */
 public class LSBlockItemList {
-	// Blocks
 	public static BlockXpGenerator blockXpGen;
 	public static BlockXpCharger blockXpCharger;
 	public static BlockWirelessConductor blockWlessConductor;
@@ -52,8 +52,6 @@ public class LSBlockItemList {
 	public static BlockMolecularHeater blockMolHeater;
 	public static BlockMulticoreSolarPanel blockMulticoreSolarPanel;
 	public static BlockAntimatterStone blockAntimatterStone;
-
-	// Items
 	public static ItemLevelStorageBook itemLevelStorageBook;
 	public static ItemAdvancedScanner itemAdvScanner;
 	public static ItemFrequencyCard itemFreqCard;
@@ -76,4 +74,5 @@ public class LSBlockItemList {
 	public static ItemArmorEnhancedLappack itemEnhLappack;
 	public static ItemRemoteAccessor itemRemoteAccessor;
 	public static ItemElectricLighter itemElectricLighter;
+	public static BlockParticleAccelerator blockParticleAccelerator;
 }

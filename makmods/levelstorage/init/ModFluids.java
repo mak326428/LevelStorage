@@ -1,4 +1,4 @@
-package makmods.levelstorage;
+package makmods.levelstorage.init;
 
 import makmods.levelstorage.fluid.BlockFluidElectrolyte;
 import makmods.levelstorage.fluid.FluidElectrolyte;

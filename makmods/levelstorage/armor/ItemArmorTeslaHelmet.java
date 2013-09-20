@@ -9,7 +9,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -50,7 +50,7 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 	}

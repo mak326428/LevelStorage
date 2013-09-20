@@ -5,12 +5,12 @@ import ic2.api.recipe.RecipeInputItemStack;
 import ic2.api.recipe.RecipeInputOreDict;
 import ic2.api.recipe.Recipes;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.ModAchievements;
-import makmods.levelstorage.ModFluids;
 import makmods.levelstorage.dimension.BiomeAntimatterField;
 import makmods.levelstorage.dimension.LSDimensions;
 import makmods.levelstorage.init.CompatibilityInitializer;
 import makmods.levelstorage.init.LocalizationInitializer;
+import makmods.levelstorage.init.ModAchievements;
+import makmods.levelstorage.init.ModFluids;
 import makmods.levelstorage.init.ModTileEntities;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.SimpleItems;
@@ -20,6 +20,7 @@ import makmods.levelstorage.registry.FlightRegistry;
 import makmods.levelstorage.registry.XPStackRegistry;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer.PowerSyncRegistry;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer.WChargerRegistry;
+import makmods.levelstorage.worldgen.LSWorldGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -81,9 +82,15 @@ public class CommonProxy {
 		// Iridium Ore -> Iridium Ingot
 		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
 				"addIridiumOreToIngotCompressorRecipe", true).getBoolean(true)) {
-			Recipes.compressor.addRecipe(
-					new RecipeInputItemStack(Items.getItem("iridiumOre")),
-					null, SimpleItems.instance.getIngredient(5));
+			try {
+				Recipes.compressor.addRecipe(
+						new RecipeInputItemStack(Items.getItem("iridiumOre")),
+						null, SimpleItems.instance.getIngredient(5));
+			} catch (Throwable t) {
+				LogHelper
+						.warning("Failed to add Iridium ore -> ingot recipe. Fallbacking.");
+				t.printStackTrace();
+			}
 		}
 
 		// UUM -> Osmium pile
@@ -126,8 +133,10 @@ public class CommonProxy {
 						"biomeAntimatterFieldId", 40).getInt());
 		PowerSyncRegistry.instance = new PowerSyncRegistry();
 		WChargerRegistry.instance = new WChargerRegistry();
+		//LSWorldGenerator.instance = new LSWorldGenerator();
+		//GameRegistry.registerWorldGenerator(LSWorldGenerator.instance);
 		// TODO: reenable when ready
-		// 
+		//
 		FlightRegistry.instance = new FlightRegistry();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
 	}
@@ -140,7 +149,8 @@ public class CommonProxy {
 		CompatibilityInitializer.instance.init();
 		// TODO: move this to an external compat class
 		if (Loader.isModLoaded("gregtech_addon")) {
-			LogHelper.severe("GregTech detected. Performing needed changes. (mostly nerfs.. you know the drill)");
+			LogHelper
+					.severe("GregTech detected. Performing needed changes. (mostly nerfs.. you know the drill)");
 			LevelStorage.detectedGT = true;
 			XPStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}

@@ -8,7 +8,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.NBTHelper;
@@ -47,7 +47,7 @@ public class ItemRemoteAccessor extends Item implements IElectricItem {
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 	}

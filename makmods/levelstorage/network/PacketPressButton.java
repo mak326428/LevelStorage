@@ -12,7 +12,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.network.Player;
 
-public class PacketPressButton extends PacketLV {
+public class PacketPressButton extends PacketLS {
 
 	public int buttonId;
 	public int x;

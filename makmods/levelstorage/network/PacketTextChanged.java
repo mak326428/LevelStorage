@@ -14,7 +14,7 @@ import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.Player;
 
-public class PacketTextChanged extends PacketLV {
+public class PacketTextChanged extends PacketLS {
 
 	public int textBoxId;
 	public int x;

@@ -8,7 +8,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.armor.ArmorFunctions;
 import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
@@ -46,7 +46,7 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 		MinecraftForge.EVENT_BUS.register(this);
@@ -158,11 +158,15 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 				break;
 			}
 		if (!didSomething) {
-			for (ItemStack device : inv.mainInventory)
+			for (ItemStack device : inv.mainInventory) {
+				if (device != null)
+					if (device.getItem() instanceof ItemQuantumRing)
+						continue;
 				if (chargeItem(device, itemStack)) {
 					didSomething = true;
 					break;
 				}
+			}
 		}
 		ArmorFunctions.extinguish(player, world);
 		ArmorFunctions.fly(ItemArmorLevitationBoots.FLYING_ENERGY_PER_TICK,

@@ -12,12 +12,14 @@ import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.proxy.LSKeyboard;
 import makmods.levelstorage.registry.FlightRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -64,6 +66,10 @@ public class LevelStorage {
 
 	public static boolean detectedGT = false;
 
+	public static boolean isAnySolarModLoaded() {
+		return Loader.isModLoaded("AdvancedSolarPanel") || detectedGT;
+	}
+
 	public static int getAndIncrementCurrId() {
 		currentIds += 1;
 		return currentIds;
@@ -91,7 +97,6 @@ public class LevelStorage {
 				"experienceRecipesEnabled", true);
 		p2.comment = "Whether or not experience recipes are enabled";
 		LevelStorage.experienceRecipesOn = p2.getBoolean(true);
-
 		Property p4 = config.get(LevelStorage.BALANCE_CATEGORY, "hardRecipes",
 				false);
 		p4.comment = "If set to true, armors (and other) will require hard-to-get materials (f.e. full set of armor will require 72 stacks of UUM)";

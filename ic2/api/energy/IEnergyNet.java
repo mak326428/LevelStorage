@@ -2,6 +2,7 @@ package ic2.api.energy;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.ForgeDirection;
 
 /**
@@ -52,4 +53,12 @@ public interface IEnergyNet {
 	 * @param tileEntity energy emitter
 	 */
 	long getTotalEnergySunken(TileEntity tileEntity);
+
+	/**
+	 * Determine the typical power used by the specific tier, e.g. 128 eu/t for tier 2.
+	 * 
+	 * @param tier tier
+	 * @return power in eu/t
+	 */
+	int getPowerFromTier(int tier);
 }

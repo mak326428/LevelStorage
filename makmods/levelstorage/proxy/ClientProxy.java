@@ -1,7 +1,7 @@
 package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.render.ItemWirelessConductorRender;
 import makmods.levelstorage.render.RenderSuperconductorCable;
@@ -59,6 +59,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String ATOMIC_REPLICATOR_FACING = getTexturePathFor("blockAtomicReplicatorFacing");
 	public static final String MULTICORE_SOLAR_PANEL_TEXTURE = "blockMulticoreSolarPanel";
 	public static final String ANTIMATTER_STONE_TEXTURE = getTexturePathFor("blockAntimatterStone");
+	public static final String PARTICLE_ACCELERATOR_TEXTURE = getTexturePathFor("blockParticleAccelerator");
 
 	// Fluids
 	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
@@ -123,7 +124,7 @@ public class ClientProxy extends CommonProxy {
 				.addNewArmourRendererPrefix("supersonic");
 		ARMOR_ENHANCED_LAPPACK_RENDER_INDEX = RenderingRegistry
 				.addNewArmourRendererPrefix("enhlappack");
-		LevelStorageCreativeTab.instance = new LevelStorageCreativeTab();
+		LSCreativeTab.instance = new LSCreativeTab();
 		super.init();
 		ClientRegistry.bindTileEntitySpecialRenderer(
 				TileEntityWirelessConductor.class,

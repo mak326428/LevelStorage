@@ -10,7 +10,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.api.IFlyArmor;
 import makmods.levelstorage.item.ItemQuantumRing;
 import makmods.levelstorage.item.SimpleItems;
@@ -58,7 +58,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 		this.setNoRepair();
 		MinecraftForge.EVENT_BUS.register(this);
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 	}

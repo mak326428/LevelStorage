@@ -10,12 +10,12 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author mak326428
  *
  */
-public class LevelStorageCreativeTab extends CreativeTabs {
+public class LSCreativeTab extends CreativeTabs {
 	
 	@SideOnly(Side.CLIENT)
-	public static LevelStorageCreativeTab instance;
+	public static LSCreativeTab instance;
 
-	public LevelStorageCreativeTab() {
+	public LSCreativeTab() {
 		super("levelstorage");
 	}
 

@@ -13,7 +13,7 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class PacketTeslaRay extends PacketLV {
+public class PacketTeslaRay extends PacketLS {
 
 	public double initX;
 	public double initY;

@@ -2,7 +2,7 @@ package makmods.levelstorage.block;
 
 import java.util.Random;
 
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,7 +17,7 @@ public class BlockAntimatterStone extends Block {
 	public BlockAntimatterStone(int id) {
 		super(id, Material.rock);
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		this.setStepSound(Block.soundStoneFootstep);
 		this.setHardness(6.0F);

@@ -1,5 +1,6 @@
-package makmods.levelstorage;
+package makmods.levelstorage.init;
 
+import makmods.levelstorage.LSBlockItemList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;

@@ -1,6 +1,7 @@
 package ic2.api;
 
 import net.minecraft.tileentity.TileEntity;
+
 import net.minecraftforge.common.ForgeDirection;
 
 /**

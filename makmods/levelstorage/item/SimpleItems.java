@@ -3,7 +3,7 @@ package makmods.levelstorage.item;
 import java.util.List;
 
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LevelStorageCreativeTab;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -77,7 +77,7 @@ public class SimpleItems extends Item {
 				LevelStorage.getAndIncrementCurrId()).getInt());
 		this.setHasSubtypes(true);
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		initItems();
 	}

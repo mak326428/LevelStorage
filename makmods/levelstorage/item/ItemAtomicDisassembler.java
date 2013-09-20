@@ -7,8 +7,8 @@ import ic2.api.recipe.Recipes;
 import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
+import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.LevelStorageCreativeTab;
 import makmods.levelstorage.api.IChargeable;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.LSDamageSource;
@@ -16,6 +16,9 @@ import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.Helper;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
+import makmods.levelstorage.network.PacketParticles;
+import makmods.levelstorage.network.PacketParticles.ParticleInternal;
+import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.LSKeyboard;
 import net.minecraft.block.Block;
@@ -28,6 +31,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
@@ -36,10 +40,12 @@ import net.minecraftforge.common.ForgeDirection;
 import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemAtomicDisassembler extends Item implements IElectricItem, IChargeable {
+public class ItemAtomicDisassembler extends Item implements IElectricItem,
+		IChargeable {
 
 	public static final int TIER = 2;
 	public static final int STORAGE = 200000;
@@ -52,7 +58,7 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getSide().isClient()) {
-			this.setCreativeTab(LevelStorageCreativeTab.instance);
+			this.setCreativeTab(LSCreativeTab.instance);
 		}
 		this.setMaxStackSize(1);
 	}
@@ -88,16 +94,16 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 	}
 
 	public boolean hitEntity(ItemStack par1ItemStack,
-	        EntityLivingBase par2EntityLivingBase,
-	        EntityLivingBase par3EntityLivingBase) {
+			EntityLivingBase par2EntityLivingBase,
+			EntityLivingBase par3EntityLivingBase) {
 		// if (!LevelStorage.isSimulating()) {
 		if (DEAL_DAMAGE_TO_OTHERS) {
 			int energy = ENERGY_USE_BASE * 200; // ~16 thousand EU
 			if (ElectricItem.manager.canUse(par1ItemStack, energy)) {
 				ElectricItem.manager.use(par1ItemStack, energy,
-				        par3EntityLivingBase);
+						par3EntityLivingBase);
 				par2EntityLivingBase.attackEntityFrom(
-				        LSDamageSource.disassembled, 100);
+						LSDamageSource.disassembled, 100);
 			}
 		}
 		// }
@@ -108,7 +114,7 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
-		        .registerIcon(ClientProxy.DESTRUCTOR_TEXTURE);
+				.registerIcon(ClientProxy.DESTRUCTOR_TEXTURE);
 	}
 
 	public static boolean DEAL_DAMAGE;
@@ -116,12 +122,12 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 
 	static {
 		DEAL_DAMAGE = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "atomicDisassemblersEnableDamage", true).getBoolean(true);
+				Configuration.CATEGORY_GENERAL,
+				"atomicDisassemblersEnableDamage", true).getBoolean(true);
 		DEAL_DAMAGE_TO_OTHERS = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "atomicDisassemblersEnableDamageToOthers", true).getBoolean(
-		        true);
+				Configuration.CATEGORY_GENERAL,
+				"atomicDisassemblersEnableDamageToOthers", true).getBoolean(
+				true);
 	}
 
 	public boolean isNumberNegative(int number) {
@@ -129,7 +135,7 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 	}
 
 	public void changeCharge(ItemStack itemStack, World world,
-	        EntityPlayer player) {
+			EntityPlayer player) {
 		if (player.inventory.getCurrentItem() != itemStack)
 			return;
 		int initialCharge = getChargeFor(itemStack);
@@ -144,17 +150,17 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 		}
 		if (initialCharge != getChargeFor(itemStack))
 			LevelStorage.proxy
-			        .messagePlayer(
-			                player,
-			                "Tunnel length: "
-			                        + (int) Math
-			                                .pow(2, getChargeFor(itemStack)),
-			                new Object[0]);
+					.messagePlayer(
+							player,
+							"Tunnel length: "
+									+ (int) Math
+											.pow(2, getChargeFor(itemStack)),
+							new Object[0]);
 	}
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
-	        int x, int y, int z, int side, float par8, float par9, float par10) {
+			int x, int y, int z, int side, float par8, float par9, float par10) {
 		// TODO: check this, if everything goes the way it should,
 		// leave it as is, if not then fallback to !world.isRemote
 		if (LevelStorage.isSimulating()) {
@@ -164,13 +170,19 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 			int damage = player.worldObj.rand.nextInt(maxDamage + 1);
 			if (DEAL_DAMAGE)
 				player.attackEntityFrom(LSDamageSource.disassembled, damage);
-
+			List<ParticleInternal> toSend = Lists.newArrayList();
 			for (int curr = 0; curr < length; curr++) {
-				BlockLocation loc = new BlockLocation(x, y, z).move(
-				        hitFrom.getOpposite(), curr);
-				mineThreeByThree(stack, hitFrom, loc, world, player);
-			}
 
+				BlockLocation loc = new BlockLocation(x, y, z).move(
+						hitFrom.getOpposite(), curr);
+				mineThreeByThree(stack, hitFrom, loc, world, player, toSend);
+			}
+			PacketParticles packet = new PacketParticles();
+			packet.particles = toSend;
+			Packet250CustomPayload p = (Packet250CustomPayload)PacketTypeHandler.populatePacket(packet);
+			PacketDispatcher.sendPacketToAllAround(x, y, z, 128,
+					world.provider.dimensionId,
+					p);
 			return true;
 		}
 		return true;
@@ -185,141 +197,142 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 	}
 
 	public void mineThreeByThree(ItemStack device, ForgeDirection hitFrom,
-	        BlockLocation currBlock, World par2World, EntityPlayer player) {
+			BlockLocation currBlock, World par2World, EntityPlayer player,
+			List<ParticleInternal> particles) {
 		BlockLocation[] removeBlocks = new BlockLocation[13];
 		int fortune = 0;
 		switch (hitFrom) {
-			case DOWN: {
-				removeBlocks[0] = currBlock.move(ForgeDirection.NORTH, 1);
-				removeBlocks[1] = currBlock.move(ForgeDirection.WEST, 1);
-				removeBlocks[2] = currBlock.move(ForgeDirection.SOUTH, 1);
-				removeBlocks[3] = currBlock.move(ForgeDirection.EAST, 1);
+		case DOWN: {
+			removeBlocks[0] = currBlock.move(ForgeDirection.NORTH, 1);
+			removeBlocks[1] = currBlock.move(ForgeDirection.WEST, 1);
+			removeBlocks[2] = currBlock.move(ForgeDirection.SOUTH, 1);
+			removeBlocks[3] = currBlock.move(ForgeDirection.EAST, 1);
 
-				removeBlocks[4] = currBlock.move(ForgeDirection.NORTH, 1).move(
-				        ForgeDirection.EAST, 1);
-				removeBlocks[5] = currBlock.move(ForgeDirection.WEST, 1).move(
-				        ForgeDirection.NORTH, 1);
-				removeBlocks[6] = currBlock.move(ForgeDirection.NORTH, 1).move(
-				        ForgeDirection.WEST, 1);
-				removeBlocks[7] = currBlock.move(ForgeDirection.WEST, 1).move(
-				        ForgeDirection.SOUTH, 1);
-				removeBlocks[8] = currBlock.move(ForgeDirection.SOUTH, 1).move(
-				        ForgeDirection.EAST, 1);
-				break;
-			}
-			case UP: {
-				removeBlocks[0] = currBlock.move(ForgeDirection.NORTH, 1);
-				removeBlocks[1] = currBlock.move(ForgeDirection.WEST, 1);
-				removeBlocks[2] = currBlock.move(ForgeDirection.SOUTH, 1);
-				removeBlocks[3] = currBlock.move(ForgeDirection.EAST, 1);
+			removeBlocks[4] = currBlock.move(ForgeDirection.NORTH, 1).move(
+					ForgeDirection.EAST, 1);
+			removeBlocks[5] = currBlock.move(ForgeDirection.WEST, 1).move(
+					ForgeDirection.NORTH, 1);
+			removeBlocks[6] = currBlock.move(ForgeDirection.NORTH, 1).move(
+					ForgeDirection.WEST, 1);
+			removeBlocks[7] = currBlock.move(ForgeDirection.WEST, 1).move(
+					ForgeDirection.SOUTH, 1);
+			removeBlocks[8] = currBlock.move(ForgeDirection.SOUTH, 1).move(
+					ForgeDirection.EAST, 1);
+			break;
+		}
+		case UP: {
+			removeBlocks[0] = currBlock.move(ForgeDirection.NORTH, 1);
+			removeBlocks[1] = currBlock.move(ForgeDirection.WEST, 1);
+			removeBlocks[2] = currBlock.move(ForgeDirection.SOUTH, 1);
+			removeBlocks[3] = currBlock.move(ForgeDirection.EAST, 1);
 
-				removeBlocks[4] = currBlock.move(ForgeDirection.NORTH, 1).move(
-				        ForgeDirection.EAST, 1);
-				removeBlocks[5] = currBlock.move(ForgeDirection.WEST, 1).move(
-				        ForgeDirection.NORTH, 1);
-				removeBlocks[6] = currBlock.move(ForgeDirection.NORTH, 1).move(
-				        ForgeDirection.WEST, 1);
-				removeBlocks[7] = currBlock.move(ForgeDirection.WEST, 1).move(
-				        ForgeDirection.SOUTH, 1);
-				removeBlocks[8] = currBlock.move(ForgeDirection.SOUTH, 1).move(
-				        ForgeDirection.EAST, 1);
-				break;
-			}
-			case NORTH: {
-				// Up & down
-				removeBlocks[0] = currBlock.move(ForgeDirection.UP, 1);
-				removeBlocks[1] = currBlock.move(ForgeDirection.DOWN, 1);
-				// West & east
-				removeBlocks[2] = currBlock.move(ForgeDirection.WEST, 1);
-				removeBlocks[3] = currBlock.move(ForgeDirection.EAST, 1);
-				// Up-west & Down-west
-				removeBlocks[4] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.WEST, 1);
-				removeBlocks[5] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.EAST, 1);
+			removeBlocks[4] = currBlock.move(ForgeDirection.NORTH, 1).move(
+					ForgeDirection.EAST, 1);
+			removeBlocks[5] = currBlock.move(ForgeDirection.WEST, 1).move(
+					ForgeDirection.NORTH, 1);
+			removeBlocks[6] = currBlock.move(ForgeDirection.NORTH, 1).move(
+					ForgeDirection.WEST, 1);
+			removeBlocks[7] = currBlock.move(ForgeDirection.WEST, 1).move(
+					ForgeDirection.SOUTH, 1);
+			removeBlocks[8] = currBlock.move(ForgeDirection.SOUTH, 1).move(
+					ForgeDirection.EAST, 1);
+			break;
+		}
+		case NORTH: {
+			// Up & down
+			removeBlocks[0] = currBlock.move(ForgeDirection.UP, 1);
+			removeBlocks[1] = currBlock.move(ForgeDirection.DOWN, 1);
+			// West & east
+			removeBlocks[2] = currBlock.move(ForgeDirection.WEST, 1);
+			removeBlocks[3] = currBlock.move(ForgeDirection.EAST, 1);
+			// Up-west & Down-west
+			removeBlocks[4] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.WEST, 1);
+			removeBlocks[5] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.EAST, 1);
 
-				removeBlocks[6] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.WEST, 1);
-				removeBlocks[7] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.EAST, 1);
+			removeBlocks[6] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.WEST, 1);
+			removeBlocks[7] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.EAST, 1);
 
-				removeBlocks[8] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.EAST, 1);
-				removeBlocks[9] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.WEST, 1);
+			removeBlocks[8] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.EAST, 1);
+			removeBlocks[9] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.WEST, 1);
 
-				break;
-				// South up & north down
-			}
-			case WEST: {
-				removeBlocks[0] = currBlock.move(ForgeDirection.UP, 1);
-				removeBlocks[1] = currBlock.move(ForgeDirection.DOWN, 1);
-				// West & east
-				removeBlocks[2] = currBlock.move(ForgeDirection.NORTH, 1);
-				removeBlocks[3] = currBlock.move(ForgeDirection.SOUTH, 1);
+			break;
+			// South up & north down
+		}
+		case WEST: {
+			removeBlocks[0] = currBlock.move(ForgeDirection.UP, 1);
+			removeBlocks[1] = currBlock.move(ForgeDirection.DOWN, 1);
+			// West & east
+			removeBlocks[2] = currBlock.move(ForgeDirection.NORTH, 1);
+			removeBlocks[3] = currBlock.move(ForgeDirection.SOUTH, 1);
 
-				removeBlocks[4] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.NORTH, 1);
-				removeBlocks[5] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.SOUTH, 1);
+			removeBlocks[4] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.NORTH, 1);
+			removeBlocks[5] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.SOUTH, 1);
 
-				removeBlocks[6] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.NORTH, 1);
-				removeBlocks[7] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.SOUTH, 1);
-				removeBlocks[10] = currBlock.move(ForgeDirection.SOUTH, 1)
-				        .move(ForgeDirection.UP, 1);
-				removeBlocks[11] = currBlock.move(ForgeDirection.NORTH, 1)
-				        .move(ForgeDirection.DOWN, 1);
-				break;
-			}
-			case EAST: {
-				removeBlocks[0] = currBlock.move(ForgeDirection.UP, 1);
-				removeBlocks[1] = currBlock.move(ForgeDirection.DOWN, 1);
-				// West & east
-				removeBlocks[2] = currBlock.move(ForgeDirection.NORTH, 1);
-				removeBlocks[3] = currBlock.move(ForgeDirection.SOUTH, 1);
+			removeBlocks[6] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.NORTH, 1);
+			removeBlocks[7] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.SOUTH, 1);
+			removeBlocks[10] = currBlock.move(ForgeDirection.SOUTH, 1).move(
+					ForgeDirection.UP, 1);
+			removeBlocks[11] = currBlock.move(ForgeDirection.NORTH, 1).move(
+					ForgeDirection.DOWN, 1);
+			break;
+		}
+		case EAST: {
+			removeBlocks[0] = currBlock.move(ForgeDirection.UP, 1);
+			removeBlocks[1] = currBlock.move(ForgeDirection.DOWN, 1);
+			// West & east
+			removeBlocks[2] = currBlock.move(ForgeDirection.NORTH, 1);
+			removeBlocks[3] = currBlock.move(ForgeDirection.SOUTH, 1);
 
-				removeBlocks[4] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.NORTH, 1);
-				removeBlocks[5] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.SOUTH, 1);
+			removeBlocks[4] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.NORTH, 1);
+			removeBlocks[5] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.SOUTH, 1);
 
-				removeBlocks[6] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.NORTH, 1);
-				removeBlocks[7] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.SOUTH, 1);
-				removeBlocks[10] = currBlock.move(ForgeDirection.SOUTH, 1)
-				        .move(ForgeDirection.UP, 1);
-				removeBlocks[11] = currBlock.move(ForgeDirection.NORTH, 1)
-				        .move(ForgeDirection.DOWN, 1);
-				break;
-			}
-			case SOUTH: {
-				removeBlocks[0] = currBlock.move(ForgeDirection.UP, 1);
-				removeBlocks[1] = currBlock.move(ForgeDirection.DOWN, 1);
-				// West & east
-				removeBlocks[2] = currBlock.move(ForgeDirection.WEST, 1);
-				removeBlocks[3] = currBlock.move(ForgeDirection.EAST, 1);
-				// Up-west & Down-west
-				removeBlocks[4] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.WEST, 1);
-				removeBlocks[5] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.EAST, 1);
+			removeBlocks[6] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.NORTH, 1);
+			removeBlocks[7] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.SOUTH, 1);
+			removeBlocks[10] = currBlock.move(ForgeDirection.SOUTH, 1).move(
+					ForgeDirection.UP, 1);
+			removeBlocks[11] = currBlock.move(ForgeDirection.NORTH, 1).move(
+					ForgeDirection.DOWN, 1);
+			break;
+		}
+		case SOUTH: {
+			removeBlocks[0] = currBlock.move(ForgeDirection.UP, 1);
+			removeBlocks[1] = currBlock.move(ForgeDirection.DOWN, 1);
+			// West & east
+			removeBlocks[2] = currBlock.move(ForgeDirection.WEST, 1);
+			removeBlocks[3] = currBlock.move(ForgeDirection.EAST, 1);
+			// Up-west & Down-west
+			removeBlocks[4] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.WEST, 1);
+			removeBlocks[5] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.EAST, 1);
 
-				removeBlocks[6] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.WEST, 1);
-				removeBlocks[7] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.EAST, 1);
+			removeBlocks[6] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.WEST, 1);
+			removeBlocks[7] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.EAST, 1);
 
-				removeBlocks[8] = currBlock.move(ForgeDirection.UP, 1).move(
-				        ForgeDirection.EAST, 1);
-				removeBlocks[9] = currBlock.move(ForgeDirection.DOWN, 1).move(
-				        ForgeDirection.WEST, 1);
-				break;
-			}
-			case UNKNOWN:
-				break;
+			removeBlocks[8] = currBlock.move(ForgeDirection.UP, 1).move(
+					ForgeDirection.EAST, 1);
+			removeBlocks[9] = currBlock.move(ForgeDirection.DOWN, 1).move(
+					ForgeDirection.WEST, 1);
+			break;
+		}
+		case UNKNOWN:
+			break;
 		}
 		removeBlocks[12] = currBlock.copy();
 		if (!ElectricItem.manager.canUse(device, ENERGY_USE_BASE))
@@ -327,37 +340,49 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 		for (BlockLocation blockLoc : removeBlocks) {
 			if (blockLoc != null) {
 				Block b = Block.blocksList[par2World.getBlockId(
-				        blockLoc.getX(), blockLoc.getY(), blockLoc.getZ())];
+						blockLoc.getX(), blockLoc.getY(), blockLoc.getZ())];
 				int aimBlockMeta = par2World.getBlockMetadata(blockLoc.getX(),
-				        blockLoc.getY(), blockLoc.getZ());
+						blockLoc.getY(), blockLoc.getZ());
 				if (b != null) {
 					if (b.getBlockHardness(par2World, blockLoc.getX(),
-					        blockLoc.getY(), blockLoc.getZ()) > 0.0F) {
+							blockLoc.getY(), blockLoc.getZ()) > 0.0F) {
 						if (b.removeBlockByPlayer(par2World, player,
-						        blockLoc.getX(), blockLoc.getY(),
-						        blockLoc.getZ())) {
+								blockLoc.getX(), blockLoc.getY(),
+								blockLoc.getZ())) {
 							List<ItemStack> drops = b.getBlockDropped(
-							        par2World, blockLoc.getX(),
-							        blockLoc.getY(), blockLoc.getZ(),
-							        aimBlockMeta, 0);
+									par2World, blockLoc.getX(),
+									blockLoc.getY(), blockLoc.getZ(),
+									aimBlockMeta, 0);
 							for (ItemStack drop : drops) {
+								ParticleInternal particle = new ParticleInternal();
+								particle.name = "tilecrack_" + b.blockID
+										+ "_" + aimBlockMeta;
+								particle.x = blockLoc.getX();
+								particle.y = blockLoc.getY();
+								particle.z = blockLoc.getZ();
+								particle.velX = 0.0f;
+								particle.velY = 0.5f;
+								particle.velZ = 0.0f;
+								particles.add(particle);
 								if (!bulkItemsToDelete.contains(drop.itemID)) {
+									
 									Helper.dropBlockInWorld_exact(par2World,
-									        player.posX, player.posY + 1.6f,
-									        player.posZ, drop);
+											player.posX, player.posY + 1.6f,
+											player.posZ, drop);
 								}
-								//if (Items.getItem("uraniumDrop").itemID == drop.itemID) {
-								//	par2World.createExplosion(null,
-								//	        blockLoc.getX(), blockLoc.getY(),
-								//	        blockLoc.getZ(), 6F, true);
-								//}
+								// if (Items.getItem("uraniumDrop").itemID ==
+								// drop.itemID) {
+								// par2World.createExplosion(null,
+								// blockLoc.getX(), blockLoc.getY(),
+								// blockLoc.getZ(), 6F, true);
+								// }
 
 							}
 						}
 					}
 					if (ElectricItem.manager.canUse(device, ENERGY_USE_BASE)) {
 						ElectricItem.manager.use(device, ENERGY_USE_BASE,
-						        player);
+								player);
 					} else {
 						break;
 					}
@@ -368,15 +393,16 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
-	        Entity par3Entity, int par4, boolean par5) {
+			Entity par3Entity, int par4, boolean par5) {
 		if (!par2World.isRemote) {
 			if (!(par3Entity instanceof EntityPlayerMP))
 				return;
-			EntityPlayerMP player = (EntityPlayerMP)par3Entity;
+			EntityPlayerMP player = (EntityPlayerMP) par3Entity;
 			if (!NBTHelper.verifyKey(par1ItemStack, IChargeable.CHARGE_NBT))
 				NBTHelper.setInteger(par1ItemStack, IChargeable.CHARGE_NBT, 0);
 			Cooldownable.onUpdate(par1ItemStack, COOLDOWN_USE);
-			if (LSKeyboard.getInstance().isKeyDown(player, LSKeyboard.RANGE_KEY_NAME)) {
+			if (LSKeyboard.getInstance().isKeyDown(player,
+					LSKeyboard.RANGE_KEY_NAME)) {
 				changeCharge(par1ItemStack, par2World, player);
 			}
 		}
@@ -384,8 +410,9 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
-	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		String[] lines = StatCollector.translateToLocal("tooltip.atomicDisassembler").split("\n");
+			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+		String[] lines = StatCollector.translateToLocal(
+				"tooltip.atomicDisassembler").split("\n");
 		for (String line : lines) {
 			par3List.add("\247c" + line);
 		}
@@ -399,18 +426,19 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem, IChar
 
 	public static void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
-		        LSBlockItemList.itemAtomicDisassembler), "cee", "ccd", "ccc", Character
-		        .valueOf('c'), IC2Items.CARBON_PLATE, Character.valueOf('e'),
-		        IC2Items.ENERGY_CRYSTAL, Character.valueOf('d'), new ItemStack(
-		                LSBlockItemList.itemEnhDiamondDrill));
+				LSBlockItemList.itemAtomicDisassembler), "cee", "ccd", "ccc",
+				Character.valueOf('c'), IC2Items.CARBON_PLATE, Character
+						.valueOf('e'), IC2Items.ENERGY_CRYSTAL, Character
+						.valueOf('d'), new ItemStack(
+						LSBlockItemList.itemEnhDiamondDrill));
 	}
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
-	        List par3List) {
+			List par3List) {
 		ItemStack var4 = new ItemStack(this, 1);
 		ElectricItem.manager.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE,
-		        true, false);
+				true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
 

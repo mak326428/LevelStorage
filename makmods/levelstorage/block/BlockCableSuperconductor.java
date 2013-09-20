@@ -41,7 +41,8 @@ public class BlockCableSuperconductor extends BlockContainer {
 	}
 
 	public static void addCraftingRecipe() {
-
+		;
+		// No recipe for block-version
 	}
 
 	@Override

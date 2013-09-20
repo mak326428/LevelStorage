@@ -1,18 +1,14 @@
 package makmods.levelstorage.block;
 
-import ic2.api.recipe.Recipes;
+import ic2.api.item.Items;
 
 import java.util.Random;
 
-import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
-import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.Helper;
-import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.BlockTextureRegistry;
-import makmods.levelstorage.tileentity.TileEntityMulticoreSolarPanel;
+import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -20,15 +16,14 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMulticoreSolarPanel extends BlockContainer {
+public class BlockParticleAccelerator extends BlockContainer {
 
-	public BlockMulticoreSolarPanel(int id) {
+	public BlockParticleAccelerator(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getSide().isClient()) {
 			this.setCreativeTab(LSCreativeTab.instance);
@@ -37,39 +32,20 @@ public class BlockMulticoreSolarPanel extends BlockContainer {
 		this.setHardness(3.0F);
 	}
 
+	public ItemStack advMachine = Items.getItem("advancedMachine");
+
 	public static void addCraftingRecipe() {
-		if (!LevelStorage.isAnySolarModLoaded()) {
-			LogHelper
-					.warning("No solar mods loaded. Not adding Multicore Solar Panel's recipe");
-			return;
-		}
-		try {
-			Recipes.advRecipes
-					.addRecipe(new ItemStack(
-							LSBlockItemList.blockMulticoreSolarPanel), "csc",
-							"sns", "csc", Character.valueOf('c'),
-							IC2Items.CARBON_PLATE.copy(), Character
-									.valueOf('n'), "itemEnergizedStar",
-							Character.valueOf('s'), "solarPanelHV");
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		try {
-			Recipes.advRecipes
-					.addRecipe(new ItemStack(
-							LSBlockItemList.blockMulticoreSolarPanel), "csc",
-							"sns", "csc", Character.valueOf('c'),
-							IC2Items.CARBON_PLATE.copy(), Character
-									.valueOf('n'), "itemEnergizedStar",
-							Character.valueOf('s'), "craftingSolarPanelHV");
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
+
 	}
 
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3) {
-		return LSBlockItemList.blockMulticoreSolarPanel.blockID;
+		return this.advMachine.itemID;
+	}
+
+	@Override
+	public int damageDropped(int par1) {
+		return this.advMachine.getItemDamage();
 	}
 
 	@Override
@@ -86,21 +62,14 @@ public class BlockMulticoreSolarPanel extends BlockContainer {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Icon getIcon(int side, int par2) {
-		return BlockTextureRegistry.instance.getIcon(side,
-				ClientProxy.MULTICORE_SOLAR_PANEL_TEXTURE);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		BlockTextureRegistry.instance.registerIcons(iconRegister,
-				ClientProxy.MULTICORE_SOLAR_PANEL_TEXTURE);
+				ClientProxy.PARTICLE_ACCELERATOR_TEXTURE);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new TileEntityMulticoreSolarPanel();
+		return new TileEntityParticleAccelerator();
 	}
 
 }
