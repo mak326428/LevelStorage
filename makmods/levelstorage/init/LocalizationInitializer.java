@@ -30,6 +30,7 @@ public class LocalizationInitializer {
 		localizationList.add("en_US");
 		localizationList.add("de_DE");
 		localizationList.add("zh_CN");
+		localizationList.add("ru_RU");
 	}
 
 	public void init() {
