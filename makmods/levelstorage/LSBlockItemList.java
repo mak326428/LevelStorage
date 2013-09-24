@@ -18,6 +18,7 @@ import makmods.levelstorage.block.BlockXpGenerator;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemAtomicDisassembler;
+import makmods.levelstorage.item.ItemBlockReplacer;
 import makmods.levelstorage.item.ItemElectricLighter;
 import makmods.levelstorage.item.ItemElectricMagnet;
 import makmods.levelstorage.item.ItemElectricSickle;
@@ -75,4 +76,5 @@ public class LSBlockItemList {
 	public static ItemRemoteAccessor itemRemoteAccessor;
 	public static ItemElectricLighter itemElectricLighter;
 	public static BlockParticleAccelerator blockParticleAccelerator;
+	public static ItemBlockReplacer itemBlockReplacer;
 }

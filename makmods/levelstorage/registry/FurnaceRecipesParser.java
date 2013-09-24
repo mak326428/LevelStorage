@@ -11,9 +11,6 @@ public class FurnaceRecipesParser implements ISimpleRecipeParser {
 		return "Furnace Recipes Parser";
 	}
 
-	// TODO: energized nether star..
-	// EPIC!
-
 	@Override
 	public int parse() {
 		int parsed = 0;

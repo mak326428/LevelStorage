@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import makmods.levelstorage.tileentity.TileEntityAdvancedMiner;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import makmods.levelstorage.tileentity.TileEntityMulticoreSolarPanel;
+import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
 import makmods.levelstorage.tileentity.TileEntitySuperconductorCable;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
@@ -28,20 +29,27 @@ public class ModTileEntities {
 	public static final ModTileEntities instance = new ModTileEntities();
 
 	public static Map<Class<? extends TileEntity>, String> tileEntities = Maps
-	        .newHashMap();
+			.newHashMap();
 
 	static {
-		tileEntities.put(TileEntityXpGenerator.class, "tileXpGenerator");
-		tileEntities.put(TileEntityXpCharger.class, "tileXpCharger");
+		tileEntities.put(TileEntityXpGenerator.class, 
+				"tileXpGenerator");
+		tileEntities.put(TileEntityXpCharger.class, 
+				"tileXpCharger");
 		tileEntities.put(TileEntityWirelessPowerSynchronizer.class,
-		        "tileWirelessPowerSync");
+				"tileWirelessPowerSync");
 		tileEntities.put(TileEntityWirelessConductor.class,
-		        "tileWirelessConductor");
+				"tileWirelessConductor");
 		tileEntities.put(TileEntitySuperconductorCable.class,
-		        "tileSuperconductor");
-		tileEntities.put(TileEntityAdvancedMiner.class, "tileAdvMiner");
-		tileEntities.put(TileEntityMolecularHeater.class, "tileMolHeater");
-		tileEntities.put(TileEntityMulticoreSolarPanel.class, "tileMulticoreSolarPanel");
+				"tileSuperconductor");
+		tileEntities.put(TileEntityAdvancedMiner.class, 
+				"tileAdvMiner");
+		tileEntities.put(TileEntityMolecularHeater.class, 
+				"tileMolHeater");
+		tileEntities.put(TileEntityMulticoreSolarPanel.class,
+				"tileMulticoreSolarPanel");
+		tileEntities.put(TileEntityParticleAccelerator.class,
+				"tileParticleAccelerator");
 	}
 
 	private ModTileEntities() {
@@ -50,7 +58,7 @@ public class ModTileEntities {
 
 	public void init() {
 		for (Entry<Class<? extends TileEntity>, String> entry : tileEntities
-		        .entrySet()) {
+				.entrySet()) {
 			GameRegistry.registerTileEntity(entry.getKey(), entry.getValue());
 		}
 	}

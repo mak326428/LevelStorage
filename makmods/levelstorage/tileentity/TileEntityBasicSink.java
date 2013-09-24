@@ -45,6 +45,14 @@ public abstract class TileEntityBasicSink extends TileEntity implements
 		par1NBTTagCompound.setInteger(NBT_STORED, stored);
 
 	}
+	
+	public boolean canUse(int amount) {
+		return stored >= amount;
+	}
+	
+	public void use(int amount) {
+		stored -= amount;
+	}
 
 	@Override
 	public Packet getDescriptionPacket() {

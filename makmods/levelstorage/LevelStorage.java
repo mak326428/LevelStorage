@@ -58,6 +58,8 @@ public class LevelStorage {
 	public static boolean recipesHardmode = false;
 	public static final String BALANCE_CATEGORY = "balance";
 	public static final String RECIPES_CATEGORY = "recipes";
+	public static final String PERFORMANCE_CATEGORY = "performance";
+	
 	public static final String STORAGE_CATEGORY = "electricitemstorage";
 	public static final String IDS_CATEGORY = "ids";
 	public static Logger logger;
@@ -111,6 +113,10 @@ public class LevelStorage {
 	public static boolean isSimulating() {
 		return !FMLCommonHandler.instance().getEffectiveSide().isClient();
 	}
+	
+	public static boolean isRendering() {
+		return FMLCommonHandler.instance().getEffectiveSide().isClient();
+	}
 
 	@EventHandler
 	public void serverStarting(FMLServerStartingEvent event) {
@@ -123,7 +129,6 @@ public class LevelStorage {
 		FlightRegistry.instance.modEnabledFlights.clear();
 		((ServerCommandManager) MinecraftServer.getServer().getCommandManager())
 				.registerCommand(new CommandChargeItems());
-
 	}
 
 	@EventHandler
@@ -151,7 +156,7 @@ public class LevelStorage {
 				}
 			} catch (Exception e) {
 				LogHelper.warning("Mod " + message.getSender()
-						+ " sent an invalid FMLInterModComms.");
+						+ " sent an invalid FMLInterModComms message.");
 				e.printStackTrace();
 			}
 		}

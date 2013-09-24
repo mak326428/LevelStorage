@@ -14,6 +14,7 @@ import makmods.levelstorage.init.ModFluids;
 import makmods.levelstorage.init.ModTileEntities;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.SimpleItems;
+import makmods.levelstorage.iv.IVRegistry;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
 import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.registry.FlightRegistry;
@@ -154,6 +155,7 @@ public class CommonProxy {
 			LevelStorage.detectedGT = true;
 			XPStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
+		IVRegistry.instance.init();
 		// LSBlockItemList.itemCapFluidCell.fillMetaListWithFluids();
 	}
 

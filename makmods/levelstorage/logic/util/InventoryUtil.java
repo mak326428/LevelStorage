@@ -26,6 +26,8 @@ public class InventoryUtil {
 	 */
 	public static boolean addToInventory(IInventory inv, int slot,
 	        ItemStack whatToAdd, boolean simulate) {
+		if (whatToAdd == null)
+			return false;
 		ItemStack stackEx = inv.getStackInSlot(slot);
 		if (stackEx == null) {
 			if (!simulate)

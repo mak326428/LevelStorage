@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * I finally did it. Intended to create this class from beginning, but did it only today.
  * Superiorities over previous method:
- * 1. You have easier access over ALL the textures in the mod from any point of it (after initialization ofc)
+ * 1. You have easier access over ALL the textures in the mod from any point of it (if client, after initialization ofc)
  * 2. Cleaner code. Much cleaner.
  * @author mak326428
  */

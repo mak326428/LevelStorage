@@ -10,6 +10,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
 public class PacketPressButton extends PacketLS {
@@ -40,6 +41,17 @@ public class PacketPressButton extends PacketLS {
 		dos.writeInt(this.y);
 		dos.writeInt(this.z);
 		dos.writeInt(this.dimId);
+	}
+	
+	public static void handleButtonClick(int buttonID, TileEntity tileEntity) {
+		PacketPressButton packet = new PacketPressButton();
+		packet.buttonId = buttonID;
+		packet.x = tileEntity.xCoord;
+		packet.y = tileEntity.yCoord;
+		packet.z = tileEntity.zCoord;
+		packet.dimId = tileEntity.worldObj.provider.dimensionId;
+		PacketDispatcher.sendPacketToServer(PacketTypeHandler
+		        .populatePacket(packet));
 	}
 
 	@Override

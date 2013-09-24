@@ -631,7 +631,6 @@ public class BlockCableSuperconductor extends BlockContainer {
 
 		Vec3 newIntersection = getIntersectionWithPlane(origin,
 		        normalizedDirection, planeOrigin, planeNormalVector);
-
 		intersection.xCoord = newIntersection.xCoord;
 		intersection.yCoord = newIntersection.yCoord;
 		intersection.zCoord = newIntersection.zCoord;

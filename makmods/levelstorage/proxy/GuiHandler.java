@@ -1,17 +1,18 @@
 package makmods.levelstorage.proxy;
 
-import makmods.levelstorage.gui.ContainerAdvancedMiner;
-import makmods.levelstorage.gui.ContainerMolecularHeater;
-import makmods.levelstorage.gui.ContainerPowerSync;
-import makmods.levelstorage.gui.ContainerWirelessConductor;
-import makmods.levelstorage.gui.ContainerXpCharger;
-import makmods.levelstorage.gui.ContainerXpGenerator;
-import makmods.levelstorage.gui.GuiAdvancedMiner;
-import makmods.levelstorage.gui.GuiMolecularHeater;
-import makmods.levelstorage.gui.GuiWirelessConductor;
-import makmods.levelstorage.gui.GuiWirelessPowerSync;
-import makmods.levelstorage.gui.GuiXpCharger;
-import makmods.levelstorage.gui.GuiXpGenerator;
+import makmods.levelstorage.gui.client.GuiAdvancedMiner;
+import makmods.levelstorage.gui.client.GuiMolecularHeater;
+import makmods.levelstorage.gui.client.GuiWirelessConductor;
+import makmods.levelstorage.gui.client.GuiWirelessPowerSync;
+import makmods.levelstorage.gui.client.GuiXpCharger;
+import makmods.levelstorage.gui.client.GuiXpGenerator;
+import makmods.levelstorage.gui.container.ContainerAdvancedMiner;
+import makmods.levelstorage.gui.container.ContainerMolecularHeater;
+import makmods.levelstorage.gui.container.ContainerPowerSync;
+import makmods.levelstorage.gui.container.ContainerWirelessConductor;
+import makmods.levelstorage.gui.container.ContainerXpCharger;
+import makmods.levelstorage.gui.container.ContainerXpGenerator;
+import makmods.levelstorage.tileentity.ITEHasGUI;
 import makmods.levelstorage.tileentity.TileEntityAdvancedMiner;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -48,7 +49,8 @@ public class GUIHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityMolecularHeater)
 			return new ContainerMolecularHeater(player.inventory,
 			        (TileEntityMolecularHeater) tileEntity);
-
+		if (tileEntity instanceof ITEHasGUI)
+			return ((ITEHasGUI)tileEntity).getContainer(player, world, x, y, z);
 		return null;
 	}
 
@@ -75,6 +77,8 @@ public class GUIHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityMolecularHeater)
 			return new GuiMolecularHeater(player.inventory,
 			        (TileEntityMolecularHeater) tileEntity);
+		if (tileEntity instanceof ITEHasGUI)
+			return ((ITEHasGUI)tileEntity).getGUI(player, world, x, y, z);
 		return null;
 
 	}

@@ -2,10 +2,12 @@ package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.client.ElectricHUD;
+import makmods.levelstorage.client.render.ItemWirelessConductorRender;
+import makmods.levelstorage.client.render.RenderSuperconductorCable;
+import makmods.levelstorage.client.render.WirelessConductorRender;
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.render.ItemWirelessConductorRender;
-import makmods.levelstorage.render.RenderSuperconductorCable;
-import makmods.levelstorage.render.WirelessConductorRender;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -44,6 +46,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String REMOTE_ACESSOR_TEXTURE = getTexturePathFor("itemRemoteAccessor");
 	public static final String CAPACIOUS_FLUID_CELL_TEXTURE = getTexturePathFor("itemCapaciousFluidCell");
 	public static final String ELECTRIC_LIGHTER_TEXTURE = getTexturePathFor("itemElectricLighter");
+	public static final String ITEM_BLOCK_REPLACER_TEXTURE = getTexturePathFor("itemBlockReplacer");
 
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
@@ -59,7 +62,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String ATOMIC_REPLICATOR_FACING = getTexturePathFor("blockAtomicReplicatorFacing");
 	public static final String MULTICORE_SOLAR_PANEL_TEXTURE = "blockMulticoreSolarPanel";
 	public static final String ANTIMATTER_STONE_TEXTURE = getTexturePathFor("blockAntimatterStone");
-	public static final String PARTICLE_ACCELERATOR_TEXTURE = getTexturePathFor("blockParticleAccelerator");
+	public static final String PARTICLE_ACCELERATOR_TEXTURE = "blockParticleAccelerator";
 
 	// Fluids
 	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
@@ -74,6 +77,7 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_ATOMIC_REPLICATOR = getResourceLocation("gui/atomicReplicator.png");
 	public static final ResourceLocation GUI_MINER = new ResourceLocation(
 			"ic2", "textures/gui/GUIMiner.png");
+	public static final ResourceLocation GUI_PARTICLE_ACCELERATOR = getResourceLocation("gui/particleAccelerator.png");
 
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
@@ -126,6 +130,9 @@ public class ClientProxy extends CommonProxy {
 				.addNewArmourRendererPrefix("enhlappack");
 		LSCreativeTab.instance = new LSCreativeTab();
 		super.init();
+		if (LevelStorage.configuration.get(LevelStorage.PERFORMANCE_CATEGORY,
+				"enableArmorHUD", true).getBoolean(true))
+			new ElectricHUD();
 		ClientRegistry.bindTileEntitySpecialRenderer(
 				TileEntityWirelessConductor.class,
 				new WirelessConductorRender());

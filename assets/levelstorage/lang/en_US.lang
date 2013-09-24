@@ -11,6 +11,7 @@ tile.blockAtomicReplicator.name=Atomic Replicator
 tile.blockMulticoreSolarPanel.name=Multicore Solar Panel
 tile.blockAntimatterStone.name=Antimatter Stone
 tile.blockAntimatterBomb.name=Antimatter Bomb
+tile.blockParticleAccelerator.name=Particle Accelerator
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Tiny pile of Osmium Dust
 dustOsmium.name=Osmium Dust
@@ -54,6 +55,7 @@ other.frequency=Frequency
 other.true=yes
 other.false=no
 other.wip=[WIP]
+other.energyHUD=Power Level (Armor):
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
 # death messages

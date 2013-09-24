@@ -1,7 +1,7 @@
 package makmods.levelstorage.compat.nei;
 
 import makmods.levelstorage.api.XPStack;
-import makmods.levelstorage.gui.GuiXpGenerator;
+import makmods.levelstorage.gui.client.GuiXpGenerator;
 import makmods.levelstorage.registry.XPStackRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
