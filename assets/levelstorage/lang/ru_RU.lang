@@ -1,5 +1,5 @@
 # blocks
-tile.blockXpGen.name=Генератор опыта
+tile.blockXpGen.name=Опытоэнергетический генератор
 tile.blockXpCharger.name=Опытовый зарядник
 tile.blockWlessConductor.name=Беспроводной проводник
 tile.blockWlessPowerSync.name=Беспроводной синхронизатор энергии
@@ -20,22 +20,22 @@ itemOsmiridiumPlate.name=Осмиридиевая пластина
 ingotOsmium.name=Осмиевый слиток
 ingotIridium.name=Иридиевый слиток
 itemUltimateCircuit.name=Максимальная электросхема
-itemEnergizedStar.name=Электролизованная Звезда Нижнего Мира
+itemEnergizedStar.name=Электролизованная звезда Нижнего Мира
 itemAntimatterMolecule.name=Молекула антиматерии
 itemAntimatterTinyPile.name=Крошечный кусочек антиматерии
 itemAntimatterGlob.name=Шар антиматерии
 # dimension
 dimension.antimatterUniverse.name=Противоположная Вселенная
 # items
-item.itemLevelStorageBook.name=Том Накопления Опыта
-item.itemAdvScanner.name=Продвинутый ОВ сканер
+item.itemLevelStorageBook.name=Том накопления опыта
+item.itemAdvScanner.name=Продвинутый ЦР сканер
 item.itemFreqCard.name=Частотная карта
 item.itemCompactTeleporter.name=Портативный телепортер
 item.itemEnhDiamondDrill.name=Улучшенный алмазный бур
 item.itemPocketRefrigerant.name=Портативный охладитель
 item.itemLevitationBoots.name=Левитационные ботинки
 item.itemSupersonicLeggings.name=Сверхзвуковые поножи
-item.itemArmorForcefieldChestplate.name=Силовой Нагрудник
+item.itemArmorForcefieldChestplate.name=Силовой нагрудник
 item.itemArmorTeslaHelmet.name=Шлем Теслы
 item.itemSuperconductor.name=Сверхпроводящий провод
 # смешно, но чтож сделать :D
