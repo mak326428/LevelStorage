@@ -1,0 +1,86 @@
+# blocks
+tile.blockXpGen.name=Генератор опыта
+tile.blockXpCharger.name=Опытовый зарядник
+tile.blockWlessConductor.name=Беспроводной проводник
+tile.blockWlessPowerSync.name=Беспроводной синхронизатор мощности
+tile.blockSuperconductor.name=Сверхпроводник
+tile.blockMassInfuser.name=Mass Infuser
+tile.blockAdvMiner.name=Продвинутая буровая установка
+tile.blockMolHeater.name=Молекулярный нагреватель
+tile.blockAtomicReplicator.name=Атомный репликатор
+tile.blockMulticoreSolarPanel.name=Многоядерная солнечная панель
+tile.blockAntimatterStone.name=Камень из антиматерии
+tile.blockAntimatterBomb.name=Бомба из антиматерии
+tile.blockParticleAccelerator.name=Ускоритель частиц
+# simple items (crafting ingredients)
+dustTinyOsmium.name=Крошечная кучка осмиевой пыли
+dustOsmium.name=Осмиевая пыль
+itemOsmiridiumAlloy.name=Осмиридиевый композитный слиток
+itemOsmiridiumPlate.name=Осмиридиевая пластина
+ingotOsmium.name=Осмиевый слиток
+ingotIridium.name=Иридиевый слиток
+itemUltimateCircuit.name=Максимальная электросхема
+itemEnergizedStar.name=Звезда Нижнего Мира под током
+itemAntimatterMolecule.name=Молекула антиматерии
+itemAntimatterTinyPile.name=Крошечный кусочек антиматерии
+itemAntimatterGlob.name=Капля антиматерии
+# dimension
+dimension.antimatterUniverse.name=Вселенная антиматерии
+# items
+item.itemLevelStorageBook.name=Том опыта
+item.itemAdvScanner.name=Продвинутый ЦР сканер
+item.itemFreqCard.name=Частотная карта
+item.itemCompactTeleporter.name=Портативный телепортер
+item.itemEnhDiamondDrill.name=Зачарованный алмазный бур
+item.itemPocketRefrigerant.name=Портативный охладитель
+item.itemLevitationBoots.name=Левитационные ботинки
+item.itemSupersonicLeggings.name=Сверхзвуковые поножи
+item.itemArmorForcefieldChestplate.name=Нагрудник с силовым полем
+item.itemArmorTeslaHelmet.name=Шлем Теслы
+item.itemSuperconductor.name=Сверхпроводящий провод
+item.itemStorageFourMillion.name=Энергетический обогащённый шарик материи
+item.itemWirelessCharger.name=Беспроводной зарядник
+item.itemElectricSickle.name=Электросерп
+item.itemQuantumSaber.name=Квантовая сабля
+item.itemTimeAccelerator.name=Ускоритель времени
+item.itemQuantumRing.name=Квантовое кольцо
+item.itemElectricMagnet.name=Электромагнит
+item.itemAtomicDisassembler.name=Атомный дизассемблер
+item.itemEnhLappack.name=Зачарованный лазуротроновый ранец
+item.itemRemoteAccessor.name=Удалённое средство доступа
+item.itemCapFluidCell.name=Ёмкая жидкостная капсула
+item.itemElectricLighter.name=Электрозажигалка
+#others
+other.frequency=Частота
+other.true=да
+other.false=нет
+other.wip=[WIP]
+other.energyHUD=Уровень энергии (Броня):
+# creative tab(s)
+itemGroup.levelstorage=LevelStorage
+# death messages
+# %s will be replaced by player's name
+death.energyFieldKill=%s был в радиусе высокоэнергетического поля.
+death.forcefieldArmor=%s был поражён огромным импульсом энергии.
+death.forcefieldArmorInstantKill=%s был поражён огромным импульсом энергии.
+death.teslaHelmetKill=%s был поражён огромным импульсом энергии, который был вызван Тесла лучом.
+death.disassemble=%s был случайно разобран на основные элементарные атомы.
+# key bindings
+key.range=Кнопка для переключения диапазона
+key.shoot=Кнопка для выстрела энергетическим лучом
+# tooltips
+# \n will be replaced with a new line (this is not OS-dependant)
+tooltip.xp=Значение опыта:
+tooltip.advScanner=Этот предмет будет сообщать вам\nточно, сколько руды есть в\nвашем окружении
+tooltip.atomicDisassembler=Оно делает больно.\nНе говорите, что вас не предупреждали!
+tooltip.electricMagnet=Этот предмет делает так, чтобы добыча летела к вам, при активации
+tooltip.drillEnhancement=Зачарование: 
+tooltip.drillEnhancement.none=Нет.
+tooltip.freqCard.location=Расположение:
+tooltip.freqCard.isValid=Is valid:
+tooltip.xptome.stored=Хранится:
+# I'm not sure, maybe i want to name this just "XP"
+tooltip.xptome.xppoints=очков опыта
+tooltip.porteleporter.linkedto=Соединено с:
+tooltip.porteleporter.dimension=Измерение:
+tooltip.quantumring=Наиболее конечный предмет. Наверное.
