@@ -20,6 +20,12 @@ public class HelperLogicSlot implements LogicSlot {
 	}
 
 	@Override
+	public boolean isItemTheSame(ItemStack stack) {
+		return stack == null ? false : stack.itemID == get().itemID
+				&& stack.getItemDamage() == get().getItemDamage();
+	}
+
+	@Override
 	public boolean canConsume(int amount) {
 		if (get() == null)
 			return false;
@@ -64,6 +70,34 @@ public class HelperLogicSlot implements LogicSlot {
 	@Override
 	public ItemStack get() {
 		return boundInventory.getStackInSlot(index);
+	}
+
+	@Override
+	public boolean add(ItemStack what, boolean simulate) {
+		if (get() != null) {
+			if (get().getItemDamage() != what.getItemDamage()
+					|| get().itemID != what.itemID) {
+				return false;
+			} else {
+				int freeSpace = boundInventory.getInventoryStackLimit()
+						- get().stackSize;
+				if (freeSpace >= what.stackSize) {
+					if (!simulate) {
+						ItemStack newIS = get().copy();
+						newIS.stackSize += what.stackSize;
+						boundInventory.setInventorySlotContents(index,
+								newIS.copy());
+						return true;
+					}
+					return true;
+				} else
+					return false;
+			}
+		} else {
+			if (!simulate)
+				boundInventory.setInventorySlotContents(index, what.copy());
+			return true;
+		}
 	}
 
 }

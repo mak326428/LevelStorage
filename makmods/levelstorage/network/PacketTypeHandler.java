@@ -15,7 +15,7 @@ public enum PacketTypeHandler {
 	PACKET_PRESS_BUTTON(PacketPressButton.class), PACKET_TEXT_CHANGED(
 			PacketTextChanged.class), PACKET_PARTICLE(PacketParticle.class), PACKET_FLIGHT_UPDATE(
 			PacketFlightUpdate.class), PACKET_TESLA_RAY(PacketTeslaRay.class), PACKET_PARTICLES(
-			PacketParticles.class);
+			PacketParticles.class), PACKET_TILE_UPDATE(PacketTileUpdate.class);
 
 	private Class<? extends PacketLS> clazz;
 

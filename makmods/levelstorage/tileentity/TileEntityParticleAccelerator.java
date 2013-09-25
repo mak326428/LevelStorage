@@ -20,10 +20,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 		implements ISidedInventory, ITEHasGUI, IHasButtons {
-	
-	public HelperLogicSlot sampleSlot;
-	public HelperLogicSlot inputSlot;
-	public HelperLogicSlot outputSlot;
 
 	public TileEntityParticleAccelerator() {
 		super(3, 2000000, false);
@@ -43,12 +39,21 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("modePA", mode);
+		if (bufferStack != null) {
+			NBTTagCompound tc = new NBTTagCompound();
+			bufferStack.writeToNBT(tc);
+			par1NBTTagCompound.setCompoundTag("bufferStack", tc);
+		}
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
-		mode = par1NBTTagCompound.getInteger("modePA");
+		if (par1NBTTagCompound.hasKey("bufferStack")) {
+			mode = par1NBTTagCompound.getInteger("modePA");
+			bufferStack = ItemStack.loadItemStackFromNBT(par1NBTTagCompound
+					.getCompoundTag("bufferStack"));
+		}
 	}
 
 	@Override
@@ -132,57 +137,112 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 		return getStackInSlot(0);
 	}
 
-	public boolean hasMatterReshapingWork() {
-		int ivForSample = IVRegistry.instance.getValueFor(getPattern());
-		if (ivForSample == IVRegistry.NOT_FOUND)
+	public HelperLogicSlot sampleSlot;
+	public HelperLogicSlot inputSlot;
+	public HelperLogicSlot outputSlot;
+
+	public boolean hasMRWork() {
+		if (sampleSlot.get() == null)
 			return false;
-		{
-			ItemStack thing = this.getPattern().copy();
-			thing.stackSize = 1;
-			if (!InventoryUtil.addToInventory(this, 2, thing, true))
+		if (inputSlot.get() == null)
+			return false;
+		if (!outputSlot.canAdd(1))
+			return false;
+		int totalIVInInput = 0;
+		final int ivForOneItemInInput = IVRegistry.instance
+				.getValueFor(inputSlot.get());
+		for (int i = 0; i < inputSlot.get().stackSize; i++)
+			totalIVInInput += ivForOneItemInInput;
+		if (totalIVInInput >= IVRegistry.instance.getValueFor(sampleSlot.get()))
+			return true;
+		if (outputSlot.get() != null) {
+			if (outputSlot.get().itemID != sampleSlot.get().itemID
+					|| outputSlot.get().getItemDamage() != sampleSlot.get()
+							.getItemDamage())
 				return false;
 		}
-		if (getStackInSlot(1) == null)
-			return false;
-		int totalInInput = 0;
-		int ivForInput = IVRegistry.instance.getValueFor(getStackInSlot(1));
-		ItemStack stackInput = getStackInSlot(1).copy();
-		for (int i = 0; i < stackInput.stackSize; i++) {
-			totalInInput += ivForInput;
-		}
-		if (totalInInput >= ivForSample)
-			return true;
 		return false;
 	}
-	
-	public void workMatterReshaping() {
-		
+
+	public InputMinusOutputPlusRatio getRequiredInputForOutput() {
+		ItemStack st = sampleSlot.get();
+		if (st == null)
+			return null;
+		int sampleIV = IVRegistry.instance.getValueFor(st);
+		if (sampleIV == IVRegistry.NOT_FOUND)
+			return null;
+		if (inputSlot.get() == null)
+			return null;
+		int itemInInputIV = IVRegistry.instance.getValueFor(inputSlot.get());
+		if (itemInInputIV == IVRegistry.NOT_FOUND)
+			return null;
+		if (sampleIV > itemInInputIV)
+			return new InputMinusOutputPlusRatio(
+					(int) Math.ceil(((float) sampleIV)
+							/ ((float) itemInInputIV)), 1);
+		else
+			return new InputMinusOutputPlusRatio(1,
+					(int) Math.ceil(((float) itemInInputIV)
+							/ ((float) sampleIV)));
+	}
+
+	public static class InputMinusOutputPlusRatio {
+		public int minusInput;
+		public int plusOutput;
+
+		public InputMinusOutputPlusRatio(int mI, int pO) {
+			minusInput = mI;
+			plusOutput = pO;
+		}
+	}
+
+	public ItemStack getPatternIdeal() {
+		ItemStack pEx = sampleSlot.get().copy();
+		pEx.stackSize = 1;
+		return pEx;
+	}
+
+	public void handleAntimatterTick() {
+
+	}
+
+	public void handleMatterTick() {
+		if (!hasMRWork())
+			return;
+		InputMinusOutputPlusRatio requiredInput = getRequiredInputForOutput();
+		if (requiredInput == null)
+			return;
+		if (getProgress() == 0) {
+			if (outputSlot.add(getPatternIdeal(), true)) {
+				inputSlot.consume(requiredInput.minusInput);
+				ItemStack pIdeal = getPatternIdeal().copy();
+				pIdeal.stackSize = requiredInput.plusOutput;
+				outputSlot.add(pIdeal, false);
+			}
+		}
+		if (canUse(ENERGY_COST_PER_TICK)) {
+			use(ENERGY_COST_PER_TICK);
+			addProgress(1);
+			if (getProgress() >= getMaxProgress())
+				setProgress(0);
+		}
 	}
 
 	public void updateEntity() {
 		super.updateEntity();
 		if (!LevelStorage.isSimulating())
 			return;
-		ItemStack pattern = getPattern();
-		if (pattern == null) {
-			if (mode == MATTER_RESHAPING_MODE)
-				return;
-		}
-		if (mode == MATTER_RESHAPING_MODE) {
-			if (hasMatterReshapingWork()) {
-				if (canUse(ENERGY_COST_PER_TICK)) {
-					use(ENERGY_COST_PER_TICK);
-					this.addProgress(1);
-					if (getProgress() >= getMaxProgress()) {
-						setProgress(0);
-						workMatterReshaping();
-					}
-				}
-			}
-		} else {
-			
+		switch (mode) {
+		case ANTIMATTER_PRODUCTION_MODE:
+			handleAntimatterTick();
+			break;
+		case MATTER_RESHAPING_MODE:
+			handleMatterTick();
+			break;
 		}
 	}
+
+	public ItemStack bufferStack;
 
 	@Override
 	@SideOnly(Side.CLIENT)
