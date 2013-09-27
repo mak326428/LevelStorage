@@ -50,6 +50,7 @@ item.itemEnhLappack.name=Enhanced Lappack
 item.itemRemoteAccessor.name=Remote Accessor
 item.itemCapFluidCell.name=Capacious Fluid Cell
 item.itemElectricLighter.name=Electric Lighter
+item.itemArmorEnhancedNanoChestplate.name=Enhanced NanoSuit Bodyarmor
 #others
 other.frequency=Frequency
 other.true=yes

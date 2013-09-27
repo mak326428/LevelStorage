@@ -5,6 +5,7 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.gui.client.GUIParticleAccelerator;
 import makmods.levelstorage.gui.container.ContainerParticleAccelerator;
 import makmods.levelstorage.gui.logicslot.HelperLogicSlot;
+import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.iv.IVRegistry;
 import makmods.levelstorage.logic.util.InventoryUtil;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -33,6 +34,9 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 	public static final int ANTIMATTER_PRODUCTION_MODE = 0;
 	public static final int MATTER_RESHAPING_MODE = 1;
 
+	public static final ItemStack ANTIMATTER_IS = SimpleItems.instance
+			.getIngredient(9);
+
 	public static final int ANTIMATTER_IV = 32768;
 
 	@Override
@@ -49,8 +53,8 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
+		mode = par1NBTTagCompound.getInteger("modePA");
 		if (par1NBTTagCompound.hasKey("bufferStack")) {
-			mode = par1NBTTagCompound.getInteger("modePA");
 			bufferStack = ItemStack.loadItemStackFromNBT(par1NBTTagCompound
 					.getCompoundTag("bufferStack"));
 		}
@@ -146,7 +150,9 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 			return false;
 		if (inputSlot.get() == null)
 			return false;
-		if (!outputSlot.canAdd(1))
+		ItemStack tmp1 = getPatternIdeal().copy();
+		tmp1.stackSize = getRequiredInputForOutput().plusOutput;
+		if (!outputSlot.add(tmp1, true))
 			return false;
 		int totalIVInInput = 0;
 		final int ivForOneItemInInput = IVRegistry.instance
@@ -181,8 +187,11 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 					(int) Math.ceil(((float) sampleIV)
 							/ ((float) itemInInputIV)), 1);
 		else
+			// so reshaping is not equivalent.
+			// previously 255 (tin) would give you 4x64 (redstone), however it's
+			// not balanced
 			return new InputMinusOutputPlusRatio(1,
-					(int) Math.ceil(((float) itemInInputIV)
+					(int) Math.floor(((float) itemInInputIV)
 							/ ((float) sampleIV)));
 	}
 
@@ -202,8 +211,57 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 		return pEx;
 	}
 
-	public void handleAntimatterTick() {
+	public InputMinusOutputPlusRatio getRequiredInputForAntimatter() {
+		if (inputSlot.get() == null)
+			return null;
+		int itemInInputIV = IVRegistry.instance.getValueFor(inputSlot.get());
+		if (itemInInputIV == IVRegistry.NOT_FOUND)
+			return null;
+		if (ANTIMATTER_IV > itemInInputIV)
+			return new InputMinusOutputPlusRatio(
+					(int) Math.ceil(((float) ANTIMATTER_IV)
+							/ ((float) itemInInputIV)), 1);
+		else
+			return new InputMinusOutputPlusRatio(1,
+					(int) Math.ceil(((float) itemInInputIV)
+							/ ((float) ANTIMATTER_IV)));
+	}
 
+	public void handleAntimatterTick() {
+		if (!hasAntimatterWork())
+			return;
+		InputMinusOutputPlusRatio requiredInput = getRequiredInputForAntimatter();
+		if (requiredInput == null)
+			return;
+		if (getProgress() == 0) {
+			if (outputSlot.add(ANTIMATTER_IS, true)) {
+				inputSlot.consume(requiredInput.minusInput);
+				ItemStack pIdeal = ANTIMATTER_IS.copy();
+				pIdeal.stackSize = requiredInput.plusOutput;
+				outputSlot.add(pIdeal, false);
+			}
+		}
+		if (canUse(ENERGY_COST_PER_TICK)) {
+			use(ENERGY_COST_PER_TICK);
+			addProgress(1);
+			if (getProgress() >= getMaxProgress())
+				setProgress(0);
+		}
+	}
+
+	public boolean hasAntimatterWork() {
+		if (inputSlot.get() == null)
+			return false;
+		if (!outputSlot.add(ANTIMATTER_IS, true))
+			return false;
+		int totalIVInInput = 0;
+		final int ivForOneItemInInput = IVRegistry.instance
+				.getValueFor(inputSlot.get());
+		for (int i = 0; i < inputSlot.get().stackSize; i++)
+			totalIVInInput += ivForOneItemInInput;
+		if (totalIVInInput >= ANTIMATTER_IV)
+			return true;
+		return false;
 	}
 
 	public void handleMatterTick() {

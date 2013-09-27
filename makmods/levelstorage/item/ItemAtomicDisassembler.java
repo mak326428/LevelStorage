@@ -13,7 +13,7 @@ import makmods.levelstorage.api.IChargeable;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.logic.util.BlockLocation;
-import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
 import makmods.levelstorage.network.PacketParticles;
@@ -366,7 +366,7 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 								particles.add(particle);
 								if (!bulkItemsToDelete.contains(drop.itemID)) {
 									
-									Helper.dropBlockInWorld_exact(par2World,
+									CommonHelper.dropBlockInWorld_exact(par2World,
 											player.posX, player.posY + 1.6f,
 											player.posZ, drop);
 								}

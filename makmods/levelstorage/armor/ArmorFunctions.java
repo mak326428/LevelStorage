@@ -12,7 +12,7 @@ import makmods.levelstorage.api.BootsFlyingEvent;
 import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate.WearType;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.LSDamageSource;
-import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.network.PacketTeslaRay;
 import makmods.levelstorage.network.PacketTypeHandler;
 import makmods.levelstorage.proxy.LSKeyboard;
@@ -233,7 +233,7 @@ public class ArmorFunctions {
 										ENTITY_HIT_COST)) {
 									ElectricItem.manager.use(itemStack,
 											ENTITY_HIT_COST, player);
-									Helper.spawnLightning(world, x, y, z, false);
+									CommonHelper.spawnLightning(world, x, y, z, false);
 								}
 							}
 						}

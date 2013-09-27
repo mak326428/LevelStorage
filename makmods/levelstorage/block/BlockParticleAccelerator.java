@@ -1,11 +1,14 @@
 package makmods.levelstorage.block;
 
 import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
 
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
-import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.lib.IC2Items;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.BlockTextureRegistry;
 import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
@@ -29,7 +32,14 @@ public class BlockParticleAccelerator extends BlockMachineStandart {
 	}
 
 	public static void addCraftingRecipe() {
-
+		Recipes.advRecipes.addRecipe(new ItemStack(
+				LSBlockItemList.blockParticleAccelerator), "isi", "crc", "mpm",
+				Character.valueOf('i'), IC2Items.IRIDIUM_PLATE.copy(),
+				Character.valueOf('c'), IC2Items.ADV_CIRCUIT, Character
+						.valueOf('m'), IC2Items.ADV_MACHINE, Character
+						.valueOf('s'), Items.getItem("scanner"), Character
+						.valueOf('p'), Items.getItem("patternstorage"),
+				Character.valueOf('r'), Items.getItem("replicator"));
 	}
 
 	@Override

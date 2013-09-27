@@ -242,7 +242,7 @@ public class ItemElectricSickle extends ItemTool implements IElectricItem {
 		        LSBlockItemList.itemElectricSickle), "  i", "eii", "r  ",
 		        Character.valueOf('i'), IC2Items.REFINED_IRON, Character
 		                .valueOf('e'), IC2Items.BASIC_CIRCUIT, Character
-		                .valueOf('r'), IC2Items.RE_BATTERY_CHARHED);
+		                .valueOf('r'), IC2Items.RE_BATTERY_CHARGED);
 
 	}
 

@@ -19,4 +19,8 @@ public class IVItemStackEntry implements IVEntry {
 	public int getValue() {
 		return value;
 	}
+	
+	public IVItemStackEntry clone() {
+		return new IVItemStackEntry(stack.copy(), value);
+	}
 }

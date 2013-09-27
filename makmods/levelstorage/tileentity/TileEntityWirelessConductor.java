@@ -11,7 +11,7 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.logic.util.BlockLocation;
-import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.registry.IWirelessConductor;
 import makmods.levelstorage.registry.WirelessConductorRegistry;
@@ -162,7 +162,7 @@ public class TileEntityWirelessConductor extends TileEntity implements
 			if (this.elapsedReceives > 600 && amount > 128) {
 
 				if (ENABLE_LIGHTNINGS) {
-					Helper.spawnLightning(this.worldObj, this.xCoord,
+					CommonHelper.spawnLightning(this.worldObj, this.xCoord,
 							this.yCoord, this.zCoord, false);
 				}
 				this.elapsedReceives = 0;

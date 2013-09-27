@@ -37,7 +37,7 @@ public class IVRegistry {
 	/**
 	 * Used to prevent CMEs.
 	 * 
-	 * @return
+	 * @return Exact copy of entries (mutable)
 	 */
 	public List<IVEntry> copyRegistry() {
 		List<IVEntry> newList = Lists.newArrayList();
@@ -132,6 +132,26 @@ public class IVRegistry {
 		}
 	}
 
+	/**
+	 * Respects stack size
+	 * 
+	 * @param st ItemStack
+	 * @return IV for the requested item
+	 */
+	public int getValueForItemStack(ItemStack st) {
+		if (st == null)
+			return NOT_FOUND;
+		int baseValue = getValueFor(st);
+		if (baseValue == NOT_FOUND)
+			return NOT_FOUND;
+		return baseValue * st.stackSize;
+	}
+
+	/**
+	 * Gets IV for requested object
+	 * @param obj Requested. Might be String (OreDict name) or ItemStack
+	 * @return IV
+	 */
 	public int getValueFor(Object obj) {
 		if (obj == null)
 			return NOT_FOUND;

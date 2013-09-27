@@ -30,6 +30,20 @@ public class ModUniversalInitializer {
 	private ModUniversalInitializer() {
 		;
 	}
+	
+	private int incrementalItemId = 5000;
+	private int incrementalBlockId = 1340;
+	
+	public int getNextBlockID() {
+		incrementalBlockId++;
+		return incrementalBlockId;
+	}
+	
+	public int getNextItemID() {
+		incrementalItemId++;
+		return incrementalItemId;
+	}
+	
 
 	// TODO: finish up stuff here
 	// because everything seems broken
@@ -40,10 +54,10 @@ public class ModUniversalInitializer {
 			int id = 0;
 			if (c.getSimpleName().startsWith(BLOCK_PREFIX))
 				id = LevelStorage.configuration.getBlock(f.getName(),
-						LevelStorage.getAndIncrementCurrId()).getInt();
+						getNextBlockID()).getInt();
 			else if (c.getSimpleName().startsWith(ITEM_PREFIX))
 				id = LevelStorage.configuration.getItem(f.getName(),
-						LevelStorage.getAndIncrementCurrId()).getInt();
+						getNextItemID()).getInt();
 			else
 				LogHelper
 						.severe("object is neither item nor block. This is a bug!");

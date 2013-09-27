@@ -1,9 +1,14 @@
 package makmods.levelstorage.item;
 
+import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
+import makmods.levelstorage.LSBlockItemList;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -30,6 +35,13 @@ public class ItemElectricLighter extends ItemBasicElectric {
 				Block.fire.blockID);
 		addedFire = true;
 		return addedFire;
+	}
+
+	public static void addCraftingRecipe() {
+		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
+				LSBlockItemList.itemElectricLighter),
+				Items.getItem("powerunitsmall").copy(), new ItemStack(
+						Item.flintAndSteel), IC2Items.ADV_CIRCUIT);
 	}
 
 	@Override

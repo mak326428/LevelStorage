@@ -3,6 +3,7 @@ package makmods.levelstorage.proxy;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.armor.ItemArmorEnhancedNanoChestplate;
 import makmods.levelstorage.client.ElectricHUD;
 import makmods.levelstorage.client.render.ItemWirelessConductorRender;
 import makmods.levelstorage.client.render.RenderSuperconductorCable;
@@ -47,6 +48,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String CAPACIOUS_FLUID_CELL_TEXTURE = getTexturePathFor("itemCapaciousFluidCell");
 	public static final String ELECTRIC_LIGHTER_TEXTURE = getTexturePathFor("itemElectricLighter");
 	public static final String ITEM_BLOCK_REPLACER_TEXTURE = getTexturePathFor("itemBlockReplacer");
+	public static final String ENHANCED_NANO_CHESTPLATE_TEXTURE = getTexturePathFor("itemEnhNanoChestplate");
 
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
@@ -128,6 +130,8 @@ public class ClientProxy extends CommonProxy {
 				.addNewArmourRendererPrefix("supersonic");
 		ARMOR_ENHANCED_LAPPACK_RENDER_INDEX = RenderingRegistry
 				.addNewArmourRendererPrefix("enhlappack");
+		ItemArmorEnhancedNanoChestplate.RENDER_ID = RenderingRegistry
+				.addNewArmourRendererPrefix("enhnano");
 		LSCreativeTab.instance = new LSCreativeTab();
 		super.init();
 		if (LevelStorage.configuration.get(LevelStorage.PERFORMANCE_CATEGORY,

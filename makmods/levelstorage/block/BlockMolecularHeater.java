@@ -10,7 +10,7 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.BlockTextureRegistry;
 import makmods.levelstorage.registry.BlockTextureRegistry.SimpleBlockTexture;
@@ -67,14 +67,14 @@ public class BlockMolecularHeater extends BlockContainer {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
-		Helper.dropBlockItems(world, x, y, z);
+		CommonHelper.dropBlockItems(world, x, y, z);
 		super.breakBlock(world, x, y, z, par5, par6);
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 	        EntityPlayer player, int par6, float par7, float par8, float par9) {
-		return Helper.handleMachineRightclick(world, x, y, z, player);
+		return CommonHelper.handleMachineRightclick(world, x, y, z, player);
 	}
 
 	@Override

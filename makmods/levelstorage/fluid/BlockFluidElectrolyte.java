@@ -2,6 +2,7 @@ package makmods.levelstorage.fluid;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.init.ModFluids;
+import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -19,7 +20,7 @@ public class BlockFluidElectrolyte extends BlockFluidClassic {
 
 	public BlockFluidElectrolyte() {
 		super(LevelStorage.configuration.getBlock(UNLOC_NAME,
-		        LevelStorage.getAndIncrementCurrId()).getInt(),
+		        ModUniversalInitializer.instance.getNextBlockID()).getInt(),
 		        ModFluids.instance.fluidElectrolyte, Material.water);
 		ModFluids.instance.fluidElectrolyte.setBlockID(this);
 	}

@@ -1,19 +1,16 @@
 package makmods.levelstorage.proxy;
 
-import makmods.levelstorage.gui.client.GuiAdvancedMiner;
 import makmods.levelstorage.gui.client.GuiMolecularHeater;
 import makmods.levelstorage.gui.client.GuiWirelessConductor;
 import makmods.levelstorage.gui.client.GuiWirelessPowerSync;
 import makmods.levelstorage.gui.client.GuiXpCharger;
 import makmods.levelstorage.gui.client.GuiXpGenerator;
-import makmods.levelstorage.gui.container.ContainerAdvancedMiner;
 import makmods.levelstorage.gui.container.ContainerMolecularHeater;
 import makmods.levelstorage.gui.container.ContainerPowerSync;
 import makmods.levelstorage.gui.container.ContainerWirelessConductor;
 import makmods.levelstorage.gui.container.ContainerXpCharger;
 import makmods.levelstorage.gui.container.ContainerXpGenerator;
 import makmods.levelstorage.tileentity.ITEHasGUI;
-import makmods.levelstorage.tileentity.TileEntityAdvancedMiner;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
@@ -43,9 +40,6 @@ public class GUIHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new ContainerPowerSync(player.inventory,
 			        (TileEntityWirelessPowerSynchronizer) tileEntity);
-		if (tileEntity instanceof TileEntityAdvancedMiner)
-			return new ContainerAdvancedMiner(player.inventory,
-			        (TileEntityAdvancedMiner) tileEntity);
 		if (tileEntity instanceof TileEntityMolecularHeater)
 			return new ContainerMolecularHeater(player.inventory,
 			        (TileEntityMolecularHeater) tileEntity);
@@ -71,9 +65,6 @@ public class GUIHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new GuiWirelessPowerSync(player.inventory,
 			        (TileEntityWirelessPowerSynchronizer) tileEntity);
-		if (tileEntity instanceof TileEntityAdvancedMiner)
-			return new GuiAdvancedMiner(player.inventory,
-			        (TileEntityAdvancedMiner) tileEntity);
 		if (tileEntity instanceof TileEntityMolecularHeater)
 			return new GuiMolecularHeater(player.inventory,
 			        (TileEntityMolecularHeater) tileEntity);

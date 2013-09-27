@@ -28,7 +28,7 @@ public class IC2Items {
 	public static final ItemStack BASIC_CIRCUIT = Items
 	        .getItem("electronicCircuit");
 	public static final ItemStack RE_BATTERY = Items.getItem("reBattery");
-	public static final ItemStack RE_BATTERY_CHARHED = Items
+	public static final ItemStack RE_BATTERY_CHARGED = Items
 	        .getItem("chargedReBattery");
 	public static final ItemStack REFINED_IRON = Items
 	        .getItem("refinedIronIngot");

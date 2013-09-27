@@ -1,11 +1,11 @@
 package makmods.levelstorage;
 
 import makmods.levelstorage.armor.ItemArmorEnhancedLappack;
+import makmods.levelstorage.armor.ItemArmorEnhancedNanoChestplate;
 import makmods.levelstorage.armor.ItemArmorForcefieldChestplate;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
-import makmods.levelstorage.block.BlockAdvancedMiner;
 import makmods.levelstorage.block.BlockAntimatterStone;
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockMolecularHeater;
@@ -18,7 +18,6 @@ import makmods.levelstorage.block.BlockXpGenerator;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemAtomicDisassembler;
-import makmods.levelstorage.item.ItemBlockReplacer;
 import makmods.levelstorage.item.ItemElectricLighter;
 import makmods.levelstorage.item.ItemElectricMagnet;
 import makmods.levelstorage.item.ItemElectricSickle;
@@ -49,7 +48,6 @@ public class LSBlockItemList {
 	public static BlockWirelessConductor blockWlessConductor;
 	public static BlockWirelessPowerSynchronizer blockWlessPowerSync;
 	public static BlockCableSuperconductor blockSuperconductor;
-	public static BlockAdvancedMiner blockAdvMiner;
 	public static BlockMolecularHeater blockMolHeater;
 	public static BlockMulticoreSolarPanel blockMulticoreSolarPanel;
 	public static BlockAntimatterStone blockAntimatterStone;
@@ -76,5 +74,5 @@ public class LSBlockItemList {
 	public static ItemRemoteAccessor itemRemoteAccessor;
 	public static ItemElectricLighter itemElectricLighter;
 	public static BlockParticleAccelerator blockParticleAccelerator;
-	public static ItemBlockReplacer itemBlockReplacer;
+	public static ItemArmorEnhancedNanoChestplate itemArmorEnhancedNanoChestplate;
 }

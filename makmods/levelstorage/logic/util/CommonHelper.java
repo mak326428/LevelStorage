@@ -21,7 +21,7 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class Helper {
+public class CommonHelper {
 	public static SyncType invertType(SyncType type) {
 		if (type == SyncType.RECEIVER)
 			return SyncType.TRANSMITTER;
@@ -38,24 +38,24 @@ public class Helper {
 		if (s2 == null)
 			return false;
 		return (s1.itemID == s2.itemID)
-		        && (s1.getItemDamage() == s2.getItemDamage())
-		        && (s1.stackSize == s2.stackSize);
+				&& (s1.getItemDamage() == s2.getItemDamage())
+				&& (s1.stackSize == s2.stackSize);
 	}
 
 	public static void dropBlockInWorld(World par1World, int par2, int par3,
-	        int par4, ItemStack par5ItemStack) {
+			int par4, ItemStack par5ItemStack) {
 		if (!par1World.isRemote
-		        && par1World.getGameRules().getGameRuleBooleanValue(
-		                "doTileDrops")) {
+				&& par1World.getGameRules().getGameRuleBooleanValue(
+						"doTileDrops")) {
 			float f = 0.7F;
 			double d0 = (double) (par1World.rand.nextFloat() * f)
-			        + (double) (1.0F - f) * 0.5D;
+					+ (double) (1.0F - f) * 0.5D;
 			double d1 = (double) (par1World.rand.nextFloat() * f)
-			        + (double) (1.0F - f) * 0.5D;
+					+ (double) (1.0F - f) * 0.5D;
 			double d2 = (double) (par1World.rand.nextFloat() * f)
-			        + (double) (1.0F - f) * 0.5D;
+					+ (double) (1.0F - f) * 0.5D;
 			EntityItem entityitem = new EntityItem(par1World, (double) par2
-			        + d0, (double) par3 + d1, (double) par4 + d2, par5ItemStack);
+					+ d0, (double) par3 + d1, (double) par4 + d2, par5ItemStack);
 			entityitem.delayBeforeCanPickup = 10;
 			par1World.spawnEntityInWorld(entityitem);
 		}
@@ -72,7 +72,7 @@ public class Helper {
 	public static void messagePlayer(EntityPlayer player, String message) {
 		LevelStorage.proxy.messagePlayer(player, message, new Object[0]);
 	}
-	
+
 	public static <T> List<T> convertToList(T[] elements) {
 		ArrayList<T> list = Lists.newArrayList();
 		for (T element : elements)
@@ -95,9 +95,9 @@ public class Helper {
 	 *            Stack to be dropped to the world
 	 */
 	public static void dropBlockInWorld_exact(World world, double x, double y,
-	        double z, ItemStack stack) {
+			double z, ItemStack stack) {
 		if (!world.isRemote
-		        && world.getGameRules().getGameRuleBooleanValue("doTileDrops")) {
+				&& world.getGameRules().getGameRuleBooleanValue("doTileDrops")) {
 			EntityItem entityitem = new EntityItem(world, x, y, z, stack);
 			entityitem.delayBeforeCanPickup = 0;
 			world.spawnEntityInWorld(entityitem);
@@ -105,13 +105,13 @@ public class Helper {
 	}
 
 	public static boolean handleMachineRightclick(World world, int x, int y,
-	        int z, EntityPlayer player) {
+			int z, EntityPlayer player) {
 		if (player.isSneaking())
 			return false;
 		else {
 			if (!world.isRemote) {
-				//WARNING
-				//player.travelToDimension(LSDimensions.ANTIMATTER_UNIVERSE_DIMENSION_ID);
+				// WARNING
+				// player.travelToDimension(LSDimensions.ANTIMATTER_UNIVERSE_DIMENSION_ID);
 				TileEntity tile = world.getBlockTileEntity(x, y, z);
 				if (tile != null) {
 					player.openGui(LevelStorage.instance, 16384, world, x, y, z);
@@ -139,12 +139,12 @@ public class Helper {
 				float rz = rand.nextFloat() * 0.8F + 0.1F;
 
 				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
-				        + rz, new ItemStack(item.itemID, item.stackSize,
-				        item.getItemDamage()));
+						+ rz, new ItemStack(item.itemID, item.stackSize,
+						item.getItemDamage()));
 
 				if (item.hasTagCompound()) {
 					entityItem.getEntityItem().setTagCompound(
-					        (NBTTagCompound) item.getTagCompound().copy());
+							(NBTTagCompound) item.getTagCompound().copy());
 				}
 
 				float factor = 0.05F;
@@ -158,7 +158,7 @@ public class Helper {
 	}
 
 	public static boolean compareStacksGenerallyNoStackSize(ItemStack s1,
-	        ItemStack s2) {
+			ItemStack s2) {
 		if (s1 == null && s2 == null)
 			return true;
 		if (s1 == null)
@@ -166,7 +166,7 @@ public class Helper {
 		if (s2 == null)
 			return false;
 		return (s1.itemID == s2.itemID)
-		        && (s1.getItemDamage() == s2.getItemDamage());
+				&& (s1.getItemDamage() == s2.getItemDamage());
 	}
 
 	/*
@@ -209,7 +209,7 @@ public class Helper {
 		w.addWeatherEffect(lightning);
 		if (exp) {
 			w.createExplosion(lightning, x, y, z,
-			        (float) (Math.random() * 1.0f), true);
+					(float) (Math.random() * 1.0f), true);
 		}
 		w.spawnEntityInWorld(lightning);
 
@@ -227,11 +227,27 @@ public class Helper {
 		if (name.endsWith(".name")) {
 			if (FMLCommonHandler.instance().getSide().isClient())
 				sb.append(LanguageRegistry.instance().getStringLocalization(
-				        name));
+						name));
 			else
 				sb.append(name);
 		} else
 			sb.append(stack.getDisplayName());
 		return sb.toString();
+	}
+
+	public static int getDistanceFloor(double startX, double startY,
+			double startZ, double endX, double endY, double endZ) {
+		double x = endX - startX;
+		double y = endY - startY;
+		double z = endZ - startZ;
+		return (int)Math.floor(Math.sqrt(x * x + y * y + z * z));
+	}
+	
+	public static int getDistanceCeil(double startX, double startY,
+			double startZ, double endX, double endY, double endZ) {
+		double x = endX - startX;
+		double y = endY - startY;
+		double z = endZ - startZ;
+		return (int)Math.ceil(Math.sqrt(x * x + y * y + z * z));
 	}
 }

@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.api.XPStack;
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -176,7 +176,7 @@ public class XPStackRegistry {
 		int value = property.getInt();
 		if (value == -1) {
 			LogHelper.warning("XP entry for item "
-					+ Helper.getNiceStackName(stack.stack) + " is disabled");
+					+ CommonHelper.getNiceStackName(stack.stack) + " is disabled");
 			return;
 		}
 		FMLLog.log(Level.INFO, "Adding #" + stack.stack.itemID + ":"

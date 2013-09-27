@@ -17,4 +17,8 @@ public class IVOreDictEntry implements IVEntry {
 	public int getValue() {
 		return value;
 	}
+	
+	public IVOreDictEntry clone() {
+		return new IVOreDictEntry(name, value);
+	}
 }

@@ -5,7 +5,7 @@ import ic2.api.item.Items;
 import java.util.ArrayList;
 
 import makmods.levelstorage.LSCreativeTab;
-import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -41,7 +41,7 @@ public abstract class BlockMachineStandart extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		return Helper.handleMachineRightclick(world, x, y, z, player);
+		return CommonHelper.handleMachineRightclick(world, x, y, z, player);
 	}
 
 	@Override

@@ -41,7 +41,7 @@ public class CommonProxy {
 
 	// public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
 
-	public static final int ARMOR_STORAGE = 40 * 1000 * 1000;
+	public static final int ARMOR_STORAGE = 80 * 1000 * 1000;
 	public static final int ENH_LAPPACK_STORAGE = 2000000;
 	public static int ARMOR_SUPERSONIC_RENDER_INDEX;
 	public static int ARMOR_ENHANCED_LAPPACK_RENDER_INDEX;
@@ -118,7 +118,6 @@ public class CommonProxy {
 	public void init() {
 		NetworkRegistry.instance().registerGuiHandler(LevelStorage.instance,
 				new GUIHandler());
-		// TODO: mess around with this neat thingy
 		MinecraftForge.EVENT_BUS.register(new LevelStorageEventHandler());
 		LocalizationInitializer.instance.init();
 		SimpleItems.instance = new SimpleItems();
@@ -136,7 +135,6 @@ public class CommonProxy {
 		WChargerRegistry.instance = new WChargerRegistry();
 		//LSWorldGenerator.instance = new LSWorldGenerator();
 		//GameRegistry.registerWorldGenerator(LSWorldGenerator.instance);
-		// TODO: reenable when ready
 		//
 		FlightRegistry.instance = new FlightRegistry();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);

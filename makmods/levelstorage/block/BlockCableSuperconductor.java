@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntitySuperconductorCable;
 import net.minecraft.block.Block;
@@ -150,7 +150,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 
 					AxisAlignedBB bbox = null;
 					// dir
-					switch (Helper.convertToList(
+					switch (CommonHelper.convertToList(
 					        Direction.values()).indexOf(dir) + 1) {
 						case 1:
 							bbox = AxisAlignedBB.getAABBPool().getAABB(x,

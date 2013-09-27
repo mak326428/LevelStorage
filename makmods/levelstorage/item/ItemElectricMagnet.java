@@ -5,12 +5,14 @@ import ic2.api.item.IElectricItem;
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.lib.IC2Items;
+import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
 import makmods.levelstorage.logic.util.SimpleMode;
@@ -33,8 +35,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemElectricMagnet extends Item implements IElectricItem {
 
-	public static final int TIER = 2;
-	public static final int STORAGE = 100000;
+	public static final int TIER = 1;
+	public static final int STORAGE = 10000;
 	public static final int ENERGY_PER_TICK = 10;
 	public static final int TURN_ON_OFF_COOLDOWN = 10;
 	public static final double RANGE = 32;
@@ -84,13 +86,14 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
-		        .registerIcon(ClientProxy.ELECTRIC_MAGNET_TEXTURE);
+				.registerIcon(ClientProxy.ELECTRIC_MAGNET_TEXTURE);
 	}
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
-	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		par3List.add("\2472" + StatCollector.translateToLocal("tooltip.electricMagnet"));
+			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+		par3List.add("\2472"
+				+ StatCollector.translateToLocal("tooltip.electricMagnet"));
 	}
 
 	@Override
@@ -101,7 +104,7 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
-	        Entity par3Entity, int par4, boolean par5) {
+			Entity par3Entity, int par4, boolean par5) {
 		if (!par2World.isRemote) {
 			Cooldownable.onUpdate(par1ItemStack, TURN_ON_OFF_COOLDOWN);
 			writeInitialMode(par1ItemStack);
@@ -111,28 +114,28 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 					boolean used = false;
 					for (Object obj : par2World.loadedEntityList) {
 						if (obj instanceof EntityItem
-						        || obj instanceof EntityXPOrb) {
+								|| obj instanceof EntityXPOrb) {
 							Entity item = (Entity) obj;
 							double distanceX = Math.abs(par3Entity.posX
-							        - item.posX);
+									- item.posX);
 							double distanceY = Math.abs(par3Entity.posY
-							        - item.posY);
+									- item.posY);
 							double distanceZ = Math.abs(par3Entity.posZ
-							        - item.posZ);
+									- item.posZ);
 							double distanceTotal = distanceX + distanceY
-							        + distanceZ;
+									+ distanceZ;
 							if (distanceTotal < RANGE) {
 								used = true;
 								item.setPosition(par3Entity.posX,
-								        par3Entity.posY, par3Entity.posZ);
+										par3Entity.posY, par3Entity.posZ);
 							}
 						}
 					}
 					if (par3Entity instanceof EntityLivingBase)
 						if (used)
 							ElectricItem.manager.use(par1ItemStack,
-							        ENERGY_PER_TICK,
-							        (EntityLivingBase) par3Entity);
+									ENERGY_PER_TICK,
+									(EntityLivingBase) par3Entity);
 				}
 			}
 		}
@@ -147,38 +150,36 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-	        EntityPlayer par3EntityPlayer) {
+			EntityPlayer par3EntityPlayer) {
 		if (!par2World.isRemote) {
 			writeInitialMode(par1ItemStack);
 			SimpleMode.readFromNBT(par1ItemStack.stackTagCompound).getReverse()
-			        .writeToNBT(par1ItemStack.stackTagCompound);
+					.writeToNBT(par1ItemStack.stackTagCompound);
 			LevelStorage.proxy
-			        .messagePlayer(
-			                par3EntityPlayer,
-			                "Active: "
-			                        + (SimpleMode
-			                                .readFromNBT(par1ItemStack.stackTagCompound).boolValue ? "yes"
-			                                : "no"), new Object[0]);
+					.messagePlayer(
+							par3EntityPlayer,
+							"Active: "
+									+ (SimpleMode
+											.readFromNBT(par1ItemStack.stackTagCompound).boolValue ? "yes"
+											: "no"), new Object[0]);
 		}
 		return par1ItemStack;
 	}
 
 	public static void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
-		        LSBlockItemList.itemElectricMagnet), "crc", "ccc", "ea ",
-		        Character.valueOf('c'), Items.getItem("copperCableItem"),
-		        Character.valueOf('r'), IC2Items.REFINED_IRON, Character
-		                .valueOf('e'), IC2Items.ENERGY_CRYSTAL, Character
-		                .valueOf('a'), IC2Items.BASIC_CIRCUIT);
+				LSBlockItemList.itemElectricMagnet), "cc ", "cic", " cb",
+				Character.valueOf('c'), "plateCopper", Character.valueOf('i'),
+				"plateIron", Character.valueOf('b'), Items.getItem("powerunitsmall"));
 
 	}
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
-	        List par3List) {
+			List par3List) {
 		ItemStack var4 = new ItemStack(this, 1);
 		ElectricItem.manager.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE,
-		        true, false);
+				true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
 

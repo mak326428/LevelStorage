@@ -5,7 +5,7 @@ import ic2.api.item.Items;
 import java.util.List;
 
 import makmods.levelstorage.iv.IVRegistry;
-import makmods.levelstorage.logic.util.Helper;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -31,7 +31,7 @@ public class AdvRecipeParser implements IRecipeParser {
 		for (AdvRecipeWrapper recipe : advRecipes) {
 			if (recipe == null)
 				continue;
-			
+
 			boolean hasUnknown = false;
 			int value = 0;
 
@@ -46,20 +46,20 @@ public class AdvRecipeParser implements IRecipeParser {
 				value += valueForObj;
 			}
 			// TODO: investigate why insulated cable recipes are missing
-			//if (recipe.getOutput().getItem().getClass().getSimpleName()
-			//		.toLowerCase().contains("cable")) {
-			//	System.out.println(LanguageRegistry.instance()
-			//			.getStringLocalization(
-			//					recipe.getOutput().getDisplayName()));
-			//	System.out.println("hasUnknown: " + hasUnknown);
-			//	System.out.println("value: " + value);
-			//	
-			//}
+			// if (recipe.getOutput().getItem().getClass().getSimpleName()
+			// .toLowerCase().contains("cable")) {
+			// System.out.println(LanguageRegistry.instance()
+			// .getStringLocalization(
+			// recipe.getOutput().getDisplayName()));
+			// System.out.println("hasUnknown: " + hasUnknown);
+			// System.out.println("value: " + value);
+			//
+			// }
 			if (!hasUnknown) {
 				if (value > 0) {
 					ItemStack outp = recipe.getOutput().copy();
 					if (IVRegistry.instance.getValueFor(outp) == IVRegistry.NOT_FOUND) {
-						
+
 						IVRegistry.instance.registerIS(outp, value
 								/ outp.stackSize);
 						parsed++;
@@ -106,22 +106,27 @@ public class AdvRecipeParser implements IRecipeParser {
 		List<AdvRecipeWrapper> list = Lists.newArrayList();
 		List allRecipes = CraftingManager.getInstance().getRecipeList();
 		for (Object obj : allRecipes) {
-			if (obj == null)
-				continue;
-			Class clazz = obj.getClass();
-			if (clazz.getCanonicalName().equals(ADV_RECIPE_CLASSNAME)
-					|| clazz.getCanonicalName().equals(
-							ADV_SHAPELESS_RECIPE_CLASSNAME)) {
-				try {
-					Object[] inputs = (Object[]) clazz.getField(INPUT_FIELD)
-							.get(obj);
-					ItemStack output = (ItemStack) clazz.getField(OUTPUT_FIELD)
-							.get(obj);
-					list.add(new AdvRecipeWrapper(inputs, output));
-				} catch (Throwable t) {
-					LogHelper.warning("Exception parsing AdvRecipe");
-					t.printStackTrace();
+			try {
+				if (obj == null)
+					continue;
+				Class clazz = obj.getClass();
+				if (clazz.getCanonicalName().equals(ADV_RECIPE_CLASSNAME)
+						|| clazz.getCanonicalName().equals(
+								ADV_SHAPELESS_RECIPE_CLASSNAME)) {
+					try {
+						Object[] inputs = (Object[]) clazz
+								.getField(INPUT_FIELD).get(obj);
+						ItemStack output = (ItemStack) clazz.getField(
+								OUTPUT_FIELD).get(obj);
+						list.add(new AdvRecipeWrapper(inputs, output));
+					} catch (Throwable t) {
+						LogHelper.warning("Exception parsing AdvRecipe");
+						t.printStackTrace();
+					}
 				}
+			} catch (Throwable t) {
+				LogHelper.warning("Exception getting AdvRecipe list.");
+				t.printStackTrace();
 			}
 		}
 		return list;

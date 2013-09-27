@@ -7,6 +7,7 @@ import makmods.levelstorage.armor.ArmorFunctions;
 import makmods.levelstorage.command.CommandChargeItems;
 import makmods.levelstorage.init.LSIMCHandler;
 import makmods.levelstorage.lib.Reference;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
@@ -53,7 +54,6 @@ public class LevelStorage {
 	public static Configuration configuration;
 	public static boolean chargerOnlyUUM;
 	public static boolean experienceRecipesOn;
-	public static int currentIds = 450;
 	public static boolean fancyGraphics;
 	public static boolean recipesHardmode = false;
 	public static final String BALANCE_CATEGORY = "balance";
@@ -70,11 +70,6 @@ public class LevelStorage {
 
 	public static boolean isAnySolarModLoaded() {
 		return Loader.isModLoaded("AdvancedSolarPanel") || detectedGT;
-	}
-
-	public static int getAndIncrementCurrId() {
-		currentIds += 1;
-		return currentIds;
 	}
 
 	@EventHandler
@@ -174,6 +169,7 @@ public class LevelStorage {
 		proxy.postInit();
 		LogHelper.info("Initialization took "
 				+ (System.currentTimeMillis() - initTimeMeter) + " ms.");
+		System.out.println(CommonHelper.getDistanceFloor(0, 0, 1, 2, 3, 2));
 	}
 
 	public static Side getSide() {
