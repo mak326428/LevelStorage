@@ -15,6 +15,7 @@ import makmods.levelstorage.init.ModTileEntities;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.iv.IVRegistry;
+import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
 import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.registry.FlightRegistry;
@@ -54,62 +55,7 @@ public class CommonProxy {
 	// Special exceptional items (like cross-mod compatiblity) will land here
 	// public static ItemUltimateWirelessAccessTerminal accessTerminal;
 
-	public void addSimpleCraftingRecipes() {
-		// Osmiridium alloy -> osmiridium plate
-		ItemStack rec1 = SimpleItems.instance.getIngredient(2);
-		rec1.stackSize = 4;
-		Recipes.compressor.addRecipe(new RecipeInputOreDict(
-				"itemOsmiridiumAlloy"), null, SimpleItems.instance
-				.getIngredient(3));
-		// 4 tiny osmium dusts -> 1 dust
-		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(1), "SS",
-				"SS", Character.valueOf('S'),
-				SimpleItems.instance.getIngredient(0));
 
-		// Osmium dust -> osmium ingot
-		ItemStack osmIngot = SimpleItems.instance.getIngredient(4);
-		ItemStack osmDust = SimpleItems.instance.getIngredient(1);
-		FurnaceRecipes.smelting().addSmelting(osmDust.itemID,
-				osmDust.getItemDamage(), osmIngot, 20.0F);
-
-		// Osmium Ingots + Iridium Ingots = Osmiridium Alloy
-		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(2),
-				"OOO", "III", "   ", Character.valueOf('O'), "ingotOsmium",
-				Character.valueOf('I'), "ingotIridium");
-		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(2),
-				"   ", "OOO", "III", Character.valueOf('O'), "ingotOsmium",
-				Character.valueOf('I'), "ingotIridium");
-
-		// Iridium Ore -> Iridium Ingot
-		if (LevelStorage.configuration.get(Configuration.CATEGORY_GENERAL,
-				"addIridiumOreToIngotCompressorRecipe", true).getBoolean(true)) {
-			try {
-				Recipes.compressor.addRecipe(
-						new RecipeInputItemStack(Items.getItem("iridiumOre")),
-						null, SimpleItems.instance.getIngredient(5));
-			} catch (Throwable t) {
-				LogHelper
-						.warning("Failed to add Iridium ore -> ingot recipe. Fallbacking.");
-				t.printStackTrace();
-			}
-		}
-
-		// UUM -> Osmium pile
-		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(0), "U U",
-				"UUU", "U U", Character.valueOf('U'), Items.getItem("matter"));
-
-		Recipes.advRecipes.addRecipe(
-				OreDictionary.getOres("itemAntimatterTinyPile").get(0), "ppp",
-				"ppp", "ppp", Character.valueOf('p'), "itemAntimatterMolecule");
-		Recipes.advRecipes.addRecipe(OreDictionary
-				.getOres("itemAntimatterGlob").get(0), "ppp", "ppp", "ppp",
-				Character.valueOf('p'), "itemAntimatterTinyPile");
-		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(7)
-				.copy(), " a ", "ana", " a ", Character.valueOf('a'),
-				SimpleItems.instance.getIngredient(10).copy(), Character
-						.valueOf('n'), new ItemStack(Item.netherStar).copy());
-
-	}
 
 	public int getArmorIndexFor(String forWhat) {
 		return 0;
@@ -121,10 +67,11 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new LevelStorageEventHandler());
 		LocalizationInitializer.instance.init();
 		SimpleItems.instance = new SimpleItems();
-		addSimpleCraftingRecipes();
+		SimpleRecipeAdder.addSimpleCraftingRecipes();
 		// LSBlockItemList.init();
 		// LSBlockItemList.init();
 		ModUniversalInitializer.instance.init();
+		SimpleRecipeAdder.addRecipesAfterMUIFinished();
 		ModTileEntities.instance.init();
 		ModFluids.instance.init();
 		LSDimensions.init();
@@ -133,8 +80,8 @@ public class CommonProxy {
 						"biomeAntimatterFieldId", 40).getInt());
 		PowerSyncRegistry.instance = new PowerSyncRegistry();
 		WChargerRegistry.instance = new WChargerRegistry();
-		//LSWorldGenerator.instance = new LSWorldGenerator();
-		//GameRegistry.registerWorldGenerator(LSWorldGenerator.instance);
+		LSWorldGenerator.instance = new LSWorldGenerator();
+		GameRegistry.registerWorldGenerator(LSWorldGenerator.instance);
 		//
 		FlightRegistry.instance = new FlightRegistry();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);

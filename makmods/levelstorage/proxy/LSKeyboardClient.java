@@ -37,6 +37,8 @@ public class LSKeyboardClient extends LSKeyboard implements ITickHandler {
 		modBindings.put(RAY_SHOOT_KEY_NAME,
 		        new KeyBinding(StatCollector.translateToLocal("key.shoot"),
 		                Keyboard.KEY_R));
+		modBindings.put(JETPACK_SWITCH_KEY_NAME, new KeyBinding(StatCollector.translateToLocal("key.jetpackSwitch"),
+		                Keyboard.KEY_F));
 
 		KeyBinding[] bsInternal = (KeyBinding[]) modBindings.values().toArray(
 		        new KeyBinding[modBindings.values().size()]);

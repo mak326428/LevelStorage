@@ -80,6 +80,23 @@ public class NBTHelper {
 		}
 		return stack.stackTagCompound.getBoolean(name);
 	}
+	
+	public static void invertBoolean(ItemStack stack, String name) {
+		setBoolean(stack, name, !getBoolean(stack, name));
+	}
+	
+	public static void setByte(ItemStack stack, String name, byte value) {
+		checkNBT(stack);
+		stack.stackTagCompound.setByte(name, value);
+	}
+	
+	public static byte getByte(ItemStack stack, String name) {
+		checkNBT(stack);
+		if (!verifyKey(stack, name)) {
+			setByte(stack, name, (byte)0);
+		}
+		return stack.stackTagCompound.getByte(name);
+	}
 
 	/**
 	 * A bunch of helpers for easier item NBT cooldown

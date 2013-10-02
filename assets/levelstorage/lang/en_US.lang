@@ -12,6 +12,7 @@ tile.blockMulticoreSolarPanel.name=Multicore Solar Panel
 tile.blockAntimatterStone.name=Antimatter Stone
 tile.blockAntimatterBomb.name=Antimatter Bomb
 tile.blockParticleAccelerator.name=Particle Accelerator
+tile.blockChromiteOre.name=Chromite Ore
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Tiny pile of Osmium Dust
 dustOsmium.name=Osmium Dust
@@ -24,6 +25,14 @@ itemEnergizedStar.name=Energized Nether Star
 itemAntimatterMolecule.name=Antimatter Molecule
 itemAntimatterTinyPile.name=Tiny Pile of Antimatter
 itemAntimatterGlob.name=Antimatter Glob
+itemJetpackAccelerator.name=Jetpack Accelerator
+ingotChrome.name=Chrome Ingot
+itemDustTinyChrome.name=Tiny Pile of Chrome Dust
+itemDustChrome.name=Chrome Dust
+crushedChromiteOre.name=Crushed Chromite Ore
+purifiedCrushedChromiteOre.name=Purified Crushed Chromite Ore
+plateChrome.name=Chrome Plate
+dustTinyIridium.name=Tiny Pile of Iridium Dust
 # dimension
 dimension.antimatterUniverse.name=Antimatter Universe
 # items
@@ -59,6 +68,10 @@ other.wip=[WIP]
 other.energyHUD=Power Level (Armor):
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
+# chat messages
+jetpack.statusChange=Jetpack turned %s
+jetpack.on=on
+jetpack.off=off
 # death messages
 # %s will be replaced by player's name
 death.energyFieldKill=%s was in radius of high energy field.
@@ -69,6 +82,7 @@ death.disassemble=%s was accidentally disassembled into basic elementary atoms.
 # key bindings
 key.range=Range Switch Key
 key.shoot=Energy Ray Shoot Key
+key.jetpackSwitch=[LS] Jetpack Flight Switch
 # tooltips
 # \n will be replaced with a new line (this is not OS-dependant)
 tooltip.xp=XP Value:

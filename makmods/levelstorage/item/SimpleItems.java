@@ -83,18 +83,87 @@ public class SimpleItems extends Item {
 		initItems();
 	}
 
+	public enum SimpleItemShortcut {
+		DUST_TINY_OSMIUM("dustTinyOsmium", EnumHackyRarity.uncommon, false), // 0
+		DUST_OSMIUM("dustOsmium", EnumHackyRarity.rare, false), // 1
+		OSMIRIDIUM_ALLOY("itemOsmiridiumAlloy", EnumHackyRarity.rare, false), // 2
+		OSMIRIDIUM_PLATE("itemOsmiridiumPlate", EnumHackyRarity.epic, false), // 3
+		INGOT_OSMIUM("ingotOsmium", EnumHackyRarity.rare, false), // 4
+		INGOT_IRIDIUM("ingotIridium", EnumHackyRarity.uncommon, false), // 5
+		ULTIMATE_CIRCUIT("itemUltimateCircuit", EnumHackyRarity.rare, false), // 6
+		ENERGIZED_NETHER_STAR("itemEnergizedStar", EnumHackyRarity.epic, true), // 7
+		ANTIMATTER_MOLECULE("itemAntimatterMolecule", EnumHackyRarity.rare,
+				false), // 8
+		ANTMATTER_TINY_PILE("itemAntimatterTinyPile", EnumHackyRarity.epic,
+				false), // 9
+		ANTIMATTER_GLOB("itemAntimatterGlob", EnumHackyRarity.epic, true), // 10
+		JETPACK_ACCELERATOR("itemJetpackAccelerator", EnumHackyRarity.uncommon,
+				false), // 11
+
+		// TODO: migrate into substances
+		DUST_TINY_CHROME("itemDustTinyChrome", EnumHackyRarity.common, false), // 13
+		DUST_CHROME("itemDustChrome", EnumHackyRarity.common, false), // 14
+		CRUSHED_CHROME_ORE("crushedChromiteOre", EnumHackyRarity.common, false), // 15
+		PURIFIED_CHROME_ORE("purifiedCrushedChromiteOre",
+				EnumHackyRarity.common, false), // 16
+		INGOT_CHROME("ingotChrome", EnumHackyRarity.common, false), // 17
+		PLATE_CHROME("plateChrome", EnumHackyRarity.common, false),
+		TINY_IRIDIUM_DUST(
+				"dustTinyIridium", EnumHackyRarity.common, false); // 18
+
+		final String name;
+		final boolean hasEffect;
+		final EnumHackyRarity rarity;
+
+		private SimpleItemShortcut(String name, EnumHackyRarity rarity,
+				boolean hasEffect) {
+			this.name = name;
+			this.rarity = rarity;
+			this.hasEffect = hasEffect;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public boolean hasEffect() {
+			return hasEffect;
+		}
+
+		public EnumHackyRarity getRarity() {
+			return rarity;
+		}
+
+		public String toString() {
+			return getName();
+		}
+
+		public int getMetadata() {
+			return ordinal();
+		}
+
+		public ItemStack getItemStack() {
+			return new ItemStack(SimpleItems.instance.itemID, 1, ordinal())
+					.copy();
+		}
+	}
+
 	public void initItems() {
-		addItem("dustTinyOsmium", EnumHackyRarity.uncommon, false); // 0
-		addItem("dustOsmium", EnumHackyRarity.rare, false); // 1
-		addItem("itemOsmiridiumAlloy", EnumHackyRarity.rare, false); // 2
-		addItem("itemOsmiridiumPlate", EnumHackyRarity.epic, false); // 3
-		addItem("ingotOsmium", EnumHackyRarity.rare, false); // 4
-		addItem("ingotIridium", EnumHackyRarity.uncommon, false); // 5
-		addItem("itemUltimateCircuit", EnumHackyRarity.rare, false); // 6
-		addItem("itemEnergizedStar", EnumHackyRarity.epic, true); // 7
-		addItem("itemAntimatterMolecule", EnumHackyRarity.rare, false); // 8
-		addItem("itemAntimatterTinyPile", EnumHackyRarity.epic, false); // 9
-		addItem("itemAntimatterGlob", EnumHackyRarity.epic, true); // 10
+		SimpleItemShortcut[] vals = SimpleItemShortcut.values();
+		for (SimpleItemShortcut val : vals) {
+			addItem(val.getName(), val.getRarity(), val.hasEffect());
+		}
+	}
+
+	public ItemStack getItemForName(String name) {
+		if (name == null)
+			return null;
+		try {
+			return new ItemStack(this.itemID, 1, itemNames.indexOf(name));
+		} catch (Throwable e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**

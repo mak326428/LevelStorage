@@ -239,6 +239,7 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 				ItemStack pIdeal = ANTIMATTER_IS.copy();
 				pIdeal.stackSize = requiredInput.plusOutput;
 				outputSlot.add(pIdeal, false);
+				addProgress(1);
 			}
 		}
 		if (canUse(ENERGY_COST_PER_TICK)) {
@@ -276,6 +277,7 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 				ItemStack pIdeal = getPatternIdeal().copy();
 				pIdeal.stackSize = requiredInput.plusOutput;
 				outputSlot.add(pIdeal, false);
+				addProgress(1);
 			}
 		}
 		if (canUse(ENERGY_COST_PER_TICK)) {

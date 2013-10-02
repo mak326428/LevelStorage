@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import makmods.levelstorage.armor.ArmorFunctions;
 import makmods.levelstorage.command.CommandChargeItems;
 import makmods.levelstorage.init.LSIMCHandler;
+import makmods.levelstorage.item.SimpleItems.SimpleItemShortcut;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.LogHelper;
@@ -13,6 +14,7 @@ import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.proxy.LSKeyboard;
 import makmods.levelstorage.registry.FlightRegistry;
+import makmods.levelstorage.substance.Substance;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
@@ -169,7 +171,7 @@ public class LevelStorage {
 		proxy.postInit();
 		LogHelper.info("Initialization took "
 				+ (System.currentTimeMillis() - initTimeMeter) + " ms.");
-		System.out.println(CommonHelper.getDistanceFloor(0, 0, 1, 2, 3, 2));
+		
 	}
 
 	public static Side getSide() {

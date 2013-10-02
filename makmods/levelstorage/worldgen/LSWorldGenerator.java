@@ -4,11 +4,10 @@ import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
+import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraftforge.common.BiomeDictionary;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class LSWorldGenerator implements IWorldGenerator {
@@ -27,28 +26,19 @@ public class LSWorldGenerator implements IWorldGenerator {
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world,
 			IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		int baseChanceOfGeneration = Math.round(5.0F * oreDensityFactor);
-		int chanceOfGeneration = baseChanceOfGeneration + random.nextInt(15);
-		BiomeGenBase biomegenbase = world.getWorldChunkManager().getBiomeGenAt(
-				chunkX * 16 + 16, chunkZ * 16 + 16);
-		if (biomegenbase != null && (biomegenbase.biomeName != null)) {
-			if (BiomeDictionary.isBiomeOfType(biomegenbase,
-					BiomeDictionary.Type.END)) {
-				chanceOfGeneration += 25 + random.nextInt(7);
+		if (world.provider.isSurfaceWorld()) {
+			final int chromiumOrePasses = 50 * oreDensityFactor;
+			final int chromiumOreRarity = 100;
+			for (int pass = 0; pass < chromiumOrePasses; pass++) {
+				if (random.nextInt(chromiumOreRarity) == 0) {
+					int xToGen = chunkX * 16 + random.nextInt(16);
+					int zToGen = chunkZ * 16 + random.nextInt(16);
+					int yToGen = random.nextInt(13) + 3;
+					new WorldGenMinable(
+							LSBlockItemList.blockChromiteOre.blockID, 3)
+							.generate(world, random, xToGen, yToGen, zToGen);
+				}
 			}
-			if (BiomeDictionary.isBiomeOfType(biomegenbase,
-					BiomeDictionary.Type.PLAINS)) {
-				chanceOfGeneration += 2 + random.nextInt(5);
-			}
-		}
-		if (chanceOfGeneration > GENERATON_THRESHOLD) {
-			int x = chunkX + random.nextInt(16);
-			int y = random.nextInt(60);
-			int z = chunkZ * 16 + random.nextInt(16);
-			System.out
-					.println(String.format("generating at %d:%d:%d", x, y, z));
-			new WorldGenMinable(LSBlockItemList.blockAntimatterStone.blockID,
-					30).generate(world, random, x, y, z);
 		}
 	}
 }

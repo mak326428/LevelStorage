@@ -5,6 +5,7 @@ import ic2.api.recipe.Recipes;
 
 import java.util.List;
 
+import makmods.levelstorage.item.SimpleItems.SimpleItemShortcut;
 import makmods.levelstorage.iv.parsers.AdvRecipeParser;
 import makmods.levelstorage.iv.parsers.CraftingRecipeParser;
 import makmods.levelstorage.iv.parsers.IC2MachineRecipeParser;
@@ -32,7 +33,17 @@ public class IVRegistry {
 			new IC2MachineRecipeParser(Recipes.metalformerCutting),
 			new IC2MachineRecipeParser(Recipes.metalformerExtruding),
 			new IC2MachineRecipeParser(Recipes.metalformerRolling),
-			new SmeltingRecipeParser(), new AdvRecipeParser() };
+			new SmeltingRecipeParser(), new AdvRecipeParser(),
+			// extraordinary copy-past to allow wider scanning
+			new CraftingRecipeParser(),
+			new StandartOreRecipesParser(),
+			new IC2MachineRecipeParser(Recipes.compressor),
+			new IC2MachineRecipeParser(Recipes.macerator),
+			new IC2MachineRecipeParser(Recipes.extractor),
+			new IC2MachineRecipeParser(Recipes.metalformerCutting),
+			new IC2MachineRecipeParser(Recipes.metalformerExtruding),
+			new IC2MachineRecipeParser(Recipes.metalformerRolling),
+			new SmeltingRecipeParser(), new AdvRecipeParser(), };
 
 	/**
 	 * Used to prevent CMEs.
@@ -54,7 +65,6 @@ public class IVRegistry {
 		initCriticalNodes();
 		parseDynamically();
 		printContents();
-		System.out.println(getValueFor(Items.getItem("rubber").copy()));
 	}
 
 	public void printContents() {
@@ -97,6 +107,8 @@ public class IVRegistry {
 		registerIS(new ItemStack(Item.potato), 64);
 		registerIS(Items.getItem("iridiumOre").copy(), 131072);
 		registerIS(Items.getItem("resin").copy(), 24);
+		registerIS(SimpleItemShortcut.DUST_CHROME.getItemStack().copy(), 8192 * 12);
+		registerOreDict("ingotChrome", 8192 * 12);
 		registerOreDict("ingotCopper", 85);
 		registerOreDict("ingotTin", 255);
 		registerOreDict("ingotBronze", 170);

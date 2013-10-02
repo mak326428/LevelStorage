@@ -8,6 +8,7 @@ import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.block.BlockAntimatterStone;
 import makmods.levelstorage.block.BlockCableSuperconductor;
+import makmods.levelstorage.block.BlockChromiteOre;
 import makmods.levelstorage.block.BlockMolecularHeater;
 import makmods.levelstorage.block.BlockMulticoreSolarPanel;
 import makmods.levelstorage.block.BlockParticleAccelerator;
@@ -75,4 +76,5 @@ public class LSBlockItemList {
 	public static ItemElectricLighter itemElectricLighter;
 	public static BlockParticleAccelerator blockParticleAccelerator;
 	public static ItemArmorEnhancedNanoChestplate itemArmorEnhancedNanoChestplate;
+	public static BlockChromiteOre blockChromiteOre;
 }

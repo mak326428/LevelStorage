@@ -63,9 +63,6 @@ public abstract class BlockMachineStandart extends BlockContainer {
 			ItemStack item = inventory.getStackInSlot(i);
 
 			if (item != null && item.stackSize > 0) {
-				// 0 = down
-				// 1 = up
-				// others - side
 				dropped.add(item.copy());
 				item.stackSize = 0;
 			}
