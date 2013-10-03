@@ -4,14 +4,13 @@ tile.blockXpCharger.name=Опытовый зарядник
 tile.blockWlessConductor.name=Беспроводной проводник
 tile.blockWlessPowerSync.name=Беспроводной синхронизатор энергии
 tile.blockSuperconductor.name=Сверхпроводник
-tile.blockMassInfuser.name=Mass Infuser
-tile.blockAdvMiner.name=Продвинутая буровая установка
 tile.blockMolHeater.name=Молекулярный нагреватель
 tile.blockAtomicReplicator.name=Атомный репликатор
 tile.blockMulticoreSolarPanel.name=Многоядерная солнечная панель
 tile.blockAntimatterStone.name=Камень из антиматерии
 tile.blockAntimatterBomb.name=Бомба из антиматерии
 tile.blockParticleAccelerator.name=Синхрофазотрон
+tile.blockChromiteOre.name=Хромовая руда
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Крошечная кучка осмиевой пыли
 dustOsmium.name=Осмиевая пыль
@@ -24,6 +23,14 @@ itemEnergizedStar.name=Электролизованная звезда Нижн�
 itemAntimatterMolecule.name=Молекула антиматерии
 itemAntimatterTinyPile.name=Крошечный кусочек антиматерии
 itemAntimatterGlob.name=Шар антиматерии
+itemJetpackAccelerator.name=Ускоритель реактивного ранца
+ingotChrome.name=Хромовый слиток
+itemDustTinyChrome.name=Крошечная кучка хромовой пыли
+itemDustChrome.name=Хромовая пыль
+crushedChromiteOre.name=Измельчённая хромовая руда
+purifiedCrushedChromiteOre.name=Очищенная измельчённая хромовая руда
+plateChrome.name=Хромовая пластина
+dustTinyIridium.name=Крошечная кучка иридиевой пыли
 # dimension
 dimension.antimatterUniverse.name=Противоположная Вселенная
 # items
@@ -38,7 +45,6 @@ item.itemSupersonicLeggings.name=Сверхзвуковые поножи
 item.itemArmorForcefieldChestplate.name=Силовой нагрудник
 item.itemArmorTeslaHelmet.name=Шлем Теслы
 item.itemSuperconductor.name=Сверхпроводящий провод
-# смешно, но чтож сделать :D
 item.itemStorageFourMillion.name=Энергетический обогащённый шарик материи
 item.itemWirelessCharger.name=Беспроводной зарядник
 item.itemElectricSickle.name=Электросерп
@@ -51,6 +57,7 @@ item.itemEnhLappack.name=Улучшенный лазуротроновый ра�
 item.itemRemoteAccessor.name=Удалённое средство доступа
 item.itemCapFluidCell.name=Ёмкая жидкостная капсула
 item.itemElectricLighter.name=Электрозажигалка
+item.itemArmorEnhancedNanoChestplate.name=Улучшенная нано-кираса
 #others
 other.frequency=Частота
 other.true=да
@@ -59,6 +66,10 @@ other.wip=[WIP]
 other.energyHUD=Уровень энергии (Броня):
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
+# chat messages
+jetpack.statusChange=Реактивный ранец теперь %s
+jetpack.on=включён
+jetpack.off=выключен
 # death messages
 # %s will be replaced by player's name
 death.energyFieldKill=%s был в радиусе высокоэнергетического поля.
@@ -69,6 +80,7 @@ death.disassemble=%s был случайно разобран на основн�
 # key bindings
 key.range=Кнопка для переключения диапазона
 key.shoot=Кнопка для выстрела энергетическим лучом
+key.jetpackSwitch=[LS] Кнопка для переключ. режима реакт. ранца
 # tooltips
 # \n will be replaced with a new line (this is not OS-dependant)
 tooltip.xp=Значение опыта:
