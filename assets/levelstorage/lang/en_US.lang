@@ -4,8 +4,6 @@ tile.blockXpCharger.name=XP Charger
 tile.blockWlessConductor.name=Wireless Conductor
 tile.blockWlessPowerSync.name=Wireless Power Synchronizer
 tile.blockSuperconductor.name=Superconductor
-tile.blockMassInfuser.name=Mass Infuser
-tile.blockAdvMiner.name=Advanced Miner
 tile.blockMolHeater.name=Molecular Heater
 tile.blockAtomicReplicator.name=Atomic Replicator
 tile.blockMulticoreSolarPanel.name=Multicore Solar Panel
@@ -14,7 +12,7 @@ tile.blockAntimatterBomb.name=Antimatter Bomb
 tile.blockParticleAccelerator.name=Particle Accelerator
 tile.blockChromiteOre.name=Chromite Ore
 # simple items (crafting ingredients)
-dustTinyOsmium.name=Tiny pile of Osmium Dust
+dustTinyOsmium.name=Tiny Pile of Osmium Dust
 dustOsmium.name=Osmium Dust
 itemOsmiridiumAlloy.name=Osmiridium Mixed Metal Ingot
 itemOsmiridiumPlate.name=Osmiridium Plate
