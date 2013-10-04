@@ -1,4 +1,4 @@
-package makmods.levelstorage.api;
+package makmods.levelstorage.api.event;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

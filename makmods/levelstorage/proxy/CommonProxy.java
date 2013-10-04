@@ -1,10 +1,7 @@
 package makmods.levelstorage.proxy;
 
-import ic2.api.item.Items;
-import ic2.api.recipe.RecipeInputItemStack;
-import ic2.api.recipe.RecipeInputOreDict;
-import ic2.api.recipe.Recipes;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.dimension.AntimatterUniverseRayHandler;
 import makmods.levelstorage.dimension.BiomeAntimatterField;
 import makmods.levelstorage.dimension.LSDimensions;
 import makmods.levelstorage.init.CompatibilityInitializer;
@@ -15,7 +12,6 @@ import makmods.levelstorage.init.ModTileEntities;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.iv.IVRegistry;
-import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.LevelStorageEventHandler;
 import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.registry.FlightRegistry;
@@ -25,13 +21,8 @@ import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer.WChar
 import makmods.levelstorage.worldgen.LSWorldGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.ChatMessageComponent;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -54,8 +45,6 @@ public class CommonProxy {
 
 	// Special exceptional items (like cross-mod compatiblity) will land here
 	// public static ItemUltimateWirelessAccessTerminal accessTerminal;
-
-
 
 	public int getArmorIndexFor(String forWhat) {
 		return 0;
@@ -85,6 +74,8 @@ public class CommonProxy {
 		//
 		FlightRegistry.instance = new FlightRegistry();
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
+		TickRegistry.registerTickHandler(new AntimatterUniverseRayHandler(),
+				Side.SERVER);
 	}
 
 	public void postInit() {

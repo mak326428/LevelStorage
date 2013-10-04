@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-import makmods.levelstorage.api.BootsFlyingEvent;
+import makmods.levelstorage.api.event.BootsFlyingEvent;
+import makmods.levelstorage.api.event.TeslaRayEvent;
 import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate.WearType;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.LSDamageSource;
@@ -209,44 +210,57 @@ public class ArmorFunctions {
 						packet.tX = x;
 						packet.tY = y;
 						packet.tZ = z;
-						PacketDispatcher.sendPacketToAllAround(player.posX,
-								player.posY, player.posZ, 128.0F,
-								world.provider.dimensionId,
-								PacketTypeHandler.populatePacket(packet));
-						ArrayList<Object> entities = new ArrayList<Object>();
-						for (Object e : world.loadedEntityList) {
-							if (!(e instanceof EntityPlayer)) {
-								double distanceX = Math.abs(((Entity) e).posX
-										- x);
-								double distanceY = Math.abs(((Entity) e).posY
-										- y);
-								double distanceZ = Math.abs(((Entity) e).posZ
-										- z);
-								if ((distanceX + distanceY + distanceZ) < 4.0F) {
-									entities.add(e);
+						TeslaRayEvent tre = new TeslaRayEvent(world, player,
+								packet.initX, packet.initY, packet.initZ,
+								packet.tX, packet.tY, packet.tZ);
+						MinecraftForge.EVENT_BUS.post(tre);
+						if (!tre.isCanceled()) {
+							packet.initX = tre.getInitX();
+							packet.initY = tre.getInitY();
+							packet.initZ = tre.getInitZ();
+							packet.tX = tre.getTargetX();
+							packet.tY = tre.getTargetY();
+							packet.tZ = tre.getTargetZ();
+							PacketDispatcher.sendPacketToAllAround(player.posX,
+									player.posY, player.posZ, 128.0F,
+									world.provider.dimensionId,
+									PacketTypeHandler.populatePacket(packet));
+							ArrayList<Object> entities = new ArrayList<Object>();
+							for (Object e : world.loadedEntityList) {
+								if (!(e instanceof EntityPlayer)) {
+									double distanceX = Math
+											.abs(((Entity) e).posX - x);
+									double distanceY = Math
+											.abs(((Entity) e).posY - y);
+									double distanceZ = Math
+											.abs(((Entity) e).posZ - z);
+									if ((distanceX + distanceY + distanceZ) < 4.0F) {
+										entities.add(e);
+									}
 								}
 							}
-						}
-						if (entities.size() == 0) {
-							if (new Random().nextBoolean()) {
+							if (entities.size() == 0) {
+								if (new Random().nextBoolean()) {
+									if (ElectricItem.manager.canUse(itemStack,
+											ENTITY_HIT_COST)) {
+										ElectricItem.manager.use(itemStack,
+												ENTITY_HIT_COST, player);
+										CommonHelper.spawnLightning(world, x,
+												y, z, false);
+									}
+								}
+							}
+							for (Object obj : entities) {
 								if (ElectricItem.manager.canUse(itemStack,
 										ENTITY_HIT_COST)) {
 									ElectricItem.manager.use(itemStack,
 											ENTITY_HIT_COST, player);
-									CommonHelper.spawnLightning(world, x, y, z, false);
+									((Entity) obj).attackEntityFrom(
+											LSDamageSource.teslaRay,
+											20 + new Random().nextInt(15));
 								}
-							}
-						}
-						for (Object obj : entities) {
-							if (ElectricItem.manager.canUse(itemStack,
-									ENTITY_HIT_COST)) {
-								ElectricItem.manager.use(itemStack,
-										ENTITY_HIT_COST, player);
-								((Entity) obj).attackEntityFrom(
-										LSDamageSource.teslaRay,
-										20 + new Random().nextInt(15));
-							}
 
+							}
 						}
 					}
 				}

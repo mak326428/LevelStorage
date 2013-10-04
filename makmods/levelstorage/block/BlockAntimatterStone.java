@@ -21,6 +21,7 @@ public class BlockAntimatterStone extends Block {
 		}
 		this.setStepSound(Block.soundStoneFootstep);
 		this.setHardness(6.0F);
+		this.setResistance(600.0F);
 	}
 
 	/**

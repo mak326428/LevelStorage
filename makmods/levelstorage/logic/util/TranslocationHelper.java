@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 public class TranslocationHelper {
-	private static Entity teleportEntity(World newworld, Entity entity,
+	public static Entity teleportEntity(World newworld, Entity entity,
 			int dimension, ChunkCoordinates spawn, float yaw) {
 		Entity mount = entity.ridingEntity;
 		if (entity.ridingEntity != null) {

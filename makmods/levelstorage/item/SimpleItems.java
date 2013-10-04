@@ -2,16 +2,23 @@ package makmods.levelstorage.item;
 
 import java.util.List;
 
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.dimension.LSDimensions;
+import makmods.levelstorage.dimension.WorldProviderAntimatterUniverse;
 import makmods.levelstorage.init.ModUniversalInitializer;
+import makmods.levelstorage.logic.util.TranslocationHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Icon;
+import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.collect.Lists;
@@ -83,6 +90,31 @@ public class SimpleItems extends Item {
 		initItems();
 	}
 
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
+			EntityPlayer par3EntityPlayer) {
+		if (par2World.isRemote)
+			return par1ItemStack;
+		if (par1ItemStack.getItemDamage() == SimpleItemShortcut.ANTIMATTER_GLOB
+				.getMetadata()) {
+			if (par2World.provider instanceof WorldProviderAntimatterUniverse) {
+				TranslocationHelper.teleportEntity(
+						DimensionManager.getWorld(0), par3EntityPlayer, 0,
+						new ChunkCoordinates(0, 80, 0), 0.0F);
+			} else {
+				TranslocationHelper
+						.teleportEntity(
+								DimensionManager
+										.getWorld(LSDimensions.ANTIMATTER_UNIVERSE_DIMENSION_ID),
+								par3EntityPlayer,
+								LSDimensions.ANTIMATTER_UNIVERSE_DIMENSION_ID,
+								new ChunkCoordinates(0, 80, 0), 0.0F);
+			}
+			//par2World.createExplosion(null, , par4, par6, par8, par9)
+			par1ItemStack.stackSize--;
+		}
+		return par1ItemStack;
+	}
+
 	public enum SimpleItemShortcut {
 		DUST_TINY_OSMIUM("dustTinyOsmium", EnumHackyRarity.uncommon, false), // 0
 		DUST_OSMIUM("dustOsmium", EnumHackyRarity.rare, false), // 1
@@ -107,8 +139,7 @@ public class SimpleItems extends Item {
 		PURIFIED_CHROME_ORE("purifiedCrushedChromiteOre",
 				EnumHackyRarity.common, false), // 16
 		INGOT_CHROME("ingotChrome", EnumHackyRarity.common, false), // 17
-		PLATE_CHROME("plateChrome", EnumHackyRarity.common, false),
-		TINY_IRIDIUM_DUST(
+		PLATE_CHROME("plateChrome", EnumHackyRarity.common, false), TINY_IRIDIUM_DUST(
 				"dustTinyIridium", EnumHackyRarity.common, false); // 18
 
 		final String name;

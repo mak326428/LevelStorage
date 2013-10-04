@@ -105,9 +105,12 @@ public class IVRegistry {
 		registerIS(new ItemStack(Item.blazeRod), 1536);
 		registerIS(new ItemStack(Item.carrot), 64);
 		registerIS(new ItemStack(Item.potato), 64);
+		registerIS(new ItemStack(Item.glowstone), 384);
+		registerIS(new ItemStack(Item.dyePowder, 1, 4), 768);
+		
 		registerIS(Items.getItem("iridiumOre").copy(), 131072);
 		registerIS(Items.getItem("resin").copy(), 24);
-		registerIS(SimpleItemShortcut.DUST_CHROME.getItemStack().copy(), 8192 * 12);
+		//registerIS(SimpleItemShortcut.DUST_CHROME.getItemStack().copy(), 8192 * 12);
 		registerOreDict("ingotChrome", 8192 * 12);
 		registerOreDict("ingotCopper", 85);
 		registerOreDict("ingotTin", 255);
@@ -119,6 +122,9 @@ public class IVRegistry {
 	}
 
 	public void registerOreDict(String name, int value) {
+		List<ItemStack> sts = OreDictionary.getOres(name);
+		for (ItemStack st : sts)
+			registerIS(st.copy(), value);
 		entries.add(new IVOreDictEntry(name, value));
 	}
 

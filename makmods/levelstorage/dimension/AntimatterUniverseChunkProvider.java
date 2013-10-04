@@ -117,7 +117,7 @@ public class AntimatterUniverseChunkProvider implements IChunkProvider {
 			for (int z = 0; z < 16; ++z) {
 				for (int y = 0; y < k; ++y) {
 					int idx = x << 11 | z << 7 | y;
-					//int id = ids[idx] & 0xFF;
+					// int id = ids[idx] & 0xFF;
 					int id = ids[idx];
 					// int meta = metadata[idx];
 
@@ -157,7 +157,8 @@ public class AntimatterUniverseChunkProvider implements IChunkProvider {
 		BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(k + 16,
 				l + 16);
 		biomegenbase.decorate(this.worldObj, this.random, k, l);
-
+		new WorldGeneratorPillar().generate(random, par2, par3, this.worldObj,
+				this, this);
 	}
 
 	/**

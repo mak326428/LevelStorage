@@ -55,8 +55,6 @@ public class PacketTeslaRay extends PacketLS {
 			EnergyRayFX pe = new EnergyRayFX(p.worldObj, initX, initY, initZ,
 			        tX, tY, tZ, 48, 141, 255, 40);
 			Minecraft.getMinecraft().effectRenderer.addEffect(pe);
-			TestParticleFX tpfx = new TestParticleFX(p.worldObj, initX, initY - 1.6F - 0.5F, initZ);
-			Minecraft.getMinecraft().effectRenderer.addEffect(tpfx);
 		}
 	}
 

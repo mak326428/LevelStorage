@@ -1,6 +1,7 @@
 package makmods.levelstorage.client.render;
 
 import java.util.List;
+import java.util.Random;
 
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.logic.util.RenderHelper;
@@ -55,8 +56,8 @@ public class EnergyRayFX extends EntityFX {
 	public int impact;
 
 	public EnergyRayFX(World par1World, double px, double py, double pz,
-	        double tx, double ty, double tz, float red, float green,
-	        float blue, int age) {
+			double tx, double ty, double tz, float red, float green,
+			float blue, int age) {
 		super(par1World, px, py, pz, 0.0D, 0.0D, 0.0D);
 
 		this.particleRed = red;
@@ -75,9 +76,9 @@ public class EnergyRayFX extends EntityFX {
 		this.particleMaxAge = age;
 
 		EntityLivingBase renderentity = Minecraft.getMinecraft().renderViewEntity;
-		int visibleDistance = 50;
-		if (!ModLoader.getMinecraftInstance().gameSettings.fancyGraphics)
-			visibleDistance = 25;
+		int visibleDistance = 1000;
+		//if (!ModLoader.getMinecraftInstance().gameSettings.fancyGraphics)
+		//	visibleDistance = 25;
 		if (renderentity.getDistance(this.posX, this.posY, this.posZ) > visibleDistance)
 			this.particleMaxAge = 0;
 	}
@@ -116,8 +117,8 @@ public class EnergyRayFX extends EntityFX {
 			this.impact -= 1;
 
 		List entities = this.worldObj.getEntitiesWithinAABB(EntityMob.class,
-		        AxisAlignedBB.getBoundingBox(tX - 4, tY - 4, tZ - 4, tX + 4,
-		                tY + 4, tZ + 4));
+				AxisAlignedBB.getBoundingBox(tX - 4, tY - 4, tZ - 4, tX + 4,
+						tY + 4, tZ + 4));
 
 		for (Object obj : entities) {
 			((EntityMob) obj).attackEntityFrom(LSDamageSource.teslaRay, 10);
@@ -154,16 +155,20 @@ public class EnergyRayFX extends EntityFX {
 		this.rotationspeed = rotationspeed;
 	}
 
+	Random rng = new Random();
+
 	public void renderParticle(Tessellator tessellator, float f, float f1,
-	        float f2, float f3, float f4, float f5) {
+			float f2, float f3, float f4, float f5) {
 		tessellator.draw();
 		GL11.glPushMatrix();
 		GL11.glPushMatrix();
+		//GL11.glTranslated(Math.random() * 10.0F, Math.random() * 10.0F,
+		//		Math.random() * 10.0F);
 		float var9 = 1.0F;
 		float slide = (float) this.worldObj.getWorldTime();
 		float rot = (float) (this.worldObj.provider.getWorldTime()
-		        % (360 / this.rotationspeed) * this.rotationspeed)
-		        + this.rotationspeed * f;
+				% (360 / this.rotationspeed) * this.rotationspeed)
+				+ this.rotationspeed * f;
 
 		float size = 1.0F;
 		if (this.pulse) {
@@ -176,9 +181,9 @@ public class EnergyRayFX extends EntityFX {
 			op = 0.4F - (4 - (this.particleMaxAge - this.particleAge)) * 0.1F;
 		}
 		switch (this.type) {
-			default:
-				RenderHelper.bindTexture(ClientProxy.TESLA_RAY_1);
-				break;
+		default:
+			//RenderHelper.bindTexture(ClientProxy.TESLA_RAY_1);
+			break;
 		}
 
 		GL11.glTexParameterf(3553, 10242, 10497.0F);
@@ -202,7 +207,7 @@ public class EnergyRayFX extends EntityFX {
 
 		float ry = (float) (this.prevYaw + (this.rotYaw - this.prevYaw) * f);
 		float rp = (float) (this.prevPitch + (this.rotPitch - this.prevPitch)
-		        * f);
+				* f);
 		GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
 		GL11.glRotatef(180.0F + ry, 0.0F, 0.0F, -1.0F);
 		GL11.glRotatef(rp, 1.0F, 0.0F, 0.0F);
@@ -224,7 +229,7 @@ public class EnergyRayFX extends EntityFX {
 			tessellator.startDrawingQuads();
 			tessellator.setBrightness(200);
 			tessellator.setColorRGBA_F(this.particleRed, this.particleGreen,
-			        this.particleBlue, op);
+					this.particleBlue, op);
 			tessellator.addVertexWithUV(var44b, var29, 0.0D, var33, var37);
 			tessellator.addVertexWithUV(var44, 0.0D, 0.0D, var33, var35);
 			tessellator.addVertexWithUV(var17, 0.0D, 0.0D, var31, var35);
@@ -249,7 +254,7 @@ public class EnergyRayFX extends EntityFX {
 	}
 
 	public void renderImpact(Tessellator tessellator, float f, float f1,
-	        float f2, float f3, float f4, float f5) {
+			float f2, float f3, float f4, float f5) {
 		GL11.glPushMatrix();
 		GL11.glDepthMask(false);
 		GL11.glEnable(3042);
@@ -272,15 +277,15 @@ public class EnergyRayFX extends EntityFX {
 		tessellator.startDrawingQuads();
 		tessellator.setBrightness(200);
 		tessellator.setColorRGBA_F(this.particleRed, this.particleGreen,
-		        this.particleBlue, 0.66F);
+				this.particleBlue, 0.66F);
 		tessellator.addVertexWithUV(var13 - f1 * var12 - f4 * var12, var14 - f2
-		        * var12, var15 - f3 * var12 - f5 * var12, var9, var11);
+				* var12, var15 - f3 * var12 - f5 * var12, var9, var11);
 		tessellator.addVertexWithUV(var13 - f1 * var12 + f4 * var12, var14 + f2
-		        * var12, var15 - f3 * var12 + f5 * var12, var9, var10);
+				* var12, var15 - f3 * var12 + f5 * var12, var9, var10);
 		tessellator.addVertexWithUV(var13 + f1 * var12 + f4 * var12, var14 + f2
-		        * var12, var15 + f3 * var12 + f5 * var12, var8, var10);
+				* var12, var15 + f3 * var12 + f5 * var12, var8, var10);
 		tessellator.addVertexWithUV(var13 + f1 * var12 - f4 * var12, var14 - f2
-		        * var12, var15 + f3 * var12 - f5 * var12, var8, var11);
+				* var12, var15 + f3 * var12 - f5 * var12, var8, var11);
 
 		tessellator.draw();
 
