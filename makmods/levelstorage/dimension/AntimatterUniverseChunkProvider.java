@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
+import makmods.levelstorage.dimension.worldgen.WorldGeneratorAsteroids;
+import makmods.levelstorage.dimension.worldgen.WorldGeneratorPillar;
+import makmods.levelstorage.dimension.worldgen.WorldGeneratorUUMFountain;
 import makmods.levelstorage.proxy.CommonProxy;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IProgressUpdate;
@@ -159,6 +162,10 @@ public class AntimatterUniverseChunkProvider implements IChunkProvider {
 		biomegenbase.decorate(this.worldObj, this.random, k, l);
 		new WorldGeneratorPillar().generate(random, par2, par3, this.worldObj,
 				this, this);
+		new WorldGeneratorAsteroids().generate(random, par2, par3,
+				this.worldObj, this, this);
+		new WorldGeneratorUUMFountain().generate(random, par2, par3,
+				this.worldObj, this, this);
 	}
 
 	/**

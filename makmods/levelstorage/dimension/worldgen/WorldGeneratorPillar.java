@@ -1,4 +1,4 @@
-package makmods.levelstorage.dimension;
+package makmods.levelstorage.dimension.worldgen;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -58,9 +59,9 @@ public class WorldGeneratorPillar implements IWorldGenerator {
 		}
 	}
 	
-	public static int RARITY = 8;
+	public static int RARITY = 6;
 
-	public static Block wrapper = Block.blockNetherQuartz;
+	public static Block wrapper = LSBlockItemList.blockUnstableQuartz;
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world,

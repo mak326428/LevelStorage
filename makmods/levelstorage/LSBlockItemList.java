@@ -12,6 +12,7 @@ import makmods.levelstorage.block.BlockChromiteOre;
 import makmods.levelstorage.block.BlockMolecularHeater;
 import makmods.levelstorage.block.BlockMulticoreSolarPanel;
 import makmods.levelstorage.block.BlockParticleAccelerator;
+import makmods.levelstorage.block.BlockUnstableQuartz;
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
 import makmods.levelstorage.block.BlockXpCharger;
@@ -77,4 +78,5 @@ public class LSBlockItemList {
 	public static BlockParticleAccelerator blockParticleAccelerator;
 	public static ItemArmorEnhancedNanoChestplate itemArmorEnhancedNanoChestplate;
 	public static BlockChromiteOre blockChromiteOre;
+	public static BlockUnstableQuartz blockUnstableQuartz;
 }

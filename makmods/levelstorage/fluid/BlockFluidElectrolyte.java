@@ -20,7 +20,7 @@ public class BlockFluidElectrolyte extends BlockFluidClassic {
 
 	public BlockFluidElectrolyte() {
 		super(LevelStorage.configuration.getBlock(UNLOC_NAME,
-		        ModUniversalInitializer.instance.getNextBlockID()).getInt(),
+		        3244).getInt(),
 		        ModFluids.instance.fluidElectrolyte, Material.water);
 		ModFluids.instance.fluidElectrolyte.setBlockID(this);
 	}

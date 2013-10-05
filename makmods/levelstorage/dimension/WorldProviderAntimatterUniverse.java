@@ -38,6 +38,11 @@ public class WorldProviderAntimatterUniverse extends WorldProvider {
     {
     	return worldObj.getWorldVec3Pool().getVecFromPool(0.0F, 0.0F, 0.0F);
     }
+    
+    public Vec3 getFogColor(float par1, float par2)
+    {
+    	return worldObj.getWorldVec3Pool().getVecFromPool(0.0F, 0.0F, 0.0F);
+    }
 	
     public IChunkProvider createChunkGenerator()
     {
