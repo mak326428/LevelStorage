@@ -6,22 +6,19 @@ import java.util.logging.Logger;
 import makmods.levelstorage.armor.ArmorFunctions;
 import makmods.levelstorage.command.CommandChargeItems;
 import makmods.levelstorage.init.LSIMCHandler;
-import makmods.levelstorage.item.SimpleItems.SimpleItemShortcut;
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.proxy.LSKeyboard;
 import makmods.levelstorage.registry.FlightRegistry;
-import makmods.levelstorage.substance.Substance;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -61,7 +58,7 @@ public class LevelStorage {
 	public static final String BALANCE_CATEGORY = "balance";
 	public static final String RECIPES_CATEGORY = "recipes";
 	public static final String PERFORMANCE_CATEGORY = "performance";
-	
+	public static Fluid IC2UUM;
 	public static final String STORAGE_CATEGORY = "electricitemstorage";
 	public static final String IDS_CATEGORY = "ids";
 	public static Logger logger;
@@ -171,7 +168,9 @@ public class LevelStorage {
 		proxy.postInit();
 		LogHelper.info("Initialization took "
 				+ (System.currentTimeMillis() - initTimeMeter) + " ms.");
-		
+		//for (String s : FluidRegistry.getRegisteredFluids().keySet())
+		//	System.out.println(s);
+		IC2UUM = FluidRegistry.getFluid("uumatter");
 	}
 
 	public static Side getSide() {

@@ -1,6 +1,7 @@
 package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.api.CombustibleRegistry;
 import makmods.levelstorage.dimension.AntimatterUniverseRayHandler;
 import makmods.levelstorage.dimension.BiomeAntimatterField;
 import makmods.levelstorage.dimension.LSDimensions;
@@ -84,6 +85,7 @@ public class CommonProxy {
 		ModAchievements.instance.init();
 		LevelStorage.configuration.save();
 		CompatibilityInitializer.instance.init();
+		CombustibleRegistry.registerDefaults();
 		// TODO: move this to an external compat class
 		if (Loader.isModLoaded("gregtech_addon")) {
 			LogHelper

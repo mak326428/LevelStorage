@@ -9,9 +9,12 @@ import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.block.BlockAntimatterStone;
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockChromiteOre;
+import makmods.levelstorage.block.BlockCombustibleGenerator;
+import makmods.levelstorage.block.BlockLavaFabricator;
 import makmods.levelstorage.block.BlockMolecularHeater;
 import makmods.levelstorage.block.BlockMulticoreSolarPanel;
 import makmods.levelstorage.block.BlockParticleAccelerator;
+import makmods.levelstorage.block.BlockRockDesintegrator;
 import makmods.levelstorage.block.BlockUnstableQuartz;
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
@@ -79,4 +82,7 @@ public class LSBlockItemList {
 	public static ItemArmorEnhancedNanoChestplate itemArmorEnhancedNanoChestplate;
 	public static BlockChromiteOre blockChromiteOre;
 	public static BlockUnstableQuartz blockUnstableQuartz;
+	public static BlockRockDesintegrator blockRockDesintegrator;
+	public static BlockLavaFabricator blockLavaFabricator;
+	public static BlockCombustibleGenerator blockCombustibleGenerator;
 }

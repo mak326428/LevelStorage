@@ -34,6 +34,8 @@ public class GUIParticleAccelerator extends GuiContainer {
 		int y = 64;
 		int x = 12;
 	}
+	
+	public static ItemStack MATTER_DISPLAY = Items.getItem("matter");
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
@@ -49,7 +51,7 @@ public class GUIParticleAccelerator extends GuiContainer {
 			modeButton.itemStack = SimpleItems.instance.getIngredient(9);
 			break;
 		case TileEntityParticleAccelerator.MATTER_RESHAPING_MODE:
-			modeButton.itemStack = Items.getItem("matter");
+			modeButton.itemStack = MATTER_DISPLAY;
 			break;
 		}
 		int l = tileEntity.gaugeEnergyScaled(14);

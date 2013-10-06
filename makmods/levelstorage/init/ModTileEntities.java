@@ -3,9 +3,11 @@ package makmods.levelstorage.init;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import makmods.levelstorage.tileentity.TileEntityLavaFabricator;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import makmods.levelstorage.tileentity.TileEntityMulticoreSolarPanel;
 import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
+import makmods.levelstorage.tileentity.TileEntityRockDesintegrator;
 import makmods.levelstorage.tileentity.TileEntitySuperconductorCable;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
@@ -31,22 +33,22 @@ public class ModTileEntities {
 			.newHashMap();
 
 	static {
-		tileEntities.put(TileEntityXpGenerator.class, 
-				"tileXpGenerator");
-		tileEntities.put(TileEntityXpCharger.class, 
-				"tileXpCharger");
+		tileEntities.put(TileEntityXpGenerator.class, "tileXpGenerator");
+		tileEntities.put(TileEntityXpCharger.class, "tileXpCharger");
 		tileEntities.put(TileEntityWirelessPowerSynchronizer.class,
 				"tileWirelessPowerSync");
 		tileEntities.put(TileEntityWirelessConductor.class,
 				"tileWirelessConductor");
 		tileEntities.put(TileEntitySuperconductorCable.class,
 				"tileSuperconductor");
-		tileEntities.put(TileEntityMolecularHeater.class, 
-				"tileMolHeater");
+		tileEntities.put(TileEntityMolecularHeater.class, "tileMolHeater");
 		tileEntities.put(TileEntityMulticoreSolarPanel.class,
 				"tileMulticoreSolarPanel");
 		tileEntities.put(TileEntityParticleAccelerator.class,
 				"tileParticleAccelerator");
+		tileEntities.put(TileEntityRockDesintegrator.class,
+				"tileRockDesintegrator");
+		tileEntities.put(TileEntityLavaFabricator.class, "tileLavaFabricator");
 	}
 
 	private ModTileEntities() {

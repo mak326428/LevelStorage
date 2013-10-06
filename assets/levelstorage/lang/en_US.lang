@@ -12,6 +12,8 @@ tile.blockAntimatterBomb.name=Antimatter Bomb
 tile.blockParticleAccelerator.name=Particle Accelerator
 tile.blockChromiteOre.name=Chromite Ore
 tile.blockUnstableQuartz.name=Unstable Quartz
+tile.blockRockDesintegrator.name=Rock Desintegrator
+tile.blockLavaFabricator.name=Lava Fabricator
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Tiny Pile of Osmium Dust
 dustOsmium.name=Osmium Dust
