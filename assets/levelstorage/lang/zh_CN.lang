@@ -13,6 +13,12 @@ tile.blockAtomicReplicator.name=原子复制机
 tile.blockMulticoreSolarPanel.name=多核太阳能板
 tile.blockAntimatterStone.name=反物质石头
 tile.blockAntimatterBomb.name=反物质炸弹
+tile.blockParticleAccelerator.name=质点加速机
+tile.blockChromiteOre.name=铬矿
+tile.blockUnstableQuartz.name=不稳定石英
+tile.blockRockDesintegrator.name=石头制作机
+tile.blockLavaFabricator.name=岩浆制作机
+tile.blockCombustibleGenerator.name=原子燧石
 # simple items (crafting ingredients)
 dustTinyOsmium.name=小撮锇粉
 dustOsmium.name=锇粉
@@ -25,6 +31,14 @@ itemEnergizedStar.name=充能下界之星
 itemAntimatterMolecule.name=反物质分子
 itemAntimatterTinyPile.name=小撮反物质
 itemAntimatterGlob.name=反物质液滴
+itemJetpackAccelerator.name= 飞行器加速装置
+ingotChrome.name=铬锭
+itemDustTinyChrome.name=小撮铬粉
+itemDustChrome.name=铬粉
+crushedChromiteOre.name=粉碎的铬矿石
+purifiedCrushedChromiteOre.name=纯净的粉碎铬矿石
+plateChrome.name=铬金属板
+dustTinyIridium.name=小撮铱粉
 # dimension
 dimension.antimatterUniverse.name=反物质宇宙
 # items
@@ -51,12 +65,19 @@ item.itemEnhLappack.name=强化兰波顿背包
 item.itemRemoteAccessor.name=远程访问器
 item.itemCapFluidCell.name=高容流体单元
 item.itemElectricLighter.name=手电筒
+item.itemArmorEnhancedNanoChestplate.name=高级纳米胸甲
 #others
 other.frequency=频率
 other.true=是
 other.false=否
+other.wip=[正在制造]
+other.energyHUD=能量等级(护甲):
 # creative tab(s)
 itemGroup.levelstorage=等级存储
+# chat messages
+jetpack.statusChange=飞行器加速 %s
+jetpack.on=开
+jetpack.off=关
 # death messages
 # %s will be replaced by player's name
 death.energyFieldKill=%s处于高能力场范围内!
@@ -67,6 +88,7 @@ death.disassemble=%s意外地被分解成了基本原子!
 # key bindings
 key.range=范围切换按键
 key.shoot=能量束发射按键
+key.jetpackSwitch=[LS] 飞行器加速开关
 # tooltips
 # \n will be replaced with a new line (this is not OS-dependant)
 tooltip.xp=XP值:
