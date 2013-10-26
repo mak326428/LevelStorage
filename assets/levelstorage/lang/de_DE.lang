@@ -4,13 +4,16 @@ tile.blockXpCharger.name=XP-Lader
 tile.blockWlessConductor.name=Kabelloser Konduktor
 tile.blockWlessPowerSync.name=Kabelloser Energiesynchronisierer
 tile.blockSuperconductor.name=Supraleiter
-tile.blockMassInfuser.name=Massen-Infundierer
-tile.blockAdvMiner.name=Fortgeschrittene Bergbaumaschine
 tile.blockMolHeater.name=Molekularheizgerät
 tile.blockAtomicReplicator.name=Atomarer Replikator
 tile.blockMulticoreSolarPanel.name=Multicore-Solarmodul
 tile.blockAntimatterStone.name=Antimaterien-Stein
 tile.blockAntimatterBomb.name=Antimaterien-Bombe
+tile.blockParticleAccelerator.name=Teilchenbeschleuniger
+tile.blockChromiteOre.name=Chromiterz
+tile.blockUnstableQuartz.name=Instabiler Quarz
+tile.blockRockDesintegrator.name=Steindesintegrator
+tile.blockLavaFabricator.name=Lavafabrikator
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Kleines Häufchen Osmiumstaub
 dustOsmium.name=Osmiumstaub
@@ -23,6 +26,14 @@ itemEnergizedStar.name=Aufgeladener Netherstern
 itemAntimatterMolecule.name=Antimaterien-Molekül
 itemAntimatterTinyPile.name=Kleines Häufchen Antimaterie
 itemAntimatterGlob.name=Antimaterien-Klumpen
+itemJetpackAccelerator.name=Jetpackbeschleuniger
+ingotChrome.name=Chrombarren
+itemDustTinyChrome.name=Kleines Häufchen Chromstaub
+itemDustChrome.name=Chromstaub
+crushedChromiteOre.name=Zerstoßenes Chromiterz
+purifiedCrushedChromiteOre.name=Gereinigtes Zerstoßenes Chromiterz
+plateChrome.name=Chromplatte
+dustTinyIridium.name=Kleines Häufchen Iridiumstaub
 # dimension
 dimension.antimatterUniverse.name=Antimaterien-Universum
 # items
@@ -44,18 +55,24 @@ item.itemQuantumSaber.name=Quantensäbel
 item.itemTimeAccelerator.name=Zeitbeschleuniger
 item.itemQuantumRing.name=Quantenring
 item.itemElectricMagnet.name=Elektromagnet
-item.itemDestructor.name=Atomarer Disassembler
+item.itemAtomicDisassembler.name=Atomarer Disassembler
 item.itemEnhLappack.name=Verbessertes Lappack
 item.itemRemoteAccessor.name=Fernzugriffsgerät
 item.itemCapFluidCell.name=Geräumige Flüssigkeitszelle
 item.itemElectricLighter.name=Elektrisches Feuerzeug
+item.itemArmorEnhancedNanoChestplate.name=Verbesserter NanoSuit-Brustpanzer
 #others
 other.frequency=Frequenz
 other.true=Ja
 other.false=Nein
 other.wip=[WIP]
+other.energyHUD=Energielevel (Rüstung):
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
+# chat messages
+jetpack.statusChange=Jetpack %sgeschaltet
+jetpack.on=an
+jetpack.off=aus
 # death messages
 # %s will be replaced by player's name
 death.energyFieldKill=%s war im Radius eines Hochspannungsfeldes.
@@ -66,6 +83,7 @@ death.disassemble=%s wurde versehentlich in Elementarteilchen zerlegt.
 # key bindings
 key.range=Reichweiten-Wechseltaste
 key.shoot=Energiestrahl-Schusstaste
+key.jetpackSwitch=[LS] Jetpackflug-Wechseltaste
 # tooltips
 # \n will be replaced with a new line (this is not OS-dependant)
 tooltip.xp=XP-Wert:
