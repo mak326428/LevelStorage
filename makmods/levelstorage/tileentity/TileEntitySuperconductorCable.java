@@ -59,44 +59,6 @@ public class TileEntitySuperconductorCable extends TileEntity implements
 		return ret;
 	}
 
-	public Direction fromForgeToIC2(ForgeDirection dir) {
-		switch (dir) {
-			case DOWN:
-				return Direction.YN;
-			case UP:
-				return Direction.YP;
-			case SOUTH:
-				return Direction.ZP;
-			case NORTH:
-				return Direction.ZN;
-			case WEST:
-				return Direction.XN;
-			case EAST:
-				return Direction.XP;
-			case UNKNOWN:
-				return null;
-		}
-		return null;
-	}
-
-	public ForgeDirection toForgeFromIC2(Direction dir) {
-		switch (dir) {
-			case YN:
-				return ForgeDirection.DOWN;
-			case YP:
-				return ForgeDirection.UP;
-			case ZP:
-				return ForgeDirection.SOUTH;
-			case ZN:
-				return ForgeDirection.NORTH;
-			case XN:
-				return ForgeDirection.WEST;
-			case XP:
-				return ForgeDirection.EAST;
-		}
-		return null;
-	}
-
 	public boolean needsUpdate = true;
 
 	@Override

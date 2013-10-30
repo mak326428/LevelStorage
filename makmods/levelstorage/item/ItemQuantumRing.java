@@ -13,6 +13,7 @@ import makmods.levelstorage.armor.ArmorFunctions;
 import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -33,7 +34,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemQuantumRing extends Item implements IElectricItem,
-        IForcefieldChestplate {
+        IForcefieldChestplate, IHasRecipe {
 
 	public static final int TIER = 3;
 	public static final int STORAGE = 320 * 1000 * 1000;
@@ -82,7 +83,7 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 
 	@Override
 	public boolean canProvideEnergy(ItemStack itemStack) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -179,13 +180,13 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 		ArmorFunctions.speedUp(player, itemStack);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		if (LevelStorage.recipesHardmode) {
 			Recipes.advRecipes.addRecipe(new ItemStack(
 			        LSBlockItemList.itemQuantumRing), "hic", "iei", "bil",
 			        Character.valueOf('i'), SimpleItems.instance
 			                .getIngredient(3), Character.valueOf('e'),
-			        new ItemStack(LSBlockItemList.itemStorageFourMillion),
+			        new ItemStack(LSBlockItemList.itemStorageFourtyMillion),
 			        Character.valueOf('h'), new ItemStack(
 			                LSBlockItemList.itemArmorTeslaHelmet), Character
 			                .valueOf('c'), new ItemStack(
@@ -199,7 +200,7 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 			        LSBlockItemList.itemQuantumRing), "hic", "iei", "bil",
 			        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE.copy(),
 			        Character.valueOf('e'), new ItemStack(
-			                LSBlockItemList.itemStorageFourMillion), Character
+			                LSBlockItemList.itemStorageFourtyMillion), Character
 			                .valueOf('h'), new ItemStack(
 			                LSBlockItemList.itemArmorTeslaHelmet), Character
 			                .valueOf('c'), new ItemStack(

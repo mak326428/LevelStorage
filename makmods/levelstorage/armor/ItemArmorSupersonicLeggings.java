@@ -10,6 +10,7 @@ import java.util.List;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -33,7 +34,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorSupersonicLeggings extends ItemArmor implements
-        ISpecialArmor, IMetalArmor, IElectricItem {
+        ISpecialArmor, IMetalArmor, IElectricItem, IHasRecipe {
 
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
@@ -65,7 +66,7 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 	 * ClientProxy.ARMOR_SUPERSONIC_LEGGINGS_TEXTURE; }
 	 */
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Property p = LevelStorage.configuration.get(
 		        Configuration.CATEGORY_GENERAL,
 		        "enableSupersonicLeggingsCraftingRecipe", true);
@@ -79,7 +80,7 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 				        SimpleItems.instance.getIngredient(3), Character
 				                .valueOf('q'), IC2Items.QUANTUM_LEGGINGS,
 				        Character.valueOf('l'), new ItemStack(
-				                LSBlockItemList.itemStorageFourMillion));
+				                LSBlockItemList.itemStorageFourtyMillion));
 			} else {
 				Recipes.advRecipes.addRecipe(new ItemStack(
 				        LSBlockItemList.itemSupersonicLeggings), "ggg", "iqi",
@@ -87,7 +88,7 @@ public class ItemArmorSupersonicLeggings extends ItemArmor implements
 				                Block.glowStone), Character.valueOf('i'),
 				        IC2Items.IRIDIUM_PLATE, Character.valueOf('q'),
 				        IC2Items.QUANTUM_LEGGINGS, Character.valueOf('l'),
-				        new ItemStack(LSBlockItemList.itemStorageFourMillion));
+				        new ItemStack(LSBlockItemList.itemStorageFourtyMillion));
 			}
 		}
 	}

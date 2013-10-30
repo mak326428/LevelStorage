@@ -11,6 +11,7 @@ import java.util.List;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
@@ -31,7 +32,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorEnhancedLappack extends ItemArmor implements
-        ISpecialArmor, IMetalArmor, IElectricItem {
+        ISpecialArmor, IMetalArmor, IElectricItem, IHasRecipe {
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ENH_LAPPACK_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;
@@ -48,7 +49,7 @@ public class ItemArmorEnhancedLappack extends ItemArmor implements
 		this.setMaxStackSize(1);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Property p = LevelStorage.configuration.get(
 		        Configuration.CATEGORY_GENERAL,
 		        "enableEnhancedLappackCraftingRecipe", true);

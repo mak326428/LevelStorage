@@ -1,4 +1,4 @@
-package makmods.levelstorage.tileentity;
+package makmods.levelstorage.tileentity.template;
 
 import ic2.api.Direction;
 import ic2.api.energy.event.EnergyTileLoadEvent;
@@ -9,6 +9,7 @@ import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
 import makmods.levelstorage.LevelStorage;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -26,7 +27,7 @@ import net.minecraftforge.common.MinecraftForge;
  * 
  */
 public abstract class TileEntityBasicSink extends TileEntity implements
-        IEnergyTile, IEnergySink, IWrenchable, IEnergyStorage {
+		IEnergyTile, IEnergySink, IWrenchable, IEnergyStorage {
 
 	private boolean addedToENet = false;
 	private int stored;
@@ -45,11 +46,11 @@ public abstract class TileEntityBasicSink extends TileEntity implements
 		par1NBTTagCompound.setInteger(NBT_STORED, stored);
 
 	}
-	
+
 	public boolean canUse(int amount) {
 		return stored >= amount;
 	}
-	
+
 	public void use(int amount) {
 		stored -= amount;
 	}
@@ -59,7 +60,7 @@ public abstract class TileEntityBasicSink extends TileEntity implements
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
 		return new Packet132TileEntityData(this.xCoord, this.yCoord,
-		        this.zCoord, 5, tagCompound);
+				this.zCoord, 5, tagCompound);
 	}
 
 	@Override
@@ -94,6 +95,12 @@ public abstract class TileEntityBasicSink extends TileEntity implements
 
 	public float getWrenchDropRate() {
 		return 0.5f;
+	}
+
+	@Override
+	public ItemStack getWrenchDrop(EntityPlayer entityPlayer) {
+		return new ItemStack(worldObj.getBlockId(xCoord, yCoord, zCoord), 1,
+				worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
 	}
 
 	// End of IWrenchable
@@ -180,14 +187,14 @@ public abstract class TileEntityBasicSink extends TileEntity implements
 			this.invalidate();
 			this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 			this.worldObj.createExplosion(null, this.xCoord, this.yCoord,
-			        this.zCoord, 2F, false);
+					this.zCoord, 2F, false);
 		}
 		if ((this.getCapacity() - this.getStored()) > amount) {
 			this.addEnergy((int) amount);
 			return 0;
 		} else {
 			int leftover = (int) amount
-			        - (this.getCapacity() - this.getStored());
+					- (this.getCapacity() - this.getStored());
 			this.setStored(getCapacity());
 			return leftover;
 		}

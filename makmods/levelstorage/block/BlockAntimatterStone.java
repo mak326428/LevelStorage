@@ -3,6 +3,7 @@ package makmods.levelstorage.block;
 import java.util.Random;
 
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.RegisterWith;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -22,6 +23,7 @@ public class BlockAntimatterStone extends Block {
 		this.setStepSound(Block.soundStoneFootstep);
 		this.setHardness(6.0F);
 		this.setResistance(600.0F);
+		this.setLightValue(1.0F);
 	}
 
 	/**
@@ -29,7 +31,7 @@ public class BlockAntimatterStone extends Block {
 	 */
 	public static final int DROPRATE_RARITY = 500;
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		// --- No crafting recipe ---
 	}
 

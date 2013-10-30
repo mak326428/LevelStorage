@@ -9,6 +9,7 @@ import java.util.List;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.NBTHelper;
@@ -29,7 +30,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemRemoteAccessor extends Item implements IElectricItem {
+public class ItemRemoteAccessor extends Item implements IElectricItem, IHasRecipe {
 
 	public static final int TIER = 3;
 	public static final int STORAGE = 10000000;
@@ -52,12 +53,12 @@ public class ItemRemoteAccessor extends Item implements IElectricItem {
 		this.setMaxStackSize(1);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
 		        LSBlockItemList.itemRemoteAccessor), "ccc", "eae", "ppp",
 		        Character.valueOf('p'), IC2Items.CARBON_PLATE.copy(), Character
 		                .valueOf('c'), new ItemStack(
-		                LSBlockItemList.itemStorageFourMillion), Character
+		                LSBlockItemList.itemStorageFourtyMillion), Character
 		                .valueOf('a'), IC2Items.ADV_CIRCUIT, Character
 		                .valueOf('e'), new ItemStack(Item.enderPearl));
 	}

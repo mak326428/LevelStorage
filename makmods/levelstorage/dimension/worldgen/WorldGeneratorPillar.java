@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import com.google.common.collect.Lists;
+import java.util.Set;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.logic.util.LogHelper;
@@ -17,6 +16,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.oredict.OreDictionary;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGeneratorPillar implements IWorldGenerator {
@@ -59,7 +62,7 @@ public class WorldGeneratorPillar implements IWorldGenerator {
 		}
 	}
 	
-	public static int RARITY = 6;
+	public static int RARITY = 16;
 
 	public static Block wrapper = LSBlockItemList.blockUnstableQuartz;
 
@@ -77,7 +80,7 @@ public class WorldGeneratorPillar implements IWorldGenerator {
 				}
 			}
 			if (genY > 0) {
-				int height = random.nextInt(60) + 20;
+				int height = random.nextInt(150) + 80;
 				int THICKNESS = (int) Math.ceil((float) height / (float) 40
 						* (float) 3);
 				for (int i = 0; i < height; i++) {

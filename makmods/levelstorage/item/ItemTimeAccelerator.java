@@ -9,6 +9,7 @@ import java.util.List;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
@@ -26,7 +27,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemTimeAccelerator extends Item implements IElectricItem {
+public class ItemTimeAccelerator extends Item implements IElectricItem, IHasRecipe {
 
 	public static final int STORAGE = 4000000;
 	public static final int ENERGY_PER_USE = 5000;
@@ -48,12 +49,12 @@ public class ItemTimeAccelerator extends Item implements IElectricItem {
 		this.setMaxStackSize(1);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
 		        LSBlockItemList.itemTimeAccelerator), "iii", "ses", "iii",
 		        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE.copy(),
 		        Character.valueOf('e'), new ItemStack(
-		                LSBlockItemList.itemStorageFourMillion).copy(),
+		                LSBlockItemList.itemStorageFourtyMillion).copy(),
 		        Character.valueOf('s'), new ItemStack(
 		                LSBlockItemList.itemSuperconductor).copy());
 

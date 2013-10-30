@@ -20,6 +20,6 @@ public class LSCreativeTab extends CreativeTabs {
 	}
 
 	public ItemStack getIconItemStack() {
-		return new ItemStack(LSBlockItemList.itemLevitationBoots);
+		return new ItemStack(LSBlockItemList.itemQuantumRing);
 	}
 }

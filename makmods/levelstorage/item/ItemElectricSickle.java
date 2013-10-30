@@ -9,6 +9,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -28,7 +29,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemElectricSickle extends ItemTool implements IElectricItem {
+public class ItemElectricSickle extends ItemTool implements IElectricItem, IHasRecipe {
 
 	public static final int TIER = 1;
 	public static final int STORAGE = 10000;
@@ -231,7 +232,7 @@ public class ItemElectricSickle extends ItemTool implements IElectricItem {
 		return EnumRarity.common;
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 
 		Recipes.advRecipes.addRecipe(new ItemStack(
 		        LSBlockItemList.itemElectricSickle), "  i", "eii", "r  ",

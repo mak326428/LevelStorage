@@ -1,4 +1,4 @@
-package makmods.levelstorage.tileentity;
+package makmods.levelstorage.tileentity.template;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
@@ -8,13 +8,12 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public abstract class TileEntityInventorySinkWithFluid extends
-		TileEntityInventorySink implements IFluidHandler {
-
+public abstract class TileEntityInventorySourceWithFluid extends
+		TileEntityInventorySource implements IFluidHandler {
 	public FluidTank tank;
 
-	public TileEntityInventorySinkWithFluid(int inventorySize, int tankSize) {
-		super(inventorySize);
+	public TileEntityInventorySourceWithFluid(int maxOutput, int inventorySize, int tankSize) {
+		super(maxOutput, inventorySize);
 		tank = new FluidTank(tankSize * 1000);
 	}
 
@@ -76,7 +75,7 @@ public abstract class TileEntityInventorySinkWithFluid extends
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -88,5 +87,4 @@ public abstract class TileEntityInventorySinkWithFluid extends
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		return new FluidTankInfo[] { tank.getInfo() };
 	}
-
 }

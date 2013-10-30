@@ -2,6 +2,7 @@ package makmods.levelstorage.item;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.api.IChargeable;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.logic.util.BlockLocation;
@@ -45,21 +47,28 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemAtomicDisassembler extends Item implements IElectricItem,
-		IChargeable {
+		IChargeable, IHasRecipe {
 
-	public static final int TIER = 2;
-	public static final int STORAGE = 200000;
+	public static final int TIER = 3;
+	public static final int STORAGE = 2000000;
 	public static final int COOLDOWN_USE = 10;
-	public static final int ENERGY_USE_BASE = 80;
+	public static final int ENERGY_USE_BASE = 150;
+
+	public static int MAX_LENGTH = 7;
 
 	public ItemAtomicDisassembler(int id) {
 		super(id);
-
 		this.setMaxDamage(27);
 		this.setNoRepair();
 		if (FMLCommonHandler.instance().getSide().isClient()) {
 			this.setCreativeTab(LSCreativeTab.instance);
 		}
+		MAX_LENGTH = LevelStorage.configuration
+				.get(LevelStorage.BALANCE_CATEGORY,
+						"atomicDisassemblerMaxLength",
+						7,
+						"Maximum tunnel length for Atomic Disassemblers (power of 2, default = 7 = 128)")
+				.getInt(7);
 		this.setMaxStackSize(1);
 	}
 
@@ -90,7 +99,7 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 
 	@Override
 	public int getTransferLimit(ItemStack itemStack) {
-		return 1000;
+		return 10000;
 	}
 
 	public boolean hitEntity(ItemStack par1ItemStack,
@@ -98,7 +107,7 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 			EntityLivingBase par3EntityLivingBase) {
 		// if (!LevelStorage.isSimulating()) {
 		if (DEAL_DAMAGE_TO_OTHERS) {
-			int energy = ENERGY_USE_BASE * 200; // ~16 thousand EU
+			int energy = ENERGY_USE_BASE * 200;
 			if (ElectricItem.manager.canUse(par1ItemStack, energy)) {
 				ElectricItem.manager.use(par1ItemStack, energy,
 						par3EntityLivingBase);
@@ -179,10 +188,10 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 			}
 			PacketParticles packet = new PacketParticles();
 			packet.particles = toSend;
-			Packet250CustomPayload p = (Packet250CustomPayload)PacketTypeHandler.populatePacket(packet);
+			Packet250CustomPayload p = (Packet250CustomPayload) PacketTypeHandler
+					.populatePacket(packet);
 			PacketDispatcher.sendPacketToAllAround(x, y, z, 128,
-					world.provider.dimensionId,
-					p);
+					world.provider.dimensionId, p);
 			return true;
 		}
 		return true;
@@ -355,8 +364,8 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 									aimBlockMeta, 0);
 							for (ItemStack drop : drops) {
 								ParticleInternal particle = new ParticleInternal();
-								particle.name = "tilecrack_" + b.blockID
-										+ "_" + aimBlockMeta;
+								particle.name = "tilecrack_" + b.blockID + "_"
+										+ aimBlockMeta;
 								particle.x = blockLoc.getX();
 								particle.y = blockLoc.getY();
 								particle.z = blockLoc.getZ();
@@ -365,10 +374,11 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 								particle.velZ = 0.0f;
 								particles.add(particle);
 								if (!bulkItemsToDelete.contains(drop.itemID)) {
-									
-									CommonHelper.dropBlockInWorld_exact(par2World,
-											player.posX, player.posY + 1.6f,
-											player.posZ, drop);
+
+									CommonHelper.dropBlockInWorld_exact(
+											par2World, player.posX,
+											player.posY + 1.6f, player.posZ,
+											drop);
 								}
 								// if (Items.getItem("uraniumDrop").itemID ==
 								// drop.itemID) {
@@ -424,13 +434,20 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 		return EnumRarity.rare;
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
+		// Recipes.advRecipes.addRecipe(new ItemStack(
+		// LSBlockItemList.itemAtomicDisassembler), "cee", "ccd", "ccc",
+		// Character.valueOf('c'), IC2Items.CARBON_PLATE, Character
+		// .valueOf('e'), IC2Items.ENERGY_CRYSTAL, Character
+		// .valueOf('d'), new ItemStack(
+		// LSBlockItemList.itemEnhDiamondDrill));
 		Recipes.advRecipes.addRecipe(new ItemStack(
-				LSBlockItemList.itemAtomicDisassembler), "cee", "ccd", "ccc",
+				LSBlockItemList.itemAtomicDisassembler), "ccc", "lda", "ccc",
 				Character.valueOf('c'), IC2Items.CARBON_PLATE, Character
-						.valueOf('e'), IC2Items.ENERGY_CRYSTAL, Character
+						.valueOf('l'), Items.getItem("miningLaser"), Character
 						.valueOf('d'), new ItemStack(
-						LSBlockItemList.itemEnhDiamondDrill));
+						LSBlockItemList.itemEnhDiamondDrill), Character
+						.valueOf('a'), IC2Items.ADV_CIRCUIT);
 	}
 
 	@Override
@@ -464,6 +481,6 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 	@Override
 	// might be too much...
 	public int getMaxCharge() {
-		return 7;
+		return MAX_LENGTH;
 	}
 }

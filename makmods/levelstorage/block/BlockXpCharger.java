@@ -5,8 +5,9 @@ import ic2.api.item.Items;
 import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.block.Block;
@@ -28,7 +29,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockXpCharger extends BlockContainer {
+public class BlockXpCharger extends BlockContainer implements IHasRecipe {
 	public BlockXpCharger(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getSide().isClient()) {
@@ -42,7 +43,7 @@ public class BlockXpCharger extends BlockContainer {
 	private Icon up;
 	private Icon side;
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 
 		ItemStack blockXpChargerStack = new ItemStack(
 		        LSBlockItemList.blockXpCharger);

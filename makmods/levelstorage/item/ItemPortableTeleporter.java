@@ -10,6 +10,7 @@ import java.util.List;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -27,7 +28,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemPortableTeleporter extends Item implements IElectricItem {
+public class ItemPortableTeleporter extends Item implements IElectricItem, IHasRecipe {
 
 	public static final String COOLDOWN_NBT = "cooldown";
 
@@ -163,7 +164,7 @@ public class ItemPortableTeleporter extends Item implements IElectricItem {
 		return EnumRarity.epic;
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes
 		        .addShapelessRecipe(new ItemStack(
 		                LSBlockItemList.itemCompactTeleporter), Items

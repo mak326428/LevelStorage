@@ -8,6 +8,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -20,7 +21,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemEnergeticEnrichedMatterOrb extends Item implements
-        IElectricItem {
+        IElectricItem, IHasRecipe {
 
 	// I WANT 4!
 	public static final int TIER = 4;
@@ -37,9 +38,9 @@ public class ItemEnergeticEnrichedMatterOrb extends Item implements
 		this.setMaxStackSize(1);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
-		        LSBlockItemList.itemStorageFourMillion), "lsl", "sis", "lsl",
+		        LSBlockItemList.itemStorageFourtyMillion), "lsl", "sis", "lsl",
 		        Character.valueOf('l'), IC2Items.LAPOTRON_CRYSTAL, Character
 		                .valueOf('s'), new ItemStack(
 		                LSBlockItemList.itemSuperconductor).copy(), Character

@@ -24,7 +24,7 @@ public class BlockChromiteOre extends Block {
 		OreDictionary.registerOre("oreChromite", this);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		// --- No crafting recipe ---
 	}
 

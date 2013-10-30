@@ -3,14 +3,18 @@ package makmods.levelstorage.tileentity;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.gui.client.GUILavaFabricator;
 import makmods.levelstorage.gui.container.ContainerLavaFabricator;
-import makmods.levelstorage.gui.logicslot.HelperLogicSlot;
 import makmods.levelstorage.gui.logicslot.LogicSlot;
+import makmods.levelstorage.gui.logicslot.LogicSlot;
+import makmods.levelstorage.tileentity.template.ITEHasGUI;
+import makmods.levelstorage.tileentity.template.TileEntityInventorySinkWithFluid;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -27,8 +31,8 @@ public class TileEntityLavaFabricator extends TileEntityInventorySinkWithFluid
 
 	public TileEntityLavaFabricator() {
 		super(2, 16);
-		this.fluidInput = new HelperLogicSlot(this, 0);
-		this.fluidOutput = new HelperLogicSlot(this, 1);
+		this.fluidInput = new LogicSlot(this, 0);
+		this.fluidOutput = new LogicSlot(this, 1);
 	}
 
 	@Override
@@ -80,6 +84,11 @@ public class TileEntityLavaFabricator extends TileEntityInventorySinkWithFluid
 	@Override
 	public void onLoaded() {
 		;
+	}
+	
+	@Override
+	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		return false;
 	}
 
 	public void fillContainerIfPossible() {

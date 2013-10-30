@@ -3,37 +3,49 @@ package makmods.levelstorage.block;
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
-import java.util.Random;
+import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.block.item.ItemBlockRockDesintegrator;
+import makmods.levelstorage.init.CustomItemBlock;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
-import makmods.levelstorage.logic.util.CommonHelper;
-import makmods.levelstorage.proxy.ClientProxy;
-import makmods.levelstorage.registry.BlockTextureRegistry;
-import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
 import makmods.levelstorage.tileentity.TileEntityRockDesintegrator;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+import net.minecraftforge.fluids.FluidRegistry;
 
-public class BlockRockDesintegrator extends BlockMachineStandart {
+import com.google.common.collect.Lists;
+
+@CustomItemBlock(itemBlock=ItemBlockRockDesintegrator.class)
+public class BlockRockDesintegrator extends BlockMachineStandart implements IHasRecipe {
 
 	public BlockRockDesintegrator(int id) {
 		super(id);
 	}
 
-	public static void addCraftingRecipe() {
-
+	public void addCraftingRecipe() {
+		List<ItemStack> lavas = Lists.newArrayList();
+		List<ItemStack> waters = Lists.newArrayList();
+		for (FluidContainerData d : FluidContainerRegistry
+				.getRegisteredFluidContainerData()) {
+			if (d.fluid.fluidID == FluidRegistry.WATER.getID())
+				waters.add(d.filledContainer.copy());
+			if (d.fluid.fluidID == FluidRegistry.LAVA.getID())
+				lavas.add(d.filledContainer.copy());
+		}
+		for (ItemStack lava : lavas)
+			for (ItemStack water : waters) {
+				Recipes.advRecipes.addRecipe(new ItemStack(
+						LSBlockItemList.blockRockDesintegrator), "lll", "cmc",
+						"www", Character.valueOf('l'), lava, Character
+								.valueOf('w'), water, Character.valueOf('c'),
+						IC2Items.BASIC_CIRCUIT, Character.valueOf('m'), Items
+								.getItem("machine"));
+			}
 	}
 
 	@Override

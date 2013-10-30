@@ -1,14 +1,13 @@
 package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.api.CombustibleRegistry;
 import makmods.levelstorage.dimension.AntimatterUniverseRayHandler;
 import makmods.levelstorage.dimension.BiomeAntimatterField;
 import makmods.levelstorage.dimension.LSDimensions;
 import makmods.levelstorage.init.CompatibilityInitializer;
 import makmods.levelstorage.init.LocalizationInitializer;
 import makmods.levelstorage.init.ModAchievements;
-import makmods.levelstorage.init.ModFluids;
+import makmods.levelstorage.init.LSFluids;
 import makmods.levelstorage.init.ModTileEntities;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.SimpleItems;
@@ -63,7 +62,7 @@ public class CommonProxy {
 		ModUniversalInitializer.instance.init();
 		SimpleRecipeAdder.addRecipesAfterMUIFinished();
 		ModTileEntities.instance.init();
-		ModFluids.instance.init();
+		LSFluids.instance.init();
 		LSDimensions.init();
 		biomeAntimatterField = new BiomeAntimatterField(
 				LevelStorage.configuration.get("dimension",
@@ -85,7 +84,6 @@ public class CommonProxy {
 		ModAchievements.instance.init();
 		LevelStorage.configuration.save();
 		CompatibilityInitializer.instance.init();
-		CombustibleRegistry.registerDefaults();
 		// TODO: move this to an external compat class
 		if (Loader.isModLoaded("gregtech_addon")) {
 			LogHelper

@@ -7,8 +7,10 @@ import makmods.levelstorage.armor.ItemArmorEnhancedNanoChestplate;
 import makmods.levelstorage.client.ElectricHUD;
 import makmods.levelstorage.client.render.ItemWirelessConductorRender;
 import makmods.levelstorage.client.render.RenderSuperconductorCable;
+import makmods.levelstorage.client.render.StarRenderer;
 import makmods.levelstorage.client.render.WirelessConductorRender;
 import makmods.levelstorage.lib.Reference;
+import makmods.levelstorage.tileentity.TileEntityMicroStar;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -49,6 +51,8 @@ public class ClientProxy extends CommonProxy {
 	public static final String ELECTRIC_LIGHTER_TEXTURE = getTexturePathFor("itemElectricLighter");
 	public static final String ITEM_BLOCK_REPLACER_TEXTURE = getTexturePathFor("itemBlockReplacer");
 	public static final String ENHANCED_NANO_CHESTPLATE_TEXTURE = getTexturePathFor("itemEnhNanoChestplate");
+	public static final String DEMOLISHER_TEXTURE = getTexturePathFor("itemDemolisher");
+	
 
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
@@ -69,8 +73,9 @@ public class ClientProxy extends CommonProxy {
 	public static final String UNSTABLE_QUARTZ_TEXTURE = getTexturePathFor("blockUnstableQuartz");
 
 	// Fluids
-	public static final String FLUID_ELECTROLYTE_TEXTURE = getTexturePathFor("electrolyte_still");
-
+	public static final String FLUID_IV_STILL_TEXTURE = getTexturePathFor("iv_still");
+	public static final String FLUID_IV_FLOWING_TEXTURE = getTexturePathFor("iv_flowing");
+	
 	// GUIs textures
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
 	public static final ResourceLocation GUI_CHARGER = getResourceLocation("gui/charger.png");
@@ -84,6 +89,8 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_PARTICLE_ACCELERATOR = getResourceLocation("gui/particleAccelerator.png");
 	public static final ResourceLocation GUI_ROCK_DESINTEGRATOR = getResourceLocation("gui/rockGen.png");
 	public static final ResourceLocation GUI_LAVA_FABRICATOR = getResourceLocation("gui/lavaFab.png");
+	public static final ResourceLocation GUI_COMBUSTIBLE_GENERATOR = getResourceLocation("gui/combustibleGenerator.png");
+	public static final ResourceLocation GUI_MASS_MELTER = getResourceLocation("gui/massMelter.png");
 	
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
@@ -98,6 +105,7 @@ public class ClientProxy extends CommonProxy {
 	public static final int CABLE_RENDER_ID = RenderingRegistry
 			.getNextAvailableRenderId();
 	public static final ResourceLocation TESLA_RAY_1 = getResourceLocation("misc/tesla.png");
+	public static final ResourceLocation SUN_TEXTURE = getResourceLocation("misc/microstar.png");
 
 	@SideOnly(Side.CLIENT)
 	public static CreativeTabs getCreativeTab(String name) {
@@ -144,6 +152,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(
 				TileEntityWirelessConductor.class,
 				new WirelessConductorRender());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMicroStar.class, new StarRenderer());
 		MinecraftForgeClient.registerItemRenderer(
 				LSBlockItemList.blockWlessConductor.blockID,
 				new ItemWirelessConductorRender());

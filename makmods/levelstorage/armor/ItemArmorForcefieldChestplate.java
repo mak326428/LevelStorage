@@ -11,6 +11,7 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -35,7 +36,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorForcefieldChestplate extends ItemArmor implements
-        ISpecialArmor, IMetalArmor, IElectricItem, IForcefieldChestplate {
+        ISpecialArmor, IMetalArmor, IElectricItem, IForcefieldChestplate, IHasRecipe {
 
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
@@ -86,7 +87,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 		ArmorFunctions.extinguish(player, world);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Property p = LevelStorage.configuration.get(
 		        Configuration.CATEGORY_GENERAL,
 		        "enableForcefieldChestplateCraftingRecipe", true);
@@ -100,7 +101,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 				        SimpleItems.instance.getIngredient(3), Character
 				                .valueOf('q'), IC2Items.QUANTUM_CHESTPLATE,
 				        Character.valueOf('l'), new ItemStack(
-				                LSBlockItemList.itemStorageFourMillion));
+				                LSBlockItemList.itemStorageFourtyMillion));
 			} else {
 				Recipes.advRecipes.addRecipe(new ItemStack(
 				        LSBlockItemList.itemArmorForcefieldChestplate), "ttt",
@@ -108,7 +109,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 				        IC2Items.TESLA_COIL, Character.valueOf('i'),
 				        IC2Items.IRIDIUM_PLATE, Character.valueOf('q'),
 				        IC2Items.QUANTUM_CHESTPLATE, Character.valueOf('l'),
-				        new ItemStack(LSBlockItemList.itemStorageFourMillion));
+				        new ItemStack(LSBlockItemList.itemStorageFourtyMillion));
 			}
 		}
 	}

@@ -18,6 +18,8 @@ import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.registry.SyncType;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer.WChargerRegistry.WChargerEntry;
+import makmods.levelstorage.tileentity.template.IHasButtons;
+import makmods.levelstorage.tileentity.template.IHasTextBoxes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

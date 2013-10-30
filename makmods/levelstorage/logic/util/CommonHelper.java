@@ -7,12 +7,15 @@ import java.util.Random;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.dimension.LSDimensions;
 import makmods.levelstorage.registry.SyncType;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -40,6 +43,20 @@ public class CommonHelper {
 		return (s1.itemID == s2.itemID)
 				&& (s1.getItemDamage() == s2.getItemDamage())
 				&& (s1.stackSize == s2.stackSize);
+	}
+	
+	public static ItemStack createEnchantedBook(Enchantment ench, int level) {
+		if (ench == null)
+			return null;
+		ItemStack book = new ItemStack(Item.enchantedBook);
+		book.stackTagCompound = new NBTTagCompound();
+		NBTTagList storedEnchs = new NBTTagList();
+		NBTTagCompound enchanted = new NBTTagCompound();
+		enchanted.setShort("id", (short) ench.effectId);
+		enchanted.setShort("lvl", (short) level);
+		storedEnchs.appendTag(enchanted);
+		book.getTagCompound().setTag("StoredEnchantments", storedEnchs);
+		return book;
 	}
 
 	public static void dropBlockInWorld(World par1World, int par2, int par3,

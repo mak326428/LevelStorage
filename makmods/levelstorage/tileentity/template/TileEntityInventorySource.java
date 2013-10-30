@@ -1,20 +1,20 @@
-package makmods.levelstorage.tileentity;
+package makmods.levelstorage.tileentity.template;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
-public abstract class TileEntityInventorySink extends TileEntityBasicSink
-        implements IInventory {
+public abstract class TileEntityInventorySource extends TileEntityBasicSource implements
+		ISidedInventory {
 
 	public ItemStack[] inv;
 
-	public TileEntityInventorySink(int inventorySize) {
-		super();
+	public TileEntityInventorySource(int maxOutput, int inventorySize) {
+		super(maxOutput);
 		inv = new ItemStack[inventorySize];
 	}
 
@@ -113,11 +113,5 @@ public abstract class TileEntityInventorySink extends TileEntityBasicSink
 				this.inv[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
-	}
-	
-	@Override
-	public boolean acceptsEnergyFrom(TileEntity emitter,
-	        ForgeDirection direction) {
-	    return true;
 	}
 }

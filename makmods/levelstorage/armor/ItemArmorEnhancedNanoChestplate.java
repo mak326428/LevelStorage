@@ -12,6 +12,7 @@ import java.util.List;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.NBTHelper;
@@ -38,7 +39,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorEnhancedNanoChestplate extends ItemArmor implements
-		ISpecialArmor, IMetalArmor, IElectricItem {
+		ISpecialArmor, IMetalArmor, IElectricItem, IHasRecipe {
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ENH_LAPPACK_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 800;
@@ -55,7 +56,7 @@ public class ItemArmorEnhancedNanoChestplate extends ItemArmor implements
 		this.setMaxStackSize(1);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
 				LSBlockItemList.itemArmorEnhancedNanoChestplate), "clc", "qnq",
 				"aja", Character.valueOf('c'), IC2Items.CARBON_PLATE.copy(),

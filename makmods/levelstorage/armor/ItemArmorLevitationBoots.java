@@ -12,6 +12,7 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.api.IFlyArmor;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.item.ItemQuantumRing;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
@@ -43,7 +44,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorLevitationBoots extends ItemArmor implements
-        ISpecialArmor, IMetalArmor, IElectricItem, IFlyArmor {
+        ISpecialArmor, IMetalArmor, IElectricItem, IFlyArmor, IHasRecipe {
 	
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
@@ -137,7 +138,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	 * ClientProxy.ARMOR_LEVITATION_BOOTS_TEXTURE; }
 	 */
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Property p = LevelStorage.configuration.get(
 		        Configuration.CATEGORY_GENERAL,
 		        "enableLevitationBootsCraftingRecipe", true);
@@ -149,14 +150,14 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 				        "lil", Character.valueOf('i'), SimpleItems.instance
 				                .getIngredient(3), Character.valueOf('q'),
 				        Items.getItem("quantumBoots"), Character.valueOf('l'),
-				        new ItemStack(LSBlockItemList.itemStorageFourMillion));
+				        new ItemStack(LSBlockItemList.itemStorageFourtyMillion));
 			} else {
 				Recipes.advRecipes.addRecipe(new ItemStack(
 				        LSBlockItemList.itemLevitationBoots), "iii", "iqi",
 				        "lil", Character.valueOf('i'), IC2Items.IRIDIUM_PLATE,
 				        Character.valueOf('q'), Items.getItem("quantumBoots"),
 				        Character.valueOf('l'), new ItemStack(
-				                LSBlockItemList.itemStorageFourMillion));
+				                LSBlockItemList.itemStorageFourtyMillion));
 			}
 		}
 	}

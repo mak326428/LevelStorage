@@ -9,6 +9,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -23,7 +24,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemQuantumSaber extends Item implements IElectricItem {
+public class ItemQuantumSaber extends Item implements IElectricItem, IHasRecipe {
 
 	public static final int TIER = 3;
 	public static final int DAMAGE = 30;
@@ -103,7 +104,7 @@ public class ItemQuantumSaber extends Item implements IElectricItem {
 		return EnumRarity.epic;
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
 		        LSBlockItemList.itemQuantumSaber), "ai ", "ai ", "cnl",
 		        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character

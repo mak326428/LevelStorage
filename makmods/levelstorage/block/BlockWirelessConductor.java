@@ -6,8 +6,9 @@ import ic2.api.recipe.Recipes;
 import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.item.ItemFrequencyCard;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
@@ -25,7 +26,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 
-public class BlockWirelessConductor extends BlockContainer {
+public class BlockWirelessConductor extends BlockContainer implements IHasRecipe {
 
 	public BlockWirelessConductor(int id) {
 		super(id, Material.iron);
@@ -38,7 +39,7 @@ public class BlockWirelessConductor extends BlockContainer {
 		TileEntityWirelessConductor.getConfig();
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
 		ItemStack transformerHv = Items.getItem("hvTransformer");
 		ItemStack advCircuit = Items.getItem("advancedCircuit");

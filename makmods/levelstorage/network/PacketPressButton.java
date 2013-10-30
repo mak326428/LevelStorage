@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import makmods.levelstorage.logic.util.LogHelper;
-import makmods.levelstorage.tileentity.IHasButtons;
+import makmods.levelstorage.tileentity.template.IHasButtons;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;

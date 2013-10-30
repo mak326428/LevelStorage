@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 import makmods.levelstorage.logic.util.LogHelper;
-import makmods.levelstorage.tileentity.IHasTextBoxes;
+import makmods.levelstorage.tileentity.template.IHasTextBoxes;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;

@@ -3,9 +3,10 @@ package makmods.levelstorage.iv;
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 
-import makmods.levelstorage.item.SimpleItems.SimpleItemShortcut;
 import makmods.levelstorage.iv.parsers.AdvRecipeParser;
 import makmods.levelstorage.iv.parsers.CraftingRecipeParser;
 import makmods.levelstorage.iv.parsers.IC2MachineRecipeParser;
@@ -25,7 +26,15 @@ public class IVRegistry {
 	public static final int NOT_FOUND = -1;
 	public List<IVEntry> entries = Lists.newArrayList();
 
-	private IRecipeParser parsers[] = { new CraftingRecipeParser(),
+	/**
+	 * Key - IV <br />
+	 * Value - Fluid in mB
+	 */
+	public static final AbstractMap.SimpleEntry<Integer, Integer> IV_TO_FLUID_CONVERSION = new SimpleEntry<Integer, Integer>(
+			10, 1);
+
+	private IRecipeParser parsers[] = {
+			new CraftingRecipeParser(),
 			new StandartOreRecipesParser(),
 			new IC2MachineRecipeParser(Recipes.compressor),
 			new IC2MachineRecipeParser(Recipes.macerator),
@@ -33,10 +42,10 @@ public class IVRegistry {
 			new IC2MachineRecipeParser(Recipes.metalformerCutting),
 			new IC2MachineRecipeParser(Recipes.metalformerExtruding),
 			new IC2MachineRecipeParser(Recipes.metalformerRolling),
-			new SmeltingRecipeParser(), new AdvRecipeParser(),
+			new SmeltingRecipeParser(),
+			new AdvRecipeParser(),
 			// extraordinary copy-past to allow wider scanning
-			new CraftingRecipeParser(),
-			new StandartOreRecipesParser(),
+			new CraftingRecipeParser(), new StandartOreRecipesParser(),
 			new IC2MachineRecipeParser(Recipes.compressor),
 			new IC2MachineRecipeParser(Recipes.macerator),
 			new IC2MachineRecipeParser(Recipes.extractor),
@@ -107,10 +116,21 @@ public class IVRegistry {
 		registerIS(new ItemStack(Item.potato), 64);
 		registerIS(new ItemStack(Item.glowstone), 384);
 		registerIS(new ItemStack(Item.dyePowder, 1, 4), 768);
-		
+		registerIS(new ItemStack(Item.leather), 64);
+		registerIS(new ItemStack(Item.emerald), 8192);
+		registerIS(new ItemStack(Item.stick), 4);
+		registerIS(new ItemStack(Block.pistonBase), 368);
+		registerIS(new ItemStack(Item.feather), 48);
+		registerIS(new ItemStack(Block.ice), 1);
+		registerIS(new ItemStack(Block.dragonEgg), 2000000);
+		registerIS(new ItemStack(Item.melon), 16);
+		registerIS(new ItemStack(Item.netherQuartz), 24);
+		registerIS(new ItemStack(Item.saddle), 256);
+
 		registerIS(Items.getItem("iridiumOre").copy(), 131072);
 		registerIS(Items.getItem("resin").copy(), 24);
-		//registerIS(SimpleItemShortcut.DUST_CHROME.getItemStack().copy(), 8192 * 12);
+		// registerIS(SimpleItemShortcut.DUST_CHROME.getItemStack().copy(), 8192
+		// * 12);
 		registerOreDict("ingotChrome", 8192 * 12);
 		registerOreDict("ingotCopper", 85);
 		registerOreDict("ingotTin", 255);
@@ -153,7 +173,8 @@ public class IVRegistry {
 	/**
 	 * Respects stack size
 	 * 
-	 * @param st ItemStack
+	 * @param st
+	 *            ItemStack
 	 * @return IV for the requested item
 	 */
 	public int getValueForItemStack(ItemStack st) {
@@ -164,10 +185,20 @@ public class IVRegistry {
 			return NOT_FOUND;
 		return baseValue * st.stackSize;
 	}
+	
+	public static boolean hasValue(Object obj) {
+		return getValue(obj) != NOT_FOUND;
+	}
+	
+	public static int getValue(Object obj) {
+		return instance.getValueFor(obj);
+	}
 
 	/**
 	 * Gets IV for requested object
-	 * @param obj Requested. Might be String (OreDict name) or ItemStack
+	 * 
+	 * @param obj
+	 *            Requested. Might be String (OreDict name) or ItemStack
 	 * @return IV
 	 */
 	public int getValueFor(Object obj) {

@@ -4,10 +4,15 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.gui.client.GUIParticleAccelerator;
 import makmods.levelstorage.gui.container.ContainerParticleAccelerator;
-import makmods.levelstorage.gui.logicslot.HelperLogicSlot;
+import makmods.levelstorage.gui.container.phantom.PhantomInventory;
+import makmods.levelstorage.gui.logicslot.LogicSlot;
+import makmods.levelstorage.init.LSFluids;
 import makmods.levelstorage.item.SimpleItems;
+import makmods.levelstorage.item.SimpleItems.SimpleItemShortcut;
 import makmods.levelstorage.iv.IVRegistry;
-import makmods.levelstorage.logic.util.InventoryUtil;
+import makmods.levelstorage.tileentity.template.IHasButtons;
+import makmods.levelstorage.tileentity.template.ITEHasGUI;
+import makmods.levelstorage.tileentity.template.TileEntityInventorySinkWithFluid;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -16,53 +21,98 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityParticleAccelerator extends TileEntityBasicMachine
-		implements ISidedInventory, ITEHasGUI, IHasButtons {
+public class TileEntityParticleAccelerator extends
+		TileEntityInventorySinkWithFluid implements ISidedInventory, ITEHasGUI,
+		IHasButtons {
+
+	public PhantomInventory phantomInventory;
 
 	public TileEntityParticleAccelerator() {
-		super(3, 2000000, false);
-		sampleSlot = new HelperLogicSlot(this, 0);
-		inputSlot = new HelperLogicSlot(this, 1);
-		outputSlot = new HelperLogicSlot(this, 2);
+		super(2, 128);
+		outputSlot = new LogicSlot(this, 1);
+		phantomInventory = new PhantomInventory(1);
+		sampleSlot = new LogicSlot(this.phantomInventory, 0);
 	}
 
 	public int mode = ANTIMATTER_PRODUCTION_MODE;
-
+	public static final int OPERATIONS_PER_TICK = 200 / IVRegistry.IV_TO_FLUID_CONVERSION
+			.getKey();
 	public static final int ANTIMATTER_PRODUCTION_MODE = 0;
 	public static final int MATTER_RESHAPING_MODE = 1;
 
 	public static final ItemStack ANTIMATTER_IS = SimpleItems.instance
 			.getIngredient(9);
-
+	public int internalIV = 0;
 	public static final int ANTIMATTER_IV = 32768;
+
+	public int progress;
+	public int maxProgress = 1;
 
 	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
+		phantomInventory.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("modePA", mode);
-		if (bufferStack != null) {
-			NBTTagCompound tc = new NBTTagCompound();
-			bufferStack.writeToNBT(tc);
-			par1NBTTagCompound.setCompoundTag("bufferStack", tc);
-		}
+		par1NBTTagCompound.setInteger("progress", progress);
+		par1NBTTagCompound.setInteger("internalIV", internalIV);
+		par1NBTTagCompound.setInteger("maxProg", maxProgress);
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		return fluid.getName().equals(LSFluids.instance.fluidIV.getName());
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		return false;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
+		phantomInventory.readFromNBT(par1NBTTagCompound);
 		mode = par1NBTTagCompound.getInteger("modePA");
-		if (par1NBTTagCompound.hasKey("bufferStack")) {
-			bufferStack = ItemStack.loadItemStackFromNBT(par1NBTTagCompound
-					.getCompoundTag("bufferStack"));
-		}
+		progress = par1NBTTagCompound.getInteger("progress");
+		internalIV = par1NBTTagCompound.getInteger("internalIV");
+		maxProgress = par1NBTTagCompound.getInteger("maxProg");
 	}
 
 	@Override
 	public String getInvName() {
 		return "Particle Accelerator";
+	}
+
+	public int getProgress() {
+		return progress;
+	}
+
+	public int getMaxProgress() {
+		return maxProgress;
+	}
+
+	public int gaugeProgressScaled(int i) {
+		if (getProgress() <= 0) {
+			return 0;
+		}
+		int r = getProgress() * i / getMaxProgress();
+		if (r > i) {
+			r = i;
+		}
+		return r;
+	}
+
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
+
+	public void addProgress(int progress) {
+		this.progress += progress;
 	}
 
 	@Override
@@ -72,44 +122,17 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
-		ForgeDirection dir = ForgeDirection.getOrientation(var1);
-		if (dir.equals(ForgeDirection.UP))
-			return new int[] { 0, 1 };
-		else
-			return new int[] { 2 };
+		return new int[] { 1 };
 	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-		if (j == ForgeDirection.UP.ordinal())
-			return isItemValidForSlot(i, itemstack);
 		return false;
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-		ForgeDirection dirhit = ForgeDirection.getOrientation(j);
-		switch (dirhit) {
-		case EAST: {
-			return i == 2;
-		}
-		case NORTH: {
-			return i == 2;
-		}
-		case WEST: {
-			return i == 2;
-		}
-		case SOUTH: {
-			return i == 2;
-		}
-		default:
-			return false;
-		}
-	}
-
-	@Override
-	public int getMaxProgress() {
-		return 400;
+		return true;
 	}
 
 	@Override
@@ -123,10 +146,6 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		if (i == 2)
-			return false;
-		if (IVRegistry.instance.getValueFor(itemstack) != IVRegistry.NOT_FOUND)
-			return true;
 		return false;
 	}
 
@@ -137,172 +156,112 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 
 	public static final int ENERGY_COST_PER_TICK = 1024;
 
-	public ItemStack getPattern() {
-		return getStackInSlot(0);
-	}
-
-	public HelperLogicSlot sampleSlot;
-	public HelperLogicSlot inputSlot;
-	public HelperLogicSlot outputSlot;
-
-	public boolean hasMRWork() {
-		if (sampleSlot.get() == null)
-			return false;
-		if (inputSlot.get() == null)
-			return false;
-		ItemStack tmp1 = getPatternIdeal().copy();
-		tmp1.stackSize = getRequiredInputForOutput().plusOutput;
-		if (!outputSlot.add(tmp1, true))
-			return false;
-		int totalIVInInput = 0;
-		final int ivForOneItemInInput = IVRegistry.instance
-				.getValueFor(inputSlot.get());
-		for (int i = 0; i < inputSlot.get().stackSize; i++)
-			totalIVInInput += ivForOneItemInInput;
-		if (totalIVInInput >= IVRegistry.instance.getValueFor(sampleSlot.get()))
-			return true;
-		if (outputSlot.get() != null) {
-			if (outputSlot.get().itemID != sampleSlot.get().itemID
-					|| outputSlot.get().getItemDamage() != sampleSlot.get()
-							.getItemDamage())
-				return false;
-		}
-		return false;
-	}
-
-	public InputMinusOutputPlusRatio getRequiredInputForOutput() {
-		ItemStack st = sampleSlot.get();
-		if (st == null)
-			return null;
-		int sampleIV = IVRegistry.instance.getValueFor(st);
-		if (sampleIV == IVRegistry.NOT_FOUND)
-			return null;
-		if (inputSlot.get() == null)
-			return null;
-		int itemInInputIV = IVRegistry.instance.getValueFor(inputSlot.get());
-		if (itemInInputIV == IVRegistry.NOT_FOUND)
-			return null;
-		if (sampleIV > itemInInputIV)
-			return new InputMinusOutputPlusRatio(
-					(int) Math.ceil(((float) sampleIV)
-							/ ((float) itemInInputIV)), 1);
-		else
-			// so reshaping is not equivalent.
-			// previously 255 (tin) would give you 4x64 (redstone), however it's
-			// not balanced
-			return new InputMinusOutputPlusRatio(1,
-					(int) Math.floor(((float) itemInInputIV)
-							/ ((float) sampleIV)));
-	}
-
-	public static class InputMinusOutputPlusRatio {
-		public int minusInput;
-		public int plusOutput;
-
-		public InputMinusOutputPlusRatio(int mI, int pO) {
-			minusInput = mI;
-			plusOutput = pO;
-		}
-	}
+	public LogicSlot sampleSlot;
+	public LogicSlot outputSlot;
 
 	public ItemStack getPatternIdeal() {
-		ItemStack pEx = sampleSlot.get().copy();
-		pEx.stackSize = 1;
-		return pEx;
-	}
-
-	public InputMinusOutputPlusRatio getRequiredInputForAntimatter() {
-		if (inputSlot.get() == null)
+		if (sampleSlot.get() == null)
 			return null;
-		int itemInInputIV = IVRegistry.instance.getValueFor(inputSlot.get());
-		if (itemInInputIV == IVRegistry.NOT_FOUND)
-			return null;
-		if (ANTIMATTER_IV > itemInInputIV)
-			return new InputMinusOutputPlusRatio(
-					(int) Math.ceil(((float) ANTIMATTER_IV)
-							/ ((float) itemInInputIV)), 1);
-		else
-			return new InputMinusOutputPlusRatio(1,
-					(int) Math.ceil(((float) itemInInputIV)
-							/ ((float) ANTIMATTER_IV)));
+		ItemStack is = sampleSlot.get().copy();
+		is.stackSize = 1;
+		return is;
 	}
 
-	public void handleAntimatterTick() {
-		if (!hasAntimatterWork())
-			return;
-		InputMinusOutputPlusRatio requiredInput = getRequiredInputForAntimatter();
-		if (requiredInput == null)
-			return;
-		if (getProgress() == 0) {
-			if (outputSlot.add(ANTIMATTER_IS, true)) {
-				inputSlot.consume(requiredInput.minusInput);
-				ItemStack pIdeal = ANTIMATTER_IS.copy();
-				pIdeal.stackSize = requiredInput.plusOutput;
-				outputSlot.add(pIdeal, false);
-				addProgress(1);
-			}
-		}
-		if (canUse(ENERGY_COST_PER_TICK)) {
-			use(ENERGY_COST_PER_TICK);
-			addProgress(1);
-			if (getProgress() >= getMaxProgress())
-				setProgress(0);
-		}
-	}
-
-	public boolean hasAntimatterWork() {
-		if (inputSlot.get() == null)
-			return false;
-		if (!outputSlot.add(ANTIMATTER_IS, true))
-			return false;
-		int totalIVInInput = 0;
-		final int ivForOneItemInInput = IVRegistry.instance
-				.getValueFor(inputSlot.get());
-		for (int i = 0; i < inputSlot.get().stackSize; i++)
-			totalIVInInput += ivForOneItemInInput;
-		if (totalIVInInput >= ANTIMATTER_IV)
-			return true;
-		return false;
-	}
-
-	public void handleMatterTick() {
-		if (!hasMRWork())
-			return;
-		InputMinusOutputPlusRatio requiredInput = getRequiredInputForOutput();
-		if (requiredInput == null)
-			return;
-		if (getProgress() == 0) {
-			if (outputSlot.add(getPatternIdeal(), true)) {
-				inputSlot.consume(requiredInput.minusInput);
-				ItemStack pIdeal = getPatternIdeal().copy();
-				pIdeal.stackSize = requiredInput.plusOutput;
-				outputSlot.add(pIdeal, false);
-				addProgress(1);
-			}
-		}
-		if (canUse(ENERGY_COST_PER_TICK)) {
-			use(ENERGY_COST_PER_TICK);
-			addProgress(1);
-			if (getProgress() >= getMaxProgress())
-				setProgress(0);
-		}
+	public ItemStack getAntimatterIdeal() {
+		ItemStack is = SimpleItemShortcut.ANTMATTER_TINY_PILE.getItemStack()
+				.copy();
+		is.stackSize = 1;
+		return is;
 	}
 
 	public void updateEntity() {
 		super.updateEntity();
 		if (!LevelStorage.isSimulating())
 			return;
+		if (!canUse(ENERGY_COST_PER_TICK))
+			return;
 		switch (mode) {
 		case ANTIMATTER_PRODUCTION_MODE:
-			handleAntimatterTick();
+			if (handleAntimatterTick())
+				use(ENERGY_COST_PER_TICK);
 			break;
 		case MATTER_RESHAPING_MODE:
-			handleMatterTick();
+			if (handleMatterTick())
+				use(ENERGY_COST_PER_TICK);
 			break;
 		}
 	}
 
-	public ItemStack bufferStack;
+	private boolean handleMatterTick() {
+		if (!IVRegistry.hasValue(getPatternIdeal()))
+			this.phantomInventory.setInventorySlotContents(0, null);
+		boolean shouldUseEnergy = false;
+		if (getPatternIdeal() == null)
+			return false;
+		if (!outputSlot.add(getPatternIdeal(), true))
+			return false;
+		int ivCost = IVRegistry.getValue(getPatternIdeal());
+		if (ivCost == IVRegistry.NOT_FOUND)
+			return false;
+		this.maxProgress = ivCost;
+		for (int i = 0; i < OPERATIONS_PER_TICK; i++) {
+			if (this.internalIV <= ivCost + 1) {
+				FluidStack drained = this.getFluidTank().drain(
+						IVRegistry.IV_TO_FLUID_CONVERSION.getValue(), true);
+				if (drained != null
+						&& drained.amount == IVRegistry.IV_TO_FLUID_CONVERSION
+								.getValue()) {
+					this.internalIV += IVRegistry.IV_TO_FLUID_CONVERSION
+							.getKey();
+				}
+			} else {
+				if (this.internalIV >= ivCost) {
+					this.internalIV -= ivCost;
+					outputSlot.add(getPatternIdeal(), false);
+					progress = 0;
+				}
+			}
+			shouldUseEnergy = true;
+			progress++;
+			if (progress > maxProgress)
+				progress = 0;
+		}
+		this.setProgress(internalIV);
+		return shouldUseEnergy;
+	}
+
+	private boolean handleAntimatterTick() {
+		boolean shouldUseEnergy = false;
+		if (!outputSlot.add(getAntimatterIdeal(), true))
+			return false;
+		int ivCost = ANTIMATTER_IV;
+		this.maxProgress = ivCost;
+		for (int i = 0; i < OPERATIONS_PER_TICK; i++) {
+			if (this.internalIV <= ivCost + 1) {
+				FluidStack drained = this.getFluidTank().drain(
+						IVRegistry.IV_TO_FLUID_CONVERSION.getValue(), true);
+				if (drained != null
+						&& drained.amount == IVRegistry.IV_TO_FLUID_CONVERSION
+								.getValue()) {
+					this.internalIV += IVRegistry.IV_TO_FLUID_CONVERSION
+							.getKey();
+				}
+			} else {
+				if (this.internalIV >= ivCost) {
+					this.internalIV -= ivCost;
+					outputSlot.add(getAntimatterIdeal(), false);
+					progress = 0;
+				}
+			}
+			shouldUseEnergy = true;
+			progress++;
+			if (progress > maxProgress)
+				progress = 0;
+		}
+		this.phantomInventory.setInventorySlotContents(0, getAntimatterIdeal());
+		this.setProgress(internalIV);
+		return shouldUseEnergy;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -319,10 +278,21 @@ public class TileEntityParticleAccelerator extends TileEntityBasicMachine
 
 	@Override
 	public void handleButtonClick(int buttonId) {
-		if (this.mode == 0)
-			this.mode = 1;
-		else
-			this.mode = 0;
+		this.mode = this.mode == 0 ? 1 : 0;
+		// if (this.mode == 0)
+		// this.mode = 1;
+		// else
+		// this.mode = 0;
+	}
+
+	@Override
+	public int getCapacity() {
+		return 400000;
+	}
+
+	@Override
+	public boolean explodes() {
+		return true;
 	}
 
 }

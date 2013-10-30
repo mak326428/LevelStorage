@@ -365,13 +365,14 @@ public class ArmorFunctions {
 				}
 
 			}
-
 		}
 	}
 
 	public static void fly(int energy, EntityPlayer player,
 			ItemStack itemStack, World world) {
 		if (ElectricItem.manager.canUse(itemStack, energy)) {
+			// TODO: the clear() part might cause issues in SMP
+			// TODO: investigate and fix if problem really exists
 			FlightRegistry.instance.modEnabledFlights.clear();
 			FlightRegistry.instance.modEnabledFlights.put(Reference.MOD_ID,
 					new Flight(player, true));

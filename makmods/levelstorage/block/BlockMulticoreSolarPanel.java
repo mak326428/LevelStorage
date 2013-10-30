@@ -7,6 +7,7 @@ import java.util.Random;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.LogHelper;
@@ -26,7 +27,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMulticoreSolarPanel extends BlockContainer {
+public class BlockMulticoreSolarPanel extends BlockContainer implements IHasRecipe {
 
 	public BlockMulticoreSolarPanel(int id) {
 		super(id, Material.iron);
@@ -37,7 +38,7 @@ public class BlockMulticoreSolarPanel extends BlockContainer {
 		this.setHardness(3.0F);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		if (!LevelStorage.isAnySolarModLoaded()) {
 			LogHelper
 					.warning("No solar mods loaded. Not adding Multicore Solar Panel's recipe");

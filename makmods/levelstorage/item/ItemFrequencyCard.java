@@ -7,6 +7,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -23,7 +24,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemFrequencyCard extends Item {
+public class ItemFrequencyCard extends Item implements IHasRecipe {
 
 	public ItemFrequencyCard(int id) {
 		super(id);
@@ -34,7 +35,7 @@ public class ItemFrequencyCard extends Item {
 		this.setMaxStackSize(1);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		// Frequency card
 		ItemStack frequencyTr = Items.getItem("frequencyTransmitter");
 		Recipes.advRecipes.addShapelessRecipe(new ItemStack(

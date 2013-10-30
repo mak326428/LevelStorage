@@ -6,6 +6,7 @@ import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.dimension.worldgen.WorldGeneratorAsteroids;
+import makmods.levelstorage.dimension.worldgen.WorldGeneratorContinent;
 import makmods.levelstorage.dimension.worldgen.WorldGeneratorPillar;
 import makmods.levelstorage.dimension.worldgen.WorldGeneratorUUMFountain;
 import makmods.levelstorage.proxy.CommonProxy;
@@ -38,6 +39,8 @@ public class AntimatterUniverseChunkProvider implements IChunkProvider {
 	private NoiseGeneratorOctaves noiseGen4;
 	private NoiseGeneratorOctaves noiseGen5;
 
+	private WorldGeneratorContinent[] otherContinents = new WorldGeneratorContinent[16];
+
 	double[] noiseData1;
 	double[] noiseData2;
 	double[] noiseData3;
@@ -55,6 +58,9 @@ public class AntimatterUniverseChunkProvider implements IChunkProvider {
 		noiseGen3 = new NoiseGeneratorOctaves(random, 8);
 		noiseGen4 = new NoiseGeneratorOctaves(random, 10);
 		noiseGen5 = new NoiseGeneratorOctaves(random, 16);
+
+		for (int i = 0; i < otherContinents.length; i++)
+			otherContinents[i] = new WorldGeneratorContinent();
 
 		this.hasDungeons = false;
 	}
@@ -120,10 +126,7 @@ public class AntimatterUniverseChunkProvider implements IChunkProvider {
 			for (int z = 0; z < 16; ++z) {
 				for (int y = 0; y < k; ++y) {
 					int idx = x << 11 | z << 7 | y;
-					// int id = ids[idx] & 0xFF;
 					int id = ids[idx];
-					// int meta = metadata[idx];
-
 					if (id != 0) {
 						int l = y >> 4;
 
@@ -134,9 +137,6 @@ public class AntimatterUniverseChunkProvider implements IChunkProvider {
 
 						chunk.getBlockStorageArray()[l].setExtBlockID(x,
 								y & 15, z, id);
-						// chunk.getBlockStorageArray()[l].setExtBlockMetadata(x,
-						// y & 15, z,
-						// meta);
 					}
 				}
 			}
@@ -165,6 +165,8 @@ public class AntimatterUniverseChunkProvider implements IChunkProvider {
 		new WorldGeneratorAsteroids().generate(random, par2, par3,
 				this.worldObj, this, this);
 		new WorldGeneratorUUMFountain().generate(random, par2, par3,
+				this.worldObj, this, this);
+		new WorldGeneratorContinent().generate(random, par2, par3,
 				this.worldObj, this, this);
 	}
 

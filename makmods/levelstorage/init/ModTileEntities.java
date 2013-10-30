@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import makmods.levelstorage.tileentity.TileEntityLavaFabricator;
+import makmods.levelstorage.tileentity.TileEntityMassMelter;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import makmods.levelstorage.tileentity.TileEntityMulticoreSolarPanel;
 import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
@@ -49,6 +50,7 @@ public class ModTileEntities {
 		tileEntities.put(TileEntityRockDesintegrator.class,
 				"tileRockDesintegrator");
 		tileEntities.put(TileEntityLavaFabricator.class, "tileLavaFabricator");
+		tileEntities.put(TileEntityMassMelter.class, "tileMassMelter");
 	}
 
 	private ModTileEntities() {

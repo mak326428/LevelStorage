@@ -3,9 +3,11 @@ package makmods.levelstorage.tileentity;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.gui.client.GUIRockDesintegrator;
 import makmods.levelstorage.gui.container.ContainerRockDesintegrator;
-import makmods.levelstorage.gui.logicslot.HelperLogicSlot;
+import makmods.levelstorage.gui.logicslot.LogicSlot;
 import makmods.levelstorage.gui.logicslot.LogicSlot;
 import makmods.levelstorage.logic.util.LogHelper;
+import makmods.levelstorage.tileentity.template.ITEHasGUI;
+import makmods.levelstorage.tileentity.template.TileEntityInventorySink;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +29,7 @@ public class TileEntityRockDesintegrator extends TileEntityInventorySink
 		super(16);
 		slots = new LogicSlot[getSizeInventory()];
 		for (int i = 0; i < this.getSizeInventory(); i++)
-			slots[i] = new HelperLogicSlot(this, i);
+			slots[i] = new LogicSlot(this, i);
 	}
 
 	public boolean insertIfPossible(ItemStack st1) {

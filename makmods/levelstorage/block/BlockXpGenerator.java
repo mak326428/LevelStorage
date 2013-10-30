@@ -5,8 +5,9 @@ import ic2.api.item.Items;
 import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import net.minecraft.block.Block;
@@ -28,7 +29,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockXpGenerator extends BlockContainer {
+public class BlockXpGenerator extends BlockContainer implements IHasRecipe {
 
 	public BlockXpGenerator(int id) {
 		super(id, Material.iron);
@@ -43,7 +44,7 @@ public class BlockXpGenerator extends BlockContainer {
 	private Icon up;
 	private Icon side;
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		ItemStack blockXpGenStack = new ItemStack(LSBlockItemList.blockXpGen);
 		ItemStack machine = Items.getItem("machine");
 		ItemStack generator = Items.getItem("generator");

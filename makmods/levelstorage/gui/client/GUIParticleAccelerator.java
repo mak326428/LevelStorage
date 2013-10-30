@@ -9,9 +9,11 @@ import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 
 import org.lwjgl.opengl.GL11;
 
@@ -34,7 +36,7 @@ public class GUIParticleAccelerator extends GuiContainer {
 		int y = 64;
 		int x = 12;
 	}
-	
+
 	public static ItemStack MATTER_DISPLAY = Items.getItem("matter");
 
 	@Override
@@ -54,13 +56,27 @@ public class GUIParticleAccelerator extends GuiContainer {
 			modeButton.itemStack = MATTER_DISPLAY;
 			break;
 		}
+		if (this.tileEntity.getFluidTank().getFluidAmount() > 0) {
+			Icon fluidIcon = this.tileEntity.getFluidTank().getFluid()
+					.getFluid().getIcon();
+
+			if (fluidIcon != null) {
+				this.mc.renderEngine
+						.bindTexture(TextureMap.locationBlocksTexture);
+				int liquidHeight = this.tileEntity.gaugeLiquidScaled(60);
+				RenderHelper.drawFluidWise(fluidIcon, x + 152, y + 9 + 60
+						- liquidHeight, 16.0D, liquidHeight, this.zLevel);
+			}
+		}
+		RenderHelper.bindTexture(ClientProxy.GUI_PARTICLE_ACCELERATOR);
+		drawTexturedModalRect(x + 151, y + 8, 176, 0, 16, 60);
 		int l = tileEntity.gaugeEnergyScaled(14);
 		if (l > 0)
-			drawTexturedModalRect(x + 82, y + 63 + 14 - l, 176, 16 + 14 - l,
+			drawTexturedModalRect(x + 82, y + 63 + 14 - l, 176, 152 + 14 - l,
 					14, l);
-		int p = tileEntity.gaugeProgressScaled(57);
+		int p = tileEntity.gaugeProgressScaled(53);
 		if (p > 0)
-			drawTexturedModalRect(x + 62, y + 42, 176, 0, p, 16);
+			drawTexturedModalRect(x + 64, y + 36, 177, 114, p, 11);
 	}
 
 	@Override
@@ -73,7 +89,7 @@ public class GUIParticleAccelerator extends GuiContainer {
 		super.initGui();
 		int xGuiPos = (this.width - this.xSize) / 2; // j
 		int yGuiPos = (this.height - this.ySize) / 2;
-		modeButton = new TexturedButton(1, xGuiPos + 148, yGuiPos + 59,
+		modeButton = new TexturedButton(1, xGuiPos + 7, yGuiPos + 59,
 				SimpleItems.instance.getIngredient(9).copy(), true);
 		this.buttonList.add(modeButton);
 	}

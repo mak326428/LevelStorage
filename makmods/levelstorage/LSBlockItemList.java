@@ -9,8 +9,9 @@ import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.block.BlockAntimatterStone;
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockChromiteOre;
-import makmods.levelstorage.block.BlockCombustibleGenerator;
 import makmods.levelstorage.block.BlockLavaFabricator;
+import makmods.levelstorage.block.BlockMassMelter;
+import makmods.levelstorage.block.BlockMicroStar;
 import makmods.levelstorage.block.BlockMolecularHeater;
 import makmods.levelstorage.block.BlockMulticoreSolarPanel;
 import makmods.levelstorage.block.BlockParticleAccelerator;
@@ -23,6 +24,7 @@ import makmods.levelstorage.block.BlockXpGenerator;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemAtomicDisassembler;
+import makmods.levelstorage.item.ItemDemolisher;
 import makmods.levelstorage.item.ItemElectricLighter;
 import makmods.levelstorage.item.ItemElectricMagnet;
 import makmods.levelstorage.item.ItemElectricSickle;
@@ -67,7 +69,7 @@ public class LSBlockItemList {
 	public static ItemArmorForcefieldChestplate itemArmorForcefieldChestplate;
 	public static ItemArmorTeslaHelmet itemArmorTeslaHelmet;
 	public static ItemSuperconductor itemSuperconductor;
-	public static ItemEnergeticEnrichedMatterOrb itemStorageFourMillion;
+	public static ItemEnergeticEnrichedMatterOrb itemStorageFourtyMillion;
 	public static ItemWirelessCharger itemWirelessCharger;
 	public static ItemElectricSickle itemElectricSickle;
 	public static ItemQuantumSaber itemQuantumSaber;
@@ -84,5 +86,7 @@ public class LSBlockItemList {
 	public static BlockUnstableQuartz blockUnstableQuartz;
 	public static BlockRockDesintegrator blockRockDesintegrator;
 	public static BlockLavaFabricator blockLavaFabricator;
-	public static BlockCombustibleGenerator blockCombustibleGenerator;
+	public static BlockMicroStar blockMicroStar;
+	public static ItemDemolisher itemDemolisher;
+	public static BlockMassMelter blockMassMelter;
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.logic.util.NBTHelper;
@@ -27,13 +28,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemElectricMagnet extends Item implements IElectricItem {
+public class ItemElectricMagnet extends Item implements IElectricItem, IHasRecipe {
 
 	public static final int TIER = 1;
 	public static final int STORAGE = 10000;
@@ -92,8 +94,9 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		par3List.add("\2472"
-				+ StatCollector.translateToLocal("tooltip.electricMagnet"));
+		// par3List.add("\2472"
+		// + StatCollector.translateToLocal("tooltip.electricMagnet"));
+		par3List.add(getStringState(par1ItemStack));
 	}
 
 	@Override
@@ -148,6 +151,13 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 		}
 	}
 
+	public String getStringState(ItemStack par1ItemStack) {
+		return "Active: "
+				+ (SimpleMode.readFromNBT(par1ItemStack.stackTagCompound).boolValue ? EnumChatFormatting.DARK_GREEN
+						+ "yes"
+						: EnumChatFormatting.DARK_RED + "no");
+	}
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
@@ -155,22 +165,18 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 			writeInitialMode(par1ItemStack);
 			SimpleMode.readFromNBT(par1ItemStack.stackTagCompound).getReverse()
 					.writeToNBT(par1ItemStack.stackTagCompound);
-			LevelStorage.proxy
-					.messagePlayer(
-							par3EntityPlayer,
-							"Active: "
-									+ (SimpleMode
-											.readFromNBT(par1ItemStack.stackTagCompound).boolValue ? "yes"
-											: "no"), new Object[0]);
+			LevelStorage.proxy.messagePlayer(par3EntityPlayer,
+					getStringState(par1ItemStack), new Object[0]);
 		}
 		return par1ItemStack;
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
 				LSBlockItemList.itemElectricMagnet), "cc ", "cic", " cb",
 				Character.valueOf('c'), "plateCopper", Character.valueOf('i'),
-				"plateIron", Character.valueOf('b'), Items.getItem("powerunitsmall"));
+				"plateIron", Character.valueOf('b'), Items
+						.getItem("powerunitsmall"));
 
 	}
 
@@ -182,6 +188,5 @@ public class ItemElectricMagnet extends Item implements IElectricItem {
 				true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
-
 	}
 }

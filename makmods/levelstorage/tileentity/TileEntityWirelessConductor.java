@@ -15,6 +15,7 @@ import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.registry.IWirelessConductor;
 import makmods.levelstorage.registry.WirelessConductorRegistry;
+import makmods.levelstorage.tileentity.template.IHasButtons;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

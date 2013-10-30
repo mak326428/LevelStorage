@@ -9,6 +9,7 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -22,7 +23,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemPocketRefrigerant extends Item implements IElectricItem {
+public class ItemPocketRefrigerant extends Item implements IElectricItem, IHasRecipe {
 
 	public static final int STORAGE = 10000;
 	public static final int ENERGY_PER_USE = 500;
@@ -40,7 +41,7 @@ public class ItemPocketRefrigerant extends Item implements IElectricItem {
 		this.setMaxStackSize(1);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes
 		        .addShapelessRecipe(new ItemStack(
 		                LSBlockItemList.itemPocketRefrigerant), new ItemStack(

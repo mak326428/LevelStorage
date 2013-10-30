@@ -3,6 +3,7 @@ package makmods.levelstorage.item;
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 import makmods.levelstorage.LSBlockItemList;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -17,7 +18,7 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemElectricLighter extends ItemBasicElectric {
+public class ItemElectricLighter extends ItemBasicElectric implements IHasRecipe {
 
 	public ItemElectricLighter(int id) {
 		super(id, 2, 100000, 1000, 500);
@@ -37,7 +38,7 @@ public class ItemElectricLighter extends ItemBasicElectric {
 		return addedFire;
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes.addShapelessRecipe(new ItemStack(
 				LSBlockItemList.itemElectricLighter),
 				Items.getItem("powerunitsmall").copy(), new ItemStack(

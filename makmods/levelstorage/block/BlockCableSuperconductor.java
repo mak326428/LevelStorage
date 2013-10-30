@@ -40,7 +40,7 @@ public class BlockCableSuperconductor extends BlockContainer {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		;
 		// No recipe for block-version
 	}

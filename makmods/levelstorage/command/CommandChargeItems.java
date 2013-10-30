@@ -37,18 +37,20 @@ public class CommandChargeItems extends CommandBase {
 		return MinecraftServer.getServer().getAllUsernames();
 	}
 
-	public void chargeItems(EntityPlayerMP player) {
+	public int chargeItems(EntityPlayerMP player) {
+		int charged = 0;
 		InventoryPlayer inv = player.inventory;
 		for (ItemStack stack : inv.armorInventory)
 			if (stack != null)
 				if (stack.getItem() instanceof IElectricItem)
-					ElectricItem.manager.charge(stack, Integer.MAX_VALUE, 10,
-							true, false);
+					charged += ElectricItem.manager.charge(stack,
+							Integer.MAX_VALUE, 10, true, false);
 		for (ItemStack stack : inv.mainInventory)
 			if (stack != null)
 				if (stack.getItem() instanceof IElectricItem)
-					ElectricItem.manager.charge(stack, Integer.MAX_VALUE, 10,
-							true, false);
+					charged += ElectricItem.manager.charge(stack,
+							Integer.MAX_VALUE, 10, true, false);
+		return charged;
 	}
 
 	@Override
@@ -60,17 +62,19 @@ public class CommandChargeItems extends CommandBase {
 					.getPlayerForUsername(playerName);
 			if (player == null)
 				throw new PlayerNotFoundException();
-			chargeItems(player);
+			int charged = chargeItems(player);
 			icommandsender.sendChatToPlayer(ChatMessageComponent
 					.createFromText("\247dCharged all items inside "
-							+ playerName + "'s inventory."));
+							+ playerName + "'s inventory. (used "
+								+ charged + " EU)"));
 			return;
 		}
 		EntityPlayerMP player = getCommandSenderAsPlayer(icommandsender);
-		chargeItems(player);
+		int charged = chargeItems(player);
 		icommandsender
 				.sendChatToPlayer(ChatMessageComponent
-						.createFromText("\247dCharged all items inside your inventory."));
+						.createFromText("\247dCharged all items inside your inventory. (used "
+								+ charged + " EU)"));
 	}
 
 }

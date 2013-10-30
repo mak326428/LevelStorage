@@ -6,8 +6,9 @@ import ic2.api.recipe.Recipes;
 import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import net.minecraft.block.Block;
@@ -27,7 +28,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockWirelessPowerSynchronizer extends BlockContainer {
+public class BlockWirelessPowerSynchronizer extends BlockContainer implements IHasRecipe {
 
 	public BlockWirelessPowerSynchronizer(int id) {
 		super(id, Material.iron);
@@ -44,7 +45,7 @@ public class BlockWirelessPowerSynchronizer extends BlockContainer {
 
 	public ItemStack advMachine = Items.getItem("advancedMachine");
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		ItemStack sync = new ItemStack(LSBlockItemList.blockWlessPowerSync, 4);
 		ItemStack advCircuit = Items.getItem("advancedCircuit");
 		ItemStack advMachine = Items.getItem("advancedMachine");

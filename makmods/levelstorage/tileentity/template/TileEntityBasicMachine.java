@@ -1,4 +1,4 @@
-package makmods.levelstorage.tileentity;
+package makmods.levelstorage.tileentity.template;
 
 import java.util.Map;
 

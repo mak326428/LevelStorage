@@ -10,6 +10,7 @@ import java.util.List;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.logic.util.NBTHelper.Cooldownable;
@@ -28,7 +29,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemWirelessCharger extends Item implements IElectricItem {
+public class ItemWirelessCharger extends Item implements IElectricItem, IHasRecipe {
 
 	public static final String FREQUENCY_NBT = "frequency";
 
@@ -47,7 +48,7 @@ public class ItemWirelessCharger extends Item implements IElectricItem {
 		this.setMaxStackSize(1);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
 				LSBlockItemList.itemWirelessCharger), "ccc", "ebe", "eoe",
 				Character.valueOf('c'), IC2Items.ADV_CIRCUIT, Character

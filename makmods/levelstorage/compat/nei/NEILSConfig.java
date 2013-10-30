@@ -15,6 +15,8 @@ public class NEILSConfig implements IConfigureNEI {
 		API.hideItem(LSBlockItemList.blockSuperconductor.blockID);
 		//API.registerRecipeHandler(new XPGeneratorHandler());
 		API.registerUsageHandler(new XPGeneratorHandler());
+		API.registerUsageHandler(new DrillEnhancementHandler());
+		API.registerRecipeHandler(new DrillEnhancementHandler());
     }
 
 	@Override

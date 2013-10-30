@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -25,7 +26,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemAdvancedScanner extends Item implements IElectricItem {
+public class ItemAdvancedScanner extends Item implements IElectricItem, IHasRecipe {
 
 	public static final int TIER = 2;
 	public static final int STORAGE = 100000;
@@ -45,7 +46,7 @@ public class ItemAdvancedScanner extends Item implements IElectricItem {
 		this.setMaxStackSize(1);
 	}
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 
 		ItemStack ovScanner = Items.getItem("ovScanner");
 		ItemStack uum = Items.getItem("matter");

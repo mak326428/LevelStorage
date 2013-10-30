@@ -7,15 +7,16 @@ import ic2.api.tile.IWrenchable;
 import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.registry.BlockTextureRegistry;
 import makmods.levelstorage.registry.BlockTextureRegistry.SimpleBlockTexture;
-import makmods.levelstorage.tileentity.TileEntityBasicMachine;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
+import makmods.levelstorage.tileentity.template.TileEntityBasicMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -33,7 +34,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMolecularHeater extends BlockContainer {
+public class BlockMolecularHeater extends BlockContainer implements IHasRecipe {
 
 	public BlockMolecularHeater(int id) {
 		super(id, Material.iron);
@@ -46,7 +47,7 @@ public class BlockMolecularHeater extends BlockContainer {
 
 	public Icon facing;
 
-	public static void addCraftingRecipe() {
+	public void addCraftingRecipe() {
 		// TODO: temporary recipe
 		Recipes.advRecipes.addRecipe(new ItemStack(
 		        LSBlockItemList.blockMolHeater), "iai", "apa", "iai", Character

@@ -99,8 +99,6 @@ public class XPStackRegistry {
 
 		for (ISimpleRecipeParser parser : parsers)
 			parser.parse();
-		// two should suffice
-		// if not, we'll add more
 		while (true) {
 			int parsed = 0;
 			for (ISimpleRecipeParser parser : parsers)
@@ -115,6 +113,12 @@ public class XPStackRegistry {
 				parsed += parser.parse();
 			if (parsed == 0)
 				break;
+		}
+		for (int i = 0; i < 64; i++) {
+			int parsed = 0;
+			for (ISimpleRecipeParser parser : parsers)
+				parsed += parser.parse();
+			System.out.println("Parsed: " + parsed);
 		}
 
 		// this.pushOreToRegistry("dustDiamond", 512);
