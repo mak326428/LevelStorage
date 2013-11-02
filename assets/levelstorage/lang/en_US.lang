@@ -36,6 +36,7 @@ crushedChromiteOre.name=Crushed Chromite Ore
 purifiedCrushedChromiteOre.name=Purified Crushed Chromite Ore
 plateChrome.name=Chrome Plate
 dustTinyIridium.name=Tiny Pile of Iridium Dust
+plateAntimatterIridium.name=Antimatter Iridium Reinforced Plate
 # dimension
 dimension.antimatterUniverse.name=Antimatter Universe
 # items
@@ -65,6 +66,11 @@ item.itemElectricLighter.name=Electric Lighter
 item.itemArmorEnhancedNanoChestplate.name=Enhanced NanoSuit Bodyarmor
 item.itemDemolisher.name=Rock Demolisher
 item.itemTemporaryEnchantedBook.name=Temporary Enchanted Book
+item.itemArmorAntimatterBoots.name=AntimatterSuit Boots
+item.itemArmorAntimatterLeggings.name=AntimatterSuit Leggings
+item.itemArmorAntimatterChestplate.name=AntimatterSuit Chestplate
+item.itemArmorAntimatterHelmet.name=AntimatterSuit Helmet
+
 # fluids
 tile.iv.name=IV
 # others

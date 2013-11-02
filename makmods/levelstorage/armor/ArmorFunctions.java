@@ -10,9 +10,10 @@ import java.util.Random;
 
 import makmods.levelstorage.api.event.BootsFlyingEvent;
 import makmods.levelstorage.api.event.TeslaRayEvent;
-import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate.WearType;
+import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterBase;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.LSDamageSource;
+import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.network.PacketTeslaRay;
 import makmods.levelstorage.network.PacketTypeHandler;
@@ -20,9 +21,7 @@ import makmods.levelstorage.proxy.LSKeyboard;
 import makmods.levelstorage.registry.FlightRegistry;
 import makmods.levelstorage.registry.FlightRegistry.Flight;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -31,10 +30,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.EventPriority;
-import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -48,93 +45,6 @@ public class ArmorFunctions {
 	public static HashMap<EntityPlayer, Boolean> onGroundMap = new HashMap<EntityPlayer, Boolean>();
 	private static float jumpCharge;
 	public static HashMap<EntityPlayer, Integer> speedTickerMap = new HashMap<EntityPlayer, Integer>();
-
-	static {
-		MinecraftForge.EVENT_BUS.register(new ForcefieldEventHandler());
-	}
-
-	public interface IForcefieldChestplate {
-		int energyPerTick();
-
-		WearType getWearType();
-
-		public enum WearType {
-			INVENTORY, ARMOR
-		}
-	}
-
-	public static class ForcefieldEventHandler {
-
-		public static final int ENTITY_MAX_DISTANCE = 16;
-
-		public ItemStack playerGetItem(EntityPlayer p) {
-			InventoryPlayer inv = p.inventory;
-			for (ItemStack stack : inv.mainInventory) {
-				if (stack != null) {
-					if (stack.getItem() instanceof IForcefieldChestplate) {
-						if (((IForcefieldChestplate) stack.getItem())
-								.getWearType() == WearType.INVENTORY)
-							return stack;
-					}
-				}
-			}
-			for (ItemStack stack : inv.armorInventory) {
-				if (stack != null) {
-					if (stack.getItem() instanceof IForcefieldChestplate) {
-						if (((IForcefieldChestplate) stack.getItem())
-								.getWearType() == WearType.ARMOR)
-							return stack;
-					}
-				}
-			}
-			return null;
-		}
-
-		@ForgeSubscribe(priority = EventPriority.HIGHEST)
-		public void onLivingUpdate(LivingUpdateEvent event) {
-			World w = event.entityLiving.worldObj;
-			if (!w.isRemote) {
-				if (event.entityLiving instanceof EntityPlayer)
-					return;
-				for (Object playerObj : w.playerEntities) {
-					EntityPlayer p = (EntityPlayer) playerObj;
-					ItemStack armor = playerGetItem(p);
-					if (armor != null) {
-						double newPosX = event.entityLiving.posX
-								+ event.entityLiving.motionX;
-						double newPosY = event.entityLiving.posY
-								+ event.entityLiving.motionY;
-						double newPosZ = event.entityLiving.posZ
-								+ event.entityLiving.motionZ;
-
-						double distanceX = Math.abs(p.posX - newPosX);
-						double distanceY = Math.abs(p.posY - newPosY);
-						double distanceZ = Math.abs(p.posZ - newPosZ);
-						double totalDistance = distanceX + distanceY
-								+ distanceZ;
-						if (totalDistance > ENTITY_MAX_DISTANCE) {
-							if (totalDistance < ENTITY_MAX_DISTANCE) {
-								if (ElectricItem.manager.canUse(armor,
-										((IForcefieldChestplate) armor
-												.getItem()).energyPerTick())) {
-									if (event.entityLiving instanceof EntityMob) {
-										event.entityLiving
-												.attackEntityFrom(
-														LSDamageSource.forcefieldArmorInstaKill,
-														40);
-										ElectricItem.manager.use(armor,
-												((IForcefieldChestplate) armor
-														.getItem())
-														.energyPerTick(), p);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 
 	public static void extinguish(EntityPlayer ep, World w) {
 		if (!w.isRemote) {
@@ -166,7 +76,7 @@ public class ArmorFunctions {
 		float var17 = MathHelper.sin(-var5 * 0.017453292F);
 		float var18 = var15 * var16;
 		float var20 = var14 * var16;
-		double var21 = 128.0D;
+		double var21 = 1024.0D;
 		Vec3 var23 = var13.addVector(var18 * var21, var17 * var21, var20
 				* var21);
 		return par1World.rayTraceBlocks_do_do(var13, var23, par3, !par3);
@@ -181,11 +91,52 @@ public class ArmorFunctions {
 				Integer.valueOf(25000));
 	}
 
+	public static void walkWater(World world, EntityPlayer player,
+			ItemStack armor) {
+		if (LSKeyboard.getInstance().isKeyDown(player,
+				LSKeyboard.RANGE_KEY_NAME)
+				&& player.inventory.getCurrentItem() == null) {
+			if (ElectricItem.manager.canUse(armor,
+					ItemArmorAntimatterBase.EU_PER_TICK_WATERWALK)) {
+				if (!world.isRemote)
+					ElectricItem.manager.use(armor, ItemArmorAntimatterBase.EU_PER_TICK_WATERWALK, player);
+				player.motionY = 0;
+			}
+		}
+	}
+
+	public static void antimatterLeggingsFunctions(World world,
+			EntityPlayer player, ItemStack armor) {
+		if (world.isRemote)
+			return;
+		if (LSKeyboard.getInstance().isKeyDown(player,
+				LSKeyboard.RAY_SHOOT_KEY_NAME)
+				&& player.isSneaking()) {
+			int x = 0, y = 0, z = 0;
+			MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world,
+					player, true);
+			if (mop != null && mop.typeOfHit == EnumMovingObjectType.TILE) {
+				if (ElectricItem.manager.canUse(armor,
+						ItemArmorAntimatterBase.EU_PER_TELEPORT))
+					ElectricItem.manager.use(armor,
+							ItemArmorAntimatterBase.EU_PER_TELEPORT, player);
+				x = mop.blockX;
+				y = mop.blockY;
+				z = mop.blockZ;
+				int sideHit = mop.sideHit;
+				BlockLocation bl = new BlockLocation(x, y, z);
+				bl = bl.move(ForgeDirection.getOrientation(sideHit), 1);
+				player.setPositionAndUpdate(bl.getX(), bl.getY(), bl.getZ());
+			}
+		}
+	}
+
 	public static void helmetFunctions(World world, EntityPlayer player,
 			ItemStack itemStack, int RAY_COST, int ENTITY_HIT_COST,
 			int FOOD_COST) {
 		if (LSKeyboard.getInstance().isKeyDown(player,
-				LSKeyboard.RAY_SHOOT_KEY_NAME)) {
+				LSKeyboard.RAY_SHOOT_KEY_NAME)
+				&& !player.isSneaking()) {
 			if (ElectricItem.manager.canUse(itemStack, RAY_COST)) {
 				if (!world.isRemote)
 					ElectricItem.manager.use(itemStack, RAY_COST, player);

@@ -1,5 +1,7 @@
 package makmods.levelstorage.api;
 
+import net.minecraft.item.ItemStack;
+
 /**
  * ArmorTicker checks player's armor every tick to make sure he's flying
  * legitemetely if your mod provides flying armor too, implement this interface
@@ -7,13 +9,10 @@ package makmods.levelstorage.api;
  * 
  * @author mak326428
  */
-@Deprecated
 public interface IFlyArmor {
 	/**
-	 * Should return true
 	 * 
-	 * @return <b>true</b>
+	 * @return
 	 */
-	@Deprecated
-	public boolean isFlyArmor();
+	public boolean isFlyArmor(ItemStack is);
 }

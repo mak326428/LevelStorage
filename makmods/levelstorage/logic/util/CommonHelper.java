@@ -251,6 +251,14 @@ public class CommonHelper {
 			sb.append(stack.getDisplayName());
 		return sb.toString();
 	}
+	
+	public static int getDistance(double startX, double startY,
+			double startZ, double endX, double endY, double endZ) {
+		double x = endX - startX;
+		double y = endY - startY;
+		double z = endZ - startZ;
+		return (int)Math.round(Math.sqrt(x * x + y * y + z * z));
+	}
 
 	public static int getDistanceFloor(double startX, double startY,
 			double startZ, double endX, double endY, double endZ) {

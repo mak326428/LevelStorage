@@ -30,7 +30,6 @@ public class ContainerWithPhantomSlots extends Container {
 
 		if (mouseButton == 2) {
 			slot.putStack(null);
-
 		} else if (mouseButton == 0 || mouseButton == 1) {
 			InventoryPlayer playerInv = player.inventory;
 			slot.onSlotChanged();
@@ -41,11 +40,11 @@ public class ContainerWithPhantomSlots extends Container {
 				stack = stackSlot.copy();
 			}
 
-			if (stackSlot == null) {
-				if (stackHeld != null) {
-					fillPhantomSlot(slot, stackHeld, mouseButton, modifier);
-				}
-			} else if (stackHeld == null) {
+			// if (stackSlot == null) {
+			if (stackHeld != null) {
+				fillPhantomSlot(slot, stackHeld, mouseButton, modifier);
+			}
+			if (stackHeld == null) {
 				// adjustPhantomSlot(slot, mouseButton, modifier);
 				slot.putStack(null);
 				slot.onPickupFromSlot(player, playerInv.getItemStack());

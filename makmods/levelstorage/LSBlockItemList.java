@@ -6,6 +6,10 @@ import makmods.levelstorage.armor.ItemArmorForcefieldChestplate;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
+import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterBoots;
+import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterChestplate;
+import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterHelmet;
+import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterLeggings;
 import makmods.levelstorage.block.BlockAntimatterStone;
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockChromiteOre;
@@ -89,4 +93,8 @@ public class LSBlockItemList {
 	public static BlockMicroStar blockMicroStar;
 	public static ItemDemolisher itemDemolisher;
 	public static BlockMassMelter blockMassMelter;
+	public static ItemArmorAntimatterBoots itemArmorAntimatterBoots;
+	public static ItemArmorAntimatterLeggings itemArmorAntimatterLeggings;
+	public static ItemArmorAntimatterChestplate itemArmorAntimatterChestplate;
+	public static ItemArmorAntimatterHelmet itemArmorAntimatterHelmet;
 }

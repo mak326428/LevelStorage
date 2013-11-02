@@ -39,6 +39,8 @@ public class CommonProxy {
 	public static int ARMOR_ENHANCED_LAPPACK_RENDER_INDEX;
 	// Sorry for the dirty code, server didn't start without this
 	public static final String SUPERSONIC_DUMMY = "supersonic";
+	public static final String ANTIMATTER_DUMMY = "antimatter";
+	
 	public static final String ENH_LAPPACK_DUMMY = "enhlapp";
 
 	public static BiomeAntimatterField biomeAntimatterField;
@@ -80,8 +82,9 @@ public class CommonProxy {
 
 	public void postInit() {
 		XPStackRegistry.instance.initCriticalNodes();
-		XPStackRegistry.instance.printRegistry();
+		//XPStackRegistry.instance.printRegistry();
 		ModAchievements.instance.init();
+		IVRegistry.instance.init();
 		LevelStorage.configuration.save();
 		CompatibilityInitializer.instance.init();
 		// TODO: move this to an external compat class
@@ -91,7 +94,6 @@ public class CommonProxy {
 			LevelStorage.detectedGT = true;
 			XPStackRegistry.UUM_XP_CONVERSION.setValue(1300);
 		}
-		IVRegistry.instance.init();
 		// LSBlockItemList.itemCapFluidCell.fillMetaListWithFluids();
 	}
 

@@ -70,6 +70,11 @@ public class SimpleRecipeAdder {
 		Recipes.metalformerRolling.addRecipe(new RecipeInputItemStack(
 				SimpleItemShortcut.INGOT_CHROME.getItemStack().copy()), null,
 				SimpleItemShortcut.PLATE_CHROME.getItemStack().copy());
+		Recipes.advRecipes.addShapelessRecipe(
+				SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM.getItemStack(),
+				SimpleItemShortcut.ANTIMATTER_GLOB.getItemStack(),
+				IC2Items.IRIDIUM_PLATE,
+				SimpleItemShortcut.ANTIMATTER_GLOB.getItemStack());
 		// Recipes.oreWashing
 	}
 

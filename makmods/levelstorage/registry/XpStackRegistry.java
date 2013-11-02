@@ -118,7 +118,7 @@ public class XPStackRegistry {
 			int parsed = 0;
 			for (ISimpleRecipeParser parser : parsers)
 				parsed += parser.parse();
-			System.out.println("Parsed: " + parsed);
+			//System.out.println("Parsed: " + parsed);
 		}
 
 		// this.pushOreToRegistry("dustDiamond", 512);

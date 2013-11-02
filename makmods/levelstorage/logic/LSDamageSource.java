@@ -13,12 +13,12 @@ public class LSDamageSource extends DamageSource {
 	public static LSDamageSource forcefieldArmor = (new LSDamageSource(
 	        "forcefieldArmor"));
 	public static DamageSource forcefieldArmorInstaKill = (DamageSource) ((new LSDamageSource(
-	        "forcefieldArmorInstantKill"))).setDamageBypassesArmor();
+	        "player"))).setDamageBypassesArmor();
 	public static DamageSource teslaRay = (DamageSource) ((new LSDamageSource(
 	        "teslaHelmetKill"))).setDamageBypassesArmor();
 	public static DamageSource disassembled = (DamageSource) ((new LSDamageSource(
 	        "disassemble"))).setDamageBypassesArmor();
-
+	
 
 	private String killMessage;
 

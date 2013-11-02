@@ -8,9 +8,8 @@ import ic2.api.recipe.Recipes;
 import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
-import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate;
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
@@ -36,7 +35,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorForcefieldChestplate extends ItemArmor implements
-        ISpecialArmor, IMetalArmor, IElectricItem, IForcefieldChestplate, IHasRecipe {
+        ISpecialArmor, IMetalArmor, IElectricItem, IHasRecipe {
 
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
@@ -191,7 +190,7 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 
 	@Override
 	public int getTransferLimit(ItemStack itemStack) {
-		return 10000;
+		return 100000;
 	}
 
 	@Override
@@ -208,16 +207,6 @@ public class ItemArmorForcefieldChestplate extends ItemArmor implements
 	@Override
 	public boolean isMetalArmor(ItemStack itemstack, EntityPlayer player) {
 		return true;
-	}
-
-	@Override
-	public int energyPerTick() {
-		return ENERGY_PER_TICK_ENTITIES;
-	}
-
-	@Override
-	public WearType getWearType() {
-		return WearType.ARMOR;
 	}
 
 }

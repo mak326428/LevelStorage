@@ -7,10 +7,9 @@ import ic2.api.recipe.Recipes;
 import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.armor.ArmorFunctions;
-import makmods.levelstorage.armor.ArmorFunctions.IForcefieldChestplate;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
 import makmods.levelstorage.init.IHasRecipe;
@@ -34,7 +33,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemQuantumRing extends Item implements IElectricItem,
-        IForcefieldChestplate, IHasRecipe {
+        IHasRecipe {
 
 	public static final int TIER = 3;
 	public static final int STORAGE = 320 * 1000 * 1000;
@@ -221,15 +220,5 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 		        true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
-	}
-
-	@Override
-	public int energyPerTick() {
-		return 512;
-	}
-
-	@Override
-	public WearType getWearType() {
-		return WearType.INVENTORY;
 	}
 }

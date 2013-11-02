@@ -4,6 +4,7 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.armor.ItemArmorEnhancedNanoChestplate;
+import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterBase;
 import makmods.levelstorage.client.ElectricHUD;
 import makmods.levelstorage.client.render.ItemWirelessConductorRender;
 import makmods.levelstorage.client.render.RenderSuperconductorCable;
@@ -52,7 +53,10 @@ public class ClientProxy extends CommonProxy {
 	public static final String ITEM_BLOCK_REPLACER_TEXTURE = getTexturePathFor("itemBlockReplacer");
 	public static final String ENHANCED_NANO_CHESTPLATE_TEXTURE = getTexturePathFor("itemEnhNanoChestplate");
 	public static final String DEMOLISHER_TEXTURE = getTexturePathFor("itemDemolisher");
-	
+	public static final String ANTIMATTER_HELMET_TEXTURE = getTexturePathFor("itemArmorAntimatterHelmet");
+	public static final String ANTIMATTER_CHESTPLATE_TEXTURE = getTexturePathFor("itemArmorAntimatterChestplate");
+	public static final String ANTIMATTER_LEGGINGS_TEXTURE = getTexturePathFor("itemArmorAntimatterLeggings");
+	public static final String ANTIMATTER_BOOTS_TEXTURE = getTexturePathFor("itemArmorAntimatterBoots");
 
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
@@ -75,7 +79,7 @@ public class ClientProxy extends CommonProxy {
 	// Fluids
 	public static final String FLUID_IV_STILL_TEXTURE = getTexturePathFor("iv_still");
 	public static final String FLUID_IV_FLOWING_TEXTURE = getTexturePathFor("iv_flowing");
-	
+
 	// GUIs textures
 	public static final ResourceLocation GUI_SINGLE_SLOT = getResourceLocation("gui/singleSlot.png");
 	public static final ResourceLocation GUI_CHARGER = getResourceLocation("gui/charger.png");
@@ -91,7 +95,7 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_LAVA_FABRICATOR = getResourceLocation("gui/lavaFab.png");
 	public static final ResourceLocation GUI_COMBUSTIBLE_GENERATOR = getResourceLocation("gui/combustibleGenerator.png");
 	public static final ResourceLocation GUI_MASS_MELTER = getResourceLocation("gui/massMelter.png");
-	
+
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
@@ -131,7 +135,6 @@ public class ClientProxy extends CommonProxy {
 
 	@SideOnly(Side.CLIENT)
 	public static ResourceLocation getResourceLocation(String path) {
-
 		return new ResourceLocation(Reference.MOD_ID.toLowerCase(), path);
 	}
 
@@ -144,6 +147,8 @@ public class ClientProxy extends CommonProxy {
 				.addNewArmourRendererPrefix("enhlappack");
 		ItemArmorEnhancedNanoChestplate.RENDER_ID = RenderingRegistry
 				.addNewArmourRendererPrefix("enhnano");
+		ItemArmorAntimatterBase.RENDER_ID = RenderingRegistry
+				.addNewArmourRendererPrefix("antimatter");
 		LSCreativeTab.instance = new LSCreativeTab();
 		super.init();
 		if (LevelStorage.configuration.get(LevelStorage.PERFORMANCE_CATEGORY,
@@ -152,7 +157,8 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(
 				TileEntityWirelessConductor.class,
 				new WirelessConductorRender());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMicroStar.class, new StarRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMicroStar.class,
+				new StarRenderer());
 		MinecraftForgeClient.registerItemRenderer(
 				LSBlockItemList.blockWlessConductor.blockID,
 				new ItemWirelessConductorRender());

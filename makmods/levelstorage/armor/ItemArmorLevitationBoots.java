@@ -44,16 +44,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemArmorLevitationBoots extends ItemArmor implements
-        ISpecialArmor, IMetalArmor, IElectricItem, IFlyArmor, IHasRecipe {
-	
+		ISpecialArmor, IMetalArmor, IElectricItem, IFlyArmor, IHasRecipe {
+
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
 	public static final int ENERGY_PER_DAMAGE = 900;
 	public static final int FLYING_ENERGY_PER_TICK = 512;
 
 	public ItemArmorLevitationBoots(int id) {
-		super(id, EnumArmorMaterial.DIAMOND,
-				LevelStorage.proxy.getArmorIndexFor(CommonProxy.SUPERSONIC_DUMMY), 3);
+		super(id, EnumArmorMaterial.DIAMOND, LevelStorage.proxy
+				.getArmorIndexFor(CommonProxy.SUPERSONIC_DUMMY), 3);
 
 		this.setMaxDamage(27);
 		this.setNoRepair();
@@ -67,7 +67,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	@ForgeSubscribe
 	public void onEntityLivingFallEvent(LivingFallEvent event) {
 		if ((!event.entityLiving.worldObj.isRemote)
-		        && ((event.entity instanceof EntityLivingBase))) {
+				&& ((event.entity instanceof EntityLivingBase))) {
 			EntityLivingBase entity = (EntityLivingBase) event.entity;
 			ItemStack armor = entity.getCurrentItemOrArmor(1);
 
@@ -77,7 +77,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 				if (energyCost <= ElectricItem.manager.getCharge(armor)) {
 					ElectricItem.manager.discharge(armor, energyCost,
-					        2147483647, true, false);
+							2147483647, true, false);
 
 					event.setCanceled(true);
 				}
@@ -93,7 +93,8 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 		for (ItemStack st : inv.armorInventory) {
 			if (st != null && st.getItem() instanceof IFlyArmor)
-				isFound = true;
+				if (((IFlyArmor) st.getItem()).isFlyArmor(st))
+					isFound = true;
 		}
 
 		for (ItemStack st : inv.mainInventory) {
@@ -114,7 +115,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 				flUpd.allowFlying = false;
 				flUpd.isFlying = false;
 				PacketDispatcher.sendPacketToPlayer(
-				        PacketTypeHandler.populatePacket(flUpd), (Player) p);
+						PacketTypeHandler.populatePacket(flUpd), (Player) p);
 				return false;
 			}
 		} else {
@@ -125,7 +126,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
-	        ItemStack itemStack) {
+			ItemStack itemStack) {
 		ArmorFunctions.jumpBooster(world, player, itemStack);
 		ArmorFunctions.fly(FLYING_ENERGY_PER_TICK, player, itemStack, world);
 	}
@@ -140,24 +141,32 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 	public void addCraftingRecipe() {
 		Property p = LevelStorage.configuration.get(
-		        Configuration.CATEGORY_GENERAL,
-		        "enableLevitationBootsCraftingRecipe", true);
+				Configuration.CATEGORY_GENERAL,
+				"enableLevitationBootsCraftingRecipe", true);
 		p.comment = "Determines whether or not crafting recipe is enabled";
 		if (p.getBoolean(true)) {
 			if (LevelStorage.recipesHardmode) {
-				Recipes.advRecipes.addRecipe(new ItemStack(
-				        LSBlockItemList.itemLevitationBoots), "iii", "iqi",
-				        "lil", Character.valueOf('i'), SimpleItems.instance
-				                .getIngredient(3), Character.valueOf('q'),
-				        Items.getItem("quantumBoots"), Character.valueOf('l'),
-				        new ItemStack(LSBlockItemList.itemStorageFourtyMillion));
+				Recipes.advRecipes
+						.addRecipe(
+								new ItemStack(
+										LSBlockItemList.itemLevitationBoots),
+								"iii",
+								"iqi",
+								"lil",
+								Character.valueOf('i'),
+								SimpleItems.instance.getIngredient(3),
+								Character.valueOf('q'),
+								Items.getItem("quantumBoots"),
+								Character.valueOf('l'),
+								new ItemStack(
+										LSBlockItemList.itemStorageFourtyMillion));
 			} else {
 				Recipes.advRecipes.addRecipe(new ItemStack(
-				        LSBlockItemList.itemLevitationBoots), "iii", "iqi",
-				        "lil", Character.valueOf('i'), IC2Items.IRIDIUM_PLATE,
-				        Character.valueOf('q'), Items.getItem("quantumBoots"),
-				        Character.valueOf('l'), new ItemStack(
-				                LSBlockItemList.itemStorageFourtyMillion));
+						LSBlockItemList.itemLevitationBoots), "iii", "iqi",
+						"lil", Character.valueOf('i'), IC2Items.IRIDIUM_PLATE,
+						Character.valueOf('q'), Items.getItem("quantumBoots"),
+						Character.valueOf('l'), new ItemStack(
+								LSBlockItemList.itemStorageFourtyMillion));
 			}
 		}
 	}
@@ -171,23 +180,23 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
-		        .registerIcon(ClientProxy.LEVITATION_BOOTS_TEXTURE);
+				.registerIcon(ClientProxy.LEVITATION_BOOTS_TEXTURE);
 	}
 
 	public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player,
-	        ItemStack armor, DamageSource source, double damage, int slot) {
+			ItemStack armor, DamageSource source, double damage, int slot) {
 		if (source.isUnblockable())
 			return new ISpecialArmor.ArmorProperties(0, 0.0D, 0);
 
 		double absorptionRatio = getBaseAbsorptionRatio()
-		        * getDamageAbsorptionRatio();
+				* getDamageAbsorptionRatio();
 		int energyPerDamage = ENERGY_PER_DAMAGE;
 
 		int damageLimit = energyPerDamage > 0 ? 25
-		        * ElectricItem.manager.getCharge(armor) / energyPerDamage : 0;
+				* ElectricItem.manager.getCharge(armor) / energyPerDamage : 0;
 
 		return new ISpecialArmor.ArmorProperties(0, absorptionRatio,
-		        damageLimit);
+				damageLimit);
 	}
 
 	private double getBaseAbsorptionRatio() {
@@ -199,15 +208,15 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	}
 
 	public void damageArmor(EntityLivingBase entity, ItemStack stack,
-	        DamageSource source, int damage, int slot) {
+			DamageSource source, int damage, int slot) {
 		ElectricItem.manager.discharge(stack, damage * ENERGY_PER_DAMAGE,
-		        2147483647, true, false);
+				2147483647, true, false);
 	}
 
 	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
 		if (ElectricItem.manager.getCharge(armor) >= ENERGY_PER_DAMAGE) {
 			return (int) Math.round(20.0D * getBaseAbsorptionRatio()
-			        * getDamageAbsorptionRatio());
+					* getDamageAbsorptionRatio());
 		}
 		return 0;
 	}
@@ -244,10 +253,10 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
-	        List par3List) {
+			List par3List) {
 		ItemStack var4 = new ItemStack(this, 1);
 		ElectricItem.manager.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE,
-		        true, false);
+				true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
 
@@ -259,7 +268,7 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 	}
 
 	@Override
-	public boolean isFlyArmor() {
+	public boolean isFlyArmor(ItemStack is) {
 		return true;
 	}
 

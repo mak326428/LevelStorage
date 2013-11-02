@@ -128,7 +128,7 @@ public class SimpleItems extends Item {
 				false), // 8
 		ANTMATTER_TINY_PILE("itemAntimatterTinyPile", EnumHackyRarity.epic,
 				false), // 9
-		ANTIMATTER_GLOB("itemAntimatterGlob", EnumHackyRarity.epic, true), // 10
+		ANTIMATTER_GLOB("itemAntimatterGlob", EnumHackyRarity.epic, false), // 10
 		JETPACK_ACCELERATOR("itemJetpackAccelerator", EnumHackyRarity.uncommon,
 				false), // 11
 
@@ -140,8 +140,8 @@ public class SimpleItems extends Item {
 				EnumHackyRarity.common, false), // 16
 		INGOT_CHROME("ingotChrome", EnumHackyRarity.common, false), // 17
 		PLATE_CHROME("plateChrome", EnumHackyRarity.common, false), TINY_IRIDIUM_DUST(
-				"dustTinyIridium", EnumHackyRarity.common, false); // 18
-
+				"dustTinyIridium", EnumHackyRarity.common, false), // 18
+		PLATE_ANTIMATTER_IRIDIUM("plateAntimatterIridium", EnumHackyRarity.epic, false);
 		final String name;
 		final boolean hasEffect;
 		final EnumHackyRarity rarity;
