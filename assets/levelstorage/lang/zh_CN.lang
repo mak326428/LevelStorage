@@ -6,7 +6,7 @@ tile.blockXpCharger.name=XP灌注机
 tile.blockWlessConductor.name=无线电力传导器
 tile.blockWlessPowerSync.name=无线能量同步器
 tile.blockSuperconductor.name=超导体
-tile.blockMassInfuser.name=物质灌注机
+tile.blockMassMelter.name=物质灌注机
 tile.blockAdvMiner.name=高级采矿机
 tile.blockMolHeater.name=分子加热器
 tile.blockAtomicReplicator.name=原子复制机
@@ -38,6 +38,7 @@ crushedChromiteOre.name=粉碎的铬矿石
 purifiedCrushedChromiteOre.name=纯净的粉碎铬矿石
 plateChrome.name=铬金属板
 dustTinyIridium.name=小撮铱粉
+plateAntimatterIridium.name=反物质金属板
 # dimension
 dimension.antimatterUniverse.name=反物质宇宙
 # items
@@ -52,7 +53,7 @@ item.itemSupersonicLeggings.name=超音护腿
 item.itemArmorForcefieldChestplate.name=力场护甲
 item.itemArmorTeslaHelmet.name=特斯拉头盔
 item.itemSuperconductor.name=超导体线缆
-item.itemStorageFourMillion.name=充能富集物质球
+item.itemStorageFourtyMillion.name=充能富集物质球
 item.itemWirelessCharger.name=无线充电器
 item.itemElectricSickle.name=电动镰刀
 item.itemQuantumSaber.name=量子剑
@@ -63,14 +64,23 @@ item.itemDestructor.name=原子分解机
 item.itemEnhLappack.name=强化兰波顿背包
 item.itemRemoteAccessor.name=远程访问器
 item.itemCapFluidCell.name=高容流体单元
-item.itemElectricLighter.name=手电筒
+item.itemElectricLighter.name=电打火机
 item.itemArmorEnhancedNanoChestplate.name=高级纳米胸甲
+itemDemolisher.name=岩石毁灭器
+item.itemArmorAntimatterBoots.name=反物质靴子
+item.itemArmorAntimatterLeggings.name=反物质护腿
+item.itemArmorAntimatterChestplate.name=反物质胸甲
+item.itemArmorAntimatterHelmet.name=反物质头盔
+
+# fluids
+tile.iv.name=IV能量
 #others
 other.frequency=频率
 other.true=是
 other.false=否
 other.wip=[未完成]
 other.energyHUD=能量等级(护甲):
+other.drillEnhancementRecipeNEI=钻孔增强
 # creative tab(s)
 itemGroup.levelstorage=等级存储
 # chat messages
@@ -92,7 +102,7 @@ key.jetpackSwitch=[LS] 飞行器加速开关
 # \n will be replaced with a new line (this is not OS-dependant)
 tooltip.xp=XP值:
 tooltip.advScanner=该物品能够准确地\n探测出在你周围分布\n的矿石数量以及类型
-tooltip.atomicDisassembler=我好受伤.\n别告诉我你以前没用过!
+tooltip.atomicDisassembler=对生物造成100点伤害.\n挖取周边1-128格的矿，并自动拾取1格消耗150eu!
 tooltip.electricMagnet=该物品在激活时能够自动吸取附近的可拾取物品
 tooltip.drillEnhancement=增强效果: 
 tooltip.drillEnhancement.none=无.
