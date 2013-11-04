@@ -13,6 +13,7 @@ import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -28,6 +29,7 @@ public class SimpleRecipeAdder {
 	}
 
 	public static void addChromeRecipes() {
+		System.out.println("adding chrome recipes");
 		FurnaceRecipes.smelting().addSmelting(SIMPLE_ITEM_ID,
 				SimpleItemShortcut.DUST_CHROME.getMetadata(),
 				SimpleItemShortcut.INGOT_CHROME.getItemStack().copy(), 10.0F);
@@ -48,20 +50,25 @@ public class SimpleRecipeAdder {
 		ItemStack oreWashingOutput2 = SimpleItemShortcut.DUST_TINY_CHROME
 				.getItemStack().copy();
 		oreWashingOutput2.stackSize = 2;
-		ItemStack oreWashingOutput3 = Items.getItem("stoneDust");
+		ItemStack oreWashingOutput3 = Items.getItem("stoneDust").copy();
+		System.out.println("oreWashingOutput1: " + oreWashingOutput1);
+		System.out.println("oreWashingOutput2: " + oreWashingOutput2);
+		System.out.println("oreWashingOutput3: " + oreWashingOutput3);
 		Recipes.oreWashing.addRecipe(new RecipeInputItemStack(
 				SimpleItemShortcut.CRUSHED_CHROME_ORE.getItemStack()), null,
 				oreWashingOutput1, oreWashingOutput2, oreWashingOutput3);
 		// 3 outputs
 		ItemStack centrifugeOutput1 = SimpleItemShortcut.DUST_CHROME
 				.getItemStack().copy();
-		ItemStack centrifugeOutput2 = Items.getItem("smallIronDust");
-		centrifugeOutput2.stackSize = 4;
+		ItemStack centrifugeOutput2 = SimpleItemShortcut.DUST_TINY_OSMIUM
+				.getItemStack();
+		centrifugeOutput2.stackSize = 1;
 		ItemStack centrifugeOutput3 = SimpleItemShortcut.TINY_IRIDIUM_DUST
 				.getItemStack().copy();
 		Recipes.centrifuge.addRecipe(new RecipeInputItemStack(
 				SimpleItemShortcut.PURIFIED_CHROME_ORE.getItemStack()), null,
 				centrifugeOutput1, centrifugeOutput2, centrifugeOutput3);
+		System.out.println("Past centrifuge");
 		ItemStack irBit = SimpleItemShortcut.TINY_IRIDIUM_DUST.getItemStack()
 				.copy();
 		irBit.stackSize = 9;
@@ -75,8 +82,27 @@ public class SimpleRecipeAdder {
 				SimpleItemShortcut.ANTIMATTER_GLOB.getItemStack(),
 				IC2Items.IRIDIUM_PLATE,
 				SimpleItemShortcut.ANTIMATTER_GLOB.getItemStack());
+		System.out.println("Past metalformer & advshapelessrecipe adding");
+		addScannerRecipe(SimpleItemShortcut.DUST_TINY_OSMIUM.getItemStack(), 20000, 2000000);
+		LogHelper.finest("Successfully complete adding Simple Recipes");
 		// Recipes.oreWashing
 	}
+	
+	public static void addScannerRecipe(ItemStack output, int recordedAmountUU,
+			int recordedAmountEU) {
+		if (output == null)
+			return;
+		NBTTagCompound metadata = new NBTTagCompound();
+
+		metadata.setInteger(AMOUNT_UU, recordedAmountUU);
+		metadata.setInteger(AMOUNT_EU, recordedAmountEU);
+
+		Recipes.Scanner.addRecipe(new RecipeInputItemStack(output), metadata,
+				new ItemStack[0]);
+	}
+	
+	public static final String AMOUNT_EU = "recordedAmountEU";
+	public static final String AMOUNT_UU = "recordedAmountUU";
 
 	public static void addRecipesAfterMUIFinished() {
 		ItemStack crushedChromiteOre = SimpleItemShortcut.CRUSHED_CHROME_ORE
@@ -84,6 +110,7 @@ public class SimpleRecipeAdder {
 		crushedChromiteOre.stackSize = 2;
 		Recipes.macerator.addRecipe(new RecipeInputItemStack(new ItemStack(
 				LSBlockItemList.blockChromiteOre)), null, crushedChromiteOre);
+		addChromeRecipes();
 	}
 
 	public static void addSimpleCraftingRecipes() {
@@ -145,7 +172,7 @@ public class SimpleRecipeAdder {
 				Items.getItem("overclockerUpgrade"),
 				IC2Items.CARBON_PLATE.copy(), IC2Items.CARBON_PLATE.copy(),
 				IC2Items.ADV_CIRCUIT.copy());
-		addChromeRecipes();
+		
 	}
 
 }

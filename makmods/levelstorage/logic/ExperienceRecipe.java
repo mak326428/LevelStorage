@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.api.XPStack;
-import makmods.levelstorage.item.ItemLevelStorageBook;
+import makmods.levelstorage.item.ItemXPTome;
 import makmods.levelstorage.registry.XPStackRegistry;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -32,15 +32,15 @@ public class ExperienceRecipe implements IRecipe {
 
 			ItemStack currentStack = inventoryCrafting.getStackInSlot(i);
 			if (currentStack != null && !currentStack.equals(null)) {
-				if (currentStack.getItem() instanceof ItemLevelStorageBook) {
+				if (currentStack.getItem() instanceof ItemXPTome) {
 					if (currentStack.stackTagCompound != null) {
 						if (currentStack.stackTagCompound
-						        .hasKey(ItemLevelStorageBook.STORED_XP_NBT)) {
+						        .hasKey(ItemXPTome.STORED_XP_NBT)) {
 							if (seenBook)
 								return null;
 							initialBookStack = currentStack;
 							bookXp = currentStack.stackTagCompound
-							        .getInteger(ItemLevelStorageBook.STORED_XP_NBT);
+							        .getInteger(ItemXPTome.STORED_XP_NBT);
 							seenBook = true;
 							cycleCompleted = true;
 						}
@@ -83,7 +83,7 @@ public class ExperienceRecipe implements IRecipe {
 			return null;
 		ItemStack result = new ItemStack(LSBlockItemList.itemLevelStorageBook);
 		result.stackTagCompound = new NBTTagCompound();
-		result.stackTagCompound.setInteger(ItemLevelStorageBook.STORED_XP_NBT,
+		result.stackTagCompound.setInteger(ItemXPTome.STORED_XP_NBT,
 		        totalXp);
 
 		return result;

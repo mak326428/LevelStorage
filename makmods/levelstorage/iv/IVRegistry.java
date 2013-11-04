@@ -6,6 +6,8 @@ import java.lang.reflect.Field;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +16,6 @@ import java.util.Map.Entry;
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.iv.parsers.IRecipeParser;
 import makmods.levelstorage.iv.parsers.IVRecipeParser;
-import makmods.levelstorage.iv.parsers.recipe.RecipeHelper;
 import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -109,8 +110,8 @@ public class IVRegistry {
 	public void runParser(IRecipeParser parser) {
 		long startTime = System.currentTimeMillis();
 		parser.parse();
-		LogHelper.info("IV Parser " + parser.getClass().getSimpleName()
-				+ " took " + (System.currentTimeMillis() - startTime) + "ms.");
+		LogHelper.info(parser.getClass().getSimpleName() + " took "
+				+ (System.currentTimeMillis() - startTime) + "ms.");
 	}
 
 	public void parseDynamically() {
@@ -189,7 +190,7 @@ public class IVRegistry {
 		assignItemStack(new ItemStack(Item.rottenFlesh), 32);
 		assignItemStack(new ItemStack(Block.plantYellow), 16);
 		assignItemStack(new ItemStack(Block.plantRed), 16);
-		
+
 		assignAll(ItemRecord.class, 32768);
 		// assign(Item.arrow, 16);
 		assignOreDictionary("ingotTin", 255);
@@ -233,6 +234,41 @@ public class IVRegistry {
 						".name", "") : stack.getUnlocalizedName()).getInt();
 		if (valueActual > 0)
 			entries.add(new IVItemStackEntry(stack.copy(), value));
+	}
+
+	public void removeIV(Object obj) {
+		Object toRemove = null;
+		if (obj instanceof String) {
+			String initialName = (String) obj;
+			for (IVEntry wrongEntry : entries) {
+				if (!(wrongEntry instanceof IVOreDictEntry))
+					continue;
+				IVOreDictEntry entry = (IVOreDictEntry) wrongEntry;
+				if (entry.getName().equals(initialName)) {
+					toRemove = wrongEntry;
+					break;
+				}
+			}
+		} else if (obj instanceof ItemStack) {
+			ItemStack initialStack = (ItemStack) obj;
+			for (IVEntry wrongEntry : entries) {
+				if (!(wrongEntry instanceof IVItemStackEntry))
+					continue;
+				IVItemStackEntry entry = (IVItemStackEntry) wrongEntry;
+				ItemStack entryStack = entry.getStack();
+				if (entryStack.itemID == initialStack.itemID
+						&& (entryStack.getItemDamage() == initialStack
+								.getItemDamage() || entryStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)) {
+					toRemove = wrongEntry;
+					break;
+				}
+			}
+		}
+		if (toRemove != null)
+			entries.remove(toRemove);
+		else
+			LogHelper.severe("removeIV: obj's type is incorrect - "
+					+ obj.getClass().getSimpleName());
 	}
 
 	public void assignItemStack_dynamic(ItemStack stack, int value) {
@@ -288,7 +324,6 @@ public class IVRegistry {
 	public int getValueFor(Object obj) {
 		if (obj == null)
 			return NOT_FOUND;
-		// TODO: add wildcard handling, where necessary
 		if (obj instanceof String) {
 			for (IVEntry entry : entries) {
 				if (entry instanceof IVOreDictEntry) {

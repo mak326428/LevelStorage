@@ -12,7 +12,6 @@ import makmods.levelstorage.tileentity.TileEntityRockDesintegrator;
 import makmods.levelstorage.tileentity.TileEntitySuperconductorCable;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
-import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import net.minecraft.tileentity.TileEntity;
 
@@ -35,7 +34,7 @@ public class ModTileEntities {
 
 	static {
 		tileEntities.put(TileEntityXpGenerator.class, "tileXpGenerator");
-		tileEntities.put(TileEntityXpCharger.class, "tileXpCharger");
+		// /tileEntities.put(TileEntityXpCharger.class, "tileXpCharger");
 		tileEntities.put(TileEntityWirelessPowerSynchronizer.class,
 				"tileWirelessPowerSync");
 		tileEntities.put(TileEntityWirelessConductor.class,

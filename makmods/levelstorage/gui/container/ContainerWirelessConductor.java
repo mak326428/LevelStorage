@@ -3,7 +3,6 @@ package makmods.levelstorage.gui.container;
 import makmods.levelstorage.gui.SlotFrequencyCard;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
-import makmods.levelstorage.tileentity.TileEntityXpCharger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -74,9 +73,9 @@ public class ContainerWirelessConductor extends Container {
 			ItemStack slotItemStack = slot.getStack();
 			itemStack = slotItemStack.copy();
 
-			if (slotIndex < TileEntityXpCharger.INVENTORY_SIZE) {
+			if (slotIndex < 1) {
 				if (!this.mergeItemStack(slotItemStack,
-				        TileEntityXpCharger.INVENTORY_SIZE,
+				        1,
 				        this.inventorySlots.size(), false))
 					return null;
 			} else {
@@ -86,7 +85,7 @@ public class ContainerWirelessConductor extends Container {
 					return null;
 				// End of warning
 				if (!this.mergeItemStack(slotItemStack, 0,
-				        TileEntityXpCharger.INVENTORY_SIZE, false))
+				        1, false))
 					return null;
 			}
 

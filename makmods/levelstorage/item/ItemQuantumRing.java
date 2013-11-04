@@ -189,7 +189,7 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 			        Character.valueOf('h'), new ItemStack(
 			                LSBlockItemList.itemArmorTeslaHelmet), Character
 			                .valueOf('c'), new ItemStack(
-			                LSBlockItemList.itemArmorForcefieldChestplate),
+			                LSBlockItemList.itemArmorEnergeticChestplate),
 			        Character.valueOf('b'), new ItemStack(
 			                LSBlockItemList.itemLevitationBoots), Character
 			                .valueOf('l'), new ItemStack(
@@ -203,7 +203,7 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 			                .valueOf('h'), new ItemStack(
 			                LSBlockItemList.itemArmorTeslaHelmet), Character
 			                .valueOf('c'), new ItemStack(
-			                LSBlockItemList.itemArmorForcefieldChestplate),
+			                LSBlockItemList.itemArmorEnergeticChestplate),
 			        Character.valueOf('b'), new ItemStack(
 			                LSBlockItemList.itemLevitationBoots), Character
 			                .valueOf('l'), new ItemStack(

@@ -75,6 +75,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String PARTICLE_ACCELERATOR_TEXTURE = "blockParticleAccelerator";
 	public static final String CHROMITE_ORE_TEXTURE = getTexturePathFor("blockOreChromite");
 	public static final String UNSTABLE_QUARTZ_TEXTURE = getTexturePathFor("blockUnstableQuartz");
+	public static final String FUSION_GLASS_TEXTURE = getTexturePathFor("fusionGlass");
 
 	// Fluids
 	public static final String FLUID_IV_STILL_TEXTURE = getTexturePathFor("iv_still");

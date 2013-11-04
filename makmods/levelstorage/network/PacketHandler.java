@@ -5,6 +5,7 @@ import java.io.DataInputStream;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.lib.Reference;
+import makmods.levelstorage.network.packet.PacketTypeHandler;
 import makmods.levelstorage.proxy.LSKeyboard;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetworkManager;

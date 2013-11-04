@@ -88,7 +88,7 @@ public class ContainerMolecularHeater extends Container {
 	}
 
 	public  ItemStack transferStackInSlot(EntityPlayer ep, int slotIndex) {
-		return GUIHelper.shiftClickSlot(this, ep, slotIndex);
+		return null;
 	}
 
 }

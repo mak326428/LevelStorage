@@ -133,9 +133,9 @@ public class RecipeHelper {
 			for (Object obj : contents) {
 				if (obj != null) {
 					if (obj instanceof String) {
-						ingrs.add(new OreDictRecipeCompound((String)obj));
+						ingrs.add(new OreDictRecipeCompound((String) obj));
 					} else if (obj instanceof ItemStack) {
-						ingrs.add(new ItemStackRecipeCompound((ItemStack)obj));
+						ingrs.add(new ItemStackRecipeCompound((ItemStack) obj));
 					} else {
 						LogHelper
 								.severe("RecipeHelper: AdvRecipe parsing: incorrect obj type - "
@@ -146,8 +146,6 @@ public class RecipeHelper {
 		} else
 			LogHelper.warning("Unknown recipe type: "
 					+ recipe.getClass().getCanonicalName());
-		// TODO: add parsing for the adv recipes... reflection is a bad way out,
-		// but it works.
 		return ingrs.size() > 0 ? ingrs : null;
 	}
 }

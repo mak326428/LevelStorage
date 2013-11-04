@@ -10,11 +10,6 @@ public class ItemStackRecipeCompound extends IWrappedRecipeCompound {
 	public ItemStackRecipeCompound(ItemStack is) {
 		this.stack = is;
 	}
-
-	@Override
-	public CompoundType getType() {
-		return CompoundType.ITEMSTACK;
-	}
 	
 	public ItemStack getStack() {
 		return stack;

@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.network.PacketFlightUpdate;
-import makmods.levelstorage.network.PacketTypeHandler;
+import makmods.levelstorage.network.packet.PacketTypeHandler;
 import net.minecraft.entity.player.EntityPlayer;
 
 import com.google.common.collect.Maps;

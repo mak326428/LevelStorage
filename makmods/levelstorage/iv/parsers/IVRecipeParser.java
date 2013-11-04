@@ -19,6 +19,7 @@ import makmods.levelstorage.iv.parsers.recipe.IWrappedRecipeCompound;
 import makmods.levelstorage.iv.parsers.recipe.ItemStackRecipeCompound;
 import makmods.levelstorage.iv.parsers.recipe.OreDictRecipeCompound;
 import makmods.levelstorage.iv.parsers.recipe.RecipeHelper;
+import makmods.levelstorage.logic.util.LogHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
@@ -34,8 +35,13 @@ public class IVRecipeParser implements IRecipeParser {
 			.get(IVRegistry.IV_CATEGORY,
 					"dynamicAssignmentPasses",
 					2,
-					"Determines how many passes (\"attempts\") will be made. Basically, the lower value, the faster minecraft will start, the higher value, the more items will be assigned")
+					"Determines how many passes (\"attempts\") will be made. Basically, the lower value, the faster minecraft will start, the higher value, the more items will be assigned. Set to -1 to completely disable. 2 is the minimum requirement for semi-filled IV values. 1 will cover the most straightforward recipes.")
 			.getInt();
+
+	/*
+	 * Initial: Most of the time ~10-20, sometimes close to 3, rarely a whole
+	 * streak of 50-200, average 12
+	 */
 
 	public int assignCrafting(ItemStack is) {
 		List<IRecipe> recipesFor = RecipeHelper.getRecipesFor(is);
@@ -75,22 +81,31 @@ public class IVRecipeParser implements IRecipeParser {
 		for (Integer candidate : candidates)
 			if (candidate < toReleased && (candidate != IVRegistry.NOT_FOUND))
 				toReleased = candidate;
-		if (toReleased == Integer.MAX_VALUE)
+		if (toReleased == Integer.MAX_VALUE) {
 			return IVRegistry.NOT_FOUND;
-		else {
+		} else {
 			String oreDict = RecipeHelper.resolveOreDict(is);
-			if (oreDict != null)
-				if (!IVRegistry.hasValue(oreDict))
+			if (oreDict != null) {
+				int odIV = IVRegistry.getValue(oreDict);
+
+				if (odIV == IVRegistry.NOT_FOUND) {
 					IVRegistry.instance.assignOreDict_dynamic(oreDict,
 							toReleased);
-			if (!IVRegistry.hasValue(is))
+				} else if (toReleased < odIV && toReleased > 0) {
+					IVRegistry.instance.removeIV(oreDict);
+					IVRegistry.instance.assignOreDict_dynamic(oreDict,
+							toReleased);
+				}
+			}
+			int isIV = IVRegistry.getValue(is);
+			if (isIV == IVRegistry.NOT_FOUND) {
 				IVRegistry.instance.assignItemStack_dynamic(is, toReleased);
+			} else if (toReleased < isIV && toReleased > 0) {
+				IVRegistry.instance.removeIV(is);
+				IVRegistry.instance.assignItemStack_dynamic(is, toReleased);
+			}
 			return toReleased;
 		}
-	}
-
-	public void parseWithPrint(ItemStack is) {
-		assignCrafting(is);
 	}
 
 	// public int assignFurnace(ItemStack is) {
@@ -109,47 +124,69 @@ public class IVRecipeParser implements IRecipeParser {
 			if (inputValue == IVRegistry.NOT_FOUND)
 				continue;
 			int iv = inputValue / output.items.get(0).stackSize;
-			if (iv > 0 && !IVRegistry.hasValue(output.items.get(0)))
+			int outputIV = IVRegistry.getValue(output.items.get(0));
+			if (outputIV == IVRegistry.NOT_FOUND)
 				IVRegistry.instance.assignItemStack_dynamic(
 						output.items.get(0), iv);
+			else if (iv < outputIV && iv > 0) {
+				IVRegistry.instance.removeIV(output.items.get(0));
+				IVRegistry.instance.assignItemStack_dynamic(
+						output.items.get(0), iv);
+			}
+		}
+	}
+
+	public void assignFurnace(FurnaceRecipes recipes) {
+		List<IVEntry> copied = IVRegistry.instance.copyRegistry();
+
+		for (IVEntry entry : copied) {
+			if (!(entry instanceof IVItemStackEntry))
+				continue;
+			IVItemStackEntry e = (IVItemStackEntry) entry;
+
+			ItemStack outputSmelting = recipes.getSmeltingResult(e.getStack());
+			if (outputSmelting != null) {
+				int iv = entry.getValue() / outputSmelting.stackSize;
+				int alreadyExistingValue = IVRegistry.getValue(outputSmelting);
+				if (alreadyExistingValue == IVRegistry.NOT_FOUND)
+					IVRegistry.instance.assignItemStack_dynamic(
+							outputSmelting.copy(), iv);
+				else if (iv < alreadyExistingValue && iv > 0) {
+					IVRegistry.instance.removeIV(outputSmelting);
+					IVRegistry.instance.assignItemStack_dynamic(
+							outputSmelting.copy(), iv);
+				}
+			}
 		}
 	}
 
 	@Override
 	public void parse() {
-		// #CRAFTING
 		List<IRecipe> recipes = RecipeHelper.getAllRecipes();
+		int iterator = 0;
+		int totalMS = 0;
 		for (int i = 0; i < PASSES; i++) {
-			List<IVEntry> copied = IVRegistry.instance.copyRegistry();
-
-			for (IVEntry entry : copied) {
-				if (!(entry instanceof IVItemStackEntry))
-					continue;
-				IVItemStackEntry e = (IVItemStackEntry) entry;
-
-				ItemStack outputSmelting = FurnaceRecipes.smelting()
-						.getSmeltingResult(e.getStack());
-				if (outputSmelting != null) {
-					int iv = entry.getValue() / outputSmelting.stackSize;
-					if (!IVRegistry.hasValue(outputSmelting))
-						IVRegistry.instance.assignItemStack_dynamic(
-								outputSmelting.copy(), iv);
-				}
-			}
-
+			assignFurnace(FurnaceRecipes.smelting());
 			assignIC2Machine(Recipes.macerator);
 			assignIC2Machine(Recipes.extractor);
 			assignIC2Machine(Recipes.compressor);
 			assignIC2Machine(Recipes.metalformerRolling);
 			assignIC2Machine(Recipes.metalformerExtruding);
 			assignIC2Machine(Recipes.metalformerCutting);
-
 			for (IRecipe recipe : recipes) {
 				ItemStack result = recipe.getRecipeOutput();
-				if (result != null)
-					parseWithPrint(result);
+				if (result != null) {
+					iterator++;
+					long ms = System.currentTimeMillis();
+					assignCrafting(result);
+					totalMS += System.currentTimeMillis() - ms;
+				}
 			}
 		}
+		LogHelper.info("Total recipes iterated: " + iterator);
+		LogHelper.info("Total time consumed: " + totalMS);
+		if (iterator > 0)
+			LogHelper.info("Average ms per recipe: " + totalMS / iterator);
 	}
 
 }

@@ -1,6 +1,6 @@
 package makmods.levelstorage.gui;
 
-import makmods.levelstorage.item.ItemLevelStorageBook;
+import makmods.levelstorage.item.ItemXPTome;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
@@ -16,6 +16,6 @@ public class SlotBookCharger extends SlotBook {
 	}
 
 	public static boolean checkItemValidity(ItemStack stack) {
-		return stack.getItem() instanceof ItemLevelStorageBook;
+		return stack.getItem() instanceof ItemXPTome;
 	}
 }

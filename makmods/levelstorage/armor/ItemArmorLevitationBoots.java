@@ -17,7 +17,7 @@ import makmods.levelstorage.item.ItemQuantumRing;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.network.PacketFlightUpdate;
-import makmods.levelstorage.network.PacketTypeHandler;
+import makmods.levelstorage.network.packet.PacketTypeHandler;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.proxy.CommonProxy;
 import net.minecraft.client.renderer.texture.IconRegister;

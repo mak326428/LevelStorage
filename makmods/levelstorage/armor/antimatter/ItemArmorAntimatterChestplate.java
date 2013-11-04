@@ -87,7 +87,7 @@ public class ItemArmorAntimatterChestplate extends ItemArmorAntimatterBase
 				"pep", 'p', SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM
 						.getItemStack(), 'e', new ItemStack(
 						LSBlockItemList.itemStorageFourtyMillion), 'a',
-				new ItemStack(LSBlockItemList.itemArmorForcefieldChestplate),
+				new ItemStack(LSBlockItemList.itemArmorEnergeticChestplate),
 				'c', Items.getItem("teslaCoil"));
 	}
 }

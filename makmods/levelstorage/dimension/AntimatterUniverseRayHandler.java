@@ -4,8 +4,8 @@ import java.util.EnumSet;
 import java.util.Random;
 
 import makmods.levelstorage.logic.util.CommonHelper;
-import makmods.levelstorage.network.PacketTeslaRay;
-import makmods.levelstorage.network.PacketTypeHandler;
+import makmods.levelstorage.network.packet.PacketTeslaRay;
+import makmods.levelstorage.network.packet.PacketTypeHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;

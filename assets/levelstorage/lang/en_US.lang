@@ -16,6 +16,8 @@ tile.blockRockDesintegrator.name=Rock Desintegrator
 tile.blockLavaFabricator.name=Lava Fabricator
 tile.blockCombustibleGenerator.name=Combustible Generator
 tile.blockMassMelter.name=Mass Melter
+tile.blockMicroStar.name=Micro Star
+tile.fusionGlass.name=Fusion Glass
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Tiny Pile of Osmium Dust
 dustOsmium.name=Osmium Dust
@@ -48,7 +50,7 @@ item.itemEnhDiamondDrill.name=Enhanced Diamond Drill
 item.itemPocketRefrigerant.name=Pocket Refrigerant
 item.itemLevitationBoots.name=Levitation Boots
 item.itemSupersonicLeggings.name=Supersonic Leggings
-item.itemArmorForcefieldChestplate.name=Forcefield Chestplate
+item.itemArmorEnergeticChestplate.name=Energetic Chestplate
 item.itemArmorTeslaHelmet.name=Tesla Helmet
 item.itemSuperconductor.name=Superconductor Cable
 item.itemStorageFourtyMillion.name=Energetic Enriched Matter Orb

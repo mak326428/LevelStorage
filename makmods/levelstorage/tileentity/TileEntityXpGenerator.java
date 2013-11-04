@@ -9,7 +9,7 @@ import ic2.api.tile.IWrenchable;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.api.XPStack;
 import makmods.levelstorage.gui.SlotBook;
-import makmods.levelstorage.item.ItemLevelStorageBook;
+import makmods.levelstorage.item.ItemXPTome;
 import makmods.levelstorage.registry.XPStackRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -239,20 +239,20 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 			if (this.isWorking) {
 
 				if (this.inv[0] != null) {
-					if (this.inv[0].getItem() instanceof ItemLevelStorageBook) {
-						if (ItemLevelStorageBook.getStoredXP(this.inv[0]) > XPStackRegistry.XP_EU_CONVERSION
+					if (this.inv[0].getItem() instanceof ItemXPTome) {
+						if (ItemXPTome.getStoredXP(this.inv[0]) > XPStackRegistry.XP_EU_CONVERSION
 						        .getKey()) {
 							if ((this.getCapacity() - this.getStored()) > XPStackRegistry.XP_EU_CONVERSION
 							        .getValue()) {
 								this.addEnergy(XPStackRegistry.XP_EU_CONVERSION
 								        .getValue());
-								ItemLevelStorageBook.increaseStoredXP(
+								ItemXPTome.increaseStoredXP(
 								        this.inv[0],
 								        -XPStackRegistry.XP_EU_CONVERSION
 								                .getKey());
 							}
 						}
-						this.inv[0].setItemDamage(ItemLevelStorageBook
+						this.inv[0].setItemDamage(ItemXPTome
 						        .calculateDurability(this.inv[0]));
 					} else {
 						int xp = 0;

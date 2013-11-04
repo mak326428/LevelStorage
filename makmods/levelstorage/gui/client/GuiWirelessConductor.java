@@ -2,8 +2,8 @@ package makmods.levelstorage.gui.client;
 
 import makmods.levelstorage.gui.container.ContainerWirelessConductor;
 import makmods.levelstorage.logic.util.RenderHelper;
-import makmods.levelstorage.network.PacketPressButton;
-import makmods.levelstorage.network.PacketTypeHandler;
+import makmods.levelstorage.network.packet.PacketPressButton;
+import makmods.levelstorage.network.packet.PacketTypeHandler;
 import makmods.levelstorage.registry.ConductorType;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.gui.GuiButton;

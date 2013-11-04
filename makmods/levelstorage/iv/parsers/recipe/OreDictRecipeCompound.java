@@ -1,6 +1,5 @@
 package makmods.levelstorage.iv.parsers.recipe;
 
-import makmods.levelstorage.logic.util.CommonHelper;
 
 public class OreDictRecipeCompound extends IWrappedRecipeCompound {
 	
@@ -8,11 +7,6 @@ public class OreDictRecipeCompound extends IWrappedRecipeCompound {
 
 	public OreDictRecipeCompound(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public CompoundType getType() {
-		return CompoundType.OREDICT;
 	}
 	
 	public String getName() {

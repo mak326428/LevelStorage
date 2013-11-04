@@ -2,6 +2,7 @@ package makmods.levelstorage.gui.container;
 
 import makmods.levelstorage.gui.SlotChecked;
 import makmods.levelstorage.gui.SlotTakeOnly;
+import makmods.levelstorage.iv.IVRegistry;
 import makmods.levelstorage.logic.util.GUIHelper;
 import makmods.levelstorage.tileentity.TileEntityRockDesintegrator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -76,8 +77,37 @@ public class ContainerRockDesintegrator extends Container {
 		}
 	}
 
-	public ItemStack transferStackInSlot(EntityPlayer ep, int slotIndex) {
-		return GUIHelper.shiftClickSlot(this, ep, slotIndex);
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,
+			int slotIndex) {
+		ItemStack itemStack = null;
+		Slot slot = (Slot) inventorySlots.get(slotIndex);
+
+		if (slot != null && slot.getHasStack()) {
+
+			ItemStack slotItemStack = slot.getStack();
+			itemStack = slotItemStack.copy();
+			// if slotIndex is less than massmelter's
+			// inventory size, then it is shiftclicking FROM massmelter's
+			// inventory
+			// into player's inventory, otherwise = reverse
+			if (slotIndex < tileEntity.getSizeInventory()) {
+				if (!this.mergeItemStack(slotItemStack,
+						tileEntity.getSizeInventory(), inventorySlots.size(),
+						false)) {
+					return null;
+				}
+			}
+
+			if (slotItemStack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
+		}
+
+		// return itemStack;
+		return null;
 	}
 
 }

@@ -53,21 +53,6 @@ public abstract class BlockMachineStandart extends BlockContainer {
 		return icons[side];
 	}
 
-	/*
-	 * public ArrayList<ItemStack> getBlockDropped(World world, int x, int y,
-	 * int z, int metadata, int fortune) { ArrayList<ItemStack> dropped =
-	 * Lists.newArrayList();
-	 * dropped.add(Items.getItem("advancedMachine").copy()); TileEntity
-	 * tileEntity = world.getBlockTileEntity(x, y, z); if (!(tileEntity
-	 * instanceof IInventory)) return dropped; IInventory inventory =
-	 * (IInventory) tileEntity;
-	 * 
-	 * for (int i = 0; i < inventory.getSizeInventory(); i++) { ItemStack item =
-	 * inventory.getStackInSlot(i);
-	 * 
-	 * if (item != null && item.stackSize > 0) { dropped.add(item.copy());
-	 * item.stackSize = 0; } } return dropped; }
-	 */
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
 		this.dropItems(world, x, y, z);

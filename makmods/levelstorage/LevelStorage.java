@@ -3,8 +3,11 @@ package makmods.levelstorage;
 import java.util.List;
 import java.util.logging.Logger;
 
+import makmods.levelstorage.api.IVAPI;
 import makmods.levelstorage.armor.ArmorFunctions;
+import makmods.levelstorage.client.render.LSColor;
 import makmods.levelstorage.command.CommandChargeItems;
+import makmods.levelstorage.init.Config;
 import makmods.levelstorage.init.LSIMCHandler;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.LogHelper;
@@ -12,12 +15,15 @@ import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.proxy.LSKeyboard;
 import makmods.levelstorage.registry.FlightRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.command.ServerCommandManager;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -80,6 +86,7 @@ public class LevelStorage {
 				event.getSuggestedConfigurationFile());
 		configuration = config;
 		configuration.load();
+		Config.ACTIVE = true;
 		LevelStorage.itemLevelStorageBookSpace = config.get(
 				Configuration.CATEGORY_GENERAL, "bookCapacity",
 				2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2) // 16384
@@ -171,6 +178,8 @@ public class LevelStorage {
 		//for (String s : FluidRegistry.getRegisteredFluids().keySet())
 		//	System.out.println(s);
 		IC2UUM = FluidRegistry.getFluid("uumatter");
+		
+		
 	}
 
 	public static Side getSide() {

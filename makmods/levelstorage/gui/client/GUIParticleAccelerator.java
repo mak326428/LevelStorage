@@ -4,7 +4,7 @@ import ic2.api.item.Items;
 import makmods.levelstorage.gui.container.ContainerParticleAccelerator;
 import makmods.levelstorage.item.SimpleItems;
 import makmods.levelstorage.logic.util.RenderHelper;
-import makmods.levelstorage.network.PacketPressButton;
+import makmods.levelstorage.network.packet.PacketPressButton;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
 import net.minecraft.client.gui.GuiButton;
