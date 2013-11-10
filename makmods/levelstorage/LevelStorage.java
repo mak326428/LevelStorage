@@ -3,6 +3,7 @@ package makmods.levelstorage;
 import java.util.List;
 import java.util.logging.Logger;
 
+import advsolar.api.ASPItemAPI;
 import makmods.levelstorage.api.IVAPI;
 import makmods.levelstorage.armor.ArmorFunctions;
 import makmods.levelstorage.client.render.LSColor;
@@ -10,6 +11,7 @@ import makmods.levelstorage.command.CommandChargeItems;
 import makmods.levelstorage.init.Config;
 import makmods.levelstorage.init.LSIMCHandler;
 import makmods.levelstorage.lib.Reference;
+import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
@@ -178,8 +180,6 @@ public class LevelStorage {
 		//for (String s : FluidRegistry.getRegisteredFluids().keySet())
 		//	System.out.println(s);
 		IC2UUM = FluidRegistry.getFluid("uumatter");
-		
-		
 	}
 
 	public static Side getSide() {

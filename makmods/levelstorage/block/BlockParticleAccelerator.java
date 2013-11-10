@@ -10,7 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockParticleAccelerator extends BlockMachineStandart implements IHasRecipe {
+public class BlockParticleAccelerator extends BlockMachineStandart implements
+		IHasRecipe {
 
 	public BlockParticleAccelerator(int id) {
 		super(id);
@@ -18,13 +19,12 @@ public class BlockParticleAccelerator extends BlockMachineStandart implements IH
 
 	public void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
-				LSBlockItemList.blockParticleAccelerator), "isi", "crc", "mpm",
-				Character.valueOf('i'), IC2Items.IRIDIUM_PLATE.copy(),
-				Character.valueOf('c'), IC2Items.ADV_CIRCUIT, Character
-						.valueOf('m'), IC2Items.ADV_MACHINE, Character
-						.valueOf('s'), Items.getItem("scanner"), Character
-						.valueOf('p'), Items.getItem("patternstorage"),
-				Character.valueOf('r'), Items.getItem("replicator"));
+				LSBlockItemList.blockParticleAccelerator), "ImI", "RNR", "TTT",
+				Character.valueOf('m'), Items.getItem("massFabricator"),
+				Character.valueOf('I'), "ingotIridium", 'R', Items
+						.getItem("RTGPellets"), Character.valueOf('N'), Items
+						.getItem("advancedMachine"), Character.valueOf('T'),
+				Items.getItem("replicator"));
 	}
 
 	@Override

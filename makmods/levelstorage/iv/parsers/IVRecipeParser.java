@@ -34,7 +34,7 @@ public class IVRecipeParser implements IRecipeParser {
 	public static int PASSES = LevelStorage.configuration
 			.get(IVRegistry.IV_CATEGORY,
 					"dynamicAssignmentPasses",
-					2,
+					-1,
 					"Determines how many passes (\"attempts\") will be made. Basically, the lower value, the faster minecraft will start, the higher value, the more items will be assigned. Set to -1 to completely disable. 2 is the minimum requirement for semi-filled IV values. 1 will cover the most straightforward recipes.")
 			.getInt();
 

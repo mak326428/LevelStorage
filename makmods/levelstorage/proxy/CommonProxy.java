@@ -59,7 +59,6 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new LevelStorageEventHandler());
 		LocalizationInitializer.instance.init();
 		SimpleItems.instance = new SimpleItems();
-		SimpleRecipeAdder.addSimpleCraftingRecipes();
 		// LSBlockItemList.init();
 		// LSBlockItemList.init();
 		ModUniversalInitializer.instance.init();
@@ -78,6 +77,7 @@ public class CommonProxy {
 		FlightRegistry.instance = new FlightRegistry();
 		TickRegistry.registerTickHandler(new AntimatterUniverseRayHandler(),
 				Side.SERVER);
+		SimpleRecipeAdder.addSimpleCraftingRecipes();
 	}
 
 	public void postInit() {

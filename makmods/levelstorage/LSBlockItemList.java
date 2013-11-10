@@ -1,8 +1,8 @@
 package makmods.levelstorage;
 
+import makmods.levelstorage.armor.ItemArmorEnergeticChestplate;
 import makmods.levelstorage.armor.ItemArmorEnhancedLappack;
 import makmods.levelstorage.armor.ItemArmorEnhancedNanoChestplate;
-import makmods.levelstorage.armor.ItemArmorEnergeticChestplate;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorSupersonicLeggings;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
@@ -13,10 +13,8 @@ import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterLeggings;
 import makmods.levelstorage.block.BlockAntimatterStone;
 import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockChromiteOre;
-import makmods.levelstorage.block.BlockFusionGlass;
 import makmods.levelstorage.block.BlockLavaFabricator;
 import makmods.levelstorage.block.BlockMassMelter;
-import makmods.levelstorage.block.BlockMicroStar;
 import makmods.levelstorage.block.BlockMolecularHeater;
 import makmods.levelstorage.block.BlockMulticoreSolarPanel;
 import makmods.levelstorage.block.BlockParticleAccelerator;
@@ -89,12 +87,10 @@ public class LSBlockItemList {
 	public static BlockUnstableQuartz blockUnstableQuartz;
 	public static BlockRockDesintegrator blockRockDesintegrator;
 	public static BlockLavaFabricator blockLavaFabricator;
-	public static BlockMicroStar blockMicroStar;
 	public static ItemDemolisher itemDemolisher;
 	public static BlockMassMelter blockMassMelter;
 	public static ItemArmorAntimatterBoots itemArmorAntimatterBoots;
 	public static ItemArmorAntimatterLeggings itemArmorAntimatterLeggings;
 	public static ItemArmorAntimatterChestplate itemArmorAntimatterChestplate;
 	public static ItemArmorAntimatterHelmet itemArmorAntimatterHelmet;
-	public static BlockFusionGlass fusionGlass;
 }

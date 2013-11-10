@@ -17,3 +17,4 @@ Currently available IMCs:
 1) Adds an item to the XP Registry:
    Key: add-xp
    Value: id:metadata,value
+   Example: 1:0,1 (this example will add XP value of 1 to item/block with id 1 (stone) and metadata 0)
