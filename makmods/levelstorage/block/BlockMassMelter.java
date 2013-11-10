@@ -18,7 +18,7 @@ public class BlockMassMelter extends BlockMachineStandart implements IHasRecipe 
 	public void addCraftingRecipe() {
 		Recipes.advRecipes.addRecipe(new ItemStack(
 				LSBlockItemList.blockMassMelter), "ata", "cic", "mem", 'm',
-				Items.getItem("massFabricator"), 'e', Items
+				Items.getItem("recycler"), 'e', Items
 						.getItem("energyCrystal"), 't', Items
 						.getItem("teleporter"), 'a', Items
 						.getItem("advancedMachine"), 'c', Items

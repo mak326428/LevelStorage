@@ -28,5 +28,4 @@ public class NEILSConfig implements IConfigureNEI {
     public String getVersion() {
 	    return Reference.VERSION;
     }
-
 }

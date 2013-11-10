@@ -159,23 +159,6 @@ public class DrillEnhancementHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		List<IRecipe> allrecipes = CraftingManager.getInstance()
-				.getRecipeList();
-		for (IRecipe irecipe : allrecipes) {
-			/*
-			 * CachedShapedRecipe recipe = null; if (irecipe instanceof
-			 * ShapedRecipes) recipe = new CachedShapedRecipe((ShapedRecipes)
-			 * irecipe);
-			 * 
-			 * if (recipe == null || !recipe.contains(recipe.ingredients,
-			 * ingredient.itemID)) continue;
-			 * 
-			 * recipe.computeVisuals(); if (recipe.contains(recipe.ingredients,
-			 * ingredient)) {
-			 * recipe.setIngredientPermutation(recipe.ingredients, ingredient);
-			 * arecipes.add(recipe); }
-			 */
-		}
 	}
 
 	@Override

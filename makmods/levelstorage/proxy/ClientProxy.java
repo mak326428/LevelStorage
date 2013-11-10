@@ -8,10 +8,8 @@ import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterBase;
 import makmods.levelstorage.client.ElectricHUD;
 import makmods.levelstorage.client.render.ItemWirelessConductorRender;
 import makmods.levelstorage.client.render.RenderSuperconductorCable;
-import makmods.levelstorage.client.render.StarRenderer;
 import makmods.levelstorage.client.render.WirelessConductorRender;
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.tileentity.TileEntityMicroStar;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -158,8 +156,6 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(
 				TileEntityWirelessConductor.class,
 				new WirelessConductorRender());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMicroStar.class,
-				new StarRenderer());
 		MinecraftForgeClient.registerItemRenderer(
 				LSBlockItemList.blockWlessConductor.blockID,
 				new ItemWirelessConductorRender());
