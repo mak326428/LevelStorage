@@ -111,6 +111,7 @@ public class LevelStorage {
 				"explosionPowerAntimatterBomb", false);
 		p5.comment = "Explosion power of Antimatter Bomb, where TNT is 4";
 		LevelStorage.powerExplosionAntimatterBomb = p5.getInt(100);
+		proxy.preInit();
 	}
 
 	public static boolean isSimulating() {

@@ -1,6 +1,7 @@
 package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.VersionChecker;
 import makmods.levelstorage.dimension.AntimatterUniverseRayHandler;
 import makmods.levelstorage.dimension.BiomeAntimatterField;
 import makmods.levelstorage.dimension.LSDimensions;
@@ -41,7 +42,7 @@ public class CommonProxy {
 	// Sorry for the dirty code, server didn't start without this
 	public static final String SUPERSONIC_DUMMY = "supersonic";
 	public static final String ANTIMATTER_DUMMY = "antimatter";
-	
+
 	public static final String ENH_LAPPACK_DUMMY = "enhlapp";
 
 	public static BiomeAntimatterField biomeAntimatterField;
@@ -51,6 +52,10 @@ public class CommonProxy {
 
 	public int getArmorIndexFor(String forWhat) {
 		return 0;
+	}
+
+	public void preInit() {
+		VersionChecker.checkVersion();
 	}
 
 	public void init() {
@@ -82,7 +87,7 @@ public class CommonProxy {
 
 	public void postInit() {
 		XPStackRegistry.instance.initCriticalNodes();
-		//XPStackRegistry.instance.printRegistry();
+		// XPStackRegistry.instance.printRegistry();
 		ModAchievements.instance.init();
 		IVRegistry.instance.init();
 		LevelStorage.configuration.save();
