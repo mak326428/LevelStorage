@@ -4,8 +4,14 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
 
 import makmods.levelstorage.logic.util.LogHelper;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.common.Loader;
 
 public class VersionChecker {
 
@@ -15,9 +21,17 @@ public class VersionChecker {
 
 	public static class CheckInfo {
 		private final CheckResult result;
+		
+		private final String newVersion;
 
 		public CheckInfo(CheckResult res) {
 			this.result = res;
+			this.newVersion = null;
+		}
+		
+		public CheckInfo(CheckResult res, String newVersion) {
+			this.result = res;
+			this.newVersion = newVersion;
 		}
 	}
 
@@ -30,21 +44,33 @@ public class VersionChecker {
 			URL versionUrl = new URL(VERSION_URL);
 			InputStream versionStream = versionUrl.openStream();
 
-			String fileContents = null;
-			
+			List<String> fileLines = Lists.newArrayList();
+
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					versionStream));
-			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 			while (line != null) {
-				sb.append(line);
-				sb.append('\n');
+				if (!Strings.isNullOrEmpty(line))
+					fileLines.add(line);
 				line = br.readLine();
 			}
-			fileContents = sb.toString();
 			
-			System.out.println(fileContents);
-
+			String mcVersion = Loader.instance().getMCVersionString().replace("Minecraft ", "");
+			
+			List<String> candidatesForCurrentVersion = Lists.newArrayList();
+			
+			for (String fileLine : fileLines) {
+				String[] split = fileLine.split("|");
+				String mcVCurrLine = split[0];
+				String lsVersion = split[1];
+				if (mcVCurrLine.equals(mcVersion))
+					candidatesForCurrentVersion.add(lsVersion);
+			}
+			
+			for (String s : candidatesForCurrentVersion) {
+				System.out.println(s);
+			}
+			
 			versionStream.close();
 		} catch (Exception e) {
 			LogHelper
