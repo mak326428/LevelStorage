@@ -165,14 +165,23 @@ public class IVRecipeParser implements IRecipeParser {
 		List<IRecipe> recipes = RecipeHelper.getAllRecipes();
 		int iterator = 0;
 		int totalMS = 0;
+		IVRegistry.clearCache();
 		for (int i = 0; i < PASSES; i++) {
+			IVRegistry.clearCache();
 			assignFurnace(FurnaceRecipes.smelting());
+			IVRegistry.clearCache();
 			assignIC2Machine(Recipes.macerator);
+			IVRegistry.clearCache();
 			assignIC2Machine(Recipes.extractor);
+			IVRegistry.clearCache();
 			assignIC2Machine(Recipes.compressor);
+			IVRegistry.clearCache();
 			assignIC2Machine(Recipes.metalformerRolling);
+			IVRegistry.clearCache();
 			assignIC2Machine(Recipes.metalformerExtruding);
+			IVRegistry.clearCache();
 			assignIC2Machine(Recipes.metalformerCutting);
+			IVRegistry.clearCache();
 			for (IRecipe recipe : recipes) {
 				ItemStack result = recipe.getRecipeOutput();
 				if (result != null) {
@@ -182,6 +191,7 @@ public class IVRecipeParser implements IRecipeParser {
 					totalMS += System.currentTimeMillis() - ms;
 				}
 			}
+			IVRegistry.clearCache();
 		}
 		LogHelper.info("Total recipes iterated: " + iterator);
 		LogHelper.info("Total time consumed: " + totalMS);

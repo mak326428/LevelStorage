@@ -52,12 +52,8 @@ public class IVRegistry {
 
 	public void recognizeOreDict() {
 		try {
-			Class oreDictClass = OreDictionary.class;
-			Field fieldOreIds = oreDictClass.getDeclaredField("oreIDs");
-			fieldOreIds.setAccessible(true);
-			Map<String, Integer> oreIDs = (HashMap<String, Integer>) fieldOreIds
-					.get(null);
-			for (String s : oreIDs.keySet()) {
+			String[] names = OreDictionary.getOreNames();
+			for (String s : names) {
 				try {
 					if (DEBUG)
 						LogHelper.info("OreDict entry: " + s);
@@ -101,11 +97,11 @@ public class IVRegistry {
 	}
 
 	public void init() {
+		DO_CACHING = true;
 		initCriticalNodes();
 		recognizeOreDict();
 		parseDynamically();
 		printContents();
-		DO_CACHING = true;
 	}
 
 	public void runParser(IRecipeParser parser) {
@@ -191,8 +187,7 @@ public class IVRegistry {
 		assignItemStack(new ItemStack(Item.rottenFlesh), 32);
 		assignItemStack(new ItemStack(Block.plantYellow), 16);
 		assignItemStack(new ItemStack(Block.plantRed), 16);
-
-		assignAll(ItemRecord.class, 32768);
+		assignAll(ItemRecord.class, 16384);
 		// assign(Item.arrow, 16);
 		assignOreDictionary("ingotTin", 255);
 		assignOreDictionary("ingotChrome", 8192 * 12);
@@ -265,8 +260,10 @@ public class IVRegistry {
 				}
 			}
 		}
-		if (toRemove != null)
+		if (toRemove != null) {
 			entries.remove(toRemove);
+			IVRegistry.clearCache();
+		}
 		else
 			LogHelper.severe("removeIV: obj's type is incorrect - "
 					+ obj.getClass().getSimpleName());
@@ -319,10 +316,17 @@ public class IVRegistry {
 	
 	private static Map<List<Integer>, Integer> itemStackCache = Maps.newHashMap();
 	private static Map<String, Integer> oreDictCache = Maps.newHashMap();
+	
+	public static void clearCache() {
+		itemStackCache.clear();
+		oreDictCache.clear();
+	}
 
 	public int getValueFor(Object obj) {
 		if (!DO_CACHING)
 			return getValueFor_internal(obj);
+		//System.out.println("IV ItemStack cache size: " + itemStackCache.size());
+		//System.out.println("IV OreDictionary cache size: " + oreDictCache.size());
 		if (obj instanceof String) {
 			String odName = (String)obj;
 			if (!oreDictCache.containsKey(odName))
