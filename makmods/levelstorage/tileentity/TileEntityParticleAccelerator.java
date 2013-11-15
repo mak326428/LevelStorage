@@ -195,6 +195,7 @@ public class TileEntityParticleAccelerator extends
 	private boolean handleMatterTick() {
 		if (!IVRegistry.hasValue(getPatternIdeal()))
 			this.phantomInventory.setInventorySlotContents(0, null);
+		int oldProgress = progress;
 		boolean shouldUseEnergy = false;
 		if (getPatternIdeal() == null)
 			return false;
@@ -227,11 +228,12 @@ public class TileEntityParticleAccelerator extends
 				progress = 0;
 		}
 		this.setProgress(internalIV);
-		return shouldUseEnergy;
+		return oldProgress != progress;
 	}
 
 	private boolean handleAntimatterTick() {
 		boolean shouldUseEnergy = false;
+		int oldProgress = progress;
 		if (!outputSlot.add(getAntimatterIdeal(), true))
 			return false;
 		int ivCost = ANTIMATTER_IV;
@@ -260,7 +262,7 @@ public class TileEntityParticleAccelerator extends
 		}
 		this.phantomInventory.setInventorySlotContents(0, getAntimatterIdeal());
 		this.setProgress(internalIV);
-		return shouldUseEnergy;
+		return progress != oldProgress;
 	}
 
 	@Override
