@@ -26,6 +26,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+/**
+ * The heart of LevelStorage's IV system
+ * @author mak326428
+ *
+ */
 public class IVRegistry {
 	public static final IVRegistry instance = new IVRegistry();
 	public static final int NOT_FOUND = -1;
@@ -263,8 +268,7 @@ public class IVRegistry {
 		if (toRemove != null) {
 			entries.remove(toRemove);
 			IVRegistry.clearCache();
-		}
-		else
+		} else
 			LogHelper.severe("removeIV: obj's type is incorrect - "
 					+ obj.getClass().getSimpleName());
 	}
@@ -313,11 +317,17 @@ public class IVRegistry {
 	}
 
 	public static boolean DO_CACHING = false;
-	
-	private static Map<List<Integer>, Integer> itemStackCache = Maps.newHashMap();
+
+	private static Map<List<Integer>, Integer> itemStackCache = Maps
+			.newHashMap();
 	private static Map<String, Integer> oreDictCache = Maps.newHashMap();
-	
+
 	public static void clearCache() {
+		if (DEBUG) {
+			LogHelper.info(String.format(
+					"Clearing IV cache, %d ItemStack, %d OreDict",
+					itemStackCache.size(), oreDictCache.size()));
+		}
 		itemStackCache.clear();
 		oreDictCache.clear();
 	}
@@ -325,16 +335,18 @@ public class IVRegistry {
 	public int getValueFor(Object obj) {
 		if (!DO_CACHING)
 			return getValueFor_internal(obj);
-		//System.out.println("IV ItemStack cache size: " + itemStackCache.size());
-		//System.out.println("IV OreDictionary cache size: " + oreDictCache.size());
+		// System.out.println("IV ItemStack cache size: " +
+		// itemStackCache.size());
+		// System.out.println("IV OreDictionary cache size: " +
+		// oreDictCache.size());
 		if (obj instanceof String) {
-			String odName = (String)obj;
+			String odName = (String) obj;
 			if (!oreDictCache.containsKey(odName))
 				oreDictCache.put(odName, getValueFor_internal(odName));
 			return oreDictCache.get(odName);
 		} else if (obj instanceof ItemStack) {
 			List<Integer> lst = Lists.newArrayList();
-			ItemStack objIS = (ItemStack)obj;
+			ItemStack objIS = (ItemStack) obj;
 			lst.add(objIS.itemID);
 			lst.add(objIS.getItemDamage());
 			if (!itemStackCache.containsKey(lst))
