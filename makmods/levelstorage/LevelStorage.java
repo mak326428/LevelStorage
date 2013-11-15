@@ -3,6 +3,8 @@ package makmods.levelstorage;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.common.collect.ImmutableList;
+
 import advsolar.api.ASPItemAPI;
 import makmods.levelstorage.api.IVAPI;
 import makmods.levelstorage.armor.ArmorFunctions;
@@ -142,7 +144,7 @@ public class LevelStorage {
 		ArmorFunctions.speedTickerMap.clear();
 		ArmorFunctions.onGroundMap.clear();
 		FlightRegistry.instance.modEnabledFlights.clear();
-
+		ImmutableList list = ImmutableList.of();
 	}
 
 	@EventHandler

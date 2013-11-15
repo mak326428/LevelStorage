@@ -1,7 +1,6 @@
 package makmods.levelstorage.proxy;
 
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.VersionChecker;
 import makmods.levelstorage.dimension.AntimatterUniverseRayHandler;
 import makmods.levelstorage.dimension.BiomeAntimatterField;
 import makmods.levelstorage.dimension.LSDimensions;
@@ -55,7 +54,7 @@ public class CommonProxy {
 	}
 
 	public void preInit() {
-		VersionChecker.checkVersion();
+		
 	}
 
 	public void init() {

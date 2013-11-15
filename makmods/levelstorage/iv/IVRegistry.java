@@ -105,6 +105,7 @@ public class IVRegistry {
 		recognizeOreDict();
 		parseDynamically();
 		printContents();
+		DO_CACHING = true;
 	}
 
 	public void runParser(IRecipeParser parser) {
@@ -314,6 +315,31 @@ public class IVRegistry {
 		return instance.getValueFor(obj);
 	}
 
+	public static boolean DO_CACHING = false;
+	
+	private static Map<List<Integer>, Integer> itemStackCache = Maps.newHashMap();
+	private static Map<String, Integer> oreDictCache = Maps.newHashMap();
+
+	public int getValueFor(Object obj) {
+		if (!DO_CACHING)
+			return getValueFor_internal(obj);
+		if (obj instanceof String) {
+			String odName = (String)obj;
+			if (!oreDictCache.containsKey(odName))
+				oreDictCache.put(odName, getValueFor_internal(odName));
+			return oreDictCache.get(odName);
+		} else if (obj instanceof ItemStack) {
+			List<Integer> lst = Lists.newArrayList();
+			ItemStack objIS = (ItemStack)obj;
+			lst.add(objIS.itemID);
+			lst.add(objIS.getItemDamage());
+			if (!itemStackCache.containsKey(lst))
+				itemStackCache.put(lst, getValueFor_internal(obj));
+			return itemStackCache.get(lst);
+		} else
+			return getValueFor_internal(obj);
+	}
+
 	/**
 	 * Gets IV for requested object
 	 * 
@@ -321,7 +347,7 @@ public class IVRegistry {
 	 *            Requested. Might be String (OreDict name) or ItemStack
 	 * @return IV
 	 */
-	public int getValueFor(Object obj) {
+	public int getValueFor_internal(Object obj) {
 		if (obj == null)
 			return NOT_FOUND;
 		if (obj instanceof String) {
