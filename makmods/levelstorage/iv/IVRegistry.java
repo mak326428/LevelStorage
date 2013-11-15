@@ -28,20 +28,16 @@ import com.google.common.collect.Maps;
 
 /**
  * The heart of LevelStorage's IV system
+ * 
  * @author mak326428
- *
+ * 
  */
 public class IVRegistry {
 	public static final IVRegistry instance = new IVRegistry();
 	public static final int NOT_FOUND = -1;
-	public List<IVEntry> entries = Lists.newArrayList();
+	public List<IVItemStackEntry> itemStackEntries = Lists.newArrayList();
+	public List<IVOreDictEntry> oreDictEntries = Lists.newArrayList();
 	public static final boolean DEBUG = true;
-
-	static {
-		// for (;;) {
-		// System.out.println();
-		// if (false) break;}
-	}
 
 	/**
 	 * Key - IV <br />
@@ -92,7 +88,9 @@ public class IVRegistry {
 	 */
 	public List<IVEntry> copyRegistry() {
 		List<IVEntry> newList = Lists.newArrayList();
-		for (IVEntry entry : entries)
+		for (IVOreDictEntry entry : oreDictEntries)
+			newList.add(entry);
+		for (IVItemStackEntry entry : itemStackEntries)
 			newList.add(entry);
 		return newList;
 	}
@@ -123,6 +121,7 @@ public class IVRegistry {
 
 	public void printContents() {
 		LogHelper.info("Printing IVRegistry contents:");
+		List<IVEntry> entries = copyRegistry();
 		for (IVEntry entry : entries) {
 			if (entry instanceof IVOreDictEntry) {
 				IVOreDictEntry ode = (IVOreDictEntry) entry;
@@ -234,39 +233,36 @@ public class IVRegistry {
 				stack.hasDisplayName() ? stack.getDisplayName().replace(
 						".name", "") : stack.getUnlocalizedName()).getInt();
 		if (valueActual > 0)
-			entries.add(new IVItemStackEntry(stack.copy(), value));
+			itemStackEntries.add(new IVItemStackEntry(stack.copy(), value));
 	}
 
 	public void removeIV(Object obj) {
 		Object toRemove = null;
 		if (obj instanceof String) {
 			String initialName = (String) obj;
-			for (IVEntry wrongEntry : entries) {
-				if (!(wrongEntry instanceof IVOreDictEntry))
-					continue;
-				IVOreDictEntry entry = (IVOreDictEntry) wrongEntry;
+			for (IVOreDictEntry entry : oreDictEntries) {
 				if (entry.getName().equals(initialName)) {
-					toRemove = wrongEntry;
+					toRemove = entry;
 					break;
 				}
 			}
 		} else if (obj instanceof ItemStack) {
 			ItemStack initialStack = (ItemStack) obj;
-			for (IVEntry wrongEntry : entries) {
-				if (!(wrongEntry instanceof IVItemStackEntry))
-					continue;
-				IVItemStackEntry entry = (IVItemStackEntry) wrongEntry;
+			for (IVItemStackEntry entry : itemStackEntries) {
 				ItemStack entryStack = entry.getStack();
 				if (entryStack.itemID == initialStack.itemID
 						&& (entryStack.getItemDamage() == initialStack
 								.getItemDamage() || entryStack.getItemDamage() == OreDictionary.WILDCARD_VALUE)) {
-					toRemove = wrongEntry;
+					toRemove = entry;
 					break;
 				}
 			}
 		}
 		if (toRemove != null) {
-			entries.remove(toRemove);
+			if (toRemove instanceof IVOreDictEntry)
+				oreDictEntries.remove(toRemove);
+			else
+				itemStackEntries.remove(toRemove);
 			IVRegistry.clearCache();
 		} else
 			LogHelper.severe("removeIV: obj's type is incorrect - "
@@ -274,11 +270,11 @@ public class IVRegistry {
 	}
 
 	public void assignItemStack_dynamic(ItemStack stack, int value) {
-		entries.add(new IVItemStackEntry(stack.copy(), value));
+		itemStackEntries.add(new IVItemStackEntry(stack.copy(), value));
 	}
 
 	public void assignOreDict_dynamic(String name, int value) {
-		entries.add(new IVOreDictEntry(name, value));
+		oreDictEntries.add(new IVOreDictEntry(name, value));
 	}
 
 	public void assignOreDictionary(String name, int value) {
@@ -288,7 +284,7 @@ public class IVRegistry {
 			List<ItemStack> sts = OreDictionary.getOres(name);
 			for (ItemStack st : sts)
 				assignItemStack(st.copy(), value);
-			entries.add(new IVOreDictEntry(name, value));
+			oreDictEntries.add(new IVOreDictEntry(name, value));
 		}
 	}
 
@@ -333,8 +329,12 @@ public class IVRegistry {
 	}
 
 	public int getValueFor(Object obj) {
-		if (!DO_CACHING)
-			return getValueFor_internal(obj);
+		if (!DO_CACHING) {
+			if (obj instanceof String)
+				return getValueFor_internal((String) obj);
+			else if (obj instanceof ItemStack)
+				return getValueFor_internal((ItemStack) obj);
+		}
 		// System.out.println("IV ItemStack cache size: " +
 		// itemStackCache.size());
 		// System.out.println("IV OreDictionary cache size: " +
@@ -350,81 +350,59 @@ public class IVRegistry {
 			lst.add(objIS.itemID);
 			lst.add(objIS.getItemDamage());
 			if (!itemStackCache.containsKey(lst))
-				itemStackCache.put(lst, getValueFor_internal(obj));
+				itemStackCache.put(lst, getValueFor_internal(objIS));
 			return itemStackCache.get(lst);
 		} else
-			return getValueFor_internal(obj);
+			return NOT_FOUND;
 	}
 
-	/**
-	 * Gets IV for requested object
-	 * 
-	 * @param obj
-	 *            Requested. Might be String (OreDict name) or ItemStack
-	 * @return IV
-	 */
-	public int getValueFor_internal(Object obj) {
-		if (obj == null)
-			return NOT_FOUND;
-		if (obj instanceof String) {
-			for (IVEntry entry : entries) {
-				if (entry instanceof IVOreDictEntry) {
-					IVOreDictEntry oreDictEntry = (IVOreDictEntry) entry;
-					if (oreDictEntry.getName().equals(obj))
-						return oreDictEntry.getValue();
-					if (!nameToItemStackMap.containsKey((String) obj))
-						return NOT_FOUND;
-					ItemStack toResolveIS = nameToItemStackMap
-							.get((String) obj);
-					// System.out.println(toResolveIS);
-					for (IVEntry entry2 : entries) {
-						if (!(entry2 instanceof IVItemStackEntry))
-							continue;
-						IVItemStackEntry ivItemStackEntry = (IVItemStackEntry) entry2;
-						ItemStack stack = ivItemStackEntry.getStack();
+	public int getValueFor_internal(String name) {
+		for (IVOreDictEntry oreDictEntry : oreDictEntries) {
+			if (oreDictEntry.getName().equals(name))
+				return oreDictEntry.getValue();
+			if (!nameToItemStackMap.containsKey(name))
+				return NOT_FOUND;
+			ItemStack toResolveIS = nameToItemStackMap.get(name);
+			// System.out.println(toResolveIS);
+			for (IVItemStackEntry ivItemStackEntry : itemStackEntries) {
+				ItemStack stack = ivItemStackEntry.getStack();
 
-						if (stack.itemID == toResolveIS.itemID
-								&& (stack.getItemDamage() == toResolveIS
-										.getItemDamage() || stack
-										.getItemDamage() == OreDictionary.WILDCARD_VALUE))
-							return ivItemStackEntry.getValue();
-					}
+				if (stack.itemID == toResolveIS.itemID
+						&& (stack.getItemDamage() == toResolveIS
+								.getItemDamage() || stack.getItemDamage() == OreDictionary.WILDCARD_VALUE))
+					return ivItemStackEntry.getValue();
+			}
+		}
+		return NOT_FOUND;
+	}
+
+	public int getValueFor_internal(ItemStack objStack) {
+		if (objStack == null)
+			return NOT_FOUND;
+		for (IVItemStackEntry itemStackEntry : itemStackEntries) {
+			ItemStack iterationIS = itemStackEntry.getStack();
+			if (objStack.itemID == iterationIS.itemID
+					&& (iterationIS.getItemDamage() == objStack.getItemDamage() || iterationIS
+							.getItemDamage() == OreDictionary.WILDCARD_VALUE))
+				return itemStackEntry.getValue();
+			String toResolveIS = null;
+			for (Entry<ItemStack, String> entryIs : itemStackToNameMap
+					.entrySet()) {
+				ItemStack st = entryIs.getKey();
+				if (st.itemID == objStack.itemID
+						&& (st.getItemDamage() == objStack.getItemDamage() || st
+								.getItemDamage() == OreDictionary.WILDCARD_VALUE)) {
+					toResolveIS = entryIs.getValue();
+					break;
 				}
 			}
-		} else if (obj instanceof ItemStack) {
-			for (IVEntry entry : entries) {
-				if (entry instanceof IVItemStackEntry) {
-					IVItemStackEntry itemStackEntry = (IVItemStackEntry) entry;
-					ItemStack objStack = (ItemStack) obj;
-					ItemStack iterationIS = itemStackEntry.getStack();
-					if (objStack.itemID == iterationIS.itemID
-							&& (iterationIS.getItemDamage() == objStack
-									.getItemDamage() || iterationIS
-									.getItemDamage() == OreDictionary.WILDCARD_VALUE))
-						return itemStackEntry.getValue();
-					String toResolveIS = null;
-					for (Entry<ItemStack, String> entryIs : itemStackToNameMap
-							.entrySet()) {
-						ItemStack st = entryIs.getKey();
-						if (st.itemID == objStack.itemID
-								&& (st.getItemDamage() == objStack
-										.getItemDamage() || st.getItemDamage() == OreDictionary.WILDCARD_VALUE)) {
-							toResolveIS = entryIs.getValue();
-							break;
-						}
-					}
 
-					for (IVEntry entry2 : entries) {
-						if (!(entry2 instanceof IVOreDictEntry))
-							continue;
-						IVOreDictEntry oreDictEntry = (IVOreDictEntry) entry2;
-						if (oreDictEntry.getName().equals(toResolveIS))
-							return oreDictEntry.getValue();
-					}
-				}
+			for (IVOreDictEntry oreDictEntry : oreDictEntries) {
+				if (oreDictEntry.getName().equals(toResolveIS))
+					return oreDictEntry.getValue();
+
 			}
-		} else
-			return NOT_FOUND;
+		}
 		return NOT_FOUND;
 	}
 }
