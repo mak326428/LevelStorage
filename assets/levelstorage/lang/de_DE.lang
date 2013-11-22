@@ -14,6 +14,10 @@ tile.blockChromiteOre.name=Chromiterz
 tile.blockUnstableQuartz.name=Instabiler Quarz
 tile.blockRockDesintegrator.name=Steindesintegrator
 tile.blockLavaFabricator.name=Lavafabrikator
+tile.blockCombustibleGenerator.name=Verbrennungsgenerator
+tile.blockMassMelter.name=Massenschmelzer
+tile.blockMicroStar.name=Mikrostern
+tile.fusionGlass.name=Fusionsglas
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Kleines Häufchen Osmiumstaub
 dustOsmium.name=Osmiumstaub
@@ -34,6 +38,7 @@ crushedChromiteOre.name=Zerstoßenes Chromiterz
 purifiedCrushedChromiteOre.name=Gereinigtes Zerstoßenes Chromiterz
 plateChrome.name=Chromplatte
 dustTinyIridium.name=Kleines Häufchen Iridiumstaub
+plateAntimatterIridium.name=Verstärkte Antimaterien-Iridiumplatte
 # dimension
 dimension.antimatterUniverse.name=Antimaterien-Universum
 # items
@@ -61,12 +66,22 @@ item.itemRemoteAccessor.name=Fernzugriffsgerät
 item.itemCapFluidCell.name=Geräumige Flüssigkeitszelle
 item.itemElectricLighter.name=Elektrisches Feuerzeug
 item.itemArmorEnhancedNanoChestplate.name=Verbesserter NanoSuit-Brustpanzer
-#others
+item.itemDemolisher.name=Steindemolierer
+item.itemTemporaryEnchantedBook.name=Temporär Verzaubertes Buch
+item.itemArmorAntimatterBoots.name=AntimatterSuit-Stiefel
+item.itemArmorAntimatterLeggings.name=AntimatterSuit-Hose
+item.itemArmorAntimatterChestplate.name=AntimatterSuit-Brustpanzer
+item.itemArmorAntimatterHelmet.name=AntimatterSuit-Helm
+
+# fluids
+tile.iv.name=IV
+# others
 other.frequency=Frequenz
 other.true=Ja
 other.false=Nein
 other.wip=[WIP]
 other.energyHUD=Energielevel (Rüstung):
+other.drillEnhancementRecipeNEI=Bohrerverbesserung
 # creative tab(s)
 itemGroup.levelstorage=LevelStorage
 # chat messages
