@@ -57,21 +57,14 @@ public class XPStackRegistry {
 				new ItemStack(Item.ingotGold), 16));
 		this.pushToRegistryWithConfig(new XPStack(
 				new ItemStack(Item.enderPearl), 256));
-		this.pushToRegistryWithConfig(new XPStack(new ItemStack(Block.bedrock),
-				Integer.MAX_VALUE));
-		this.pushToRegistryWithConfig(new XPStack(new ItemStack(Item.arrow), 1));
-		this.pushToRegistryWithConfig(new XPStack(new ItemStack(Item.bow), 9));
 		this.pushToRegistryWithConfig(new XPStack(Items.getItem("resin"), 3));
-		this.pushOreToRegistry("ingotCopper", 5);
-		this.pushOreToRegistry("ingotTin", 6);
-		this.pushOreToRegistry("oreIron", 6);
 
 		this.pushToRegistryWithConfig(new XPStack(
-				new ItemStack(Item.glowstone), 32));
+				new ItemStack(Item.glowstone), 8));
 		this.pushToRegistryWithConfig(new XPStack(new ItemStack(Item.diamond),
-				512));
+				256));
 		this.pushToRegistryWithConfig(new XPStack(
-				new ItemStack(Item.netherStar), 4096));
+				new ItemStack(Item.netherStar), 8192));
 		this.pushToRegistryWithConfig(new XPStack(
 				new ItemStack(Block.obsidian), 8));
 
@@ -146,7 +139,8 @@ public class XPStackRegistry {
 		int value = property.getInt();
 		if (value == -1) {
 			LogHelper.warning("XP entry for item "
-					+ CommonHelper.getNiceStackName(stack.stack) + " is disabled");
+					+ CommonHelper.getNiceStackName(stack.stack)
+					+ " is disabled");
 			return;
 		}
 		FMLLog.log(Level.INFO, "Adding #" + stack.stack.itemID + ":"

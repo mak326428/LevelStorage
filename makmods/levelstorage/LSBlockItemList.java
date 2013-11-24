@@ -11,7 +11,6 @@ import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterChestplate;
 import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterHelmet;
 import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterLeggings;
 import makmods.levelstorage.block.BlockAntimatterStone;
-import makmods.levelstorage.block.BlockCableSuperconductor;
 import makmods.levelstorage.block.BlockChromiteOre;
 import makmods.levelstorage.block.BlockLavaFabricator;
 import makmods.levelstorage.block.BlockMassMelter;
@@ -55,7 +54,6 @@ public class LSBlockItemList {
 	public static BlockXpGenerator blockXpGen;
 	public static BlockWirelessConductor blockWlessConductor;
 	public static BlockWirelessPowerSynchronizer blockWlessPowerSync;
-	public static BlockCableSuperconductor blockSuperconductor;
 	public static BlockMolecularHeater blockMolHeater;
 	public static BlockMulticoreSolarPanel blockMulticoreSolarPanel;
 	public static BlockAntimatterStone blockAntimatterStone;

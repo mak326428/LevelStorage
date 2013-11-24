@@ -12,7 +12,6 @@ public class NEILSConfig implements IConfigureNEI {
     public void loadConfig() {
 		GuiContainerManager.addTooltipHandler(new XPRegistryHandler());
 		GuiContainerManager.addTooltipHandler(new IVRegistryHandler());
-		API.hideItem(LSBlockItemList.blockSuperconductor.blockID);
 		//API.registerRecipeHandler(new XPGeneratorHandler());
 		API.registerUsageHandler(new XPGeneratorHandler());
 		API.registerUsageHandler(new DrillEnhancementHandler());
