@@ -96,8 +96,8 @@ public class XPStackRegistry {
 	}
 
 	public int getStackValue(ItemStack stack) {
-		if (!containsStack(stack))
-			return 0;
+		// if (!containsStack(stack))
+		// return 0;
 		XPStack[] stacks = (XPStack[]) XPStackRegistry.instance.entries
 				.toArray(new XPStack[XPStackRegistry.instance.entries.size()]);
 		for (XPStack xpstack : stacks) {

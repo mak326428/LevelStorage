@@ -7,8 +7,8 @@ import ic2.api.energy.tile.IEnergyTile;
 import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.api.XPStack;
 import makmods.levelstorage.gui.SlotBook;
+import makmods.levelstorage.gui.logicslot.LogicSlot;
 import makmods.levelstorage.item.ItemXPTome;
 import makmods.levelstorage.registry.XPStackRegistry;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +25,7 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
-        IEnergySource, IEnergyStorage, IInventory, IWrenchable, ISidedInventory {
+		IEnergySource, IEnergyStorage, IInventory, IWrenchable, ISidedInventory {
 	public static final int INTERNAL_CAPACITOR = 65536;
 	public static final int INVENTORY_SIZE = 1;
 	public static final String INVENTORY_NAME = "XP Generator";
@@ -33,6 +33,9 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	public int storedEnergy = 0;
 	private boolean addedToENet = false;
 	public static final int PACKET_SIZE = 512;
+
+	public int progress;
+	public int internalEnergyBuffer;
 
 	public TileEntityXpGenerator() {
 		this.inv = new ItemStack[INVENTORY_SIZE];
@@ -154,9 +157,9 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
-		        this.zCoord) == this
-		        && player.getDistanceSq(this.xCoord + 0.5, this.yCoord + 0.5,
-		                this.zCoord + 0.5) < 64;
+				this.zCoord) == this
+				&& player.getDistanceSq(this.xCoord + 0.5, this.yCoord + 0.5,
+						this.zCoord + 0.5) < 64;
 	}
 
 	@Override
@@ -197,7 +200,9 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("storedEnergy", this.storedEnergy);
-
+		par1NBTTagCompound.setInteger("progress", this.progress);
+		par1NBTTagCompound.setInteger("currentItemBuffer",
+				this.internalEnergyBuffer);
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < this.inv.length; i++) {
 			ItemStack stack = this.inv[i];
@@ -215,7 +220,9 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
 		this.storedEnergy = par1NBTTagCompound.getInteger("storedEnergy");
-
+		this.progress = par1NBTTagCompound.getInteger("progress");
+		this.internalEnergyBuffer = par1NBTTagCompound
+				.getInteger("currentItemBuffer");
 		NBTTagList tagList = par1NBTTagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -226,6 +233,38 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 		}
 	}
 
+	public LogicSlot input = new LogicSlot(this, 0);
+
+	public void compensateInternalBuffer() {
+		if (input.get() == null)
+			return;
+		ItemStack stack = input.get();
+		if (stack.getItem() instanceof ItemXPTome) {
+			// Book inside
+			if (ItemXPTome.getStoredXP(this.inv[0]) > XPStackRegistry.XP_EU_CONVERSION
+					.getKey()) {
+				this.internalEnergyBuffer += XPStackRegistry.XP_EU_CONVERSION
+						.getValue();
+				ItemXPTome.increaseStoredXP(this.inv[0],
+						-XPStackRegistry.XP_EU_CONVERSION.getKey());
+			}
+			this.inv[0].setItemDamage(ItemXPTome
+					.calculateDurability(this.inv[0]));
+		} else {
+			// Item inside
+			int value = XPStackRegistry.instance.getStackValue(stack);
+			if (value == 0)
+				return;
+			this.internalEnergyBuffer = XPStackRegistry.XP_EU_CONVERSION
+					.getValue() * value;
+			input.consume(1);
+		}
+	}
+
+	public void generateEnergyFromInternalBuffer() {
+		
+	}
+
 	@Override
 	public void updateEntity() {
 		if (!this.worldObj.isRemote) {
@@ -234,49 +273,13 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 				this.addedToENet = true;
 			}
 			this.isWorking = (!this.worldObj.isBlockIndirectlyGettingPowered(
-			        this.xCoord, this.yCoord, this.zCoord) && this.worldObj
-			        .getBlockPowerInput(this.xCoord, this.yCoord, this.zCoord) < 1);
+					this.xCoord, this.yCoord, this.zCoord) && this.worldObj
+					.getBlockPowerInput(this.xCoord, this.yCoord, this.zCoord) < 1);
 			if (this.isWorking) {
-
-				if (this.inv[0] != null) {
-					if (this.inv[0].getItem() instanceof ItemXPTome) {
-						if (ItemXPTome.getStoredXP(this.inv[0]) > XPStackRegistry.XP_EU_CONVERSION
-						        .getKey()) {
-							if ((this.getCapacity() - this.getStored()) > XPStackRegistry.XP_EU_CONVERSION
-							        .getValue()) {
-								this.addEnergy(XPStackRegistry.XP_EU_CONVERSION
-								        .getValue());
-								ItemXPTome.increaseStoredXP(
-								        this.inv[0],
-								        -XPStackRegistry.XP_EU_CONVERSION
-								                .getKey());
-							}
-						}
-						this.inv[0].setItemDamage(ItemXPTome
-						        .calculateDurability(this.inv[0]));
-					} else {
-						int xp = 0;
-						for (XPStack s : XPStackRegistry.instance.entries) {
-							if (this.inv[0].itemID == s.stack.itemID
-							        && this.inv[0].getItemDamage() == s.stack
-							                .getItemDamage()) {
-								xp = s.value;
-								break;
-							}
-						}
-						if (xp > 0) {
-							int eu = xp
-							        / XPStackRegistry.XP_EU_CONVERSION.getKey()
-							        * XPStackRegistry.XP_EU_CONVERSION
-							                .getValue();
-							if ((this.getCapacity() - this.getStored()) > eu) {
-								this.addEnergy(eu);
-								this.decrStackSize(0, 1);
-							}
-
-						}
-					}
-				}
+				if (this.internalEnergyBuffer == 0)
+					compensateInternalBuffer();
+				if (this.internalEnergyBuffer > 0)
+					generateEnergyFromInternalBuffer();
 			}
 		}
 	}
@@ -286,7 +289,7 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		this.writeToNBT(nbtTag);
 		return new Packet132TileEntityData(this.xCoord, this.yCoord,
-		        this.zCoord, 1, nbtTag);
+				this.zCoord, 1, nbtTag);
 	}
 
 	@Override
@@ -315,27 +318,27 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	}
 
 	@Override
-    public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
-	    return true;
-    }
+	public boolean emitsEnergyTo(TileEntity receiver, ForgeDirection direction) {
+		return true;
+	}
 
 	@Override
-    public double getOutputEnergyUnitsPerTick() {
-	    return 0;
-    }
+	public double getOutputEnergyUnitsPerTick() {
+		return 0;
+	}
 
 	@Override
-    public boolean isTeleporterCompatible(ForgeDirection side) {
-	    return false;
-    }
+	public boolean isTeleporterCompatible(ForgeDirection side) {
+		return false;
+	}
 
 	@Override
-    public double getOfferedEnergy() {
-	    return Math.min(this.storedEnergy, PACKET_SIZE);
-    }
+	public double getOfferedEnergy() {
+		return Math.min(this.storedEnergy, PACKET_SIZE);
+	}
 
 	@Override
-    public void drawEnergy(double amount) {
-	    this.storedEnergy -= amount;
-    }
+	public void drawEnergy(double amount) {
+		this.storedEnergy -= amount;
+	}
 }

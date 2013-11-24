@@ -20,7 +20,7 @@ public class GuiXpGenerator extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
 		// draw text and stuff here
 		// the parameters for drawString are: string, x, y, color
-		this.fontRenderer.drawString("XP Generator", 8, 6, 4210752);
+		//this.fontRenderer.drawString("XP Generator", 8, 6, 4210752);
 		// draws "Inventory" or your regional equivalent
 		this.fontRenderer.drawString(
 		        StatCollector.translateToLocal("container.inventory"), 8,
@@ -36,5 +36,6 @@ public class GuiXpGenerator extends GuiContainer {
 		int x = (this.width - this.xSize) / 2;
 		int y = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
+		
 	}
 }
