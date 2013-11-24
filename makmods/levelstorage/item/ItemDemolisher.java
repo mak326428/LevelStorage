@@ -1,10 +1,11 @@
 package makmods.levelstorage.item;
 
-import java.util.List;
-
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import ic2.api.recipe.Recipes;
+
+import java.util.List;
+
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.init.IHasRecipe;

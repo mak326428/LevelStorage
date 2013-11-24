@@ -2,10 +2,8 @@ package makmods.levelstorage.api;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.logging.Level;
 
 import makmods.levelstorage.logic.util.LogHelper;
-import cpw.mods.fml.common.FMLLog;
 
 /**
  * Used internally, for other APIs. Use at your own risk.

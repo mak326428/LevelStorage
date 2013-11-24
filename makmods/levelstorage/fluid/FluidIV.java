@@ -1,8 +1,6 @@
 package makmods.levelstorage.fluid;
 
-import ic2.api.item.Items;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
 public class FluidIV extends Fluid {
 

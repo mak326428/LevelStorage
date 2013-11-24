@@ -1,9 +1,9 @@
 package makmods.levelstorage.gui.container;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import makmods.levelstorage.gui.container.phantom.PhantomSlot;
 import makmods.levelstorage.iv.IVRegistry;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 
 public class IVSampleSlot extends PhantomSlot {
 

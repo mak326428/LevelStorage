@@ -49,13 +49,12 @@ public class ItemAdvancedScanner extends Item implements IElectricItem, IHasReci
 	public void addCraftingRecipe() {
 
 		ItemStack ovScanner = Items.getItem("ovScanner");
-		ItemStack uum = Items.getItem("matter");
 		ItemStack energyCrystal = Items.getItem("energyCrystal");
 		ItemStack advCircuit = Items.getItem("advancedCircuit");
 		ItemStack glassFiber = Items.getItem("glassFiberCableItem");
 		ItemStack advScanner = new ItemStack(LSBlockItemList.itemAdvScanner);
 		Recipes.advRecipes.addRecipe(advScanner, "ucu", "asa", "ggg",
-		        Character.valueOf('u'), uum, Character.valueOf('g'),
+		        Character.valueOf('u'), advCircuit, Character.valueOf('g'),
 		        glassFiber, Character.valueOf('a'), advCircuit,
 		        Character.valueOf('c'), energyCrystal, Character.valueOf('s'),
 		        ovScanner);

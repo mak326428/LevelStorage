@@ -2,7 +2,6 @@ package makmods.levelstorage.logic.util;
 
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.client.FMLClientHandler;

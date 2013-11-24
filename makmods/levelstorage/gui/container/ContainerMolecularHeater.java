@@ -2,7 +2,6 @@ package makmods.levelstorage.gui.container;
 
 import makmods.levelstorage.gui.SlotChecked;
 import makmods.levelstorage.gui.SlotTakeOnly;
-import makmods.levelstorage.logic.util.GUIHelper;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

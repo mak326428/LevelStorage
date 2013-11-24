@@ -1,13 +1,11 @@
 package makmods.levelstorage.gui.client;
 
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.gui.container.ContainerRockDesintegrator;
 import makmods.levelstorage.logic.util.RenderHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import makmods.levelstorage.tileentity.TileEntityRockDesintegrator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 

@@ -4,7 +4,6 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.gui.client.GUILavaFabricator;
 import makmods.levelstorage.gui.container.ContainerLavaFabricator;
 import makmods.levelstorage.gui.logicslot.LogicSlot;
-import makmods.levelstorage.gui.logicslot.LogicSlot;
 import makmods.levelstorage.tileentity.template.ITEHasGUI;
 import makmods.levelstorage.tileentity.template.TileEntityInventorySinkWithFluid;
 import net.minecraft.client.gui.inventory.GuiContainer;

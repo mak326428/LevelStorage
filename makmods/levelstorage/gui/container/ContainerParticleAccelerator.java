@@ -3,7 +3,6 @@ package makmods.levelstorage.gui.container;
 import makmods.levelstorage.gui.SlotChecked;
 import makmods.levelstorage.gui.container.phantom.ContainerWithPhantomSlots;
 import makmods.levelstorage.init.LSFluids;
-import makmods.levelstorage.iv.IVRegistry;
 import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

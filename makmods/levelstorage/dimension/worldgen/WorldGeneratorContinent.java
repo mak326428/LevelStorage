@@ -2,11 +2,8 @@ package makmods.levelstorage.dimension.worldgen;
 
 import java.util.Random;
 
-import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.logic.util.BlockLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGeneratorContinent implements IWorldGenerator {

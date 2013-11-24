@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
-import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.init.IHasRecipe;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.DrillEnhancementRecipe;

@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.client.render.EnergyRayFX;
-import makmods.levelstorage.client.render.TestParticleFX;
 import makmods.levelstorage.network.PacketLS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;

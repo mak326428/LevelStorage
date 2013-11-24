@@ -1,8 +1,5 @@
 package makmods.levelstorage.block;
 
-import ic2.api.item.Items;
-
-import java.util.ArrayList;
 import java.util.Random;
 
 import makmods.levelstorage.LSCreativeTab;
@@ -21,9 +18,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-
-import com.google.common.collect.Lists;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

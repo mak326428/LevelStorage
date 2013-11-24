@@ -3,7 +3,6 @@ package makmods.levelstorage.block;
 import java.util.Random;
 
 import makmods.levelstorage.LSCreativeTab;
-import makmods.levelstorage.init.RegisterWith;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

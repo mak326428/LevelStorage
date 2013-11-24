@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.dimension.LSDimensions;
 import makmods.levelstorage.registry.SyncType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.EntityLightningBolt;

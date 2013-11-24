@@ -1,6 +1,5 @@
 package makmods.levelstorage.worldgen;
 
-import java.util.List;
 import java.util.Random;
 
 import makmods.levelstorage.LSBlockItemList;
@@ -8,9 +7,6 @@ import makmods.levelstorage.LevelStorage;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-
-import com.google.common.collect.Lists;
-
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class LSWorldGenerator implements IWorldGenerator {

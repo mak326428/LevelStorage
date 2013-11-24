@@ -5,8 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import net.minecraft.item.Item;
-
 /**
  * <p>Tells the ModUniversalInitializer to only register this item/block
  * when a specific mod is installed</p>

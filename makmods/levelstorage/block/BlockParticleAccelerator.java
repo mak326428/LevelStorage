@@ -4,7 +4,6 @@ import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.init.IHasRecipe;
-import makmods.levelstorage.lib.IC2Items;
 import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

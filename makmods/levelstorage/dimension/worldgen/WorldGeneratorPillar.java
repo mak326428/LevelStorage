@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.logic.util.LogHelper;
@@ -18,7 +17,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.IWorldGenerator;
 

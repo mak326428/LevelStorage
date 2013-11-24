@@ -4,7 +4,6 @@ import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.gui.client.GUIRockDesintegrator;
 import makmods.levelstorage.gui.container.ContainerRockDesintegrator;
 import makmods.levelstorage.gui.logicslot.LogicSlot;
-import makmods.levelstorage.gui.logicslot.LogicSlot;
 import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.tileentity.template.ITEHasGUI;
 import makmods.levelstorage.tileentity.template.TileEntityInventorySink;

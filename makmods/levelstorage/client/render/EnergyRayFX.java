@@ -4,15 +4,12 @@ import java.util.List;
 import java.util.Random;
 
 import makmods.levelstorage.logic.LSDamageSource;
-import makmods.levelstorage.logic.util.RenderHelper;
-import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;

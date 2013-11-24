@@ -3,31 +3,25 @@ package makmods.levelstorage;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.google.common.collect.ImmutableList;
-
-import advsolar.api.ASPItemAPI;
-import makmods.levelstorage.api.IVAPI;
 import makmods.levelstorage.armor.ArmorFunctions;
-import makmods.levelstorage.client.render.LSColor;
 import makmods.levelstorage.command.CommandChargeItems;
 import makmods.levelstorage.init.Config;
 import makmods.levelstorage.init.LSIMCHandler;
 import makmods.levelstorage.lib.Reference;
-import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.network.PacketHandler;
 import makmods.levelstorage.proxy.CommonProxy;
 import makmods.levelstorage.proxy.LSKeyboard;
 import makmods.levelstorage.registry.FlightRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.command.ServerCommandManager;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
+
+import com.google.common.collect.ImmutableList;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
