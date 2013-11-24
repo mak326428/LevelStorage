@@ -28,19 +28,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Very, very convenient System for automatic dummyitems-adding. <br />
- * It automatically does all the stuff for you <br />
- * The only thing you need to do is add something like:
- * 
- * <pre>
- * 	<code>
- * 		addItem("textureName", "Name of your item that will be displayed-ingame");
- *  </code>
- * </pre>
- * 
- * to the initItems() method and draw a texture. In order to access created
- * items, just call {@link ItemCraftingIngredients.getIngredient()} passing meta
- * of the item you wanna get. (or via OreDict if you want to)
  * 
  * @author mak326428
  * 

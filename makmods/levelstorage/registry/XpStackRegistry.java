@@ -39,16 +39,6 @@ public class XPStackRegistry {
 
 	public static final int ORE_DICT_NOT_FOUND = -1;
 
-	public static ArrayList<ISimpleRecipeParser> parsers = Lists.newArrayList();
-
-	static {
-		parsers.add(new CraftingRecipesParser());
-		parsers.add(new FurnaceRecipesParser());
-		parsers.add(new IC2MachineRecipeParser(Recipes.compressor));
-		parsers.add(new IC2MachineRecipeParser(Recipes.extractor));
-		parsers.add(new IC2MachineRecipeParser(Recipes.macerator));
-	}
-
 	public void initCriticalNodes() {
 		if (LevelStorage.configuration.get(LevelStorage.BALANCE_CATEGORY,
 				"addCopperTinToBronzeCraftingRecipe", true).getBoolean(true)) {
@@ -95,30 +85,6 @@ public class XPStackRegistry {
 			this.pushOreToRegistry("dustTinyPlatinum", 512);
 			this.pushOreToRegistry("dustPlutonium", 1536);
 			this.pushOreToRegistry("dustTinyPlutonium", 1536 / 4);
-		}
-
-		for (ISimpleRecipeParser parser : parsers)
-			parser.parse();
-		while (true) {
-			int parsed = 0;
-			for (ISimpleRecipeParser parser : parsers)
-				parsed += parser.parse();
-			if (parsed == 0)
-				break;
-		}
-
-		while (true) {
-			int parsed = 0;
-			for (ISimpleRecipeParser parser : parsers)
-				parsed += parser.parse();
-			if (parsed == 0)
-				break;
-		}
-		for (int i = 0; i < 64; i++) {
-			int parsed = 0;
-			for (ISimpleRecipeParser parser : parsers)
-				parsed += parser.parse();
-			//System.out.println("Parsed: " + parsed);
 		}
 
 		// this.pushOreToRegistry("dustDiamond", 512);
