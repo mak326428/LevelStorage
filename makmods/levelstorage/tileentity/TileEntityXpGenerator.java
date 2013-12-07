@@ -203,6 +203,7 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 		par1NBTTagCompound.setInteger("progress", this.progress);
 		par1NBTTagCompound.setInteger("currentItemBuffer",
 				this.internalEnergyBuffer);
+		par1NBTTagCompound.setInteger("maxProgress", this.maxProgress);
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < this.inv.length; i++) {
 			ItemStack stack = this.inv[i];
@@ -223,6 +224,7 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 		this.progress = par1NBTTagCompound.getInteger("progress");
 		this.internalEnergyBuffer = par1NBTTagCompound
 				.getInteger("currentItemBuffer");
+		this.maxProgress = par1NBTTagCompound.getInteger("maxProgress");
 		NBTTagList tagList = par1NBTTagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -234,6 +236,7 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 	}
 
 	public LogicSlot input = new LogicSlot(this, 0);
+	public int maxProgress = 0;
 
 	public void compensateInternalBuffer() {
 		if (input.get() == null)
@@ -247,6 +250,8 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 						.getValue();
 				ItemXPTome.increaseStoredXP(this.inv[0],
 						-XPStackRegistry.XP_EU_CONVERSION.getKey());
+				maxProgress = 1 * XPStackRegistry.XP_EU_CONVERSION
+						.getValue();
 			}
 			this.inv[0].setItemDamage(ItemXPTome
 					.calculateDurability(this.inv[0]));
@@ -257,12 +262,19 @@ public class TileEntityXpGenerator extends TileEntity implements IEnergyTile,
 				return;
 			this.internalEnergyBuffer = XPStackRegistry.XP_EU_CONVERSION
 					.getValue() * value;
+			maxProgress = XPStackRegistry.XP_EU_CONVERSION.getValue() * value;
 			input.consume(1);
 		}
 	}
+	
+	public static final int MAX_BUFFER = 10000;
 
 	public void generateEnergyFromInternalBuffer() {
-		
+		// TODO: add fixed EU/t, etc. Would be quite easy to do that way
+		if ((this.storedEnergy + this.internalEnergyBuffer) <= MAX_BUFFER) {
+			this.storedEnergy += this.internalEnergyBuffer;
+			this.internalEnergyBuffer = 0;
+		}
 	}
 
 	@Override

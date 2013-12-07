@@ -18,6 +18,7 @@ tile.blockCombustibleGenerator.name=Combustible Generator
 tile.blockMassMelter.name=Mass Melter
 tile.blockMicroStar.name=Micro Star
 tile.fusionGlass.name=Fusion Glass
+tile.blockIVGenerator.name=IV Generator
 # simple items (crafting ingredients)
 dustTinyOsmium.name=Tiny Pile of Osmium Dust
 dustOsmium.name=Osmium Dust
