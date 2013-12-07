@@ -1,6 +1,5 @@
 package makmods.levelstorage.compat.nei;
 
-import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.lib.Reference;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
@@ -13,7 +12,6 @@ public class NEILSConfig implements IConfigureNEI {
 		GuiContainerManager.addTooltipHandler(new XPRegistryHandler());
 		GuiContainerManager.addTooltipHandler(new IVRegistryHandler());
 		//API.registerRecipeHandler(new XPGeneratorHandler());
-		API.registerUsageHandler(new XPGeneratorHandler());
 		API.registerUsageHandler(new DrillEnhancementHandler());
 		API.registerRecipeHandler(new DrillEnhancementHandler());
     }

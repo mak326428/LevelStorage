@@ -22,7 +22,6 @@ import makmods.levelstorage.block.BlockRockDesintegrator;
 import makmods.levelstorage.block.BlockUnstableQuartz;
 import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
-import makmods.levelstorage.block.BlockXpGenerator;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.ItemAdvancedScanner;
 import makmods.levelstorage.item.ItemAtomicDisassembler;
@@ -52,7 +51,6 @@ import makmods.levelstorage.item.ItemXPTome;
  * 
  */
 public class LSBlockItemList {
-	public static BlockXpGenerator blockXpGen;
 	public static BlockWirelessConductor blockWlessConductor;
 	public static BlockWirelessPowerSynchronizer blockWlessPowerSync;
 	public static BlockMolecularHeater blockMolHeater;

@@ -3,15 +3,12 @@ package makmods.levelstorage.proxy;
 import makmods.levelstorage.gui.client.GuiMolecularHeater;
 import makmods.levelstorage.gui.client.GuiWirelessConductor;
 import makmods.levelstorage.gui.client.GuiWirelessPowerSync;
-import makmods.levelstorage.gui.client.GuiXpGenerator;
 import makmods.levelstorage.gui.container.ContainerMolecularHeater;
 import makmods.levelstorage.gui.container.ContainerPowerSync;
 import makmods.levelstorage.gui.container.ContainerWirelessConductor;
-import makmods.levelstorage.gui.container.ContainerXpGenerator;
 import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
-import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import makmods.levelstorage.tileentity.template.ITEHasGUI;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -25,9 +22,6 @@ public class LSGUIHandler implements IGuiHandler {
 	public Object getServerGuiElement(int id, EntityPlayer player, World world,
 	        int x, int y, int z) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof TileEntityXpGenerator)
-			return new ContainerXpGenerator(player.inventory,
-			        (TileEntityXpGenerator) tileEntity);
 		if (tileEntity instanceof TileEntityWirelessConductor)
 			return new ContainerWirelessConductor(player.inventory,
 			        (TileEntityWirelessConductor) tileEntity);
@@ -47,9 +41,6 @@ public class LSGUIHandler implements IGuiHandler {
 	public Object getClientGuiElement(int id, EntityPlayer player, World world,
 	        int x, int y, int z) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof TileEntityXpGenerator)
-			return new GuiXpGenerator(player.inventory,
-			        (TileEntityXpGenerator) tileEntity);
 		if (tileEntity instanceof TileEntityWirelessConductor)
 			return new GuiWirelessConductor(player.inventory,
 			        (TileEntityWirelessConductor) tileEntity);

@@ -13,7 +13,6 @@ import makmods.levelstorage.tileentity.TileEntityRockDesintegrator;
 import makmods.levelstorage.tileentity.TileEntitySuperconductorCable;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
-import makmods.levelstorage.tileentity.TileEntityXpGenerator;
 import net.minecraft.tileentity.TileEntity;
 
 import com.google.common.collect.Maps;
@@ -34,7 +33,6 @@ public class ModTileEntities {
 			.newHashMap();
 
 	static {
-		tileEntities.put(TileEntityXpGenerator.class, "tileXpGenerator");
 		// /tileEntities.put(TileEntityXpCharger.class, "tileXpCharger");
 		tileEntities.put(TileEntityWirelessPowerSynchronizer.class,
 				"tileWirelessPowerSync");
