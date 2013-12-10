@@ -18,6 +18,10 @@ tile.blockChromiteOre.name=铬矿石
 tile.blockUnstableQuartz.name=不稳定石英
 tile.blockRockDesintegrator.name=造石机
 tile.blockLavaFabricator.name=岩浆制造机
+tile.blockCombustibleGenerator.name=燃烧发电机
+tile.blockMicroStar.name=微星
+tile.fusionGlass.name=聚变玻璃
+tile.blockIVGenerator.name=IV发电机
 # simple items (crafting ingredients)
 dustTinyOsmium.name=小撮锇粉
 dustOsmium.name=锇粉
