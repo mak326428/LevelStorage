@@ -6,7 +6,7 @@ tile.blockXpCharger.name=XP灌注机
 tile.blockWlessConductor.name=无线电力传导器
 tile.blockWlessPowerSync.name=无线能量同步器
 tile.blockSuperconductor.name=超导体
-tile.blockMassMelter.name=物质灌注机
+tile.blockMassMelter.name=质量熔炼机
 tile.blockAdvMiner.name=高级采矿机
 tile.blockMolHeater.name=分子加热器
 tile.blockAtomicReplicator.name=原子复制机
@@ -48,13 +48,14 @@ dimension.antimatterUniverse.name=反物质宇宙
 # items
 item.itemLevelStorageBook.name=XP书
 item.itemAdvScanner.name=高级矿物扫描仪
+item.itemAtomicDisassembler.name=原子燧石
 item.itemFreqCard.name=频率卡片
 item.itemCompactTeleporter.name=便携传送机
 item.itemEnhDiamondDrill.name=强化钻石钻头
 item.itemPocketRefrigerant.name=便携冷冻剂
 item.itemLevitationBoots.name=悬空靴子
 item.itemSupersonicLeggings.name=超音护腿
-item.itemArmorForcefieldChestplate.name=力场护甲
+item.itemArmorEnergeticChestplate.name=力场护甲
 item.itemArmorTeslaHelmet.name=特斯拉头盔
 item.itemSuperconductor.name=超导体线缆
 item.itemStorageFourtyMillion.name=充能富集物质球
@@ -84,7 +85,7 @@ other.true=是
 other.false=否
 other.wip=[未完成]
 other.energyHUD=能量等级(护甲):
-other.drillEnhancementRecipeNEI=钻孔增强
+other.drillEnhancementRecipeNEI=电钻附魔
 # creative tab(s)
 itemGroup.levelstorage=等级存储
 # chat messages
