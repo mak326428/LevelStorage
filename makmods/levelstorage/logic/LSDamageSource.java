@@ -15,7 +15,7 @@ public class LSDamageSource extends DamageSource {
 	public static DamageSource forcefieldArmorInstaKill = (DamageSource) ((new LSDamageSource(
 	        "player"))).setDamageBypassesArmor();
 	public static DamageSource teslaRay = (DamageSource) ((new LSDamageSource(
-	        "teslaHelmetKill"))).setDamageBypassesArmor();
+	        "teslaHelmetKill")));
 	public static DamageSource disassembled = (DamageSource) ((new LSDamageSource(
 	        "disassemble"))).setDamageBypassesArmor();
 	

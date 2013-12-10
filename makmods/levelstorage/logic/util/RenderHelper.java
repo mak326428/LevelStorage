@@ -1,9 +1,12 @@
 package makmods.levelstorage.logic.util;
 
 import makmods.levelstorage.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidTank;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class RenderHelper {
@@ -18,6 +21,61 @@ public class RenderHelper {
 
 	public static void bindSingleSlotGUI() {
 		bindTexture(ClientProxy.GUI_SINGLE_SLOT);
+	}
+
+	private static int gaugeLiquidScaled(int i, FluidTank tank) {
+		if (tank.getFluidAmount() <= 0)
+			return 0;
+
+		return tank.getFluidAmount() * i / tank.getCapacity();
+	}
+
+	public static void renderTank(FluidTank tank, int xGUI, int yGUI, int x,
+			int y, int gaugedLiquid) {
+		RenderHelper.bindTexture(ClientProxy.GUI_ELEMENTS);
+		// background
+		drawTexturedModalRect(xGUI + x, yGUI + y, 0, 0, 18, 62);
+		// liquid
+		if (tank.getFluidAmount() > 0) {
+			Icon fluidIcon = tank.getFluid().getFluid().getIcon();
+
+			if (fluidIcon != null) {
+				Minecraft.getMinecraft().renderEngine
+						.bindTexture(TextureMap.locationBlocksTexture);
+				int liquidHeight = gaugeLiquidScaled(60, tank);
+				RenderHelper.drawFluidWise(fluidIcon, xGUI + x + 1, yGUI + y + 60 + 1
+						- liquidHeight, 16.0D, liquidHeight, zLevel);
+			}
+		}
+		RenderHelper.bindTexture(ClientProxy.GUI_ELEMENTS);
+		// gauge
+		drawTexturedModalRect(xGUI + x, yGUI + y, 18, 0, 18, 62);
+	}
+
+	private static double zLevel = 0.0D;
+
+	public static void drawTexturedModalRect(int par1, int par2, int par3,
+			int par4, int par5, int par6) {
+		float f = 0.00390625F;
+		float f1 = 0.00390625F;
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV((double) (par1 + 0),
+				(double) (par2 + par6), (double) zLevel,
+				(double) ((float) (par3 + 0) * f),
+				(double) ((float) (par4 + par6) * f1));
+		tessellator.addVertexWithUV((double) (par1 + par5),
+				(double) (par2 + par6), (double) zLevel,
+				(double) ((float) (par3 + par5) * f),
+				(double) ((float) (par4 + par6) * f1));
+		tessellator.addVertexWithUV((double) (par1 + par5),
+				(double) (par2 + 0), (double) zLevel,
+				(double) ((float) (par3 + par5) * f),
+				(double) ((float) (par4 + 0) * f1));
+		tessellator.addVertexWithUV((double) (par1 + 0), (double) (par2 + 0),
+				(double) zLevel, (double) ((float) (par3 + 0) * f),
+				(double) ((float) (par4 + 0) * f1));
+		tessellator.draw();
 	}
 
 	public static void drawFluidWise(Icon icon, double x, double y,
@@ -57,7 +115,8 @@ public class RenderHelper {
 	public static void renderIcon(Icon icon, double xStart, double yStart,
 			double xEnd, double yEnd, double z, float nx, float ny, float nz) {
 		if (icon == null) {
-			LogHelper.severe("[RenderHelper] renderIcon: icon is null, that's a bug!");
+			LogHelper
+					.severe("[RenderHelper] renderIcon: icon is null, that's a bug!");
 			return;
 		}
 

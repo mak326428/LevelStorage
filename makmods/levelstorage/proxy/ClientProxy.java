@@ -55,6 +55,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String ANTIMATTER_CHESTPLATE_TEXTURE = getTexturePathFor("itemArmorAntimatterChestplate");
 	public static final String ANTIMATTER_LEGGINGS_TEXTURE = getTexturePathFor("itemArmorAntimatterLeggings");
 	public static final String ANTIMATTER_BOOTS_TEXTURE = getTexturePathFor("itemArmorAntimatterBoots");
+	public static final String GAUSS_GUN_TEXTURE = getTexturePathFor("itemGaussGun");
 
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");
@@ -95,7 +96,7 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_LAVA_FABRICATOR = getResourceLocation("gui/lavaFab.png");
 	public static final ResourceLocation GUI_COMBUSTIBLE_GENERATOR = getResourceLocation("gui/combustibleGenerator.png");
 	public static final ResourceLocation GUI_MASS_MELTER = getResourceLocation("gui/massMelter.png");
-
+	public static final ResourceLocation GUI_ELEMENTS = getResourceLocation("gui/elements.png");
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");

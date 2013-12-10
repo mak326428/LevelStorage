@@ -55,20 +55,8 @@ public class GUIParticleAccelerator extends GuiContainer {
 			modeButton.itemStack = MATTER_DISPLAY;
 			break;
 		}
-		if (this.tileEntity.getFluidTank().getFluidAmount() > 0) {
-			Icon fluidIcon = this.tileEntity.getFluidTank().getFluid()
-					.getFluid().getIcon();
-
-			if (fluidIcon != null) {
-				this.mc.renderEngine
-						.bindTexture(TextureMap.locationBlocksTexture);
-				int liquidHeight = this.tileEntity.gaugeLiquidScaled(60);
-				RenderHelper.drawFluidWise(fluidIcon, x + 152, y + 9 + 60
-						- liquidHeight, 16.0D, liquidHeight, this.zLevel);
-			}
-		}
+		RenderHelper.renderTank(this.tileEntity.getFluidTank(), x, y, 152, 9, tileEntity.gaugeLiquidScaled(60));
 		RenderHelper.bindTexture(ClientProxy.GUI_PARTICLE_ACCELERATOR);
-		drawTexturedModalRect(x + 151, y + 8, 176, 0, 16, 60);
 		int l = tileEntity.gaugeEnergyScaled(14);
 		if (l > 0)
 			drawTexturedModalRect(x + 82, y + 63 + 14 - l, 176, 152 + 14 - l,

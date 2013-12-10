@@ -173,7 +173,6 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 		        player, itemStack, world);
 		ArmorFunctions.helmetFunctions(world, player, itemStack,
 		        ItemArmorTeslaHelmet.RAY_COST,
-		        ItemArmorTeslaHelmet.ENTITY_HIT_COST,
 		        ItemArmorTeslaHelmet.FOOD_COST);
 		ArmorFunctions.jumpBooster(world, player, itemStack);
 		ArmorFunctions.speedUp(player, itemStack);

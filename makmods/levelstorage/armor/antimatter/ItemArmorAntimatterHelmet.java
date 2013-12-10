@@ -64,7 +64,7 @@ public class ItemArmorAntimatterHelmet extends ItemArmorAntimatterBase
 				"pep", 'p', SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM
 						.getItemStack(), 'e', new ItemStack(
 						LSBlockItemList.itemStorageFourtyMillion), 'a',
-				new ItemStack(LSBlockItemList.itemArmorEnergeticChestplate),
+				new ItemStack(LSBlockItemList.itemArmorTeslaHelmet),
 				'c', new ItemStack(LSBlockItemList.blockMulticoreSolarPanel));
 	}
 }

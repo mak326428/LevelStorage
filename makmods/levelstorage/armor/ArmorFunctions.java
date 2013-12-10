@@ -15,6 +15,7 @@ import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.LSDamageSource;
 import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.logic.util.CommonHelper;
+import makmods.levelstorage.logic.util.EntityUtil;
 import makmods.levelstorage.network.packet.PacketTeslaRay;
 import makmods.levelstorage.network.packet.PacketTypeHandler;
 import makmods.levelstorage.proxy.LSKeyboard;
@@ -99,8 +100,11 @@ public class ArmorFunctions {
 			if (ElectricItem.manager.canUse(armor,
 					ItemArmorAntimatterBase.EU_PER_TICK_WATERWALK)) {
 				if (!world.isRemote)
-					ElectricItem.manager.use(armor, ItemArmorAntimatterBase.EU_PER_TICK_WATERWALK, player);
-				player.motionY = 0;
+					ElectricItem.manager.use(armor,
+							ItemArmorAntimatterBase.EU_PER_TICK_WATERWALK,
+							player);
+				if (player.motionY > 0)
+					player.motionY = 0;
 			}
 		}
 	}
@@ -132,91 +136,28 @@ public class ArmorFunctions {
 	}
 
 	public static void helmetFunctions(World world, EntityPlayer player,
-			ItemStack itemStack, int RAY_COST, int ENTITY_HIT_COST,
+			ItemStack itemStack, int RAY_COST,
 			int FOOD_COST) {
 		if (LSKeyboard.getInstance().isKeyDown(player,
 				LSKeyboard.RAY_SHOOT_KEY_NAME)
 				&& !player.isSneaking()) {
 			if (ElectricItem.manager.canUse(itemStack, RAY_COST)) {
-				if (!world.isRemote)
-					ElectricItem.manager.use(itemStack, RAY_COST, player);
-				int x = 0, y = 0, z = 0;
-				MovingObjectPosition mop = getMovingObjectPositionFromPlayer(
-						world, player, true);
-				if (mop != null && mop.typeOfHit == EnumMovingObjectType.TILE) {
-					float xOff = (float) (mop.blockX - player.posX);
-					float yOff = (float) (mop.blockY - player.posY);
-					float zOff = (float) (mop.blockZ - player.posZ);
-					x = mop.blockX;
-					y = mop.blockY;
-					z = mop.blockZ;
-
-					// EnergyRayFX p = new EnergyRayFX(world, player.posX,
-					// player.posY, player.posZ, x, y, z, 48, 141, 255, 40);
-					if (!world.isRemote) {
-						PacketTeslaRay packet = new PacketTeslaRay();
-						packet.initX = player.posX;
-						packet.initY = player.posY + 1.6f;
-						packet.initZ = player.posZ;
-						packet.tX = x;
-						packet.tY = y;
-						packet.tZ = z;
-						TeslaRayEvent tre = new TeslaRayEvent(world, player,
-								packet.initX, packet.initY, packet.initZ,
-								packet.tX, packet.tY, packet.tZ);
-						MinecraftForge.EVENT_BUS.post(tre);
-						if (!tre.isCanceled()) {
-							packet.initX = tre.getInitX();
-							packet.initY = tre.getInitY();
-							packet.initZ = tre.getInitZ();
-							packet.tX = tre.getTargetX();
-							packet.tY = tre.getTargetY();
-							packet.tZ = tre.getTargetZ();
-							PacketDispatcher.sendPacketToAllAround(player.posX,
-									player.posY, player.posZ, 128.0F,
-									world.provider.dimensionId,
-									PacketTypeHandler.populatePacket(packet));
-							ArrayList<Object> entities = new ArrayList<Object>();
-							for (Object e : world.loadedEntityList) {
-								if (!(e instanceof EntityPlayer)) {
-									double distanceX = Math
-											.abs(((Entity) e).posX - x);
-									double distanceY = Math
-											.abs(((Entity) e).posY - y);
-									double distanceZ = Math
-											.abs(((Entity) e).posZ - z);
-									if ((distanceX + distanceY + distanceZ) < 4.0F) {
-										entities.add(e);
-									}
-								}
-							}
-							if (entities.size() == 0) {
-								if (new Random().nextBoolean()) {
-									if (ElectricItem.manager.canUse(itemStack,
-											ENTITY_HIT_COST)) {
-										ElectricItem.manager.use(itemStack,
-												ENTITY_HIT_COST, player);
-										CommonHelper.spawnLightning(world, x,
-												y, z, false);
-									}
-								}
-							}
-							for (Object obj : entities) {
-								if (ElectricItem.manager.canUse(itemStack,
-										ENTITY_HIT_COST)) {
-									ElectricItem.manager.use(itemStack,
-											ENTITY_HIT_COST, player);
-									((Entity) obj).attackEntityFrom(
-											LSDamageSource.teslaRay,
-											20 + new Random().nextInt(15));
-								}
-
-							}
-						}
+				if (!world.isRemote) {
+					Entity toShoot = EntityUtil.getTarget(world, player, 128);
+					if (toShoot != null) {
+						ElectricItem.manager.use(itemStack, RAY_COST, player);
+						PacketTeslaRay.issue(player.posX, player.posY + 1.6,
+								player.posZ, toShoot.posX, toShoot.posY,
+								toShoot.posZ);
+						toShoot.attackEntityFrom(LSDamageSource.teslaRay,
+								world.rand.nextInt(5) + world.rand.nextInt(6)
+										+ world.rand.nextInt(12) + 2);
 					}
 				}
+
 			}
 		}
+
 		if (!world.isRemote) {
 			if (player.getFoodStats().getFoodLevel() < 18) {
 				if (ElectricItem.manager.canUse(itemStack, FOOD_COST)) {

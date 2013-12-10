@@ -32,6 +32,7 @@ import makmods.levelstorage.item.ItemElectricSickle;
 import makmods.levelstorage.item.ItemEnergeticEnrichedMatterOrb;
 import makmods.levelstorage.item.ItemEnhancedDiamondDrill;
 import makmods.levelstorage.item.ItemFrequencyCard;
+import makmods.levelstorage.item.ItemGaussGun;
 import makmods.levelstorage.item.ItemPocketRefrigerant;
 import makmods.levelstorage.item.ItemPortableTeleporter;
 import makmods.levelstorage.item.ItemQuantumRing;
@@ -89,4 +90,5 @@ public class LSBlockItemList {
 	public static ItemArmorAntimatterChestplate itemArmorAntimatterChestplate;
 	public static ItemArmorAntimatterHelmet itemArmorAntimatterHelmet;
 	public static BlockIVGenerator blockIVGenerator;
+	public static ItemGaussGun itemGaussGun;
 }

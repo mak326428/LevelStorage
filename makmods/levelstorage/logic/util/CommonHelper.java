@@ -17,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.collect.Lists;
 
@@ -42,6 +43,15 @@ public class CommonHelper {
 		return (s1.itemID == s2.itemID)
 				&& (s1.getItemDamage() == s2.getItemDamage())
 				&& (s1.stackSize == s2.stackSize);
+	}
+	
+	public static boolean areStacksEqual(ItemStack first, ItemStack second) {
+		if (first == null || second == null)
+			return false;
+		return first.itemID == second.itemID
+				&& (first.getItemDamage() == second.getItemDamage()
+						|| first.getItemDamage() == OreDictionary.WILDCARD_VALUE || second
+						.getItemDamage() == OreDictionary.WILDCARD_VALUE);
 	}
 	
 	public static ItemStack createEnchantedBook(Enchantment ench, int level) {
@@ -229,6 +239,24 @@ public class CommonHelper {
 		}
 		w.spawnEntityInWorld(lightning);
 
+	}
+	
+	public static String getStackNameNoStackSize(ItemStack stack) {
+		StringBuilder sb = new StringBuilder();
+		if (stack == null) {
+			sb.append("Nothing");
+			return sb.toString();
+		}
+		String name = stack.getDisplayName();
+		if (name.endsWith(".name")) {
+			if (FMLCommonHandler.instance().getSide().isClient())
+				sb.append(LanguageRegistry.instance().getStringLocalization(
+						name));
+			else
+				sb.append(name);
+		} else
+			sb.append(stack.getDisplayName());
+		return sb.toString();
 	}
 
 	public static String getNiceStackName(ItemStack stack) {

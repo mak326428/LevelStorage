@@ -35,7 +35,7 @@ public class IVRegistry {
 	public static final int NOT_FOUND = -1;
 	public List<IVItemStackEntry> itemStackEntries = Lists.newArrayList();
 	public List<IVOreDictEntry> oreDictEntries = Lists.newArrayList();
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	/**
 	 * Key - IV <br />
@@ -139,8 +139,7 @@ public class IVRegistry {
 		assign(new ItemStack(Block.oreCoal), 128);
 		assign(new ItemStack(Item.coal), 128);
 		assign(new ItemStack(Item.coal, 1, 1), 32);
-		assign(new ItemStack(Block.wood, 1,
-				OreDictionary.WILDCARD_VALUE), 32);
+		assign(new ItemStack(Block.wood, 1, OreDictionary.WILDCARD_VALUE), 32);
 		assign(new ItemStack(Item.ingotGold), 2048);
 		assign(new ItemStack(Item.redstone), 64);
 		assign(new ItemStack(Block.stone), 1);
@@ -175,6 +174,7 @@ public class IVRegistry {
 		assign(new ItemStack(Item.gunpowder), 192);
 		assign(new ItemStack(Block.cobblestone), 1);
 		assign(new ItemStack(Block.netherrack), 1);
+		assign(Items.getItem("industrialDiamond"), 8192);
 		assign(Items.getItem("smallUran235"), 1024);
 		assign(Items.getItem("Uran238"), 204);
 		if (LevelStorage.configuration.get(LevelStorage.BALANCE_CATEGORY,
@@ -198,16 +198,20 @@ public class IVRegistry {
 		if (Loader.isModLoaded("AdvancedSolarPanel"))
 			IVCrossMod.addASPValues();
 	}
-	
+
 	public void assign(Object obj, int value) {
 		if (obj instanceof ItemStack)
-			assignItemStack((ItemStack)obj, value);
+			assignItemStack((ItemStack) obj, value);
 		else if (obj instanceof String)
-			assignOreDictionary((String)obj, value);
+			assignOreDictionary((String) obj, value);
 		else if (obj instanceof Item)
-			assignItemStack(new ItemStack((Item)obj), value);
+			assignItemStack(new ItemStack((Item) obj), value);
 		else if (obj instanceof Block)
-			assignItemStack(new ItemStack((Block)obj), value);
+			assignItemStack(new ItemStack((Block) obj), value);
+		else
+			throw new RuntimeException(
+					"IVRegistry.assign() - obj's type is incorrect ("
+							+ obj.getClass().getCanonicalName() + ")");
 	}
 
 	public void assign(Block item, int value) {

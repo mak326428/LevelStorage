@@ -10,6 +10,7 @@ import makmods.levelstorage.network.PacketLS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,6 +26,19 @@ public class PacketTeslaRay extends PacketLS {
 
 	public PacketTeslaRay() {
 		super(PacketTypeHandler.PACKET_TESLA_RAY, false);
+	}
+
+	public static void issue(double x, double y, double z, double tX,
+			double tY, double tZ) {
+		PacketTeslaRay ptr = new PacketTeslaRay();
+		ptr.initX = x;
+		ptr.initY = y;
+		ptr.initZ = z;
+		ptr.tX = tX;
+		ptr.tY = tY;
+		ptr.tZ = tZ;
+		PacketDispatcher.sendPacketToAllPlayers(PacketTypeHandler
+				.populatePacket(ptr));
 	}
 
 	@Override
@@ -53,7 +67,7 @@ public class PacketTeslaRay extends PacketLS {
 		if (LevelStorage.getSide().isClient()) {
 			EntityPlayer p = (EntityPlayer) player;
 			EnergyRayFX pe = new EnergyRayFX(p.worldObj, initX, initY, initZ,
-			        tX, tY, tZ, 48, 141, 255, 40);
+					tX, tY, tZ, 48, 141, 255, 40);
 			Minecraft.getMinecraft().effectRenderer.addEffect(pe);
 		}
 	}

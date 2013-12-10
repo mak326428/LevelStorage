@@ -27,10 +27,10 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMulticoreSolarPanel extends BlockContainer implements IHasRecipe {
+public class BlockMulticoreSolarPanel extends BlockMachineStandart implements IHasRecipe {
 
 	public BlockMulticoreSolarPanel(int id) {
-		super(id, Material.iron);
+		super(id);
 		if (FMLCommonHandler.instance().getSide().isClient()) {
 			this.setCreativeTab(LSCreativeTab.instance);
 		}
@@ -66,37 +66,6 @@ public class BlockMulticoreSolarPanel extends BlockContainer implements IHasReci
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-	}
-
-	@Override
-	public int idDropped(int par1, Random par2Random, int par3) {
-		return LSBlockItemList.blockMulticoreSolarPanel.blockID;
-	}
-
-	@Override
-	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
-		CommonHelper.dropBlockItems(world, x, y, z);
-		super.breakBlock(world, x, y, z, par5, par6);
-	}
-
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		return CommonHelper.handleMachineRightclick(world, x, y, z, player);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public Icon getIcon(int side, int par2) {
-		return BlockTextureRegistry.instance.getIcon(side,
-				ClientProxy.MULTICORE_SOLAR_PANEL_TEXTURE);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister iconRegister) {
-		BlockTextureRegistry.instance.registerIcons(iconRegister,
-				ClientProxy.MULTICORE_SOLAR_PANEL_TEXTURE);
 	}
 
 	@Override

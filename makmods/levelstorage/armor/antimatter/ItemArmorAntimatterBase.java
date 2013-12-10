@@ -67,7 +67,6 @@ public class ItemArmorAntimatterBase extends ItemArmor implements
 		else if (this.armorType == HELMET) {
 			ArmorFunctions.helmetFunctions(world, player, itemStack,
 					ItemArmorTeslaHelmet.RAY_COST,
-					ItemArmorTeslaHelmet.ENTITY_HIT_COST,
 					ItemArmorTeslaHelmet.FOOD_COST);
 		}
 	}
@@ -80,9 +79,6 @@ public class ItemArmorAntimatterBase extends ItemArmor implements
 
 	public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player,
 			ItemStack armor, DamageSource source, double damage, int slot) {
-		if (source.isUnblockable())
-			return new ISpecialArmor.ArmorProperties(0, 0.0D, 0);
-
 		double absorptionRatio = getBaseAbsorptionRatio()
 				* getDamageAbsorptionRatio();
 		int energyPerDamage = ENERGY_PER_DAMAGE;
