@@ -55,7 +55,7 @@ public class GUIParticleAccelerator extends GuiContainer {
 			modeButton.itemStack = MATTER_DISPLAY;
 			break;
 		}
-		RenderHelper.renderTank(this.tileEntity.getFluidTank(), x, y, 152, 9, tileEntity.gaugeLiquidScaled(60));
+		RenderHelper.renderTank(this.tileEntity.getFluidTank(), x, y, 152, 9);
 		RenderHelper.bindTexture(ClientProxy.GUI_PARTICLE_ACCELERATOR);
 		int l = tileEntity.gaugeEnergyScaled(14);
 		if (l > 0)

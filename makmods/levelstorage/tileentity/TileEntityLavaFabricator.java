@@ -23,7 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class TileEntityLavaFabricator extends TileEntityInventorySinkWithFluid
 		implements ITEHasGUI, ISidedInventory {
 
-	public static final int EU_PER_LAVA_MB = 25;
+	public static final int EU_PER_LAVA_MB = 35; // multiply by thousand and get amount of EU needed for 1 bucket
 
 	public LogicSlot fluidInput;
 	public LogicSlot fluidOutput;

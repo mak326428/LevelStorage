@@ -55,31 +55,8 @@ public class GUIMassMelter extends GuiContainer {
 
 		int xOffset = x;
 		int yOffset = y;
-
-		if (this.tileEntity.getFluidTank().getFluidAmount() > 0) {
-			Icon fluidIcon = this.tileEntity.getFluidTank().getFluid()
-					.getFluid().getIcon();
-
-			if (fluidIcon != null) {
-				// drawTexturedModalRect(xOffset + 106, yOffset + 22, 176, 0,
-				// 20,
-				// 55);
-
-				this.mc.renderEngine
-						.bindTexture(TextureMap.locationBlocksTexture);
-				int liquidHeight = this.tileEntity.gaugeLiquidScaled(60);
-				RenderHelper.drawFluidWise(fluidIcon, xOffset + 152, yOffset
-						+ 9 + 60 - liquidHeight, 16.0D, liquidHeight,
-						this.zLevel);
-
-				// this.mc.renderEngine.bindTexture(background);
-				// drawTexturedModalRect(xOffset + 110, yOffset + 26, 176, 55,
-				// 12,
-				// 47);
-			}
-		}
+		RenderHelper.renderTank(this.tileEntity.getFluidTank(), xOffset, yOffset, 152, 9);
 		RenderHelper.bindTexture(ClientProxy.GUI_MASS_MELTER);
-		drawTexturedModalRect(x + 151, y + 8, 176, 0, 16, 60);
 
 		int l = tileEntity.gaugeEnergyScaled(14);
 		if (l > 0)

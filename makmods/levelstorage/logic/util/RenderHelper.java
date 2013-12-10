@@ -30,11 +30,13 @@ public class RenderHelper {
 		return tank.getFluidAmount() * i / tank.getCapacity();
 	}
 
-	public static void renderTank(FluidTank tank, int xGUI, int yGUI, int x,
-			int y, int gaugedLiquid) {
+	public static void renderTank(FluidTank tank, int xOffset, int yOffset, int x,
+			int y) {
+		xOffset -= 1;
+		yOffset -= 1;
 		RenderHelper.bindTexture(ClientProxy.GUI_ELEMENTS);
 		// background
-		drawTexturedModalRect(xGUI + x, yGUI + y, 0, 0, 18, 62);
+		drawTexturedModalRect(xOffset + x, yOffset + y, 0, 0, 18, 62);
 		// liquid
 		if (tank.getFluidAmount() > 0) {
 			Icon fluidIcon = tank.getFluid().getFluid().getIcon();
@@ -43,13 +45,13 @@ public class RenderHelper {
 				Minecraft.getMinecraft().renderEngine
 						.bindTexture(TextureMap.locationBlocksTexture);
 				int liquidHeight = gaugeLiquidScaled(60, tank);
-				RenderHelper.drawFluidWise(fluidIcon, xGUI + x + 1, yGUI + y + 60 + 1
+				RenderHelper.drawFluidWise(fluidIcon, xOffset + x + 1, yOffset + y + 60 + 1
 						- liquidHeight, 16.0D, liquidHeight, zLevel);
 			}
 		}
 		RenderHelper.bindTexture(ClientProxy.GUI_ELEMENTS);
 		// gauge
-		drawTexturedModalRect(xGUI + x, yGUI + y, 18, 0, 18, 62);
+		drawTexturedModalRect(xOffset + x, yOffset + y, 18, 0, 18, 62);
 	}
 
 	private static double zLevel = 0.0D;
