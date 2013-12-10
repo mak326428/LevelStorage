@@ -48,13 +48,14 @@ dimension.antimatterUniverse.name=反物质宇宙
 # items
 item.itemLevelStorageBook.name=XP书
 item.itemAdvScanner.name=高级矿物扫描仪
+item.itemAtomicDisassembler.name=原子燧石
 item.itemFreqCard.name=频率卡片
 item.itemCompactTeleporter.name=便携传送机
 item.itemEnhDiamondDrill.name=强化钻石钻头
 item.itemPocketRefrigerant.name=便携冷冻剂
 item.itemLevitationBoots.name=悬空靴子
 item.itemSupersonicLeggings.name=超音护腿
-item.itemArmorForcefieldChestplate.name=力场护甲
+item.itemArmorEnergeticChestplate.name=力场护甲
 item.itemArmorTeslaHelmet.name=特斯拉头盔
 item.itemSuperconductor.name=超导体线缆
 item.itemStorageFourtyMillion.name=充能富集物质球
@@ -118,3 +119,4 @@ tooltip.xptome.xppoints=XP
 tooltip.porteleporter.linkedto=连接到:
 tooltip.porteleporter.dimension=位面:
 tooltip.quantumring=这可能已是最终极的物品了!
+
