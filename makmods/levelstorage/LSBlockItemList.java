@@ -25,6 +25,7 @@ import makmods.levelstorage.block.BlockWirelessConductor;
 import makmods.levelstorage.block.BlockWirelessPowerSynchronizer;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.item.ItemAdvancedScanner;
+import makmods.levelstorage.item.ItemAntimatterCrystal;
 import makmods.levelstorage.item.ItemAtomicDisassembler;
 import makmods.levelstorage.item.ItemDemolisher;
 import makmods.levelstorage.item.ItemElectricLighter;
@@ -93,4 +94,5 @@ public class LSBlockItemList {
 	public static BlockIVGenerator blockIVGenerator;
 	public static ItemGaussGun itemGaussGun;
 	public static BlockASU blockASU;
+	public static ItemAntimatterCrystal itemAntimatterCrystal;
 }

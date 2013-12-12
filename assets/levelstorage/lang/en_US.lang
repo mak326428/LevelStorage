@@ -78,7 +78,7 @@ item.itemArmorAntimatterBoots.name=AntimatterSuit Boots
 item.itemArmorAntimatterLeggings.name=AntimatterSuit Leggings
 item.itemArmorAntimatterChestplate.name=AntimatterSuit Chestplate
 item.itemArmorAntimatterHelmet.name=AntimatterSuit Helmet
-
+item.itemAntimatterCrystal.name=Antimatter Crystal
 # fluids
 tile.iv.name=IV
 # others

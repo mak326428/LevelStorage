@@ -56,6 +56,7 @@ public class ClientProxy extends CommonProxy {
 	public static final String ANTIMATTER_LEGGINGS_TEXTURE = getTexturePathFor("itemArmorAntimatterLeggings");
 	public static final String ANTIMATTER_BOOTS_TEXTURE = getTexturePathFor("itemArmorAntimatterBoots");
 	public static final String GAUSS_GUN_TEXTURE = getTexturePathFor("itemGaussGun");
+	public static final String ANTIMATTER_CRYSTAL_TEXTURE = getTexturePathFor("itemAntimatterCrystal");
 
 	// Block textures
 	public static final String XP_GEN_TEXTURE = getTexturePathFor("blockXpGen");

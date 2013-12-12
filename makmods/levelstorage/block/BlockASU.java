@@ -1,8 +1,14 @@
 package makmods.levelstorage.block;
 
+import ic2.api.item.Items;
+import ic2.api.recipe.Recipes;
+
 import java.util.Random;
 
+import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LSCreativeTab;
+import makmods.levelstorage.init.IHasRecipe;
+import makmods.levelstorage.item.SimpleItems.SimpleItemShortcut;
 import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.network.packet.PacketReRender;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -28,7 +34,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockASU extends BlockContainer {
+public class BlockASU extends BlockContainer implements IHasRecipe {
 	public BlockASU(int id) {
 		super(id, Material.iron);
 		if (FMLCommonHandler.instance().getSide().isClient()) {
@@ -98,23 +104,22 @@ public class BlockASU extends BlockContainer {
 			}
 		}
 	}
-	
-	public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
-    {
+
+	public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y,
+			int z, int side) {
 		TileEntity te = par1IBlockAccess.getBlockTileEntity(x, y, z);
 		if (te == null || !(te instanceof TileEntityASU))
 			return null;
-		TileEntityASU asu = (TileEntityASU)te;
-        return asu.getFacing() == side ? facing : icons[side];
-    }
+		TileEntityASU asu = (TileEntityASU) te;
+		return asu.getFacing() == side ? facing : icons[side];
+	}
 
 	public void onBlockPlacedBy(World world, int i, int j, int k,
 			EntityLivingBase entityliving, ItemStack itemStack) {
 		if (world.isRemote)
 			return;
 
-		TileEntityASU te = (TileEntityASU) world
-				.getBlockTileEntity(i, j, k);
+		TileEntityASU te = (TileEntityASU) world.getBlockTileEntity(i, j, k);
 
 		if (entityliving == null) {
 			te.setFacing((short) 1);
@@ -158,6 +163,15 @@ public class BlockASU extends BlockContainer {
 		}
 		facing = iconRegister.registerIcon(ClientProxy
 				.getTexturePathFor(blockName + "/" + "facing"));
+	}
+
+	@Override
+	public void addCraftingRecipe() {
+		// TODO: make the recipe more expensive. MUCH MORE EXPENSIVE.
+		Recipes.advRecipes.addRecipe(new ItemStack(LSBlockItemList.blockASU),
+				"epe", "eme", "epe", 'e', new ItemStack(
+						LSBlockItemList.itemAntimatterCrystal), 'm', Items
+						.getItem("mfsUnit"), 'p', SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM.getItemStack());
 	}
 
 }
