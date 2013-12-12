@@ -26,6 +26,24 @@ public class IVCrossMod {
 	public static void addASPValues() {
 		
 	}
+	
+	public static void addGTMaterial(String material, int valuePerMaterialUnit) {
+		double val = valuePerMaterialUnit;
+		IVRegistry.instance.assign("dustTiny" + material, (int)Math.floor(val / 9.0D));
+		IVRegistry.instance.assign("ingot" + material, (int)Math.floor(val));
+		IVRegistry.instance.assign("dust" + material, (int)Math.floor(val));
+		IVRegistry.instance.assign("block" + material, (int)Math.floor(val * 9.0D));
+		IVRegistry.instance.assign("dustSmall" + material, (int)Math.floor(val / 4.0D));
+	}
+	
+	public static void addGTValues() {
+		addGTMaterial("Nickel", 300);
+		addGTMaterial("Platinum", 1024);
+		addGTMaterial("Invar", 270);
+		addGTMaterial("Aluminium", 384);
+		addGTMaterial("Titanium", 448);
+		
+	}
 
 	public static void addASP(String itemName, int metadata, int value) {
 		try {

@@ -1,5 +1,6 @@
 package makmods.levelstorage.item;
 
+import java.util.Arrays;
 import java.util.List;
 
 import makmods.levelstorage.LSCreativeTab;
@@ -9,6 +10,7 @@ import makmods.levelstorage.dimension.WorldProviderAntimatterUniverse;
 import makmods.levelstorage.init.ModUniversalInitializer;
 import makmods.levelstorage.logic.util.TranslocationHelper;
 import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.tileentity.TileEntityIVGenerator;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -101,6 +103,20 @@ public class SimpleItems extends Item {
 		}
 		return par1ItemStack;
 	}
+	
+	public static interface ITooltipSensitive {
+		public List<String> getTooltip(ItemStack is);
+	}
+	
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+    	int meta = par1ItemStack.getItemDamage();
+    	ITooltipSensitive tooltip = SimpleItemShortcut.values()[meta].tooltipHandler;
+    	if (tooltip != null) {
+    		List<String> t = tooltip.getTooltip(par1ItemStack);
+    		for (String s : t)
+    			par3List.add(s);
+    	}
+    }
 
 	public enum SimpleItemShortcut {
 		DUST_TINY_OSMIUM("dustTinyOsmium", EnumHackyRarity.uncommon, false), // 0
@@ -128,16 +144,30 @@ public class SimpleItems extends Item {
 		INGOT_CHROME("ingotChrome", EnumHackyRarity.common, false), // 17
 		PLATE_CHROME("plateChrome", EnumHackyRarity.common, false), TINY_IRIDIUM_DUST(
 				"dustTinyIridium", EnumHackyRarity.common, false), // 18
-		PLATE_ANTIMATTER_IRIDIUM("plateAntimatterIridium", EnumHackyRarity.epic, false);
+		PLATE_ANTIMATTER_IRIDIUM("plateAntimatterIridium", EnumHackyRarity.epic, false),
+		IV_GENERATOR_UPGRADE("craftingUpgradeIVGenerator", EnumHackyRarity.epic, false, new ITooltipSensitive() {
+			@Override
+			public List<String> getTooltip(ItemStack is) {
+				return Arrays.asList("Increases IV Generator's speed by " + (TileEntityIVGenerator.BUFF_IV_T * is.stackSize) + " IV/t.");
+			}
+		});
 		final String name;
 		final boolean hasEffect;
 		final EnumHackyRarity rarity;
+		ITooltipSensitive tooltipHandler;
 
 		private SimpleItemShortcut(String name, EnumHackyRarity rarity,
 				boolean hasEffect) {
 			this.name = name;
 			this.rarity = rarity;
 			this.hasEffect = hasEffect;
+			tooltipHandler = null;
+		}
+		
+		private SimpleItemShortcut(String name, EnumHackyRarity rarity,
+				boolean hasEffect, ITooltipSensitive tooltipHandler) {
+			this(name, rarity, hasEffect);
+			this.tooltipHandler = tooltipHandler;
 		}
 
 		public String getName() {

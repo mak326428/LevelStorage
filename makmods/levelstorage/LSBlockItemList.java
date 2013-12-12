@@ -10,6 +10,7 @@ import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterBoots;
 import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterChestplate;
 import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterHelmet;
 import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterLeggings;
+import makmods.levelstorage.block.BlockASU;
 import makmods.levelstorage.block.BlockAntimatterStone;
 import makmods.levelstorage.block.BlockChromiteOre;
 import makmods.levelstorage.block.BlockIVGenerator;
@@ -91,4 +92,5 @@ public class LSBlockItemList {
 	public static ItemArmorAntimatterHelmet itemArmorAntimatterHelmet;
 	public static BlockIVGenerator blockIVGenerator;
 	public static ItemGaussGun itemGaussGun;
+	public static BlockASU blockASU;
 }

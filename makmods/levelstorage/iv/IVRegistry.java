@@ -68,8 +68,8 @@ public class IVRegistry {
 
 				} catch (Exception e) {
 					LogHelper
-							.severe("Exception when trying to dynamically allocate more ores to generate");
-					e.printStackTrace();
+							.severe("Exception trying to parse OreDict by IV registry. This is fatal error and unrecoverable.");
+					throw new RuntimeException(e);
 				}
 			}
 		} catch (Throwable e) {
@@ -195,6 +195,8 @@ public class IVRegistry {
 		assign("ingotSilver", 512);
 		assign("ingotCopper", 85);
 		assign("ingotBronze", 170);
+		if (Loader.isModLoaded("gregtech_addon"))
+			IVCrossMod.addGTValues();
 		if (Loader.isModLoaded("AdvancedSolarPanel"))
 			IVCrossMod.addASPValues();
 	}

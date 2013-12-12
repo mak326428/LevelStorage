@@ -83,11 +83,12 @@ public class SimpleRecipeAdder {
 				IC2Items.IRIDIUM_PLATE,
 				SimpleItemShortcut.ANTIMATTER_GLOB.getItemStack());
 		System.out.println("Past metalformer & advshapelessrecipe adding");
-		addScannerRecipe(SimpleItemShortcut.DUST_TINY_OSMIUM.getItemStack(), 20000, 2000000);
+		addScannerRecipe(SimpleItemShortcut.DUST_TINY_OSMIUM.getItemStack(),
+				20000, 2000000);
 		LogHelper.finest("Successfully complete adding Simple Recipes");
 		// Recipes.oreWashing
 	}
-	
+
 	public static void addScannerRecipe(ItemStack output, int recordedAmountUU,
 			int recordedAmountEU) {
 		if (output == null)
@@ -100,7 +101,7 @@ public class SimpleRecipeAdder {
 		Recipes.Scanner.addRecipe(new RecipeInputItemStack(output), metadata,
 				new ItemStack[0]);
 	}
-	
+
 	public static final String AMOUNT_EU = "recordedAmountEU";
 	public static final String AMOUNT_UU = "recordedAmountUU";
 
@@ -111,6 +112,12 @@ public class SimpleRecipeAdder {
 		Recipes.macerator.addRecipe(new RecipeInputItemStack(new ItemStack(
 				LSBlockItemList.blockChromiteOre)), null, crushedChromiteOre);
 		addChromeRecipes();
+		ItemStack outp = new ItemStack(SimpleItems.instance.itemID, 1, SimpleItemShortcut.IV_GENERATOR_UPGRADE.ordinal());
+		Recipes.advRecipes.addShapelessRecipe(
+				outp,
+				SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM.getItemStack(), Items
+						.getItem("overclockerUpgrade"), new ItemStack(
+						LSBlockItemList.blockMassMelter));
 	}
 
 	public static void addSimpleCraftingRecipes() {
@@ -172,7 +179,7 @@ public class SimpleRecipeAdder {
 				Items.getItem("overclockerUpgrade"),
 				IC2Items.CARBON_PLATE.copy(), IC2Items.CARBON_PLATE.copy(),
 				IC2Items.ADV_CIRCUIT.copy());
-		
+
 	}
 
 }

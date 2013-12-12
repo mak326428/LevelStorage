@@ -28,20 +28,12 @@ import com.google.common.collect.Lists;
 
 public class IVRecipeParser implements IRecipeParser {
 
-	// TODO: if entry already exists and new entry's IV is less than old entries
-	// IV, delete old entry and add a new one
-
 	public static int PASSES = LevelStorage.configuration
 			.get(IVRegistry.IV_CATEGORY,
 					"dynamicAssignmentPasses",
 					-1,
 					"Determines how many passes (\"attempts\") will be made. Basically, the lower value, the faster minecraft will start, the higher value, the more items will be assigned. Set to -1 to completely disable. 2 is the minimum requirement for semi-filled IV values. 1 will cover the most straightforward recipes.")
 			.getInt();
-
-	/*
-	 * Initial: Most of the time ~10-20, sometimes close to 3, rarely a whole
-	 * streak of 50-200, average 12
-	 */
 
 	public int assignCrafting(ItemStack is) {
 		List<IRecipe> recipesFor = RecipeHelper.getRecipesFor(is);
@@ -107,10 +99,6 @@ public class IVRecipeParser implements IRecipeParser {
 			return toReleased;
 		}
 	}
-
-	// public int assignFurnace(ItemStack is) {
-	//
-	// }
 
 	public void assignIC2Machine(IMachineRecipeManager manager) {
 		Map<IRecipeInput, RecipeOutput> recipes = manager.getRecipes();

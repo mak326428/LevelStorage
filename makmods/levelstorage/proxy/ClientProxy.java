@@ -97,6 +97,9 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation GUI_COMBUSTIBLE_GENERATOR = getResourceLocation("gui/combustibleGenerator.png");
 	public static final ResourceLocation GUI_MASS_MELTER = getResourceLocation("gui/massMelter.png");
 	public static final ResourceLocation GUI_ELEMENTS = getResourceLocation("gui/elements.png");
+	public static final ResourceLocation GUI_IV_GENERATOR = getResourceLocation("gui/ivGen.png");
+	public static final ResourceLocation GUI_ELECTRIC_BLOCK = getResourceLocation("gui/ic2electricBlock.png");
+	
 	// Models
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");

@@ -89,5 +89,9 @@ public class LogicSlot {
 			return true;
 		}
 	}
+	
+	public void set(ItemStack is) {
+		boundInventory.setInventorySlotContents(index, is);
+	}
 
 }

@@ -16,6 +16,7 @@ public class BlockIVGenerator extends BlockMachineStandart implements
 
 	public BlockIVGenerator(int par1) {
 		super(par1);
+		TileEntityIVGenerator.getConfig();
 	}
 
 	@Override

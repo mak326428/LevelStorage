@@ -19,6 +19,7 @@ tile.blockMassMelter.name=Mass Melter
 tile.blockMicroStar.name=Micro Star
 tile.fusionGlass.name=Fusion Glass
 tile.blockIVGenerator.name=IV Generator
+tile.blockASU.name=ASU
 # fluids
 fluid.iv=IV
 fluid.iv.name=IV
@@ -43,6 +44,7 @@ purifiedCrushedChromiteOre.name=Purified Crushed Chromite Ore
 plateChrome.name=Chrome Plate
 dustTinyIridium.name=Tiny Pile of Iridium Dust
 plateAntimatterIridium.name=Antimatter Iridium Reinforced Plate
+craftingUpgradeIVGenerator.name=IV Generator Upgrade
 # dimension
 dimension.antimatterUniverse.name=Antimatter Universe
 # items

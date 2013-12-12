@@ -102,23 +102,6 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 		return 10000;
 	}
 
-	public boolean hitEntity(ItemStack par1ItemStack,
-			EntityLivingBase par2EntityLivingBase,
-			EntityLivingBase par3EntityLivingBase) {
-		// if (!LevelStorage.isSimulating()) {
-		if (DEAL_DAMAGE_TO_OTHERS) {
-			int energy = ENERGY_USE_BASE * 200;
-			if (ElectricItem.manager.canUse(par1ItemStack, energy)) {
-				ElectricItem.manager.use(par1ItemStack, energy,
-						par3EntityLivingBase);
-				par2EntityLivingBase.attackEntityFrom(
-						LSDamageSource.disassembled, 100);
-			}
-		}
-		// }
-		return false;
-	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
@@ -133,10 +116,6 @@ public class ItemAtomicDisassembler extends Item implements IElectricItem,
 		DEAL_DAMAGE = LevelStorage.configuration.get(
 				Configuration.CATEGORY_GENERAL,
 				"atomicDisassemblersEnableDamage", true).getBoolean(true);
-		DEAL_DAMAGE_TO_OTHERS = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"atomicDisassemblersEnableDamageToOthers", true).getBoolean(
-				true);
 	}
 
 	public boolean isNumberNegative(int number) {
