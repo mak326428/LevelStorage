@@ -78,7 +78,8 @@ item.itemArmorAntimatterChestplate.name=反物质胸甲
 item.itemArmorAntimatterHelmet.name=反物质头盔
 
 # fluids
-tile.iv.name=IV能量
+fluid.iv=IV
+fluid.iv.name=IV能量
 #others
 other.frequency=频率
 other.true=是
