@@ -79,7 +79,9 @@ public abstract class BlockMachineAdvanced extends BlockMachineStandart {
 				}
 		}
 		TileEntity tile = (TileEntity)te;
+		// tell the client that machine changed facing
 		PacketDispatcher.sendPacketToAllPlayers(tile.getDescriptionPacket());
+		// and ask it to rerender the block
 		PacketReRender.reRenderBlock(tile.xCoord, tile.yCoord, tile.zCoord);
 	}
 
@@ -88,7 +90,7 @@ public abstract class BlockMachineAdvanced extends BlockMachineStandart {
 	public void registerIcons(IconRegister iconRegister) {
 		super.registerIcons(iconRegister);
 		String blockName = this.getUnlocalizedName().replace("tile.", "");
-		iconRegister.registerIcon(ClientProxy.getTexturePathFor(blockName + "/"
+		this.facing = iconRegister.registerIcon(ClientProxy.getTexturePathFor(blockName + "/"
 				+ "facing"));
 	}
 
