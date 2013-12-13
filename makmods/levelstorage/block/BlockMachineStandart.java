@@ -5,6 +5,7 @@ import java.util.Random;
 import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.logic.util.CommonHelper;
 import makmods.levelstorage.proxy.ClientProxy;
+import makmods.levelstorage.tileentity.template.ITEHasGUI;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -38,7 +39,10 @@ public abstract class BlockMachineStandart extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
-		return CommonHelper.handleMachineRightclick(world, x, y, z, player);
+		if (world.getBlockTileEntity(x, y, z) instanceof ITEHasGUI)
+			return CommonHelper.handleMachineRightclick(world, x, y, z, player);
+		else
+			return false;
 	}
 
 	@Override

@@ -136,8 +136,6 @@ public class CommonHelper {
 			return false;
 		else {
 			if (!world.isRemote) {
-				// WARNING
-				// player.travelToDimension(LSDimensions.ANTIMATTER_UNIVERSE_DIMENSION_ID);
 				TileEntity tile = world.getBlockTileEntity(x, y, z);
 				if (tile != null) {
 					player.openGui(LevelStorage.instance, 16384, world, x, y, z);
