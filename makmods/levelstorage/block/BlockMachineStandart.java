@@ -33,7 +33,7 @@ public abstract class BlockMachineStandart extends BlockContainer {
 		this.setHardness(3.0F);
 	}
 
-	private Icon[] icons = new Icon[6];
+	protected Icon[] icons = new Icon[6];
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
