@@ -17,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.collect.Lists;
@@ -35,6 +36,7 @@ public class IVRegistry {
 	public static final int NOT_FOUND = -1;
 	public List<IVItemStackEntry> itemStackEntries = Lists.newArrayList();
 	public List<IVOreDictEntry> oreDictEntries = Lists.newArrayList();
+	public List<IVFluidEntry> fluidEntries = Lists.newArrayList();
 	public static final boolean DEBUG = false;
 
 	/**
@@ -201,6 +203,14 @@ public class IVRegistry {
 			IVCrossMod.addASPValues();
 	}
 
+	public void assignFluid(Fluid f, int value) {
+		String name = f.getUnlocalizedName();
+		int valueActual = LevelStorage.configuration.get(IV_CATEGORY, name,
+				value).getInt();
+		if (valueActual > 0)
+			fluidEntries.add(new IVFluidEntry(f, valueActual));
+	}
+
 	public void assign(Object obj, int value) {
 		if (obj instanceof ItemStack)
 			assignItemStack((ItemStack) obj, value);
@@ -210,7 +220,9 @@ public class IVRegistry {
 			assignItemStack(new ItemStack((Item) obj), value);
 		else if (obj instanceof Block)
 			assignItemStack(new ItemStack((Block) obj), value);
-		else
+		else if (obj instanceof Fluid) {
+			assignFluid((Fluid)obj, value);
+		} else
 			throw new RuntimeException(
 					"IVRegistry.assign() - obj's type is incorrect ("
 							+ obj.getClass().getCanonicalName() + ")");

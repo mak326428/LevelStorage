@@ -42,7 +42,7 @@ public class ItemArmorEnhancedNanoChestplate extends ItemArmor implements
 		ISpecialArmor, IMetalArmor, IElectricItem, IHasRecipe {
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ENH_LAPPACK_STORAGE;
-	public static final int ENERGY_PER_DAMAGE = 800;
+	public static final int ENERGY_PER_DAMAGE = 5000;
 	public static int RENDER_ID = 0;
 
 	public ItemArmorEnhancedNanoChestplate(int id) {

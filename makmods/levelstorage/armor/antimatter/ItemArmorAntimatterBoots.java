@@ -53,7 +53,7 @@ public class ItemArmorAntimatterBoots extends ItemArmorAntimatterBase implements
 				LSBlockItemList.itemArmorAntimatterBoots), "ici", "iai",
 				"pep", 'p', SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM
 						.getItemStack(), 'e', new ItemStack(
-						LSBlockItemList.itemStorageFourtyMillion), 'a',
+						LSBlockItemList.itemAntimatterCrystal), 'a',
 				new ItemStack(LSBlockItemList.itemLevitationBoots), 'c', Items
 						.getItem("staticBoots"), 'i', IC2Items.IRIDIUM_PLATE);
 	}

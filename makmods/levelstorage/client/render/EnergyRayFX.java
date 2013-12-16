@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import makmods.levelstorage.logic.LSDamageSource;
+import makmods.levelstorage.logic.util.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -71,7 +72,6 @@ public class EnergyRayFX extends EntityFX {
 		this.prevYaw = this.rotYaw;
 		this.prevPitch = this.rotPitch;
 		this.particleMaxAge = age;
-
 		EntityLivingBase renderentity = Minecraft.getMinecraft().renderViewEntity;
 		int visibleDistance = 1000;
 		//if (!ModLoader.getMinecraftInstance().gameSettings.fancyGraphics)

@@ -1,5 +1,7 @@
 package makmods.levelstorage.gui.client;
 
+import java.util.Arrays;
+
 import makmods.levelstorage.gui.container.ContainerIVGenerator;
 import makmods.levelstorage.logic.util.RenderHelper;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -32,6 +34,8 @@ public class GUIIVGenerator extends GuiContainer {
 				this.ySize - 96 + 2, 4210752);
 		this.fontRenderer.drawString("Speed: " + this.tileEntity.latestSpeed
 				+ " IV/t", 30, 10, 4210752);
+		int x = (this.width - this.xSize) / 2;
+		int y = (this.height - this.ySize) / 2;
 	}
 
 	@Override

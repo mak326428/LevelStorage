@@ -35,7 +35,7 @@ public class CommonProxy {
 	// public static final int WIRELESS_CHARGER_GUI_PLUS = 60;
 
 	public static final int ARMOR_STORAGE = 80 * 1000 * 1000;
-	public static final int ENH_LAPPACK_STORAGE = 2000000;
+	public static final int ENH_LAPPACK_STORAGE = 4000000;
 	public static int ARMOR_SUPERSONIC_RENDER_INDEX;
 	public static int ARMOR_ENHANCED_LAPPACK_RENDER_INDEX;
 	// Sorry for the dirty code, server didn't start without this
@@ -45,10 +45,7 @@ public class CommonProxy {
 	public static final String ENH_LAPPACK_DUMMY = "enhlapp";
 
 	public static BiomeAntimatterField biomeAntimatterField;
-
-	// Special exceptional items (like cross-mod compatiblity) will land here
-	// public static ItemUltimateWirelessAccessTerminal accessTerminal;
-
+	
 	public int getArmorIndexFor(String forWhat) {
 		return 0;
 	}

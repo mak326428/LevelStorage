@@ -32,4 +32,13 @@ public class Config {
 		return LevelStorage.configuration.get(category.getName(), name, def,
 				comment).getInt(def);
 	}
+	
+	public static boolean getBoolean(LSConfigCategory category, String name, boolean def,
+			String comment) {
+		if (!ACTIVE)
+			LogHelper
+					.severe("Tried to get config option after the config is closed. This is a bug, report it!");
+		return LevelStorage.configuration.get(category.getName(), name, def,
+				comment).getBoolean(def);
+	}
 }

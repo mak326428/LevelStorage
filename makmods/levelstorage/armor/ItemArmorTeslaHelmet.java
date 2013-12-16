@@ -40,7 +40,7 @@ public class ItemArmorTeslaHelmet extends ItemArmor implements ISpecialArmor,
 
 	public static final int TIER = 3;
 	public static final int STORAGE = CommonProxy.ARMOR_STORAGE;
-	public static final int ENERGY_PER_DAMAGE = 900;
+	public static final int ENERGY_PER_DAMAGE = 30000;
 	public static final int FOOD_COST = 10000;
 	public static final int RAY_COST = 50*1000;
 

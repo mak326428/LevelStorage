@@ -20,7 +20,7 @@ public class ItemArmorAntimatterLeggings extends ItemArmorAntimatterBase impleme
 				LSBlockItemList.itemArmorAntimatterLeggings), "ici", "pap",
 				"pep", 'p', SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM
 						.getItemStack(), 'e', new ItemStack(
-						LSBlockItemList.itemStorageFourtyMillion), 'a',
+						LSBlockItemList.itemAntimatterCrystal), 'a',
 				new ItemStack(LSBlockItemList.itemSupersonicLeggings), 'c', Items
 						.getItem("teleporter"), 'i', IC2Items.IRIDIUM_PLATE);
 	}

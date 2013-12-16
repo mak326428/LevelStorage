@@ -92,23 +92,6 @@ public class ArmorFunctions {
 				Integer.valueOf(25000));
 	}
 
-	public static void walkWater(World world, EntityPlayer player,
-			ItemStack armor) {
-		if (LSKeyboard.getInstance().isKeyDown(player,
-				LSKeyboard.RANGE_KEY_NAME)
-				&& player.inventory.getCurrentItem() == null) {
-			if (ElectricItem.manager.canUse(armor,
-					ItemArmorAntimatterBase.EU_PER_TICK_WATERWALK)) {
-				if (!world.isRemote)
-					ElectricItem.manager.use(armor,
-							ItemArmorAntimatterBase.EU_PER_TICK_WATERWALK,
-							player);
-				if (player.motionY > 0)
-					player.motionY = 0;
-			}
-		}
-	}
-
 	public static void antimatterLeggingsFunctions(World world,
 			EntityPlayer player, ItemStack armor) {
 		if (world.isRemote)
@@ -121,9 +104,9 @@ public class ArmorFunctions {
 					player, true);
 			if (mop != null && mop.typeOfHit == EnumMovingObjectType.TILE) {
 				if (ElectricItem.manager.canUse(armor,
-						ItemArmorAntimatterBase.EU_PER_TELEPORT))
-					ElectricItem.manager.use(armor,
-							ItemArmorAntimatterBase.EU_PER_TELEPORT, player);
+						ItemArmorAntimatterBase.EU_PER_TELEPORT)) {
+					ElectricItem.manager.discharge(armor, ItemArmorAntimatterBase.EU_PER_TELEPORT, Integer.MAX_VALUE, true, false);
+				}
 				x = mop.blockX;
 				y = mop.blockY;
 				z = mop.blockZ;
@@ -145,7 +128,7 @@ public class ArmorFunctions {
 				if (!world.isRemote) {
 					Entity toShoot = EntityUtil.getTarget(world, player, 128);
 					if (toShoot != null) {
-						ElectricItem.manager.use(itemStack, RAY_COST, player);
+						ElectricItem.manager.discharge(itemStack, RAY_COST, Integer.MAX_VALUE, true, false);
 						PacketTeslaRay.issue(player.posX, player.posY + 1.6,
 								player.posZ, toShoot.posX, toShoot.posY,
 								toShoot.posZ);
@@ -161,7 +144,7 @@ public class ArmorFunctions {
 		if (!world.isRemote) {
 			if (player.getFoodStats().getFoodLevel() < 18) {
 				if (ElectricItem.manager.canUse(itemStack, FOOD_COST)) {
-					ElectricItem.manager.use(itemStack, FOOD_COST, player);
+					ElectricItem.manager.discharge(itemStack, FOOD_COST, Integer.MAX_VALUE, true, false);
 					player.getFoodStats().addStats(20, 20);
 				}
 			}
@@ -181,8 +164,7 @@ public class ArmorFunctions {
 							* (effect.getAmplifier() + 1));
 
 					if (ElectricItem.manager.canUse(itemStack, cost.intValue())) {
-						ElectricItem.manager.use(itemStack, cost.intValue(),
-								null);
+						ElectricItem.manager.discharge(itemStack, cost.intValue(), Integer.MAX_VALUE, true, false);
 						player.removePotionEffect(id);
 					}
 				}
@@ -203,7 +185,7 @@ public class ArmorFunctions {
 
 			if (speedTicker >= 10) {
 				speedTicker = 0;
-				ElectricItem.manager.use(itemStack, 1000, null);
+				ElectricItem.manager.discharge(itemStack, 1000, Integer.MAX_VALUE, true, false);
 			}
 			speedTickerMap.remove(player);
 			speedTickerMap.put(player, Integer.valueOf(speedTicker));
@@ -232,7 +214,7 @@ public class ArmorFunctions {
 			if ((wasOnGround) && (!player.onGround)
 					&& (Keys.instance.isJumpKeyDown(player))
 					&& (Keys.instance.isBoostKeyDown(player))) {
-				ElectricItem.manager.use(itemStack, 4000, null);
+				ElectricItem.manager.discharge(itemStack, 4000, Integer.MAX_VALUE, true, false);
 			}
 			onGroundMap.remove(player);
 			onGroundMap.put(player, Boolean.valueOf(player.onGround));
@@ -274,13 +256,12 @@ public class ArmorFunctions {
 					float boost = 0.44f;
 					player.moveFlying(0.0F, 1.0F, boost);
 					if (!world.isRemote) {
-						ElectricItem.manager.use(itemStack, energy * 3, player);
+						ElectricItem.manager.discharge(itemStack, energy * 3, Integer.MAX_VALUE, true, false);
 					}
 				}
 				if (!world.isRemote) {
 					if (!player.capabilities.isCreativeMode) {
-						ElectricItem.manager.use(itemStack, energy, player);
-
+						ElectricItem.manager.discharge(itemStack, energy, Integer.MAX_VALUE, true, false);
 						MinecraftForge.EVENT_BUS.post(new BootsFlyingEvent(
 								player, itemStack));
 					}

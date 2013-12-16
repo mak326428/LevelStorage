@@ -1,6 +1,5 @@
 package makmods.levelstorage.tileentity.template;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
@@ -8,6 +7,7 @@ import ic2.api.energy.tile.IEnergySource;
 import ic2.api.tile.IEnergyStorage;
 import ic2.api.tile.IWrenchable;
 import makmods.levelstorage.LevelStorage;
+import makmods.levelstorage.logic.util.BlockLocation;
 import makmods.levelstorage.network.packet.PacketReRender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -20,14 +20,15 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class TileEntityAdvanced extends TileEntity implements IEnergySource,
-		IEnergyStorage, IEnergySink, IWrenchable, IInventory, IFluidHandler {
+public abstract class TileEntityAdvanced extends TileEntity implements
+		IEnergySource, IEnergyStorage, IEnergySink, IWrenchable, IInventory,
+		IFluidHandler {
 
 	public ItemStack[] inv;
 	public int facing;
@@ -57,6 +58,22 @@ public class TileEntityAdvanced extends TileEntity implements IEnergySource,
 		this.tankVolume = tankVolume;
 		this.fluidTE = fluidTE;
 		tank = new FluidTank(tankVolume);
+	}
+
+	public boolean canUse(int amt) {
+		return stored >= amt;
+	}
+
+	public void use(int amt) {
+		stored -= amt;
+	}
+
+	public boolean useIfPossible(int amt) {
+		if (canUse(amt)) {
+			use(amt);
+			return true;
+		} else
+			return false;
 	}
 
 	@Override
@@ -214,6 +231,10 @@ public class TileEntityAdvanced extends TileEntity implements IEnergySource,
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
 		this.readFromNBT(pkt.data);
+	}
+	
+	public BlockLocation getTELocation() {
+		return new BlockLocation(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord);
 	}
 
 	@Override

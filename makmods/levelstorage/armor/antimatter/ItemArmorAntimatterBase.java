@@ -9,6 +9,9 @@ import makmods.levelstorage.LSCreativeTab;
 import makmods.levelstorage.armor.ArmorFunctions;
 import makmods.levelstorage.armor.ItemArmorLevitationBoots;
 import makmods.levelstorage.armor.ItemArmorTeslaHelmet;
+import makmods.levelstorage.init.Config;
+import makmods.levelstorage.init.Config.LSConfigCategory;
+import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.proxy.ClientProxy;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,6 +24,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,8 +39,10 @@ public class ItemArmorAntimatterBase extends ItemArmor implements
 	public static final int CHESTPLATE = 1;
 	public static final int LEGGINGS = 2;
 	public static final int BOOTS = 3;
-	public static final int ENERGY_PER_DAMAGE = 1000;
-	public static final int STORAGE = 120000000;
+	public static final int ENERGY_PER_DAMAGE = 40000;
+	public static final int STORAGE = 1000000;
+
+	public static boolean BOOTS_EXPLOSION = true;
 
 	public ItemArmorAntimatterBase(int id, int armorType) {
 		super(id, EnumArmorMaterial.DIAMOND, RENDER_ID, armorType);
@@ -45,10 +53,9 @@ public class ItemArmorAntimatterBase extends ItemArmor implements
 		}
 		this.setMaxStackSize(1);
 	}
-	
+
 	public static final int EU_PER_TELEPORT = 300000;
 	public static final int EU_PER_TICK_WATERWALK = 100;
-	
 
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player,
@@ -59,12 +66,11 @@ public class ItemArmorAntimatterBase extends ItemArmor implements
 			ArmorFunctions.jumpBooster(world, player, itemStack);
 			ArmorFunctions.fly(ItemArmorLevitationBoots.FLYING_ENERGY_PER_TICK,
 					player, itemStack, world);
-			ArmorFunctions.walkWater(world, player, itemStack);
 		} else if (this.armorType == LEGGINGS) {
 			ArmorFunctions.speedUp(player, itemStack);
-			ArmorFunctions.antimatterLeggingsFunctions(world, player, itemStack);
-		}
-		else if (this.armorType == HELMET) {
+			ArmorFunctions
+					.antimatterLeggingsFunctions(world, player, itemStack);
+		} else if (this.armorType == HELMET) {
 			ArmorFunctions.helmetFunctions(world, player, itemStack,
 					ItemArmorTeslaHelmet.RAY_COST,
 					ItemArmorTeslaHelmet.FOOD_COST);
@@ -177,7 +183,7 @@ public class ItemArmorAntimatterBase extends ItemArmor implements
 
 	@Override
 	public int getTier(ItemStack itemStack) {
-		return 4;
+		return 5;
 	}
 
 	@Override
