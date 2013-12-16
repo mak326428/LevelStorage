@@ -22,6 +22,10 @@ tile.blockCombustibleGenerator.name=燃烧发电机
 tile.blockMicroStar.name=微星
 tile.fusionGlass.name=聚变玻璃
 tile.blockIVGenerator.name=IV发电机
+tile.blockASU.name=反物质能量存储单元（ASU）
+# fluids
+fluid.iv=IV
+fluid.iv.name=IV能量
 # simple items (crafting ingredients)
 dustTinyOsmium.name=小撮锇粉
 dustOsmium.name=锇粉
@@ -76,10 +80,9 @@ item.itemArmorAntimatterBoots.name=反物质靴子
 item.itemArmorAntimatterLeggings.name=反物质护腿
 item.itemArmorAntimatterChestplate.name=反物质胸甲
 item.itemArmorAntimatterHelmet.name=反物质头盔
-
+item.itemAntimatterCrystal.name=反物质能量水晶
 # fluids
-fluid.iv=IV
-fluid.iv.name=IV能量
+tile.iv.name=IV能量
 #others
 other.frequency=频率
 other.true=是
