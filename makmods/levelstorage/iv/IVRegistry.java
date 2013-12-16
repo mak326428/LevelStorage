@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.collect.Lists;
@@ -197,6 +198,11 @@ public class IVRegistry {
 		assign("ingotSilver", 512);
 		assign("ingotCopper", 85);
 		assign("ingotBronze", 170);
+		if (FluidRegistry.isFluidRegistered("oil"))
+			assign(FluidRegistry.getFluid("oil"), 6);
+		if (FluidRegistry.isFluidRegistered("bioethanol"))
+			assign(FluidRegistry.getFluid("bioethanol"), 3);
+		System.out.println(getValue(FluidRegistry.getFluid("oil")));
 		if (Loader.isModLoaded("gregtech_addon"))
 			IVCrossMod.addGTValues();
 		if (Loader.isModLoaded("AdvancedSolarPanel"))
@@ -221,7 +227,7 @@ public class IVRegistry {
 		else if (obj instanceof Block)
 			assignItemStack(new ItemStack((Block) obj), value);
 		else if (obj instanceof Fluid) {
-			assignFluid((Fluid)obj, value);
+			assignFluid((Fluid) obj, value);
 		} else
 			throw new RuntimeException(
 					"IVRegistry.assign() - obj's type is incorrect ("
@@ -352,12 +358,24 @@ public class IVRegistry {
 		oreDictCache.clear();
 	}
 
+	public int getValueFor_internal(Fluid fluid) {
+		if (fluid == null)
+			return NOT_FOUND;
+		for (IVFluidEntry entry : fluidEntries) {
+			if (entry.getFluid().getName().equals(fluid.getName()))
+				return entry.getValue();
+		}
+		return NOT_FOUND;
+	}
+
 	public int getValueFor(Object obj) {
 		if (!DO_CACHING) {
 			if (obj instanceof String)
 				return getValueFor_internal((String) obj);
 			else if (obj instanceof ItemStack)
 				return getValueFor_internal((ItemStack) obj);
+			else if (obj instanceof Fluid)
+				return getValueFor_internal((Fluid) obj);
 		}
 		if (obj instanceof String) {
 			String odName = (String) obj;
@@ -372,6 +390,8 @@ public class IVRegistry {
 			if (!itemStackCache.containsKey(lst))
 				itemStackCache.put(lst, getValueFor_internal(objIS));
 			return itemStackCache.get(lst);
+		} else if (obj instanceof Fluid) {
+			return getValueFor_internal((Fluid) obj);
 		} else
 			return NOT_FOUND;
 	}
