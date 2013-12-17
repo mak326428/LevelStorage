@@ -40,7 +40,7 @@ public class ItemArmorAntimatterBase extends ItemArmor implements
 	public static final int LEGGINGS = 2;
 	public static final int BOOTS = 3;
 	public static final int ENERGY_PER_DAMAGE = 40000;
-	public static final int STORAGE = 1000000;
+	public static final int STORAGE = (int)Math.pow(10, 9);
 
 	public static boolean BOOTS_EXPLOSION = true;
 
@@ -66,6 +66,7 @@ public class ItemArmorAntimatterBase extends ItemArmor implements
 			ArmorFunctions.jumpBooster(world, player, itemStack);
 			ArmorFunctions.fly(ItemArmorLevitationBoots.FLYING_ENERGY_PER_TICK,
 					player, itemStack, world);
+			ArmorFunctions.bootsSpecialFly(player, world, itemStack);
 		} else if (this.armorType == LEGGINGS) {
 			ArmorFunctions.speedUp(player, itemStack);
 			ArmorFunctions

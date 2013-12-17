@@ -18,6 +18,7 @@ public class LSKeyboard {
 	public static final String RANGE_KEY_NAME = "range";
 	public static final String RAY_SHOOT_KEY_NAME = "rayShoot";
 	public static final String JETPACK_SWITCH_KEY_NAME = "jetpackSwitch";
+	public static final String ANTIMATTER_BOOTS_SPECIAL_FLIGHT = "antimatterBoots";
 	
 	public LSKeyboard() {
 		;

@@ -32,48 +32,53 @@ public class LSKeyboardClient extends LSKeyboard implements ITickHandler {
 	public LSKeyboardClient() {
 
 		modBindings.put(RANGE_KEY_NAME,
-		        new KeyBinding(StatCollector.translateToLocal("key.range"),
-		                Keyboard.KEY_V));
+				new KeyBinding(StatCollector.translateToLocal("key.range"),
+						Keyboard.KEY_V));
 		modBindings.put(RAY_SHOOT_KEY_NAME,
-		        new KeyBinding(StatCollector.translateToLocal("key.shoot"),
-		                Keyboard.KEY_R));
-		modBindings.put(JETPACK_SWITCH_KEY_NAME, new KeyBinding(StatCollector.translateToLocal("key.jetpackSwitch"),
-		                Keyboard.KEY_F));
-
+				new KeyBinding(StatCollector.translateToLocal("key.shoot"),
+						Keyboard.KEY_R));
+		modBindings
+				.put(JETPACK_SWITCH_KEY_NAME,
+						new KeyBinding(StatCollector
+								.translateToLocal("key.jetpackSwitch"),
+								Keyboard.KEY_F));
+		modBindings.put(ANTIMATTER_BOOTS_SPECIAL_FLIGHT, new KeyBinding(
+				StatCollector.translateToLocal("key.antimatterBoots"),
+				Keyboard.KEY_G));
 		KeyBinding[] bsInternal = (KeyBinding[]) modBindings.values().toArray(
-		        new KeyBinding[modBindings.values().size()]);
+				new KeyBinding[modBindings.values().size()]);
 		KeyBindingRegistry
-		        .registerKeyBinding(new KeyBindingRegistry.KeyHandler(
-		                bsInternal) {
-			        public String getLabel() {
-				        return "LevelStorageKeyHandler";
-			        }
+				.registerKeyBinding(new KeyBindingRegistry.KeyHandler(
+						bsInternal) {
+					public String getLabel() {
+						return "LevelStorageKeyHandler";
+					}
 
-			        public EnumSet<TickType> ticks() {
-				        return EnumSet.of(TickType.CLIENT);
-			        }
+					public EnumSet<TickType> ticks() {
+						return EnumSet.of(TickType.CLIENT);
+					}
 
-			        public void keyUp(EnumSet<TickType> types, KeyBinding kb,
-			                boolean tickEnd) {
-			        }
+					public void keyUp(EnumSet<TickType> types, KeyBinding kb,
+							boolean tickEnd) {
+					}
 
-			        public void keyDown(EnumSet<TickType> types, KeyBinding kb,
-			                boolean tickEnd, boolean isRepeat) {
-			        }
-		        });
+					public void keyDown(EnumSet<TickType> types, KeyBinding kb,
+							boolean tickEnd, boolean isRepeat) {
+					}
+				});
 		TickRegistry.registerTickHandler(this, Side.CLIENT);
 	}
 
 	public void initiateKeyChange(String id, EntityPlayer player,
-	        boolean isActive) {
+			boolean isActive) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(bos);
 		try {
-	        dos.writeUTF(id);
-	        dos.writeBoolean(isActive);
-        } catch (IOException e) {
-	        e.printStackTrace();
-        }
+			dos.writeUTF(id);
+			dos.writeBoolean(isActive);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		byte[] data = bos.toByteArray();
 		Packet250CustomPayload packet = new Packet250CustomPayload();
 		packet.channel = LSKeyboard.PACKET_KEYBOARD_CHANNEL;

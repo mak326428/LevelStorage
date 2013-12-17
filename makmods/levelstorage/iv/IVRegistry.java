@@ -202,7 +202,6 @@ public class IVRegistry {
 			assign(FluidRegistry.getFluid("oil"), 6);
 		if (FluidRegistry.isFluidRegistered("bioethanol"))
 			assign(FluidRegistry.getFluid("bioethanol"), 3);
-		System.out.println(getValue(FluidRegistry.getFluid("oil")));
 		if (Loader.isModLoaded("gregtech_addon"))
 			IVCrossMod.addGTValues();
 		if (Loader.isModLoaded("AdvancedSolarPanel"))

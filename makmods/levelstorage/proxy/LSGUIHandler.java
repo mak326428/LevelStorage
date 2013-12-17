@@ -1,12 +1,9 @@
 package makmods.levelstorage.proxy;
 
-import makmods.levelstorage.gui.client.GuiMolecularHeater;
 import makmods.levelstorage.gui.client.GuiWirelessConductor;
 import makmods.levelstorage.gui.client.GuiWirelessPowerSync;
-import makmods.levelstorage.gui.container.ContainerMolecularHeater;
 import makmods.levelstorage.gui.container.ContainerPowerSync;
 import makmods.levelstorage.gui.container.ContainerWirelessConductor;
-import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import makmods.levelstorage.tileentity.TileEntityWirelessConductor;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer;
 import makmods.levelstorage.tileentity.template.ITEHasGUI;
@@ -28,9 +25,6 @@ public class LSGUIHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new ContainerPowerSync(player.inventory,
 			        (TileEntityWirelessPowerSynchronizer) tileEntity);
-		if (tileEntity instanceof TileEntityMolecularHeater)
-			return new ContainerMolecularHeater(player.inventory,
-			        (TileEntityMolecularHeater) tileEntity);
 		if (tileEntity instanceof ITEHasGUI)
 			return ((ITEHasGUI)tileEntity).getContainer(player, world, x, y, z);
 		return null;
@@ -47,9 +41,6 @@ public class LSGUIHandler implements IGuiHandler {
 		if (tileEntity instanceof TileEntityWirelessPowerSynchronizer)
 			return new GuiWirelessPowerSync(player.inventory,
 			        (TileEntityWirelessPowerSynchronizer) tileEntity);
-		if (tileEntity instanceof TileEntityMolecularHeater)
-			return new GuiMolecularHeater(player.inventory,
-			        (TileEntityMolecularHeater) tileEntity);
 		if (tileEntity instanceof ITEHasGUI)
 			return ((ITEHasGUI)tileEntity).getGUI(player, world, x, y, z);
 		return null;

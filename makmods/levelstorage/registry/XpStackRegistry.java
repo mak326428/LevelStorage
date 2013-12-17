@@ -50,23 +50,19 @@ public class XPStackRegistry {
 					Character.valueOf('t'), "ingotTin");
 		}
 		this.pushToRegistryWithConfig(new XPStack(new ItemStack(Item.redstone),
-				8));
+				4));
 		this.pushToRegistryWithConfig(new XPStack(new ItemStack(
-				Item.netherQuartz), 4));
+				Item.netherQuartz), 1));
 		this.pushToRegistryWithConfig(new XPStack(
 				new ItemStack(Item.ingotGold), 16));
 		this.pushToRegistryWithConfig(new XPStack(
-				new ItemStack(Item.enderPearl), 256));
-		this.pushToRegistryWithConfig(new XPStack(Items.getItem("resin"), 3));
-
+				new ItemStack(Item.enderPearl), 192));
 		this.pushToRegistryWithConfig(new XPStack(
 				new ItemStack(Item.glowstone), 8));
 		this.pushToRegistryWithConfig(new XPStack(new ItemStack(Item.diamond),
 				256));
 		this.pushToRegistryWithConfig(new XPStack(
 				new ItemStack(Item.netherStar), 8192));
-		this.pushToRegistryWithConfig(new XPStack(
-				new ItemStack(Block.obsidian), 8));
 
 		// dummy for debug
 		// this.pushOreToRegistry("ingotGold", 1);

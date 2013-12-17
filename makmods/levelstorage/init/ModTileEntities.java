@@ -7,7 +7,6 @@ import makmods.levelstorage.tileentity.TileEntityASU;
 import makmods.levelstorage.tileentity.TileEntityIVGenerator;
 import makmods.levelstorage.tileentity.TileEntityLavaFabricator;
 import makmods.levelstorage.tileentity.TileEntityMassMelter;
-import makmods.levelstorage.tileentity.TileEntityMolecularHeater;
 import makmods.levelstorage.tileentity.TileEntityMulticoreSolarPanel;
 import makmods.levelstorage.tileentity.TileEntityParticleAccelerator;
 import makmods.levelstorage.tileentity.TileEntityRockDesintegrator;
@@ -41,7 +40,6 @@ public class ModTileEntities {
 				"tileWirelessConductor");
 		tileEntities.put(TileEntitySuperconductorCable.class,
 				"tileSuperconductor");
-		tileEntities.put(TileEntityMolecularHeater.class, "tileMolHeater");
 		tileEntities.put(TileEntityMulticoreSolarPanel.class,
 				"tileMulticoreSolarPanel");
 		tileEntities.put(TileEntityParticleAccelerator.class,
