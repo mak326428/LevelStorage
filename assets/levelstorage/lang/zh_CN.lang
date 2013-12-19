@@ -104,9 +104,10 @@ death.forcefieldArmorInstantKill=%s被剧烈的能量脉冲击碎了!
 death.teslaHelmetKill=%s被特斯拉头盔制造的剧烈的能量脉冲击碎了!
 death.disassemble=%s意外地被分解成了基本原子!
 # key bindings
-key.range=范围切换按键
-key.shoot=能量束发射按键
-key.jetpackSwitch=[LS] 飞行器加速开关
+key.range=[LS]范围切换按键
+key.shoot=[LS]能量束发射按键
+key.jetpackSwitch=[LS]飞行器加速开关
+key.antimatterBoots=[LS]反物质靴特种飞行键
 # tooltips
 # \n will be replaced with a new line (this is not OS-dependant)
 tooltip.xp=XP值:
@@ -122,4 +123,5 @@ tooltip.xptome.stored=储存:
 tooltip.xptome.xppoints=XP
 tooltip.porteleporter.linkedto=连接到:
 tooltip.porteleporter.dimension=位面:
-tooltip.quantumring=这可能已是最终极的物品了!
+tooltip.quantumring=如果你觉得它很贵,你就错了
+tooltip.antimatterring=指环王是...
