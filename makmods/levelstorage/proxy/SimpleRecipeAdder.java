@@ -29,7 +29,6 @@ public class SimpleRecipeAdder {
 	}
 
 	public static void addChromeRecipes() {
-		System.out.println("adding chrome recipes");
 		FurnaceRecipes.smelting().addSmelting(SIMPLE_ITEM_ID,
 				SimpleItemShortcut.DUST_CHROME.getMetadata(),
 				SimpleItemShortcut.INGOT_CHROME.getItemStack().copy(), 10.0F);
@@ -51,9 +50,6 @@ public class SimpleRecipeAdder {
 				.getItemStack().copy();
 		oreWashingOutput2.stackSize = 2;
 		ItemStack oreWashingOutput3 = Items.getItem("stoneDust").copy();
-		System.out.println("oreWashingOutput1: " + oreWashingOutput1);
-		System.out.println("oreWashingOutput2: " + oreWashingOutput2);
-		System.out.println("oreWashingOutput3: " + oreWashingOutput3);
 		Recipes.oreWashing.addRecipe(new RecipeInputItemStack(
 				SimpleItemShortcut.CRUSHED_CHROME_ORE.getItemStack()), null,
 				oreWashingOutput1, oreWashingOutput2, oreWashingOutput3);
@@ -68,7 +64,6 @@ public class SimpleRecipeAdder {
 		Recipes.centrifuge.addRecipe(new RecipeInputItemStack(
 				SimpleItemShortcut.PURIFIED_CHROME_ORE.getItemStack()), null,
 				centrifugeOutput1, centrifugeOutput2, centrifugeOutput3);
-		System.out.println("Past centrifuge");
 		ItemStack irBit = SimpleItemShortcut.TINY_IRIDIUM_DUST.getItemStack()
 				.copy();
 		irBit.stackSize = 9;
@@ -82,7 +77,6 @@ public class SimpleRecipeAdder {
 				SimpleItemShortcut.ANTIMATTER_GLOB.getItemStack(),
 				IC2Items.IRIDIUM_PLATE,
 				SimpleItemShortcut.ANTIMATTER_GLOB.getItemStack());
-		System.out.println("Past metalformer & advshapelessrecipe adding");
 		addScannerRecipe(SimpleItemShortcut.DUST_TINY_OSMIUM.getItemStack(),
 				20000, 2000000);
 		LogHelper.finest("Successfully complete adding Simple Recipes");
@@ -112,38 +106,36 @@ public class SimpleRecipeAdder {
 		Recipes.macerator.addRecipe(new RecipeInputItemStack(new ItemStack(
 				LSBlockItemList.blockChromiteOre)), null, crushedChromiteOre);
 		addChromeRecipes();
-		ItemStack outp = new ItemStack(SimpleItems.instance.itemID, 1, SimpleItemShortcut.IV_GENERATOR_UPGRADE.ordinal());
-		Recipes.advRecipes.addShapelessRecipe(
-				outp,
-				SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM.getItemStack(), Items
-						.getItem("overclockerUpgrade"), new ItemStack(
+		ItemStack outp = new ItemStack(SimpleItems.instance.itemID, 1,
+				SimpleItemShortcut.IV_GENERATOR_UPGRADE.ordinal());
+		Recipes.advRecipes.addShapelessRecipe(outp,
+				SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM.getItemStack(),
+				Items.getItem("overclockerUpgrade"), new ItemStack(
 						LSBlockItemList.blockMassMelter));
 	}
 
 	public static void addSimpleCraftingRecipes() {
 		// Osmiridium alloy -> osmiridium plate
-		ItemStack rec1 = SimpleItems.instance.getIngredient(2);
+		ItemStack rec1 = SimpleItemShortcut.OSMIRIDIUM_ALLOY.getItemStack();
 		rec1.stackSize = 4;
 		Recipes.compressor.addRecipe(new RecipeInputOreDict(
-				"itemOsmiridiumAlloy"), null, SimpleItems.instance
-				.getIngredient(3));
+				"itemOsmiridiumAlloy"), null,
+				SimpleItemShortcut.OSMIRIDIUM_PLATE.getItemStack());
 		// 4 tiny osmium dusts -> 1 dust
-		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(1), "SS",
-				"SS", Character.valueOf('S'),
-				SimpleItems.instance.getIngredient(0));
+		GameRegistry.addRecipe(SimpleItemShortcut.DUST_OSMIUM.getItemStack(),
+				"SS", "SS", Character.valueOf('S'),
+				SimpleItemShortcut.DUST_TINY_OSMIUM.getItemStack());
 
 		// Osmium dust -> osmium ingot
-		ItemStack osmIngot = SimpleItems.instance.getIngredient(4);
-		ItemStack osmDust = SimpleItems.instance.getIngredient(1);
+		ItemStack osmIngot = SimpleItemShortcut.INGOT_OSMIUM.getItemStack();
+		ItemStack osmDust = SimpleItemShortcut.DUST_OSMIUM.getItemStack();
 		FurnaceRecipes.smelting().addSmelting(osmDust.itemID,
 				osmDust.getItemDamage(), osmIngot, 20.0F);
 
 		// Osmium Ingots + Iridium Ingots = Osmiridium Alloy
-		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(2),
-				"OOO", "III", "   ", Character.valueOf('O'), "ingotOsmium",
-				Character.valueOf('I'), "ingotIridium");
-		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(2),
-				"   ", "OOO", "III", Character.valueOf('O'), "ingotOsmium",
+		Recipes.advRecipes.addRecipe(
+				SimpleItemShortcut.OSMIRIDIUM_ALLOY.getItemStack(), "OOO",
+				"III", Character.valueOf('O'), "ingotOsmium",
 				Character.valueOf('I'), "ingotIridium");
 
 		// Iridium Ore -> Iridium Ingot
@@ -152,7 +144,7 @@ public class SimpleRecipeAdder {
 			try {
 				Recipes.compressor.addRecipe(
 						new RecipeInputItemStack(Items.getItem("iridiumOre")),
-						null, SimpleItems.instance.getIngredient(5));
+						null, SimpleItemShortcut.INGOT_IRIDIUM.getItemStack());
 			} catch (Throwable t) {
 				LogHelper
 						.warning("Failed to add Iridium ore -> ingot recipe. Fallbacking.");
@@ -160,22 +152,20 @@ public class SimpleRecipeAdder {
 			}
 		}
 
-		// UUM -> Osmium pile
-		GameRegistry.addRecipe(SimpleItems.instance.getIngredient(0), "U U",
-				"UUU", "U U", Character.valueOf('U'), Items.getItem("matter"));
-
 		Recipes.advRecipes.addRecipe(
-				OreDictionary.getOres("itemAntimatterTinyPile").get(0), "ppp",
-				"ppp", "ppp", Character.valueOf('p'), "itemAntimatterMolecule");
+				OreDictionary.getOres("itemAntimatterTinyPile").get(0).copy(),
+				"ppp", "ppp", "ppp", Character.valueOf('p'),
+				"itemAntimatterMolecule");
 		Recipes.advRecipes.addRecipe(OreDictionary
-				.getOres("itemAntimatterGlob").get(0), "ppp", "ppp", "ppp",
-				Character.valueOf('p'), "itemAntimatterTinyPile");
-		Recipes.advRecipes.addRecipe(SimpleItems.instance.getIngredient(7)
-				.copy(), " a ", "ana", " a ", Character.valueOf('a'),
-				SimpleItems.instance.getIngredient(10).copy(), Character
+				.getOres("itemAntimatterGlob").get(0).copy(), "ppp", "ppp",
+				"ppp", Character.valueOf('p'), "itemAntimatterTinyPile");
+		Recipes.advRecipes.addRecipe(
+				SimpleItemShortcut.PLATE_ANTIMATTER_IRIDIUM.getItemStack()
+						.copy(), " a ", "ana", " a ", Character.valueOf('a'),
+				SimpleItemShortcut.ANTIMATTER_GLOB.getItemStack(), Character
 						.valueOf('n'), new ItemStack(Item.netherStar).copy());
 		Recipes.advRecipes.addShapelessRecipe(
-				SimpleItems.instance.getIngredient(11),
+				SimpleItemShortcut.JETPACK_ACCELERATOR.getItemStack(),
 				Items.getItem("overclockerUpgrade"),
 				IC2Items.CARBON_PLATE.copy(), IC2Items.CARBON_PLATE.copy(),
 				IC2Items.ADV_CIRCUIT.copy());

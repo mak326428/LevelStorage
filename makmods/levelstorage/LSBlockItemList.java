@@ -37,7 +37,6 @@ import makmods.levelstorage.item.ItemPocketRefrigerant;
 import makmods.levelstorage.item.ItemQuantumRing;
 import makmods.levelstorage.item.ItemQuantumSaber;
 import makmods.levelstorage.item.ItemSuperconductor;
-import makmods.levelstorage.item.ItemWirelessCharger;
 import makmods.levelstorage.item.ItemXPTome;
 
 /**
@@ -64,7 +63,6 @@ public class LSBlockItemList {
 	public static ItemArmorTeslaHelmet itemArmorTeslaHelmet;
 	public static ItemSuperconductor itemSuperconductor;
 	public static ItemEnergeticEnrichedMatterOrb itemStorageFourtyMillion;
-	public static ItemWirelessCharger itemWirelessCharger;
 	public static ItemElectricSickle itemElectricSickle;
 	public static ItemQuantumSaber itemQuantumSaber;
 	public static ItemQuantumRing itemQuantumRing;

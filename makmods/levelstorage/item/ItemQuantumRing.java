@@ -32,8 +32,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemQuantumRing extends Item implements IElectricItem,
-        IHasRecipe {
+public class ItemQuantumRing extends Item implements IElectricItem, IHasRecipe {
 
 	public static final int TIER = 3;
 	public static final int STORAGE = 320 * 1000 * 1000;
@@ -114,14 +113,14 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.itemIcon = par1IconRegister
-		        .registerIcon(ClientProxy.QUANTUM_RING_TEXTURE);
+				.registerIcon(ClientProxy.QUANTUM_RING_TEXTURE);
 	}
 
 	@Override
 	public void addInformation(ItemStack par1ItemStack,
-	        EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		par3List.add("\247b"
-		        + StatCollector.translateToLocal("tooltip.quantumring"));
+				+ StatCollector.translateToLocal("tooltip.quantumring"));
 	}
 
 	@Override
@@ -139,14 +138,14 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 		if (!ElectricItem.manager.canUse(ring, item.getTransferLimit(stack)))
 			return false;
 		int chargeSt = ElectricItem.manager.charge(stack,
-		        item.getTransferLimit(stack), 4, false, false);
+				item.getTransferLimit(stack), 4, false, false);
 		int dischSt = ElectricItem.manager.discharge(ring, chargeSt, 4, true,
-		        false);
+				false);
 		return chargeSt > 0 && dischSt > 0;
 	}
 
 	public void onUpdate(ItemStack itemStack, World world, Entity par3Entity,
-	        int par4, boolean par5) {
+			int par4, boolean par5) {
 		if (!(par3Entity instanceof EntityPlayer))
 			return;
 		EntityPlayer player = (EntityPlayer) par3Entity;
@@ -170,53 +169,36 @@ public class ItemQuantumRing extends Item implements IElectricItem,
 		}
 		ArmorFunctions.extinguish(player, world);
 		ArmorFunctions.fly(ItemArmorLevitationBoots.FLYING_ENERGY_PER_TICK,
-		        player, itemStack, world);
+				player, itemStack, world);
 		ArmorFunctions.helmetFunctions(world, player, itemStack,
-		        ItemArmorTeslaHelmet.RAY_COST,
-		        ItemArmorTeslaHelmet.FOOD_COST);
+				ItemArmorTeslaHelmet.RAY_COST, ItemArmorTeslaHelmet.FOOD_COST);
 		ArmorFunctions.jumpBooster(world, player, itemStack);
 		ArmorFunctions.speedUp(player, itemStack);
 	}
 
 	public void addCraftingRecipe() {
-		if (LevelStorage.recipesHardmode) {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        LSBlockItemList.itemQuantumRing), "hic", "iei", "bil",
-			        Character.valueOf('i'), SimpleItems.instance
-			                .getIngredient(3), Character.valueOf('e'),
-			        new ItemStack(LSBlockItemList.itemStorageFourtyMillion),
-			        Character.valueOf('h'), new ItemStack(
-			                LSBlockItemList.itemArmorTeslaHelmet), Character
-			                .valueOf('c'), new ItemStack(
-			                LSBlockItemList.itemArmorEnergeticChestplate),
-			        Character.valueOf('b'), new ItemStack(
-			                LSBlockItemList.itemLevitationBoots), Character
-			                .valueOf('l'), new ItemStack(
-			                LSBlockItemList.itemSupersonicLeggings));
-		} else {
-			Recipes.advRecipes.addRecipe(new ItemStack(
-			        LSBlockItemList.itemQuantumRing), "hic", "iei", "bil",
-			        Character.valueOf('i'), IC2Items.IRIDIUM_PLATE.copy(),
-			        Character.valueOf('e'), new ItemStack(
-			                LSBlockItemList.itemStorageFourtyMillion), Character
-			                .valueOf('h'), new ItemStack(
-			                LSBlockItemList.itemArmorTeslaHelmet), Character
-			                .valueOf('c'), new ItemStack(
-			                LSBlockItemList.itemArmorEnergeticChestplate),
-			        Character.valueOf('b'), new ItemStack(
-			                LSBlockItemList.itemLevitationBoots), Character
-			                .valueOf('l'), new ItemStack(
-			                LSBlockItemList.itemSupersonicLeggings));
-		}
+		Recipes.advRecipes.addRecipe(new ItemStack(
+				LSBlockItemList.itemQuantumRing), "hic", "iei", "bil",
+				Character.valueOf('i'), IC2Items.IRIDIUM_PLATE.copy(),
+				Character.valueOf('e'), new ItemStack(
+						LSBlockItemList.itemStorageFourtyMillion), Character
+						.valueOf('h'), new ItemStack(
+						LSBlockItemList.itemArmorTeslaHelmet), Character
+						.valueOf('c'), new ItemStack(
+						LSBlockItemList.itemArmorEnergeticChestplate),
+				Character.valueOf('b'), new ItemStack(
+						LSBlockItemList.itemLevitationBoots), Character
+						.valueOf('l'), new ItemStack(
+						LSBlockItemList.itemSupersonicLeggings));
 
 	}
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
-	        List par3List) {
+			List par3List) {
 		ItemStack var4 = new ItemStack(this, 1);
 		ElectricItem.manager.charge(var4, Integer.MAX_VALUE, Integer.MAX_VALUE,
-		        true, false);
+				true, false);
 		par3List.add(var4);
 		par3List.add(new ItemStack(this, 1, this.getMaxDamage()));
 	}

@@ -13,11 +13,9 @@ import java.util.List;
 
 import makmods.levelstorage.LSBlockItemList;
 import makmods.levelstorage.LevelStorage;
-import makmods.levelstorage.item.ItemWirelessCharger;
 import makmods.levelstorage.lib.Reference;
 import makmods.levelstorage.logic.util.NBTHelper;
 import makmods.levelstorage.registry.SyncType;
-import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer.WChargerRegistry.WChargerEntry;
 import makmods.levelstorage.tileentity.template.IHasButtons;
 import makmods.levelstorage.tileentity.template.IHasTextBoxes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,55 +37,6 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		IEnergySource, IEnergyStorage {
 
 	public static final int MAX_PACKET_SIZE = 2048;
-
-	// TODO: fix chargeradding code. The current solution is really weak and
-	// unreliable
-	public static class WChargerRegistry {
-
-		public static class WChargerEntry {
-			private EntityPlayer player;
-			private int frequency;
-			private ItemStack wirelessCharger;
-
-			public WChargerEntry(EntityPlayer player, ItemStack charger,
-					int freq) {
-				this.player = player;
-				this.wirelessCharger = charger;
-				this.frequency = freq;
-			}
-
-			public EntityPlayer getPlayer() {
-				return player;
-			}
-
-			public void setPlayer(EntityPlayer player) {
-				this.player = player;
-			}
-
-			public int getFrequency() {
-				return frequency;
-			}
-
-			public void setFrequency(int frequency) {
-				this.frequency = frequency;
-			}
-
-			public ItemStack getWirelessCharger() {
-				return wirelessCharger;
-			}
-
-			public void setWirelessCharger(ItemStack wirelessCharger) {
-				this.wirelessCharger = wirelessCharger;
-			}
-		}
-
-		public static WChargerRegistry instance;
-		public List<WChargerEntry> chargers = Lists.newArrayList();
-
-		public WChargerRegistry() {
-
-		}
-	}
 
 	public static class PowerSyncRegistry implements ITickHandler {
 		public static PowerSyncRegistry instance;
@@ -162,41 +111,6 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 		PowerSyncRegistry.instance.registry.add(this);
 		if (this.deviceType.equals(SyncType.RECEIVER))
 			return;
-		WChargerRegistry.instance.chargers.clear();
-		for (Object obj : this.worldObj.playerEntities) {
-			if (!(obj instanceof EntityPlayer))
-				continue;
-			EntityPlayer player = (EntityPlayer) obj;
-			for (ItemStack stack : player.inventory.mainInventory) {
-				if (stack == null)
-					continue;
-				if (stack.getItem() instanceof ItemWirelessCharger) {
-					NBTHelper.checkNBT(stack);
-					boolean alreadyExists = false;
-					for (WChargerEntry entryCurrIt : WChargerRegistry.instance.chargers) {
-						if (entryCurrIt.player.username.equals(player.username)
-								&& entryCurrIt.frequency == NBTHelper
-										.getInteger(
-												stack,
-												ItemWirelessCharger.FREQUENCY_NBT)) {
-							alreadyExists = true;
-							break;
-						}
-					}
-					if (!alreadyExists) {
-
-						WChargerRegistry.instance.chargers
-								.add(new WChargerEntry(
-										player,
-										stack,
-										NBTHelper
-												.getInteger(
-														stack,
-														ItemWirelessCharger.FREQUENCY_NBT)));
-					}
-				}
-			}
-		}
 	}
 
 	@Override
@@ -237,19 +151,10 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 					objS.add(pSync);
 				}
 			}
-			for (WChargerEntry charger : WChargerRegistry.instance.chargers) {
-				if (charger.frequency == this.frequency) {
-					objS.add(charger);
-				}
-			}
 			for (Object obj : objS) {
 				if (obj instanceof TileEntityWirelessPowerSynchronizer) {
 					TileEntityWirelessPowerSynchronizer te = (TileEntityWirelessPowerSynchronizer) obj;
 					requiredForPairs += te.getCapacity() - te.getStored();
-				} else if (obj instanceof WChargerEntry) {
-					WChargerEntry charger = (WChargerEntry) obj;
-					requiredForPairs += ItemWirelessCharger
-							.getRequiredEnergy(charger.player);
 				}
 			}
 			return requiredForPairs;
@@ -258,7 +163,6 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 
 	@Override
 	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
-		System.out.println(amount);
 		if (this.deviceType.equals(SyncType.RECEIVER))
 			return amount;
 		List<Object> mutableRightSyncList = Lists.newArrayList();
@@ -269,13 +173,6 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 				mutableRightSyncList.add(pSync);
 			}
 		}
-		for (WChargerEntry charger : WChargerRegistry.instance.chargers) {
-			if (charger.getFrequency() == this.frequency
-					&& (ItemWirelessCharger.getRequiredEnergy(charger
-							.getPlayer()) > 0)) {
-				mutableRightSyncList.add(charger);
-			}
-		}
 		if (mutableRightSyncList.size() == 0)
 			return amount;
 		int forEach = (int) (amount / mutableRightSyncList.size());
@@ -284,14 +181,6 @@ public class TileEntityWirelessPowerSynchronizer extends TileEntity implements
 			if (pSyncValid instanceof TileEntityWirelessPowerSynchronizer)
 				((TileEntityWirelessPowerSynchronizer) pSyncValid)
 						.addEnergy(forEach);
-			else if (pSyncValid instanceof WChargerEntry) {
-				WChargerEntry charger = (WChargerEntry) pSyncValid;
-				ItemWirelessCharger.acceptEnergy(forEach, charger.getPlayer(),
-						charger.getWirelessCharger(), false);
-			} else
-				throw new RuntimeException(
-						Reference.MOD_ID
-								+ ": pSyncValid is neither charger nor powersync. This is a bug, tell author about it!");
 			notUsedUp -= forEach;
 		}
 		return notUsedUp;

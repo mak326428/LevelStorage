@@ -6,6 +6,7 @@ import makmods.levelstorage.LevelStorage;
 import makmods.levelstorage.armor.ItemArmorEnhancedNanoChestplate;
 import makmods.levelstorage.armor.antimatter.ItemArmorAntimatterBase;
 import makmods.levelstorage.client.ElectricHUD;
+import makmods.levelstorage.client.render.ItemRendererAtomicDisassembler;
 import makmods.levelstorage.client.render.ItemWirelessConductorRender;
 import makmods.levelstorage.client.render.RenderSuperconductorCable;
 import makmods.levelstorage.client.render.WirelessConductorRender;
@@ -106,6 +107,7 @@ public class ClientProxy extends CommonProxy {
 	public static final ResourceLocation CONDUCTOR_MODEL = getResourceLocation("model/WirelessConductorModel.png");
 	public static final ResourceLocation TESLA_RAY_MODEL = getResourceLocation("model/teslaRay.png");
 	public static final ResourceLocation MASS_INFUSER_MODEL = getResourceLocation("model/MassInfuserModel.png");
+	public static final ResourceLocation MODEL_ATOMIC_DISASSEMBLER = getResourceLocation("model/atomicD.png");
 	public static final ResourceLocation INV_PROVIDER_MODEL = getResourceLocation("model/ModelProviderTexture.png");
 
 	public static final String ARMOR_SUPERSONIC_LEGGINGS_TEXTURE = "/textures/models/armor/supersonic_layer_2.png";
@@ -166,6 +168,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(
 				LSBlockItemList.blockWlessConductor.blockID,
 				new ItemWirelessConductorRender());
+		MinecraftForgeClient.registerItemRenderer(LSBlockItemList.itemAtomicDisassembler.itemID, new ItemRendererAtomicDisassembler());
 		// MinecraftForge.EVENT_BUS.register((new RenderOreRadar()));
 	}
 

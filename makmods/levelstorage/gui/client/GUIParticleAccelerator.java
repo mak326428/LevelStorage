@@ -3,6 +3,7 @@ package makmods.levelstorage.gui.client;
 import ic2.api.item.Items;
 import makmods.levelstorage.gui.container.ContainerParticleAccelerator;
 import makmods.levelstorage.item.SimpleItems;
+import makmods.levelstorage.item.SimpleItems.SimpleItemShortcut;
 import makmods.levelstorage.logic.util.RenderHelper;
 import makmods.levelstorage.network.packet.PacketPressButton;
 import makmods.levelstorage.proxy.ClientProxy;
@@ -49,7 +50,7 @@ public class GUIParticleAccelerator extends GuiContainer {
 		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
 		switch (tileEntity.mode) {
 		case TileEntityParticleAccelerator.ANTIMATTER_PRODUCTION_MODE:
-			modeButton.itemStack = SimpleItems.instance.getIngredient(9);
+			modeButton.itemStack = SimpleItemShortcut.ANTMATTER_TINY_PILE.getItemStack();
 			break;
 		case TileEntityParticleAccelerator.MATTER_RESHAPING_MODE:
 			modeButton.itemStack = MATTER_DISPLAY;
@@ -77,7 +78,7 @@ public class GUIParticleAccelerator extends GuiContainer {
 		int xGuiPos = (this.width - this.xSize) / 2; // j
 		int yGuiPos = (this.height - this.ySize) / 2;
 		modeButton = new TexturedButton(1, xGuiPos + 7, yGuiPos + 59,
-				SimpleItems.instance.getIngredient(9).copy(), true);
+				SimpleItemShortcut.ANTMATTER_TINY_PILE.getItemStack(), true);
 		this.buttonList.add(modeButton);
 	}
 }

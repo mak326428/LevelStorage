@@ -34,7 +34,7 @@ public class PacketHandler implements IPacketHandler {
 			return;
 		} else if (packet.channel.equals(Reference.CUSTOM_PACKET_CHANNEL)) {
 			
-		} else {
+		} else if (packet.channel.equals(Reference.MOD_ID)) {
 			PacketLS packetEE = PacketTypeHandler.buildPacket(packet.data);
 			packetEE.execute(manager, player);
 		}

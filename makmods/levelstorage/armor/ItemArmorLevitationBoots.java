@@ -131,44 +131,14 @@ public class ItemArmorLevitationBoots extends ItemArmor implements
 		ArmorFunctions.fly(FLYING_ENERGY_PER_TICK, player, itemStack, world);
 	}
 
-	/*
-	 * @Override
-	 * 
-	 * @SideOnly(Side.CLIENT) public String getArmorTexture(ItemStack stack,
-	 * Entity entity, int slot, int layer) { return
-	 * ClientProxy.ARMOR_LEVITATION_BOOTS_TEXTURE; }
-	 */
-
 	public void addCraftingRecipe() {
-		Property p = LevelStorage.configuration.get(
-				Configuration.CATEGORY_GENERAL,
-				"enableLevitationBootsCraftingRecipe", true);
-		p.comment = "Determines whether or not crafting recipe is enabled";
-		if (p.getBoolean(true)) {
-			if (LevelStorage.recipesHardmode) {
-				Recipes.advRecipes
-						.addRecipe(
-								new ItemStack(
-										LSBlockItemList.itemLevitationBoots),
-								"iii",
-								"iqi",
-								"lil",
-								Character.valueOf('i'),
-								SimpleItems.instance.getIngredient(3),
-								Character.valueOf('q'),
-								Items.getItem("quantumBoots"),
-								Character.valueOf('l'),
-								new ItemStack(
-										LSBlockItemList.itemStorageFourtyMillion));
-			} else {
-				Recipes.advRecipes.addRecipe(new ItemStack(
-						LSBlockItemList.itemLevitationBoots), "iii", "iqi",
-						"lil", Character.valueOf('i'), IC2Items.IRIDIUM_PLATE,
-						Character.valueOf('q'), Items.getItem("quantumBoots"),
-						Character.valueOf('l'), new ItemStack(
-								LSBlockItemList.itemStorageFourtyMillion));
-			}
-		}
+		Recipes.advRecipes.addRecipe(new ItemStack(
+				LSBlockItemList.itemLevitationBoots), "iii", "iqi", "lil",
+				Character.valueOf('i'), IC2Items.IRIDIUM_PLATE, Character
+						.valueOf('q'), Items.getItem("quantumBoots"), Character
+						.valueOf('l'), new ItemStack(
+						LSBlockItemList.itemStorageFourtyMillion));
+
 	}
 
 	@SideOnly(Side.CLIENT)

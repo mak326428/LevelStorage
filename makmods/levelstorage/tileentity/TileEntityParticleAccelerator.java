@@ -45,8 +45,7 @@ public class TileEntityParticleAccelerator extends
 	public static final int ANTIMATTER_PRODUCTION_MODE = 0;
 	public static final int MATTER_RESHAPING_MODE = 1;
 
-	public static final ItemStack ANTIMATTER_IS = SimpleItems.instance
-			.getIngredient(9);
+	public static final ItemStack ANTIMATTER_IS = SimpleItemShortcut.ANTMATTER_TINY_PILE.getItemStack();
 	public int internalIV = 0;
 	public static final int ANTIMATTER_IV = 32768;
 

@@ -18,7 +18,6 @@ import makmods.levelstorage.logic.util.LogHelper;
 import makmods.levelstorage.registry.FlightRegistry;
 import makmods.levelstorage.registry.XPStackRegistry;
 import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer.PowerSyncRegistry;
-import makmods.levelstorage.tileentity.TileEntityWirelessPowerSynchronizer.WChargerRegistry;
 import makmods.levelstorage.worldgen.LSWorldGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -71,7 +70,6 @@ public class CommonProxy {
 				LevelStorage.configuration.get("dimension",
 						"biomeAntimatterFieldId", 40).getInt());
 		PowerSyncRegistry.instance = new PowerSyncRegistry();
-		WChargerRegistry.instance = new WChargerRegistry();
 		LSWorldGenerator.instance = new LSWorldGenerator();
 		GameRegistry.registerWorldGenerator(LSWorldGenerator.instance);
 		//

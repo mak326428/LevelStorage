@@ -42,9 +42,9 @@ public class LSKeyboardClient extends LSKeyboard implements ITickHandler {
 						new KeyBinding(StatCollector
 								.translateToLocal("key.jetpackSwitch"),
 								Keyboard.KEY_F));
-		modBindings.put(ANTIMATTER_BOOTS_SPECIAL_FLIGHT, new KeyBinding(
-				StatCollector.translateToLocal("key.antimatterBoots"),
-				Keyboard.KEY_G));
+		//modBindings.put(ANTIMATTER_BOOTS_SPECIAL_FLIGHT, new KeyBinding(
+		//		StatCollector.translateToLocal("key.antimatterBoots"),
+		//		Keyboard.KEY_G));
 		KeyBinding[] bsInternal = (KeyBinding[]) modBindings.values().toArray(
 				new KeyBinding[modBindings.values().size()]);
 		KeyBindingRegistry

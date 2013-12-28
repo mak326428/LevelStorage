@@ -102,10 +102,10 @@ death.forcefieldArmorInstantKill=%s was zapped by a huge impulse of energy.
 death.teslaHelmetKill=%s was zapped by a huge impulse of energy caused by a tesla ray.
 death.disassemble=%s was accidentally disassembled into basic elementary atoms.
 # key bindings
-key.range=[LS] Range Switch Key
-key.shoot=[LS] Energy Ray Shoot Key
-key.jetpackSwitch=[LS] Jetpack Flight Switch
-key.antimatterBoots=[LS] AntimatterSuit Boots Special Flight
+key.range=Range Switch Key
+key.shoot=Energy Ray Shoot Key
+key.jetpackSwitch=Jetpack Flight Switch
+key.antimatterBoots=AntimatterSuit Boots Special Flight
 # tooltips
 # \n will be replaced with a new line (this is not OS-dependant)
 tooltip.xp=XP Value:
