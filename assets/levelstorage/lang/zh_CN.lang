@@ -21,8 +21,8 @@ tile.blockLavaFabricator.name=岩浆制造机
 tile.blockCombustibleGenerator.name=燃烧发电机
 tile.blockMicroStar.name=微星
 tile.fusionGlass.name=聚变玻璃
-tile.blockIVGenerator.name=IV发电机
-tile.blockASU.name=反物质能量存储单元（ASU）
+tile.blockIVGenerator.name=IV生成机
+tile.blockASU.name=反物质能量存储单元
 # fluids
 fluid.iv=IV
 fluid.iv.name=IV能量
@@ -47,6 +47,7 @@ purifiedCrushedChromiteOre.name=纯净的粉碎铬矿石
 plateChrome.name=铬金属板
 dustTinyIridium.name=小撮铱粉
 plateAntimatterIridium.name=反物质金属板
+craftingUpgradeIVGenerator.name=IV生成机升级
 # dimension
 dimension.antimatterUniverse.name=反物质宇宙
 # items
