@@ -1,0 +1,125 @@
+# blocks
+tile.blockXpGen.name=Generador a experiencia
+tile.blockXpCharger.name=Cargador de Experiencia
+tile.blockWlessConductor.name=Conductor Inalámbrico
+tile.blockWlessPowerSync.name=Sincronizador De Energía Inalámbrico
+tile.blockSuperconductor.name=Superconductor
+tile.blockMolHeater.name=Calentador Molecular
+tile.blockAtomicReplicator.name=Replicador Atómico
+tile.blockMulticoreSolarPanel.name=Panel Solar Multi-Núcleo
+tile.blockAntimatterStone.name=Piedra de Antimatéria
+tile.blockAntimatterBomb.name=Bomba De Antimatéria
+tile.blockParticleAccelerator.name=Acelerador De Partículas
+tile.blockChromiteOre.name=Mineral de Cromita
+tile.blockUnstableQuartz.name=Cuarzo Inestable
+tile.blockRockDesintegrator.name=Desintegrador de Rocas
+tile.blockLavaFabricator.name=Fabricador de Lava
+tile.blockCombustibleGenerator.name=Generador a Combustible
+tile.blockMassMelter.name=Fundidor De Masa
+tile.blockMicroStar.name=Micro Estrella
+tile.fusionGlass.name=Vidrio De Fusión
+tile.blockIVGenerator.name=Generador a IV
+tile.blockASU.name=ASU
+# fluids
+fluid.iv=IV
+fluid.iv.name=IV
+# simple items (crafting ingredients)
+dustTinyOsmium.name=Pequeña Pila De Pólvo De Ósmio
+dustOsmium.name=Polvo De Ósmio
+itemOsmiridiumAlloy.name=Aleación De Osmirídio
+itemOsmiridiumPlate.name=Placa De Osmirídio
+ingotOsmium.name=Lingote De Ósmio
+ingotIridium.name=Lingote De Irídio
+itemUltimateCircuit.name=Circuito De Élite
+itemEnergizedStar.name=Estrella Del Infierno
+itemAntimatterMolecule.name=Molécula De Antimateria
+itemAntimatterTinyPile.name=Pequeña Pila De Antimateria
+itemAntimatterGlob.name=Bola De Antimateria 
+itemJetpackAccelerator.name=Acelerador de Jetpack 
+ingotChrome.name=Lingote De Cromo
+itemDustTinyChrome.name=Pequeña Pila De Polvo De Cromo
+itemDustChrome.name=Polvo De Cromo
+crushedChromiteOre.name=Mineral de Cromo Roto
+purifiedCrushedChromiteOre.name=Mineral de Cromo Purificado
+plateChrome.name=Placa De Cromo
+dustTinyIridium.name=Pequeña Pila De Polvo De Irídio
+plateAntimatterIridium.name=Placa Reforzada De Antimateria-Irídio
+craftingUpgradeIVGenerator.name=Mejora De Generdor de IV
+# dimension
+dimension.antimatterUniverse.name=Universo De Antimateria
+# items
+item.itemLevelStorageBook.name=Tomo De Experiencia
+item.itemAdvScanner.name=Escaner Avanzado
+item.itemFreqCard.name=Tarjeta De Frecuencia
+item.itemCompactTeleporter.name=Teletransportador Portátil
+item.itemEnhDiamondDrill.name=Taladro De Diamante Encantado
+item.itemPocketRefrigerant.name=Refrigerante Portátil
+item.itemLevitationBoots.name=Botas De Levitacion
+item.itemSupersonicLeggings.name=Pantalones Supersonicos
+item.itemArmorEnergeticChestplate.name=Peto Energético
+item.itemArmorTeslaHelmet.name=Casco Tesla
+item.itemSuperconductor.name=Cable Superconductor
+item.itemStorageFourtyMillion.name=Orbe De Materia Enriquecida
+item.itemWirelessCharger.name=Cargador Inalámbrico
+item.itemElectricSickle.name=Hoz Eléctrica
+item.itemQuantumSaber.name=Sable Cuántico
+item.itemTimeAccelerator.name=Acelerador Temporal
+item.itemQuantumRing.name=Anillo Cuántico
+item.itemElectricMagnet.name=Imán Eléctrico
+item.itemAtomicDisassembler.name=Desarmador Atómico
+item.itemEnhLappack.name=Lappack Mejorado
+item.itemRemoteAccessor.name=Accesor Remoto
+item.itemCapFluidCell.name=Célula De Fluido De Alta Capacidad
+item.itemElectricLighter.name=Encendedor Eléctrico
+item.itemArmorEnhancedNanoChestplate.name=NanoPeto Mejorado
+item.itemDemolisher.name=Demoledor
+item.itemTemporaryEnchantedBook.name=Libro Encantado Temporalmente
+item.itemArmorAntimatterBoots.name=Botas De Antimateria
+item.itemArmorAntimatterLeggings.name=Pantalones De Antimateria
+item.itemArmorAntimatterChestplate.name=peto De Antimateria
+item.itemArmorAntimatterHelmet.name=Casco De Antimateria
+item.itemAntimatterCrystal.name=Cristal De Antimateria
+# fluids
+tile.iv.name=IV
+# others
+other.frequency=Frecuencia
+other.true=Si
+other.false=No
+other.wip=[Trabajndo en esto (Inestable)]
+other.energyHUD=Power Level (Armor):
+other.drillEnhancementRecipeNEI=Mejora :
+# creative tab(s)
+itemGroup.levelstorage=LevelStorage
+# chat messages
+jetpack.statusChange=Jetpack turned %s
+jetpack.on=on
+jetpack.off=off
+# death messages
+# %s will be replaced by player's name
+death.energyFieldKill=%s was in radius of high energy field.
+death.forcefieldArmor=%s was zapped by a huge impulse of energy.
+death.forcefieldArmorInstantKill=%s was zapped by a huge impulse of energy.
+death.teslaHelmetKill=%s was zapped by a huge impulse of energy caused by a tesla ray.
+death.disassemble=%s was accidentally disassembled into basic elementary atoms.
+# key bindings
+key.range=Range Switch Key
+key.shoot=Energy Ray Shoot Key
+key.jetpackSwitch=Jetpack Flight Switch
+key.antimatterBoots=AntimatterSuit Boots Special Flight
+# tooltips
+# \n will be replaced with a new line (this is not OS-dependant)
+tooltip.xp=XP Value:
+tooltip.advScanner=This item will tell you\nexactly how much ore there is in\nyour surroundings
+tooltip.atomicDisassembler=It hurts.\nDon't say you weren't warned before!
+tooltip.electricMagnet=This item makes loot fly towards you, when activated
+tooltip.drillEnhancement=Enhancement: 
+tooltip.drillEnhancement.none=None.
+tooltip.freqCard.location=Location:
+tooltip.freqCard.isValid=Is valid:
+tooltip.xptome.stored=Stored:
+# I'm not sure, maybe i want to name this just "XP"
+tooltip.xptome.xppoints=XP points
+tooltip.porteleporter.linkedto=Linked to:
+tooltip.porteleporter.dimension=Dimension:
+tooltip.quantumring=If you think this is expensive, you're wrong.
+tooltip.antimatterring=Lord of the Rings that is...
